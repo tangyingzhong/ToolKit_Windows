@@ -304,9 +304,6 @@
     <ClInclude Include="Tool\USB\USBType.h">
       <Filter>Tool\USB</Filter>
     </ClInclude>
-    <ClInclude Include="Tool\ToolKit.h">
-      <Filter>Tool</Filter>
-    </ClInclude>
     <ClInclude Include="Application\BasicTool.h">
       <Filter>Application</Filter>
     </ClInclude>

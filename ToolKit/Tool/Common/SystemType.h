@@ -8,12 +8,12 @@
 ///</describe>
 /// <date>2019/3/2</date>
 ///***********************************************************************
-#ifndef SYSTEMTYPE_H_
-#define SYSTEMTYPE_H_
+#ifndef SYSTEMTYPE_H
+#define SYSTEMTYPE_H
 
 #include <assert.h>
-#include <tchar.h>
 #include <Windows.h>
+#include <tchar.h>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -233,4 +233,4 @@ namespace System
 	}FileAttribute;
 }
 
-#endif // !SYSTEMTYPE_H_
+#endif // !SYSTEMTYPE_H

@@ -32,7 +32,7 @@ namespace System
 		{
 		public:
 			typedef System::Empty Empty;
-			typedef System:Boolean BOOL;
+			typedef System::Boolean BOOL;
 			typedef System::Object Object;
 			typedef System::Byte Byte;
 			typedef System::ByteArray ByteArray;

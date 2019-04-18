@@ -103,7 +103,6 @@
     <ClInclude Include="Tool\Timer\Counter.h" />
     <ClInclude Include="Tool\Timer\Delay.h" />
     <ClInclude Include="Tool\Timer\Timer.h" />
-    <ClInclude Include="Tool\ToolKit.h" />
     <ClInclude Include="Tool\USB\cyioctl.h" />
     <ClInclude Include="Tool\USB\USB.h" />
     <ClInclude Include="Tool\USB\usb100.h" />
