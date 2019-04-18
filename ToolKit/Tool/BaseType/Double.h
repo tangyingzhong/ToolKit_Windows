@@ -1,0 +1,114 @@
+///************************************************************************
+/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <author>tangyingzhong</author>
+/// <contact>tangyz114987@outlook.com</contact>
+/// <version>V1.0.0</version>
+/// <describe>
+/// Double class which can support conversion with string 
+///</describe>
+/// <date>2019/3/5</date>
+///***********************************************************************
+#ifndef DOUBLE_H
+#define DOUBLE_H
+
+#include "String.h"
+
+namespace System
+{
+	namespace BasicType
+	{
+		///*********************************************************
+		/// <class> Double </class>
+		/// <summary>
+		/// Make it as an object we used to,so that we can make it powerful
+		/// </summary>
+		/// <version>V1.0.0 </version>
+		/// <goup> C++ </group>
+		/// <author>tangyingzhong</author>
+		/// <contact>tangyz114987@outlook.com</contact>
+		///**********************************************************/
+		class Double
+		{
+		public:
+			// Contruct a Double 
+			Double();
+
+			// Contruct a Double with a value 
+			Double(double dValue);
+
+			// Destruct the Double
+			~Double();
+
+			// Allow the object copying
+			Double(const Double& Another);
+
+			// Allow the obejct assignment
+			Double& operator=(const Double& Another);
+
+		public:
+			// Implement the + object
+			Double operator+(Double& Another);
+
+			// Implement the + value
+			Double operator+(double dValue);
+
+			// Implement the += object
+			Double operator+=(Double& Another);
+
+			// Implement the += value
+			Double operator+=(double dValue);
+
+			// Implement the -= object
+			Double operator-=(Double& Another);
+
+			// Implement the -= value
+			Double operator-=(double dValue);
+
+			// Implement the - object
+			Double operator-(Double& Another);
+
+			// Implement the - value
+			Double operator-(double dValue);
+
+			// Implement the * object
+			Double operator*(Double& Another);
+
+			// Implement the * value
+			Double operator*(double dValue);
+
+			// Implement the / object
+			Double operator/(Double& Another);
+
+			// Implement the / value
+			Double operator/(double dValue);
+
+			// Override the double type
+			operator double() const;
+
+			// Parse the string to the value
+			static Double Parse(String NumberString);
+
+			// Make the value to string
+			String ToString();
+
+		private:
+			// Get the Value
+			inline double GetValue() const
+			{
+				return m_Value;
+			}
+
+			// Set the Value
+			inline Empty SetValue(double dValue)
+			{
+				this->m_Value = dValue;
+			}
+
+		private:
+			// Double value
+			double m_Value;
+		};
+	}
+}
+
+#endif //DOUBLE_TANG_H_

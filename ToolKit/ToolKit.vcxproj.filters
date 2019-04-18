@@ -1,33 +1,314 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="源文件">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="头文件">
+    <Filter Include="Application">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="资源文件">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Tool">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Tool\BaseType">
+      <UniqueIdentifier>{f31c049b-4d7b-4013-9e15-c0a1c96ee504}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Buffer">
+      <UniqueIdentifier>{f9c1f743-f540-48a6-9fa3-65cd0eb06bb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Common">
+      <UniqueIdentifier>{69f0ce76-32e2-452e-88c2-ac7dd11e8ec5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\DateTime">
+      <UniqueIdentifier>{5b9628c3-5b34-48e4-bfc8-14b65a868c67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Directory">
+      <UniqueIdentifier>{37147d84-8dfc-4b0c-b5f7-7af7b97abc44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Encoding">
+      <UniqueIdentifier>{4f9fdd2e-1bbc-498c-84b7-dcd4caa92514}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\EventHandler">
+      <UniqueIdentifier>{8455d8ee-a0bc-4c9c-bb42-535046d5eec0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\File">
+      <UniqueIdentifier>{bc47e5e1-22d9-464c-bbef-39068398867c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Log">
+      <UniqueIdentifier>{9531e6a9-1b21-42cd-b2bc-63691ad93f8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Player">
+      <UniqueIdentifier>{60671210-b0c6-42bc-aba5-9b7a07daaf6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\SerialPort">
+      <UniqueIdentifier>{f77a8bc5-8611-4c8c-8c20-4433d2d640f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Socket">
+      <UniqueIdentifier>{589a8558-f8e7-4014-8d62-a91ba9e5165c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Sql">
+      <UniqueIdentifier>{de36c7ae-a4fc-4b4f-bef3-2f29cae9b622}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Thread">
+      <UniqueIdentifier>{3ae6fb52-caa8-421d-90ec-d53cc9af389f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Timer">
+      <UniqueIdentifier>{ab825503-51ae-4794-9e09-f7df264d201f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\USB">
+      <UniqueIdentifier>{ea16f12d-b0bd-4621-941b-3e561d90d379}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="Application\PreCompile.cpp">
+      <Filter>Application</Filter>
     </ClCompile>
+    <ClCompile Include="Tool\BaseType\Bool.cpp">
+      <Filter>Tool\BaseType</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\BaseType\Double.cpp">
+      <Filter>Tool\BaseType</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\BaseType\Float.cpp">
+      <Filter>Tool\BaseType</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\BaseType\Int.cpp">
+      <Filter>Tool\BaseType</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\BaseType\String.cpp">
+      <Filter>Tool\BaseType</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Buffer\SharedMemory.cpp">
+      <Filter>Tool\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\DateTime\DateTime.cpp">
+      <Filter>Tool\DateTime</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Directory\Directory.cpp">
+      <Filter>Tool\Directory</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Encoding\ASCII.cpp">
+      <Filter>Tool\Encoding</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Encoding\Unicode.cpp">
+      <Filter>Tool\Encoding</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Encoding\UTF8.cpp">
+      <Filter>Tool\Encoding</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\File\File.cpp">
+      <Filter>Tool\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Log\Log.cpp">
+      <Filter>Tool\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Player\AudioPlayer.cpp">
+      <Filter>Tool\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Player\BlockPlayer.cpp">
+      <Filter>Tool\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\SerialPort\SerialPort.cpp">
+      <Filter>Tool\SerialPort</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Socket\Socket.cpp">
+      <Filter>Tool\Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Socket\SocketClient.cpp">
+      <Filter>Tool\Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Socket\SocketServer.cpp">
+      <Filter>Tool\Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Sql\SqlCommand.cpp">
+      <Filter>Tool\Sql</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Sql\SqlConnection.cpp">
+      <Filter>Tool\Sql</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Sql\SqlParamenter.cpp">
+      <Filter>Tool\Sql</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Thread\Event.cpp">
+      <Filter>Tool\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Thread\MessageDistributor.cpp">
+      <Filter>Tool\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Thread\Mutex.cpp">
+      <Filter>Tool\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Thread\MutexLocker.cpp">
+      <Filter>Tool\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Thread\Process.cpp">
+      <Filter>Tool\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Thread\Semaphore.cpp">
+      <Filter>Tool\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Timer\Counter.cpp">
+      <Filter>Tool\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Timer\Delay.cpp">
+      <Filter>Tool\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Timer\Timer.cpp">
+      <Filter>Tool\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\USB\USB.cpp">
+      <Filter>Tool\USB</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\BasicTool.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application\PreCompile.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\targetver.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\BaseType\Bool.h">
+      <Filter>Tool\BaseType</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\BaseType\Double.h">
+      <Filter>Tool\BaseType</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\BaseType\Float.h">
+      <Filter>Tool\BaseType</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\BaseType\Int.h">
+      <Filter>Tool\BaseType</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\BaseType\String.h">
+      <Filter>Tool\BaseType</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Buffer\Array.h">
+      <Filter>Tool\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Buffer\CircleBuffer.h">
+      <Filter>Tool\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Buffer\Pipe.h">
+      <Filter>Tool\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Buffer\SharedMemory.h">
+      <Filter>Tool\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Common\SystemType.h">
+      <Filter>Tool\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\DateTime\DateTime.h">
+      <Filter>Tool\DateTime</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Directory\Directory.h">
+      <Filter>Tool\Directory</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Encoding\ASCII.h">
+      <Filter>Tool\Encoding</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Encoding\Unicode.h">
+      <Filter>Tool\Encoding</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Encoding\UTF8.h">
+      <Filter>Tool\Encoding</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\EventHandler\EventArgs.h">
+      <Filter>Tool\EventHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\EventHandler\EventHandler.h">
+      <Filter>Tool\EventHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\File\File.h">
+      <Filter>Tool\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Log\Log.h">
+      <Filter>Tool\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Log\LogType.h">
+      <Filter>Tool\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Player\AudioPlayer.h">
+      <Filter>Tool\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Player\AudioType.h">
+      <Filter>Tool\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Player\BlockPlayer.h">
+      <Filter>Tool\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\SerialPort\SerialPort.h">
+      <Filter>Tool\SerialPort</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Socket\Socket.h">
+      <Filter>Tool\Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Socket\SocketClient.h">
+      <Filter>Tool\Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Socket\SocketServer.h">
+      <Filter>Tool\Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Socket\SocketType.h">
+      <Filter>Tool\Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Sql\SqlCommand.h">
+      <Filter>Tool\Sql</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Sql\SqlConnection.h">
+      <Filter>Tool\Sql</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Sql\SqlParamenter.h">
+      <Filter>Tool\Sql</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Thread\Event.h">
+      <Filter>Tool\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Thread\MessageDistributor.h">
+      <Filter>Tool\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Thread\Mutex.h">
+      <Filter>Tool\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Thread\MutexLocker.h">
+      <Filter>Tool\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Thread\Process.h">
+      <Filter>Tool\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Thread\Semaphore.h">
+      <Filter>Tool\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Timer\Counter.h">
+      <Filter>Tool\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Timer\Delay.h">
+      <Filter>Tool\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Timer\Timer.h">
+      <Filter>Tool\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\USB\cyioctl.h">
+      <Filter>Tool\USB</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\USB\USB.h">
+      <Filter>Tool\USB</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\USB\usb100.h">
+      <Filter>Tool\USB</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\USB\usb200.h">
+      <Filter>Tool\USB</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\USB\USBType.h">
+      <Filter>Tool\USB</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\ToolKit.h">
+      <Filter>Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\BasicTool.h">
+      <Filter>Application</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

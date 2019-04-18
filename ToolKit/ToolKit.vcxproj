@@ -18,6 +18,98 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Application\BasicTool.cpp" />
+    <ClCompile Include="Application\PreCompile.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Tool\BaseType\Bool.cpp" />
+    <ClCompile Include="Tool\BaseType\Double.cpp" />
+    <ClCompile Include="Tool\BaseType\Float.cpp" />
+    <ClCompile Include="Tool\BaseType\Int.cpp" />
+    <ClCompile Include="Tool\BaseType\String.cpp" />
+    <ClCompile Include="Tool\Buffer\SharedMemory.cpp" />
+    <ClCompile Include="Tool\DateTime\DateTime.cpp" />
+    <ClCompile Include="Tool\Directory\Directory.cpp" />
+    <ClCompile Include="Tool\Encoding\ASCII.cpp" />
+    <ClCompile Include="Tool\Encoding\Unicode.cpp" />
+    <ClCompile Include="Tool\Encoding\UTF8.cpp" />
+    <ClCompile Include="Tool\File\File.cpp" />
+    <ClCompile Include="Tool\Log\Log.cpp" />
+    <ClCompile Include="Tool\Player\AudioPlayer.cpp" />
+    <ClCompile Include="Tool\Player\BlockPlayer.cpp" />
+    <ClCompile Include="Tool\SerialPort\SerialPort.cpp" />
+    <ClCompile Include="Tool\Socket\Socket.cpp" />
+    <ClCompile Include="Tool\Socket\SocketClient.cpp" />
+    <ClCompile Include="Tool\Socket\SocketServer.cpp" />
+    <ClCompile Include="Tool\Sql\SqlCommand.cpp" />
+    <ClCompile Include="Tool\Sql\SqlConnection.cpp" />
+    <ClCompile Include="Tool\Sql\SqlParamenter.cpp" />
+    <ClCompile Include="Tool\Thread\Event.cpp" />
+    <ClCompile Include="Tool\Thread\MessageDistributor.cpp" />
+    <ClCompile Include="Tool\Thread\Mutex.cpp" />
+    <ClCompile Include="Tool\Thread\MutexLocker.cpp" />
+    <ClCompile Include="Tool\Thread\Process.cpp" />
+    <ClCompile Include="Tool\Thread\Semaphore.cpp" />
+    <ClCompile Include="Tool\Timer\Counter.cpp" />
+    <ClCompile Include="Tool\Timer\Delay.cpp" />
+    <ClCompile Include="Tool\Timer\Timer.cpp" />
+    <ClCompile Include="Tool\USB\USB.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application\BasicTool.h" />
+    <ClInclude Include="Application\PreCompile.h" />
+    <ClInclude Include="Application\targetver.h" />
+    <ClInclude Include="Tool\BaseType\Bool.h" />
+    <ClInclude Include="Tool\BaseType\Double.h" />
+    <ClInclude Include="Tool\BaseType\Float.h" />
+    <ClInclude Include="Tool\BaseType\Int.h" />
+    <ClInclude Include="Tool\BaseType\String.h" />
+    <ClInclude Include="Tool\Buffer\Array.h" />
+    <ClInclude Include="Tool\Buffer\CircleBuffer.h" />
+    <ClInclude Include="Tool\Buffer\Pipe.h" />
+    <ClInclude Include="Tool\Buffer\SharedMemory.h" />
+    <ClInclude Include="Tool\Common\SystemType.h" />
+    <ClInclude Include="Tool\DateTime\DateTime.h" />
+    <ClInclude Include="Tool\Directory\Directory.h" />
+    <ClInclude Include="Tool\Encoding\ASCII.h" />
+    <ClInclude Include="Tool\Encoding\Unicode.h" />
+    <ClInclude Include="Tool\Encoding\UTF8.h" />
+    <ClInclude Include="Tool\EventHandler\EventArgs.h" />
+    <ClInclude Include="Tool\EventHandler\EventHandler.h" />
+    <ClInclude Include="Tool\File\File.h" />
+    <ClInclude Include="Tool\Log\Log.h" />
+    <ClInclude Include="Tool\Log\LogType.h" />
+    <ClInclude Include="Tool\Player\AudioPlayer.h" />
+    <ClInclude Include="Tool\Player\AudioType.h" />
+    <ClInclude Include="Tool\Player\BlockPlayer.h" />
+    <ClInclude Include="Tool\SerialPort\SerialPort.h" />
+    <ClInclude Include="Tool\Socket\Socket.h" />
+    <ClInclude Include="Tool\Socket\SocketClient.h" />
+    <ClInclude Include="Tool\Socket\SocketServer.h" />
+    <ClInclude Include="Tool\Socket\SocketType.h" />
+    <ClInclude Include="Tool\Sql\SqlCommand.h" />
+    <ClInclude Include="Tool\Sql\SqlConnection.h" />
+    <ClInclude Include="Tool\Sql\SqlParamenter.h" />
+    <ClInclude Include="Tool\Thread\Event.h" />
+    <ClInclude Include="Tool\Thread\MessageDistributor.h" />
+    <ClInclude Include="Tool\Thread\Mutex.h" />
+    <ClInclude Include="Tool\Thread\MutexLocker.h" />
+    <ClInclude Include="Tool\Thread\Process.h" />
+    <ClInclude Include="Tool\Thread\Semaphore.h" />
+    <ClInclude Include="Tool\Timer\Counter.h" />
+    <ClInclude Include="Tool\Timer\Delay.h" />
+    <ClInclude Include="Tool\Timer\Timer.h" />
+    <ClInclude Include="Tool\ToolKit.h" />
+    <ClInclude Include="Tool\USB\cyioctl.h" />
+    <ClInclude Include="Tool\USB\USB.h" />
+    <ClInclude Include="Tool\USB\usb100.h" />
+    <ClInclude Include="Tool\USB\usb200.h" />
+    <ClInclude Include="Tool\USB\USBType.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B60AE1CD-ADD8-40CC-8B04-4D69B9F2E270}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -69,7 +161,20 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -77,6 +182,9 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeaderFile>Application\PreCompile.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -89,6 +197,9 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeaderFile>Application\PreCompile.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -103,6 +214,9 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeaderFile>Application\PreCompile.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -119,6 +233,9 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeaderFile>Application\PreCompile.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -126,21 +243,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
