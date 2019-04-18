@@ -13,16 +13,21 @@
 #include <CppUnitTest.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace System::BasicType;
 
 namespace ToolUnitTest
 {
 	TEST_CLASS(StringTest)
 	{
 	public:
+
 		// Test spliting string
 		TEST_METHOD(TestSplit)
 		{
-			
+			String strTest = _T("");
+
+
+
 		}
 	};
 }
