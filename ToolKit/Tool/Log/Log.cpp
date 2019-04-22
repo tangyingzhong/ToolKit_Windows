@@ -1,8 +1,8 @@
 #include "Application\PreCompile.h"
-#include "Log.h"
 #include "Tool\Encoding\ASCII.h"
 #include "Tool\Encoding\Unicode.h"
 #include "Tool\Directory\Directory.h"
+#include "Log.h"
 
 using namespace System::IO;
 
