@@ -246,6 +246,8 @@ namespace System
 			{
 				if (iArraySize == 0)
 				{
+					this->SetElementPointer(NULL);
+
 					return;
 				}
 
@@ -262,6 +264,7 @@ namespace System
 				if (this->GetElementPointer())
 				{
 					delete[] this->GetElementPointer();
+
 					this->SetElementPointer(NULL);
 				}
 			}
