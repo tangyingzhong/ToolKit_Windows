@@ -24,10 +24,15 @@ namespace ToolUnitTest
 		// Test spliting string
 		TEST_METHOD(TestSplit)
 		{
-			String strTest = _T("");
+			String strTest = _T("Hi,You are great,We are going to have a nice trip,hahah");
 
-
-
+			vector<String> vNewStringTable;
+			
+			bool bSuccess = strTest.Split(_T(","), vNewStringTable);
+			if (!bSuccess)
+			{
+				Assert::Fail(_T(""));
+			}
 		}
 	};
 }

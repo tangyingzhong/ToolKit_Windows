@@ -359,7 +359,7 @@ String::operator LPCTSTR() const
 /// none
 /// </remarks>
 ///***********************************************************************
-String::BOOL String::Split(const String& strSeperator, StringTable& vStringTable)
+String::BOOL String::Split(String strSeperator, StringTable& vStringTable)
 {
 	BOOL bSuccess = false;
 

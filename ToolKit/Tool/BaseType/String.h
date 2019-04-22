@@ -63,7 +63,7 @@ namespace System
 
 		public:
 			// Split the string by a seperator
-			BOOL Split(const String& strSeperator, StringTable& vStringTable);
+			BOOL Split(String strSeperator, StringTable& vStringTable);
 
 			// Sub the string to get a new string
 			String SubString(Index iStartIndex, Length iSubLength);
