@@ -463,7 +463,7 @@ String::Index String::Find(String strSpecialStr, Index iStartPos)
 		return iFindPos;
 	}
 
-	iFindPos = (Index)(this->GetStdString().find(strSpecialStr, iStartPos));
+	iFindPos = (Index)(this->GetStdString().find(strSpecialStr.GetStdString(), iStartPos));
 
 	return iFindPos;
 }
@@ -487,7 +487,7 @@ String& String::Replace(Index iReplacePos, Length iReplaceLength, String strRepl
 		return *this;
 	}
 
-	this->GetStdString().replace(iReplacePos, iReplaceLength, strReplaceString);
+	this->GetStdString().replace(iReplacePos, iReplaceLength, strReplaceString.GetStdString());
 
 	return *this;
 }
