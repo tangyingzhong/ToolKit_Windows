@@ -365,7 +365,11 @@ String::BOOL String::Split(String strSeperator, StringTable& vStringTable)
 
 	// Set the current character's position
 	Index iCurrentIndex = this->Find(strSeperator, 0);
-	
+	if (iCurrentIndex == 0)
+	{
+		return bSuccess;
+	}
+
 	// Loop to vector
 	Index iStartIndex = 0;
 	while (StdString::npos != iCurrentIndex)

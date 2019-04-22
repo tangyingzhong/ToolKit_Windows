@@ -27,12 +27,26 @@ namespace ToolUnitTest
 			String strTest = _T("Hi,You are great,We are going to have a nice trip,hahah");
 
 			vector<String> vNewStringTable;
-			
 			bool bSuccess = strTest.Split(_T(","), vNewStringTable);
 			if (!bSuccess)
 			{
-				Assert::Fail(_T(""));
+				Assert::Fail(_T("I don't know the reason,but you really fail to make it"));
 			}
+
+			vector<String> vNewStringTable1;
+			bool bSuccess1 = strTest.Split(_T("t"), vNewStringTable1);
+			if (!bSuccess1)
+			{
+				Assert::Fail(_T("I don't know the reason,but you really fail to make it"));
+			}
+
+			vector<String> vNewStringTable2;
+			bool bSuccess2 = strTest.Split(_T(""), vNewStringTable2);
+			if (!bSuccess2)
+			{
+				Assert::Fail(_T("I don't know the reason,but you really fail to make it"));
+			}
+
 		}
 	};
 }
