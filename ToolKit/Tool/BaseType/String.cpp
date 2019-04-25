@@ -342,7 +342,7 @@ String::BOOL String::Split(String strSeperator, StringTable& vStringTable)
 
 	// Set the current character's position
 	Index iCurrentIndex = this->Find(strSeperator, 0);
-	if (iCurrentIndex == 0)
+	if (iCurrentIndex == -1)
 	{
 		return bSuccess;
 	}
@@ -364,17 +364,11 @@ String::BOOL String::Split(String strSeperator, StringTable& vStringTable)
 		iCurrentIndex = this->Find(strSeperator, iStartIndex);
 	}
 
-	// There is no searching result
-	if (iStartIndex == 0)
-	{
-		return bSuccess;
-	}
-
 	// The searching is to be end
 	if (iStartIndex != this->GetLength())
 	{
 		// Get the last splited string
-		String strSplitedString = this->SubString(iStartIndex, (Length)StdString::npos);
+		String strSplitedString = this->SubString(iStartIndex);
 
 		// Push the subString to the vector
 		vStringTable.push_back(strSplitedString);
@@ -383,6 +377,27 @@ String::BOOL String::Split(String strSeperator, StringTable& vStringTable)
 	bSuccess = true;
 
 	return bSuccess;
+}
+
+
+///************************************************************************
+/// <summary>
+/// Sub the string to the end
+/// </summary>
+/// <param name=Index iStartIndex></param>
+/// <returns></returns>
+/// <remarks>
+/// None
+/// </remarks>
+///***********************************************************************
+String String::SubString(Index iStartIndex)
+{
+	if (iStartIndex < 0 || iStartIndex >= this->GetLength())
+	{
+		return _T("");
+	}
+
+	return this->GetStdString().substr(iStartIndex, StdString::npos);
 }
 
 
@@ -399,7 +414,17 @@ String::BOOL String::Split(String strSeperator, StringTable& vStringTable)
 ///***********************************************************************
 String String::SubString(Index iStartIndex, Length iSubLength)
 {
-	if (iStartIndex < 0 || iStartIndex >= this->GetLength() || iSubLength <=0 || iSubLength>this->GetLength())
+	// Check the legal of the start position
+	if (iStartIndex < 0 || iStartIndex >= this->GetLength())
+	{
+		return _T("");
+	}
+
+	// Get the left length that you can operate
+	Length iLeftLength = this->GetLength() - iStartIndex;
+
+	// Check the sub length's legal
+	if (iSubLength <= 0 || iSubLength > iLeftLength)
 	{
 		return _T("");
 	}
@@ -413,7 +438,7 @@ String String::SubString(Index iStartIndex, Length iSubLength)
 /// Find the last appearance character in the string and return its's position
 /// </summary>
 /// <param name=String SpecialStr></param>
-/// <returns></returns>
+/// <returns>Failed: -1</returns>
 /// <remarks>
 /// None
 /// </remarks>
@@ -430,7 +455,7 @@ String::Index String::FindLast(String strSpecialStr)
 /// </summary>
 /// <param name=Index iStartPos>Start finding position</param>
 /// <param name=String SpecialStr>The string that you want to find</param>
-/// <returns></returns>
+/// <returns>Failed return -1</returns>
 /// <remarks>
 /// None
 /// </remarks>
@@ -439,7 +464,7 @@ String::Index String::Find(String strSpecialStr, Index iStartPos)
 {
 	Index iFindPos = (Index)(StdString::npos);
 
-	if (iStartPos < 0 || strSpecialStr.GetStdString() == _T(""))
+	if (iStartPos < 0 || iStartPos >= this->GetLength() || strSpecialStr.GetStdString() == _T(""))
 	{
 		return iFindPos;
 	}
@@ -461,17 +486,28 @@ String::Index String::Find(String strSpecialStr, Index iStartPos)
 /// None
 /// </remarks>
 ///***********************************************************************
-String& String::Replace(Index iReplacePos, Length iReplaceLength, String strReplaceString)
+String& String::Replace(Index iReplacePos, Length iReplaceLength, const String& strReplaceString)
 {
-	if (iReplacePos < 0 
-		|| iReplaceLength<0 
-		|| iReplaceLength>this->GetLength() 
-		|| strReplaceString.GetStdString() == _T(""))
+	if (iReplacePos < 0 || iReplacePos >= this->GetLength())
 	{
 		return *this;
 	}
 
-	this->GetStdString().replace(iReplacePos, iReplaceLength, strReplaceString.GetStdString());
+	if (iReplaceLength <= 0 || iReplaceLength >= this->GetLength())
+	{
+		return *this;
+	}
+
+	if (strReplaceString.GetStdString() == _T(""))
+	{
+		return *this;
+	}
+
+	StdString strSource = this->GetStdString();
+
+	strSource.replace(iReplacePos, iReplaceLength, strReplaceString);
+
+	this->SetStdString(strSource);
 
 	return *this;
 }

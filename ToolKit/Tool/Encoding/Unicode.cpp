@@ -47,7 +47,7 @@ Unicode::WStdString Unicode::GetString(StdString MultiString, EncodeType Encodin
 
 	if (EncodingType == EncodeType::E_UNICODE)
 	{
-		return _T("");
+		return L"";
 	}
 
 	if (EncodingType == EncodeType::E_ASCII)
@@ -77,7 +77,7 @@ Unicode::WStdString Unicode::UTF8ToUnicode(StdString Utf8String)
 	assert(iWideLength > 0);
 	if (iWideLength <= 0)
 	{
-		return _T("");
+		return L"";
 	}
 
 	// Create an unicode buffer 
@@ -88,7 +88,7 @@ Unicode::WStdString Unicode::UTF8ToUnicode(StdString Utf8String)
 	assert(iUnicodeLength == iWideLength);
 	if (iUnicodeLength != iWideLength)
 	{
-		return _T("");
+		return L"";
 	}
 
 	UnicodeArray[iUnicodeLength] = '\0';
@@ -118,7 +118,7 @@ Unicode::WStdString Unicode::AsciiToUnicode(StdString AsciiString)
 	assert(iWideLength > 0);
 	if (iWideLength <= 0)
 	{
-		return _T("");
+		return L"";
 	}
 
 	// Create a unicode buffer    
@@ -131,7 +131,7 @@ Unicode::WStdString Unicode::AsciiToUnicode(StdString AsciiString)
 	assert(iUnicodeLength == iWideLength);
 	if (iUnicodeLength != iWideLength)
 	{
-		return _T("");
+		return L"";
 	}
 
 	UnicodeArray[iUnicodeLength] = '\0';

@@ -411,6 +411,7 @@ Socket::BOOL Socket::GetLoaclIP(IPAddress& ip)
 		return bSuccess;
 	}
 
+#ifdef UNICODE
 	// Set unicode name 
 	String strHostName = Encoding::Unicode::GetString(HostName, 0, MAX_NAME_LEN, EncodeType::E_ASCII);
 
@@ -421,7 +422,18 @@ Socket::BOOL Socket::GetLoaclIP(IPAddress& ip)
 	{
 		return bSuccess;
 	}
+#else
+	// Set unicode name 
+	String strHostName = HostName;
 
+	// Get the host info
+	PADDRINFOA ailist;
+	ADDRINFOA hint;
+	if (GetAddrInfo(strHostName, NULL, &hint, &ailist) != S_SUCCESS)
+	{
+		return bSuccess;
+	}
+#endif 
 	TCHAR buf[INET_ADDRSTRLEN] = { 0 };
 	InetNtop(this->GetAddrFamily(), &(ailist->ai_addr), buf, sizeof(buf));
 

@@ -2,6 +2,7 @@
 #include "Tool\Encoding\ASCII.h"
 #include "Tool\Encoding\Unicode.h"
 #include "Tool\Directory\Directory.h"
+#include "Tool\DateTime\DateTime.h"
 #include "Log.h"
 
 using namespace System::IO;
@@ -210,21 +211,7 @@ Log::Empty Log::LogToFile(String& strLogFileName, String& strLogMessage)
 ///***********************************************************************
 String Log::LocalTime()
 {
-	char CurTimeArray[200] = { 0 };
-
-	// Get the local time
-	SYSTEMTIME CurrentTime;
-	::GetLocalTime(&CurrentTime);
-
-	// Format the time
-	sprintf_s(CurTimeArray, 200, "%04d_%02d_%02d", CurrentTime.wYear, CurrentTime.wMonth, CurrentTime.wDay);
-
-	// Transmit the time
-	std::string strTime = std::string(CurTimeArray);
-
-	std::wstring strWTime = System::Encoding::Unicode::GetString(strTime, EncodeType::E_ASCII);
-
-	return strWTime;
+	return System::Clock::DateTime::Now().ToString(System::Clock::DateTime::YEAR_MONTH_DAY,_T("_"));
 }
 
 

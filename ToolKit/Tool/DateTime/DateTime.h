@@ -63,8 +63,8 @@ namespace System
 			// Current time
 			static DateTime Now();
 
-			// Convert time to string
-			String ToString(TimeFormat TFormat);
+			// Convert time to string with sepecial seperator
+			String ToString(TimeFormat TFormat,String strSeperator);
 
 		private:
 			// Get the Current local time

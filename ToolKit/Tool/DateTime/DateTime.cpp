@@ -143,69 +143,69 @@ DateTime::Empty DateTime::GetLoclTime()
 
 ///************************************************************************
 /// <summary>
-/// Convert time to string
+/// Convert time to string with sepecial seperator
 /// </summary>
 /// <returns></returns>
 /// <remarks>
 /// Note: Time's format is like 2019/4/18 11:19::12::32
 /// </remarks>
 ///***********************************************************************
-String DateTime::ToString(TimeFormat TFormat)
+String DateTime::ToString(TimeFormat TFormat, String strSeperator)
 {
 	String strDateTime = _T("");
 
 	switch (TFormat)
 	{
 	case YEAR_MONTH_DAY:
-		strDateTime = this->m_Year.ToString() + _T("/")
-			+ this->m_Month.ToString() + _T("/")
-			+ this->m_Day.ToString() + _T("/");
+		strDateTime = this->m_Year.ToString() + strSeperator
+			+ this->m_Month.ToString() + strSeperator
+			+ this->m_Day.ToString();
 
 		break;
 
 	case HOUR_MINUTE_SECOND:
-		strDateTime = this->m_Hour.ToString() + _T("/")
-			+ this->m_Minute.ToString() + _T("/")
-			+ this->m_Second.ToString() + _T("/");
+		strDateTime = this->m_Hour.ToString() + strSeperator
+			+ this->m_Minute.ToString() + strSeperator
+			+ this->m_Second.ToString();
 
 		break;
 
 	case HOUR_MINUTE_SECOND_MILLISECOND:
-		strDateTime = this->m_Hour.ToString() + _T("/")
-			+ this->m_Minute.ToString() + _T("/")
-			+ this->m_Second.ToString() + _T("/")
+		strDateTime = this->m_Hour.ToString() + strSeperator
+			+ this->m_Minute.ToString() + strSeperator
+			+ this->m_Second.ToString() + strSeperator
 			+ this->m_Milliseconds.ToString();
 
 		break;
 
 	case YEAR_MONTH_DAY_HOUR_MINUTE_SECOND:
-		strDateTime = this->m_Year.ToString() + _T("/")
-			+ this->m_Month.ToString() + _T("/")
-			+ this->m_Day.ToString() + _T("/")
-			+ this->m_Hour.ToString() + _T("/")
-			+ this->m_Minute.ToString() + _T("/")
-			+ this->m_Second.ToString() + _T("/");
+		strDateTime = this->m_Year.ToString() + strSeperator
+			+ this->m_Month.ToString() + strSeperator
+			+ this->m_Day.ToString() + strSeperator
+			+ this->m_Hour.ToString() + strSeperator
+			+ this->m_Minute.ToString() + strSeperator
+			+ this->m_Second.ToString();
 
 		break;
 
 	case YEAR_MONTH_DAY_HOUR_MINUTE_SECOND_MILLISECOND:
-		strDateTime = this->m_Year.ToString() + _T("/")
-			+ this->m_Month.ToString() + _T("/")
-			+ this->m_Day.ToString() + _T("/")
-			+ this->m_Hour.ToString() + _T("/")
-			+ this->m_Minute.ToString() + _T("/")
-			+ this->m_Second.ToString() + _T("/")
+		strDateTime = this->m_Year.ToString() + strSeperator
+			+ this->m_Month.ToString() + strSeperator
+			+ this->m_Day.ToString() + strSeperator
+			+ this->m_Hour.ToString() + strSeperator
+			+ this->m_Minute.ToString() + strSeperator
+			+ this->m_Second.ToString() + strSeperator
 			+ this->m_Milliseconds.ToString();
 
 		break;
 
 	default:
-		strDateTime = this->m_Year.ToString() + _T("/")
-			+ this->m_Month.ToString() + _T("/")
-			+ this->m_Day.ToString() + _T("/")
-			+ this->m_Hour.ToString() + _T("/")
-			+ this->m_Minute.ToString() + _T("/")
-			+ this->m_Second.ToString() + _T("/")
+		strDateTime = this->m_Year.ToString() + strSeperator
+			+ this->m_Month.ToString() + strSeperator
+			+ this->m_Day.ToString() + strSeperator
+			+ this->m_Hour.ToString() + strSeperator
+			+ this->m_Minute.ToString() + strSeperator
+			+ this->m_Second.ToString() + strSeperator
 			+ this->m_Milliseconds.ToString();
 
 		break;

@@ -68,14 +68,17 @@ namespace System
 			// Sub the string to get a new string
 			String SubString(Index iStartIndex, Length iSubLength);
 
-			// Find the appearance character in the string and return its's position
+			// Sub the string to the end
+			String SubString(Index iStartIndex);
+
+			// Find the appearance character in the string and return its's position,failed return -1
 			Index Find(String strSpecialStr, Index iStartPos);
 
-			// Find last character in the string
+			// Find last character in the string,failed return -1
 			Index FindLast(String strSpecialStr);
 
 			// Replace the string by another one
-			String& Replace(Index iReplacePos, Length iReplaceLength, String strReplaceString);
+			String& Replace(Index iReplacePos, Length iReplaceLength, const String& strReplaceString);
 
 			// Get the wide string when you are in ASCII environment to program
 			WByteArray AllocWideString();
