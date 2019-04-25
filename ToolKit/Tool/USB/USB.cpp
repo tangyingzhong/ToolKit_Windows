@@ -260,7 +260,7 @@ USB::Empty USB::DestoryInterfaceDetail(PInterfaceDetailInfo interfaceDetail)
 /// </summary>
 /// <returns>the usb path</returns>
 /// <remarks>
-/// This path is specail one in os,it can symbol the usb you want to operate
+/// This path is specail one on OS,it can symbol the usb you want to operate
 /// </remarks>
 ///***********************************************************************
 String USB::AcquireDevicePath()
@@ -640,7 +640,7 @@ USB::Size USB::Read(ByteArray pReadArray, Offset iOffset, ArraySize iReadSize)
 	SetupTransPackage(PacketBuffer, head, pReadArray, iReadSize);
 
 	// Read data from the usb through read in endpoint
-	dwReadSize = _ReadWriteEndPoint(UsbCommand::SENDRECEIVE_NONE_ENP0, PacketBuffer, iPackageSize);
+	dwReadSize = _ReadWriteEndPoint(UsbCommand::SENDRECEIVE_NONE_ENP0, PacketBuffer, PacketBuffer.Size());
 	if (dwReadSize == 0)
 	{
 		return dwReadSize;
@@ -698,7 +698,7 @@ USB::Size USB::Write(ByteArray pWriteArray, Offset iOffset, ArraySize iWriteSize
 	SetupTransPackage(PacketBuffer, PacketHead, pWriteArray, iWriteSize);
 
 	// Write data to the usb through out endpoint
-	dwWriteSize = _ReadWriteEndPoint(UsbCommand::SENDRECEIVE_NONE_ENP0, PacketBuffer, iPackageSize);
+	dwWriteSize = _ReadWriteEndPoint(UsbCommand::SENDRECEIVE_NONE_ENP0, PacketBuffer, PacketBuffer.Size());
 
 	return dwWriteSize;
 }

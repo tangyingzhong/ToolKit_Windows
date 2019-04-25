@@ -20,33 +20,47 @@ namespace ToolUnitTest
 	TEST_CLASS(StringTest)
 	{
 	public:
+		// Init the class
+		TEST_CLASS_INITIALIZE(InitString)
+		{
+			
+		}
+
+		// Clean up the class
+		TEST_CLASS_CLEANUP(CleanString)
+		{
+				
+		}
 
 		// Test spliting string
-		TEST_METHOD(TestSplit)
+		TEST_METHOD(TestSplit1)
 		{
-			String strTest = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
 
 			vector<String> vNewStringTable;
-			bool bSuccess = strTest.Split(_T(","), vNewStringTable);
-			if (!bSuccess)
-			{
-				Assert::Fail(_T("I don't know the reason,but you really fail to make it"));
-			}
-
-			vector<String> vNewStringTable1;
-			bool bSuccess1 = strTest.Split(_T("t"), vNewStringTable1);
-			if (!bSuccess1)
-			{
-				Assert::Fail(_T("I don't know the reason,but you really fail to make it"));
-			}
-
-			vector<String> vNewStringTable2;
-			bool bSuccess2 = strTest.Split(_T(""), vNewStringTable2);
-			if (!bSuccess2)
-			{
-				Assert::Fail(_T("I don't know the reason,but you really fail to make it"));
-			}
-
+			Assert::IsTrue(m_TestString.Split(_T(","), vNewStringTable));
 		}
+
+		// Test spliting string
+		TEST_METHOD(TestSplit2)
+		{
+			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+
+			vector<String> vNewStringTable;
+			Assert::IsTrue(m_TestString.Split(_T("t"), vNewStringTable));
+		}
+
+		// Test spliting string
+		TEST_METHOD(TestSplit3)
+		{
+			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+
+			vector<String> vNewStringTable;
+			Assert::IsFalse(m_TestString.Split(_T(""), vNewStringTable));
+		}
+
+	private:
+		// Test String
+		String m_TestString;
 	};
 }
