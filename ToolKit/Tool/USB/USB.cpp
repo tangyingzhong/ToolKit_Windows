@@ -472,13 +472,13 @@ USB::PHeadPackage USB::SetupHeadPackage(ByteArray pPackage, EndPoint cEndPoint, 
 /// we need to create a new package with correct head and user buffer data
 /// </remarks>
 ///***********************************************************************
-USB::Empty USB::SetupTransPackage(ByteArray package, PHeadPackage head, ByteArray transferBuffer, ArraySize transferSize)
+USB::Empty USB::SetupTransPackage(ByteArray pPackage, PHeadPackage pHead, ByteArray pTransferBuffer, ArraySize iTransferSize)
 {
 	// Refer to the transfer buffer position
-	ByteArray buffer = package + head->BufferOffset;
+	ByteArray pBuffer = pPackage + pHead->BufferOffset;
 
 	// Fill the buffer section
-	Array<Byte>::Copy(transferBuffer, transferSize, buffer, transferSize);
+	Array<Byte>::Copy(pTransferBuffer, iTransferSize, pBuffer, iTransferSize);
 }
 
 
@@ -589,7 +589,7 @@ USB::BOOL USB::Configure(Target eTarget, Direction eDirection, RequestType eReqT
 
 	// Set the usb device by endpoint 0
 	UInt64 dwBytes = 0;
-	if (DeviceIoControl(GetUsbHandle(), UsbCommand::SENDRECEIVE_EP0, Buffer, iBufferSize, Buffer, iBufferSize, &dwBytes, NULL) == TRUE)
+	if (DeviceIoControl(this->GetUsbHandle(), UsbCommand::SENDRECEIVE_EP0, Buffer, iBufferSize, Buffer, iBufferSize, &dwBytes, NULL) == TRUE)
 	{
 		bSuccess = true;
 	}
@@ -715,10 +715,10 @@ USB::Size USB::Write(ByteArray pWriteArray, Offset iOffset, ArraySize iWriteSize
 ///***********************************************************************
 USB::Empty USB::Close()
 {
-	if (GetUsbHandle())
+	if (this->GetUsbHandle())
 	{
-		::CloseHandle(GetUsbHandle());
+		::CloseHandle(this->GetUsbHandle());
 
-		SetUsbHandle(NULL);
+		this->SetUsbHandle(NULL);
 	}
 }
