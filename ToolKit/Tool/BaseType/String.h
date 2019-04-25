@@ -101,9 +101,6 @@ namespace System
 			// Is string equals to the other one
 			BOOL operator==(String& OtherString);
 
-			// Is std string equals to the string
-			BOOL operator==(StdString& OtherStdString);
-
 			// Is string not equals to the other one
 			BOOL operator!=(String& OtherString);
 

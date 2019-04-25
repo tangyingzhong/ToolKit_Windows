@@ -267,29 +267,6 @@ String::BOOL String::operator==(String& other)
 
 ///************************************************************************
 /// <summary>
-/// Is std String equals to the String
-/// </summary>
-/// <param name=StdString & OtherStdString>Std String</param>
-/// <returns></returns>
-/// <remarks>
-/// None
-/// </remarks>
-///***********************************************************************
-String::BOOL String::operator==(StdString& OtherStdString)
-{
-	BOOL bEqual = false;
-
-	if (this->GetStdString().compare(OtherStdString) == 0)
-	{
-		bEqual = true;
-	}
-
-	return bEqual;
-}
-
-
-///************************************************************************
-/// <summary>
 /// Is String not equals to the other one
 /// </summary>
 /// <param name=other>another String</param>
@@ -422,7 +399,7 @@ String::BOOL String::Split(String strSeperator, StringTable& vStringTable)
 ///***********************************************************************
 String String::SubString(Index iStartIndex, Length iSubLength)
 {
-	if (iStartIndex<0 || iSubLength>this->GetLength())
+	if (iStartIndex < 0 || iStartIndex >= this->GetLength() || iSubLength <=0 || iSubLength>this->GetLength())
 	{
 		return _T("");
 	}
@@ -443,7 +420,7 @@ String String::SubString(Index iStartIndex, Length iSubLength)
 ///***********************************************************************
 String::Index String::FindLast(String strSpecialStr)
 {
-	return (Index)(this->GetStdString().find_last_of(strSpecialStr));
+	return (Index)(this->GetStdString().find_last_of(strSpecialStr.GetStdString().c_str()));
 }
 
 
@@ -462,7 +439,7 @@ String::Index String::Find(String strSpecialStr, Index iStartPos)
 {
 	Index iFindPos = (Index)(StdString::npos);
 
-	if (iStartPos < 0 || strSpecialStr == _T(""))
+	if (iStartPos < 0 || strSpecialStr.GetStdString() == _T(""))
 	{
 		return iFindPos;
 	}
@@ -486,7 +463,10 @@ String::Index String::Find(String strSpecialStr, Index iStartPos)
 ///***********************************************************************
 String& String::Replace(Index iReplacePos, Length iReplaceLength, String strReplaceString)
 {
-	if (iReplacePos < 0 || iReplaceLength<0 || iReplaceLength>this->GetLength() || strReplaceString == _T(""))
+	if (iReplacePos < 0 
+		|| iReplaceLength<0 
+		|| iReplaceLength>this->GetLength() 
+		|| strReplaceString.GetStdString() == _T(""))
 	{
 		return *this;
 	}
