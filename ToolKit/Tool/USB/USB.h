@@ -68,7 +68,10 @@ namespace System
 
 		public:
 			// Construct the usb with the Guid
-			USB(String strVid = _T("0547"), String strPid = _T("1005"), const DeviceID iDeviceID = { 0xAE18AA60, 0x7F6A, 0x11D4, 0x97, 0xDD, 0x00, 0x01, 0x02, 0x29, 0xb9, 0x59 });
+			USB(String strVid = _T("0547"),
+				String strPid = _T("1005"),
+				const DeviceID DeviceID = { 0xAE18AA60, 0x7F6A, 0x11D4, 0x97, 0xDD, 0x00, 0x01, 0x02, 0x29, 0xb9, 0x59 }
+			);
 
 			// Destruct the usb
 			~USB();
@@ -88,7 +91,12 @@ namespace System
 			virtual BOOL Open();
 
 			// Init the usb config
-			virtual BOOL Configure(Target eTarget, Direction eDirection, RequestType eReqType, RequestCode iCode, Value iValue, Index iIndex);
+			virtual BOOL Configure(Target eTarget,
+				Direction eDirection,
+				RequestType eReqType,
+				RequestCode iCode,
+				Value iValue,
+				Index iIndex);
 
 			// Read the usb
 			virtual Size Read(ByteArray pReadArray, Offset iOffset, ArraySize iReadSize);
@@ -119,10 +127,17 @@ namespace System
 			Empty DestoryPakcage(ByteArray pPackage);
 
 			// Setup the package head
-			PHeadPackage SetupHeadPackage(ByteArray pPackage, EndPoint cEndPoint, Length iIsoPackageLength, Offset iHeadOffset, ArraySize iTransferSize);
+			PHeadPackage SetupHeadPackage(ByteArray pPackage,
+				EndPoint cEndPoint,
+				Length iIsoPackageLength,
+				Offset iHeadOffset,
+				ArraySize iTransferSize);
 
 			// Set the package with transferring array
-			Empty SetupTransPackage(ByteArray pPackage, PHeadPackage pHead, ByteArray pTransferBuffer, ArraySize iTransferSize);
+			Empty SetupTransPackage(ByteArray pPackage,
+				PHeadPackage pHead,
+				ByteArray pTransferBuffer,
+				ArraySize iTransferSize);
 
 			// Read data from the usb through read in endpoint
 			Size _ReadWriteEndPoint(Command iUSbCommd, ByteArray pPackage, ArraySize pPackageSize);

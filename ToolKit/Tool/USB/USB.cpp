@@ -446,7 +446,11 @@ USB::Empty USB::DestoryPakcage(ByteArray pPackage)
 /// this step is neccesory for any transfering to usb
 /// </remarks>
 ///***********************************************************************
-USB::PHeadPackage USB::SetupHeadPackage(ByteArray pPackage, EndPoint cEndPoint, Length iIsoPackageLength, Offset iHeadOffset, ArraySize iTransferSize)
+USB::PHeadPackage USB::SetupHeadPackage(ByteArray pPackage,
+	EndPoint cEndPoint,
+	Length iIsoPackageLength,
+	Offset iHeadOffset,
+	ArraySize iTransferSize)
 {
 	PHeadPackage pHead = (PHeadPackage)pPackage;
 
@@ -472,7 +476,10 @@ USB::PHeadPackage USB::SetupHeadPackage(ByteArray pPackage, EndPoint cEndPoint, 
 /// we need to create a new package with correct head and user buffer data
 /// </remarks>
 ///***********************************************************************
-USB::Empty USB::SetupTransPackage(ByteArray pPackage, PHeadPackage pHead, ByteArray pTransferBuffer, ArraySize iTransferSize)
+USB::Empty USB::SetupTransPackage(ByteArray pPackage,
+	PHeadPackage pHead,
+	ByteArray pTransferBuffer,
+	ArraySize iTransferSize)
 {
 	// Refer to the transfer buffer position
 	ByteArray pBuffer = pPackage + pHead->BufferOffset;
@@ -556,7 +563,12 @@ USB::BOOL USB::Open()
 /// none
 /// </remarks>
 ///***********************************************************************
-USB::BOOL USB::Configure(Target eTarget, Direction eDirection, RequestType eReqType, RequestCode iCode, Value iValue, Index iIndex)
+USB::BOOL USB::Configure(Target eTarget,
+	Direction eDirection,
+	RequestType eReqType,
+	RequestCode iCode,
+	Value iValue,
+	Index iIndex)
 {
 	BOOL bSuccess = false;
 
@@ -589,7 +601,14 @@ USB::BOOL USB::Configure(Target eTarget, Direction eDirection, RequestType eReqT
 
 	// Set the usb device by endpoint 0
 	UInt64 dwBytes = 0;
-	if (DeviceIoControl(this->GetUsbHandle(), UsbCommand::SENDRECEIVE_EP0, Buffer, iBufferSize, Buffer, iBufferSize, &dwBytes, NULL) == TRUE)
+	if (DeviceIoControl(this->GetUsbHandle(),
+		UsbCommand::SENDRECEIVE_EP0,
+		Buffer,
+		iBufferSize,
+		Buffer,
+		iBufferSize,
+		&dwBytes,
+		NULL) == TRUE)
 	{
 		bSuccess = true;
 	}
