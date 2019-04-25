@@ -41,6 +41,8 @@
     <ClCompile Include="Tool\Log\Log.cpp" />
     <ClCompile Include="Tool\Player\AudioPlayer.cpp" />
     <ClCompile Include="Tool\Player\BlockPlayer.cpp" />
+    <ClCompile Include="Tool\Printer\Local\LocalPrinter.cpp" />
+    <ClCompile Include="Tool\Printer\Network\NetPrinter.cpp" />
     <ClCompile Include="Tool\SerialPort\SerialPort.cpp" />
     <ClCompile Include="Tool\Socket\Socket.cpp" />
     <ClCompile Include="Tool\Socket\SocketClient.cpp" />
@@ -86,6 +88,10 @@
     <ClInclude Include="Tool\Player\AudioPlayer.h" />
     <ClInclude Include="Tool\Player\AudioType.h" />
     <ClInclude Include="Tool\Player\BlockPlayer.h" />
+    <ClInclude Include="Tool\Printer\IPrinter.h" />
+    <ClInclude Include="Tool\Printer\Local\LocalPrinter.h" />
+    <ClInclude Include="Tool\Printer\Network\NetPrinter.h" />
+    <ClInclude Include="Tool\Printer\PrinterCmd.h" />
     <ClInclude Include="Tool\SerialPort\SerialPort.h" />
     <ClInclude Include="Tool\Socket\Socket.h" />
     <ClInclude Include="Tool\Socket\SocketClient.h" />

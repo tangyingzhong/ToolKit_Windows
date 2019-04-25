@@ -57,6 +57,15 @@
     <Filter Include="Tool\USB">
       <UniqueIdentifier>{ea16f12d-b0bd-4621-941b-3e561d90d379}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tool\Printer">
+      <UniqueIdentifier>{e41507f0-d116-402d-aa93-60f641899bef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Printer\Local">
+      <UniqueIdentifier>{be1750a6-acfc-4f20-983e-ced849a92b83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Printer\Network">
+      <UniqueIdentifier>{bd31a6f5-8b48-4637-8f01-c669177bc300}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application\PreCompile.cpp">
@@ -160,6 +169,12 @@
     </ClCompile>
     <ClCompile Include="Application\BasicTool.cpp">
       <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Printer\Local\LocalPrinter.cpp">
+      <Filter>Tool\Printer\Local</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Printer\Network\NetPrinter.cpp">
+      <Filter>Tool\Printer\Network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -306,6 +321,18 @@
     </ClInclude>
     <ClInclude Include="Application\BasicTool.h">
       <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Printer\IPrinter.h">
+      <Filter>Tool\Printer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Printer\PrinterCmd.h">
+      <Filter>Tool\Printer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Printer\Local\LocalPrinter.h">
+      <Filter>Tool\Printer\Local</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Printer\Network\NetPrinter.h">
+      <Filter>Tool\Printer\Network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
