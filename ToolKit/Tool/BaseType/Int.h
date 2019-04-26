@@ -81,10 +81,10 @@ namespace System
 			// Implement the * value
 			Int operator*(int value);
 
-			// Implement the / value
+			// Implement the / value.Failed return -1
 			Int operator/(Int& other);
 
-			// Implement the / value
+			// Implement the / value.Failed return -1
 			Int operator/(int value);
 
 			// Implement the % value

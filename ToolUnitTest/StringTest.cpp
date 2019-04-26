@@ -762,7 +762,6 @@ namespace ToolUnitTest
 			Assert::IsTrue(strTest != _T("-999.8888"));
 		}
 
-
 	private:
 		// Test String
 		String m_TestString;

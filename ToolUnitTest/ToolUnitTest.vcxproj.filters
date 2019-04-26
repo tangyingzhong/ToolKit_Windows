@@ -25,5 +25,8 @@
     <ClCompile Include="StringTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="IntTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

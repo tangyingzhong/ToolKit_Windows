@@ -28,7 +28,7 @@ Int::Int() :m_Value(0)
 /// none
 /// </remarks>
 ///***********************************************************************
-Int::Int(int iGetValue) :m_Value(0)
+Int::Int(int iGetValue) :m_Value(iGetValue)
 {
 
 }
@@ -257,6 +257,11 @@ Int Int::operator*(int iValue)
 ///***********************************************************************
 Int Int::operator/(Int& Another)
 {
+	if (Another.GetValue() == 0)
+	{
+		return -1;
+	}
+
 	return (this->GetValue() / Another.GetValue());
 }
 
@@ -273,6 +278,11 @@ Int Int::operator/(Int& Another)
 ///***********************************************************************
 Int Int::operator/(int iValue)
 {
+	if (iValue == 0)
+	{
+		return -1;
+	}
+
 	return (this->GetValue() / iValue);
 }
 
