@@ -350,7 +350,7 @@ USB::BOOL USB::_CreateFile(String strUsbName, FileAttrEnum eFileAttribute)
 		return bSuccess;
 	}
 
-	this->SetUsbHandle(CreateFile(strUsbName, FileAccess::READWRITE, FileShare::SREADWRITE, NULL, FileMode::OPEN, eFileAttribute, NULL));
+	this->SetUsbHandle(CreateFile(strUsbName.CStr(), FileAccess::READWRITE, FileShare::SREADWRITE, NULL, FileMode::OPEN, eFileAttribute, NULL));
 	if (this->GetUsbHandle() == INVALID_HANDLE_VALUE)
 	{
 		// Close the usb

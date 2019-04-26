@@ -85,7 +85,7 @@ Process::Empty Process::Destory()
 ///***********************************************************************
 Process::Empty Process::CreateProc()
 {
-	::CreateProcess(this->GetExcutablePath(), NULL, NULL, NULL, false, 0, NULL, NULL, &m_StartupInfo, &m_ProcessInfo);
+	::CreateProcess(this->GetExcutablePath().CStr(), NULL, NULL, NULL, false, 0, NULL, NULL, &m_StartupInfo, &m_ProcessInfo);
 }
 
 
@@ -163,5 +163,5 @@ Process::Empty Process::Stop()
 ///***********************************************************************
 Process::Empty Process::StartByShell(ExcutablePath strExcutablePath)
 {
-	ShellExecute(NULL, _T("open"), strExcutablePath, NULL, NULL, SW_SHOWNORMAL);
+	ShellExecute(NULL, _T("open"), strExcutablePath.CStr(), NULL, NULL, SW_SHOWNORMAL);
 }

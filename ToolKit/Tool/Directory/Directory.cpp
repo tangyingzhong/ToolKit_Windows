@@ -17,7 +17,7 @@ Directory::BOOL Directory::Create(String strDirPath)
 {
 	BOOL bSuccess = false;
 
-	int iRet = ::CreateDirectory(strDirPath, NULL);
+	int iRet = ::CreateDirectory(strDirPath.CStr(), NULL);
 	if (iRet == TRUE)
 	{
 		bSuccess = true;
@@ -41,7 +41,7 @@ Directory::BOOL Directory::Delete(String strDirPath)
 {
 	BOOL bSuccess = false;
 
-	int iRet = ::RemoveDirectory(strDirPath);
+	int iRet = ::RemoveDirectory(strDirPath.CStr());
 	if (iRet == TRUE)
 	{
 		bSuccess = true;
@@ -74,7 +74,7 @@ Directory::BOOL Directory::Exists(String strDirPath)
 	}
 	
 	FileData data;
-	DirectoryHandle hDirectory = ::FindFirstFile(strFullPath, &data);
+	DirectoryHandle hDirectory = ::FindFirstFile(strFullPath.CStr(), &data);
 	if (hDirectory != INVALID_HANDLE_VALUE && (data.dwFileAttributes & FileAttrEnum::DIRECTORY))
 	{
 		bOK = true;
@@ -114,7 +114,7 @@ Directory::BOOL Directory::IsEmpty(String strRootDirPathPath)
 
 	// Find the file with its attributes
 	FileData data;
-	DirectoryHandle hDirectory = ::FindFirstFile(strFullPath, &data);
+	DirectoryHandle hDirectory = ::FindFirstFile(strFullPath.CStr(), &data);
 	if (hDirectory == INVALID_HANDLE_VALUE)
 	{
 		return bOK;
@@ -160,7 +160,7 @@ Directory::FileAttribute Directory::GetDirAttribute(String strDirPath)
 	FileAttribute sFileAttr = { 0 };
 	
 	// Get the Attribute
-	System::UInt64 dAttribute = ::GetFileAttributes(strDirPath);
+	System::UInt64 dAttribute = ::GetFileAttributes(strDirPath.CStr());
 	if (dAttribute == INVALID_FILE_ATTRIBUTES)
 	{
 		return sFileAttr;
@@ -201,9 +201,9 @@ Directory::FileAttribute Directory::GetDirAttribute(String strDirPath)
 ///***********************************************************************
 Directory::Empty Directory::SetDirAttribute(String strDirPath, FileAttrEnum eFileAttribute)
 {
-	DWORD dAttribute = ::GetFileAttributes(strDirPath);
+	DWORD dAttribute = ::GetFileAttributes(strDirPath.CStr());
 
-	::SetFileAttributes(strDirPath, dAttribute | eFileAttribute);
+	::SetFileAttributes(strDirPath.CStr(), dAttribute | eFileAttribute);
 }
 
 
@@ -220,9 +220,9 @@ Directory::Empty Directory::SetDirAttribute(String strDirPath, FileAttrEnum eFil
 ///***********************************************************************
 Directory::Empty Directory::RemoveDirAttribute(String strDirPath, FileAttrEnum eFileAttribute)
 {
-	DWORD dAttribute = ::GetFileAttributes(strDirPath);
+	DWORD dAttribute = ::GetFileAttributes(strDirPath.CStr());
 
-	::SetFileAttributes(strDirPath, dAttribute & (~eFileAttribute));
+	::SetFileAttributes(strDirPath.CStr(), dAttribute & (~eFileAttribute));
 }
 
 
@@ -280,7 +280,7 @@ Directory::BOOL Directory::Contains(String strRootDirPath, String strFileName)
 
 	// Find the file with its attributes
 	FileData data;
-	DirectoryHandle hDirectory = ::FindFirstFile(strFullPath, &data);
+	DirectoryHandle hDirectory = ::FindFirstFile(strFullPath.CStr(), &data);
 	if (hDirectory == INVALID_HANDLE_VALUE)
 	{
 		return bOK;
@@ -374,7 +374,7 @@ Directory::BOOL Directory::LookUpSubDirectory(String strDirPath, DirectoryTable&
 
 	// Find the file with its attributes
 	FileData data;
-	DirectoryHandle hDirectory = ::FindFirstFile(strFullPath, &data);
+	DirectoryHandle hDirectory = ::FindFirstFile(strFullPath.CStr(), &data);
 	if (hDirectory == INVALID_HANDLE_VALUE)
 	{
 		return bFind;
@@ -448,7 +448,7 @@ Directory::BOOL Directory::LookUpSubFiles(String strCurrentDir, FileTable& vFile
 
 	// Find the file with its attributes
 	FileData data;
-	DirectoryHandle hDirectory = ::FindFirstFile(strFullPath, &data);
+	DirectoryHandle hDirectory = ::FindFirstFile(strFullPath.CStr(), &data);
 	if (hDirectory == INVALID_HANDLE_VALUE)
 	{
 		return bFind;

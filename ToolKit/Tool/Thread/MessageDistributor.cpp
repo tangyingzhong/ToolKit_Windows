@@ -50,7 +50,7 @@ MessageDistributor::~MessageDistributor()
 ///***********************************************************************
 MessageDistributor::Empty MessageDistributor::Send(TargetFormName strFormName, MessageValue iMessageValue, DataAttach& AttachData)
 {
-	HWND hForm = ::FindWindow(NULL, strFormName);
+	HWND hForm = ::FindWindow(NULL, strFormName.CStr());
 	if (hForm)
 	{
 		::SendMessage(hForm, iMessageValue, NULL, (LPARAM)&AttachData);
@@ -71,7 +71,7 @@ MessageDistributor::Empty MessageDistributor::Send(TargetFormName strFormName, M
 ///***********************************************************************
 MessageDistributor::Empty MessageDistributor::Send(TargetFormName strFormName, MessageValue iMessageValue)
 {	
-	HWND hForm = ::FindWindow(NULL, strFormName);
+	HWND hForm = ::FindWindow(NULL, strFormName.CStr());
 	if (hForm)
 	{
 		::SendMessage(hForm, iMessageValue, NULL, NULL);
@@ -93,7 +93,7 @@ MessageDistributor::Empty MessageDistributor::Send(TargetFormName strFormName, M
 ///***********************************************************************
 MessageDistributor::Empty MessageDistributor::Post(TargetFormName strFormName, MessageValue iMessageValue, DataAttach& AttachData)
 {
-	HWND hForm = ::FindWindow(NULL, strFormName);
+	HWND hForm = ::FindWindow(NULL, strFormName.CStr());
 	if (hForm)
 	{
 		::PostMessage(hForm, iMessageValue, NULL, (LPARAM)&AttachData);
@@ -114,7 +114,7 @@ MessageDistributor::Empty MessageDistributor::Post(TargetFormName strFormName, M
 ///***********************************************************************
 MessageDistributor::Empty MessageDistributor::Post(TargetFormName strFormName, MessageValue iMessageValue)
 {
-	HWND hForm = ::FindWindow(NULL, strFormName);
+	HWND hForm = ::FindWindow(NULL, strFormName.CStr());
 	if (hForm)
 	{
 		::PostMessage(hForm, iMessageValue, NULL, NULL);

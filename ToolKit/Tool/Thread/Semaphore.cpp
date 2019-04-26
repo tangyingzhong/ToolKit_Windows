@@ -130,10 +130,10 @@ Semaphore::Empty Semaphore::Destory()
 ///***********************************************************************
 Semaphore::Empty Semaphore::Open()
 {
-	this->SetSignalHandle(::OpenSemaphore(SEMAPHORE_ALL_ACCESS, false, this->GetSignalName()));
+	this->SetSignalHandle(::OpenSemaphore(SEMAPHORE_ALL_ACCESS, false, this->GetSignalName().CStr()));
 	if (this->GetSignalHandle() == NULL)
 	{
-		this->SetSignalHandle(::CreateSemaphore(NULL, this->GetMinResourceCount(), this->GetMaxResourceCount(), this->GetSignalName()));
+		this->SetSignalHandle(::CreateSemaphore(NULL, this->GetMinResourceCount(), this->GetMaxResourceCount(), this->GetSignalName().CStr()));
 	}
 }
 

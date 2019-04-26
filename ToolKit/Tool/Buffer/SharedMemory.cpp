@@ -106,10 +106,10 @@ SharedMemory::BOOL SharedMemory::IsOpen()
 ///***********************************************************************
 SharedMemory::Empty SharedMemory::Open()
 {
-	MapFileHandle hMapFileHandle = ::OpenFileMapping(FILE_MAP_ALL_ACCESS, NULL, this->GetMapFileName());
+	MapFileHandle hMapFileHandle = ::OpenFileMapping(FILE_MAP_ALL_ACCESS, NULL, this->GetMapFileName().CStr());
 	if (hMapFileHandle == NULL)
 	{
-		this->SetMapfileHandle(::CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, this->GetSharedSize(), this->GetMapFileName()));
+		this->SetMapfileHandle(::CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, this->GetSharedSize(), this->GetMapFileName().CStr()));
 	}
 	else
 	{

@@ -190,7 +190,7 @@ Socket::Empty Socket::DestorySocket()
 ///***********************************************************************
 Socket::Empty Socket::Configure(IPAddress strIPAddress, NetPort iPortNo)
 {
-	InetPton(this->GetAddrFamily(), strIPAddress, &(this->m_SocketAddr.sin_addr));
+	InetPton(this->GetAddrFamily(), strIPAddress.CStr(), &(this->m_SocketAddr.sin_addr));
 
 	this->m_SocketAddr.sin_family = this->GetAddrFamily();
 
@@ -418,7 +418,7 @@ Socket::BOOL Socket::GetLoaclIP(IPAddress& ip)
 	// Get the host info
 	PADDRINFOW ailist;
 	ADDRINFOW hint;
-	if (GetAddrInfo(strHostName, NULL, &hint, &ailist) != S_SUCCESS)
+	if (GetAddrInfo(strHostName.CStr(), NULL, &hint, &ailist) != S_SUCCESS)
 	{
 		return bSuccess;
 	}

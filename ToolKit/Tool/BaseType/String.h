@@ -78,7 +78,7 @@ namespace System
 			Index FindLast(String strSpecialStr);
 
 			// Replace the string by another one
-			String& Replace(Index iReplacePos, Length iReplaceLength, const String& strReplaceString);
+			BOOL Replace(Index iReplacePos, Length iReplaceLength, String strReplaceString);
 
 			// Get the wide string when you are in ASCII environment to program
 			WByteArray AllocWideString();
@@ -102,16 +102,16 @@ namespace System
 			String& operator+(CharArray pString);
 
 			// Is string equals to the other one
-			BOOL operator==(String& OtherString);
+			BOOL operator==(String OtherString);
 
 			// Is string not equals to the other one
-			BOOL operator!=(String& OtherString);
-
-			// Is std string not equals to the string
-			BOOL operator!=(StdString& OtherStdString);
+			BOOL operator!=(String OtherString);
 
 			// Get C-type string 
-			operator LPCTSTR() const;
+			LPCTSTR CStr()
+			{
+				return this->GetStdString().c_str();
+			}
 
 			// Get string's length
 			inline Length GetLength() const
@@ -125,7 +125,7 @@ namespace System
 			{
 				// Streaming the string
 				StringStream Streamer;
-				Streamer << NumberString;
+				Streamer << NumberString.CStr();
 
 				// Format the stream to number
 				BaseType Number;

@@ -117,7 +117,7 @@ File::BOOL File::_CreateFile(String strFilePath, FileMode OpenMode, FileAccess O
 	this->SetFileName(strFilePath);
 
 	// Create the file 
-	this->SetFileHandle(::CreateFile(this->GetFileName(), OperateAccess, 0, NULL, OpenMode, AttributeEnum, NULL));
+	this->SetFileHandle(::CreateFile(this->GetFileName().CStr(), OperateAccess, 0, NULL, OpenMode, AttributeEnum, NULL));
 	if (this->GetFileHandle() == INVALID_HANDLE_VALUE)
 	{
 		this->Close();
@@ -211,7 +211,7 @@ File::BOOL File::Delete(String strFileName)
 {
 	BOOL bSuccess = false;
 
-	if (::DeleteFile(strFileName) == FALSE)
+	if (::DeleteFile(strFileName.CStr()) == FALSE)
 	{
 		return bSuccess;
 	}
@@ -269,7 +269,7 @@ File::FileAttribute File::GetAttributes(String strFileName)
 		return Attribute;
 	}
 
-	System::UInt64 dwAttribute = ::GetFileAttributes(strFileName);
+	System::UInt64 dwAttribute = ::GetFileAttributes(strFileName.CStr());
 	if (dwAttribute == INVALID_FILE_ATTRIBUTES)
 	{
 		return Attribute;
@@ -387,7 +387,7 @@ File::BOOL File::Rename(String strSrcFileName, String strDestFileName)
 		return bSuccess;
 	}
 
-	if (::MoveFile(strSrcFileName, strDestFileName) == FALSE)
+	if (::MoveFile(strSrcFileName.CStr(), strDestFileName.CStr()) == FALSE)
 	{
 		return bSuccess;
 	}
@@ -421,7 +421,7 @@ File::BOOL File::Copy(String strSrcFilePath, String strDestFilePath)
 		return bSuccess;
 	}
 
-	if (::CopyFile(strSrcFilePath, strDestFilePath, true) == FALSE)
+	if (::CopyFile(strSrcFilePath.CStr(), strDestFilePath.CStr(), true) == FALSE)
 	{
 		return bSuccess;
 	}

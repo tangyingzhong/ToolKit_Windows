@@ -252,11 +252,11 @@ String& String::operator+(CharArray pString)
 /// none
 /// </remarks>
 ///***********************************************************************
-String::BOOL String::operator==(String& other)
+String::BOOL String::operator==(String OtherString)
 {
 	BOOL bEqual = false;
 
-	if (this->GetStdString().compare(other.GetStdString()) == 0)
+	if (this->GetStdString() == OtherString.GetStdString())
 	{
 		bEqual = true;
 	}
@@ -275,54 +275,16 @@ String::BOOL String::operator==(String& other)
 /// none
 /// </remarks>
 ///***********************************************************************
-String::BOOL String::operator!=(String& OtherString)
+String::BOOL String::operator!=(String OtherString)
 {
 	BOOL bEqual = false;
 
-	if (this->GetStdString().compare(OtherString.GetStdString()) != 0)
+	if (this->GetStdString() != OtherString.GetStdString())
 	{
 		bEqual = true;
 	}
 
 	return bEqual;
-}
-
-
-///************************************************************************
-/// <summary>
-/// Is std String not equals to the String
-/// </summary>
-/// <param name=StdString & OtherStdString></param>
-/// <returns></returns>
-/// <remarks>
-/// None
-/// </remarks>
-///***********************************************************************
-String::BOOL String::operator!=(StdString& OtherStdString)
-{
-	BOOL bEqual = false;
-
-	if (this->GetStdString().compare(OtherStdString) != 0)
-	{
-		bEqual = true;
-	}
-
-	return bEqual;
-}
-
-
-///************************************************************************
-/// <summary>
-/// Get C-type string
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// None
-/// </remarks>
-///***********************************************************************
-String::operator LPCTSTR() const
-{
-	return this->GetStdString().c_str();
 }
 
 
@@ -483,33 +445,32 @@ String::Index String::Find(String strSpecialStr, Index iStartPos)
 /// <param name=Length iReplaceLength></param>
 /// <returns></returns>
 /// <remarks>
-/// None
+/// Note: you can use "" to replace source string(trunc the string)
 /// </remarks>
 ///***********************************************************************
-String& String::Replace(Index iReplacePos, Length iReplaceLength, const String& strReplaceString)
+String::BOOL String::Replace(Index iReplacePos, Length iReplaceLength, String strReplaceString)
 {
+	BOOL bSuccess = false;
+
 	if (iReplacePos < 0 || iReplacePos >= this->GetLength())
 	{
-		return *this;
+		return bSuccess;
 	}
 
-	if (iReplaceLength <= 0 || iReplaceLength >= this->GetLength())
+	if (iReplaceLength <= 0)
 	{
-		return *this;
-	}
-
-	if (strReplaceString.GetStdString() == _T(""))
-	{
-		return *this;
+		return bSuccess;
 	}
 
 	StdString strSource = this->GetStdString();
 
-	strSource.replace(iReplacePos, iReplaceLength, strReplaceString);
+	strSource.replace(iReplacePos, iReplaceLength, strReplaceString.GetStdString());
 
 	this->SetStdString(strSource);
 
-	return *this;
+	bSuccess = true;
+
+	return bSuccess;
 }
 
 
@@ -564,7 +525,7 @@ String& String::MakeUpper()
 	transform(this->GetStdString().begin(), this->GetStdString().end(), this->GetStdString().begin(), toupper);
 
 #endif
-	
+
 	return *this;
 }
 

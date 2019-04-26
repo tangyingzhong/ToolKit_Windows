@@ -41,7 +41,7 @@ namespace ToolUnitTest
 
 			bool ret = false;
 
-			if (strResult == String(_T("")))
+			if (strResult == _T(""))
 			{
 				ret = true;
 			}
@@ -59,7 +59,7 @@ namespace ToolUnitTest
 
 			bool ret = false;
 
-			if (strResult == String(_T("")))
+			if (strResult == _T(""))
 			{
 				ret = true;
 			}
@@ -77,7 +77,7 @@ namespace ToolUnitTest
 
 			bool ret = false;
 
-			if (strResult == String(_T("")))
+			if (strResult == _T(""))
 			{
 				ret = true;
 			}
@@ -95,7 +95,7 @@ namespace ToolUnitTest
 
 			bool ret = false;
 
-			if (strResult == String(_T("")))
+			if (strResult == _T(""))
 			{
 				ret = true;
 			}
@@ -113,7 +113,7 @@ namespace ToolUnitTest
 
 			bool ret = false;
 
-			if (strResult == String(_T("")))
+			if (strResult == _T(""))
 			{
 				ret = true;
 			}
@@ -131,7 +131,7 @@ namespace ToolUnitTest
 
 			bool ret = false;
 
-			if (strResult == String(_T("")))
+			if (strResult == _T(""))
 			{
 				ret = true;
 			}
@@ -149,7 +149,7 @@ namespace ToolUnitTest
 
 			bool ret = false;
 
-			if (strResult == String(_T("")))
+			if (strResult == _T(""))
 			{
 				ret = true;
 			}
@@ -167,7 +167,7 @@ namespace ToolUnitTest
 
 			bool ret = false;
 
-			if (strResult == String(_T("")))
+			if (strResult == _T(""))
 			{
 				ret = true;
 			}
@@ -185,7 +185,7 @@ namespace ToolUnitTest
 
 			bool ret = false;
 
-			if (strResult == String(_T("")))
+			if (strResult ==_T(""))
 			{
 				ret = true;
 			}
@@ -335,18 +335,104 @@ namespace ToolUnitTest
 		{
 			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
 
-			m_TestString = m_TestString.Replace(8, 1, _T("T"));
+			Assert::IsTrue(m_TestString.Replace(8, 1,_T("T")));
+		}
 
-			int iPos = m_TestString.Find(_T("T"), 0);
+		// Test Replace function
+		TEST_METHOD(TestReplace2)
+		{
+			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
 
-			bool bRet = false;
+			Assert::IsFalse(m_TestString.Replace(-1, 1, _T("T")));
+		}
 
-			if (m_TestString[8] == _T('T'))
-			{
-				bRet = true;
-			}
+		// Test Replace function
+		TEST_METHOD(TestReplace3)
+		{
+			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+
+			Assert::IsFalse(m_TestString.Replace(0, -1, _T("T")));
+		}
+
+		// Test Replace function
+		TEST_METHOD(TestReplace4)
+		{
+			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+
+			bool bRet = m_TestString.Replace(3, 1, _T("S"));
 
 			Assert::IsTrue(bRet == true);
+		}
+
+		// Test Replace function
+		TEST_METHOD(TestReplace5)
+		{
+			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+
+			bool bRet = m_TestString.Replace(3, 3, _T("We"));
+
+			Assert::IsTrue(bRet == true);
+		}
+
+		// Test Replace function
+		TEST_METHOD(TestReplace6)
+		{
+			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+
+			bool bRet = m_TestString.Replace(m_TestString.GetLength(), 3, _T("We"));
+
+			Assert::IsTrue(bRet == false);
+		}
+
+		// Test Replace function
+		TEST_METHOD(TestReplace7)
+		{
+			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+
+			bool bRet = m_TestString.Replace(1, 0, _T("We"));
+
+			Assert::IsTrue(bRet == false);
+		}
+
+		// Test Replace function
+		TEST_METHOD(TestReplace8)
+		{
+			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+
+			bool bRet = m_TestString.Replace(1, m_TestString.GetLength(), _T("kkk"));
+
+			Assert::IsTrue(bRet == true);
+		}
+
+		// Test Replace function
+		TEST_METHOD(TestReplace9)
+		{
+			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+
+			bool bRet = m_TestString.Replace(1, m_TestString.GetLength()+10, _T("kkk"));
+
+			Assert::IsTrue(bRet == true);
+		}
+
+		// Test Replace function
+		TEST_METHOD(TestReplace10)
+		{
+			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+
+			bool bRet = m_TestString.Replace(1, m_TestString.GetLength() + 10, _T(""));
+
+			Assert::IsTrue(bRet == true);
+		}
+
+		// Test AllocWideString function
+		TEST_METHOD(TestAllocWideString1)
+		{
+			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+
+			wchar_t pWBuffer[60];
+		
+			memcpy_s(pWBuffer, m_TestString.GetLength(), m_TestString.AllocWideString(), m_TestString.GetLength());
+
 		}
 
 	private:

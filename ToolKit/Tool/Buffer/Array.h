@@ -284,15 +284,18 @@ namespace System
 				// Create a new buffer with the new size
 				this->CreateBuffer(iNewSize);
 
-				// Get the copy size
-				ArraySize iCopySize = (iNewSize < this->GetArraySize() ? iNewSize : this->GetArraySize());
+				if (pPrevious != NULL)
+				{
+					// Get the copy size
+					ArraySize iCopySize = (iNewSize < this->GetArraySize() ? iNewSize : this->GetArraySize());
 
-				// Copy prevoius buffer to the new buffer with the copy size
-				Array::Copy(pPrevious, iCopySize, this->GetElementPointer(), iNewSize);
+					// Copy prevoius buffer to the new buffer with the copy size
+					Array::Copy(pPrevious, iCopySize, this->GetElementPointer(), iNewSize);
 
-				// Destory the previous buffer
-				delete[] pPrevious;
-				pPrevious = NULL;
+					// Destory the previous buffer
+					delete[] pPrevious;
+					pPrevious = NULL;
+				}				
 			}
 
 			// Get the element by index

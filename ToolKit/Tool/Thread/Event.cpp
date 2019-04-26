@@ -125,10 +125,10 @@ Event::BOOL Event::Open()
 {
 	BOOL bSuccess = false;
 
-	this->SetEventHandle(::OpenEvent(EVENT_ALL_ACCESS, FALSE, this->GetEventName()));
+	this->SetEventHandle(::OpenEvent(EVENT_ALL_ACCESS, FALSE, this->GetEventName().CStr()));
 	if (this->GetEventHandle() == NULL)
 	{
-		this->SetEventHandle(::CreateEvent(NULL, TRUE, FALSE, this->GetEventName()));
+		this->SetEventHandle(::CreateEvent(NULL, TRUE, FALSE, this->GetEventName().CStr()));
 	}
 
 	// Set the event non-signaled after created

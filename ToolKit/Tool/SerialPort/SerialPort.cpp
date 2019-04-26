@@ -180,7 +180,7 @@ SerialPort::BOOL SerialPort::_CreateFile(String strPortName, FileAttrEnum eFileA
 		return bSuccess;
 	}
 
-	this->SetPortHandle(::CreateFile(strPortName, FileAccess::READWRITE, 0, NULL, FileMode::OPEN, eFileAttribute, NULL));
+	this->SetPortHandle(::CreateFile(strPortName.CStr(), FileAccess::READWRITE, 0, NULL, FileMode::OPEN, eFileAttribute, NULL));
 	if (this->GetPortHandle() == INVALID_HANDLE_VALUE)
 	{
 		this->Close();
