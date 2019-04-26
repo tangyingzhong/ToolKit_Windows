@@ -429,7 +429,7 @@ Socket::BOOL Socket::GetLoaclIP(IPAddress& ip)
 	// Get the host info
 	PADDRINFOA ailist;
 	ADDRINFOA hint;
-	if (GetAddrInfo(strHostName, NULL, &hint, &ailist) != S_SUCCESS)
+	if (GetAddrInfo(strHostName.CStr(), NULL, &hint, &ailist) != S_SUCCESS)
 	{
 		return bSuccess;
 	}
