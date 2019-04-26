@@ -189,7 +189,7 @@ namespace System
 					return;
 				}
 
-				::memcpy_s(pDestArray, iDestSize, pSourceArray, iSourceSize);
+				::memcpy_s(pDestArray, sizeof(ValueType)*iDestSize, pSourceArray, sizeof(ValueType)*iSourceSize);
 			}
 
 			// Clear the array. Notice: you must input legal start position and count of element
@@ -236,6 +236,7 @@ namespace System
 				if (!this->GetDisposed())
 				{
 					this->SetDisposed(true);
+
 					//Destory the buffer
 					DestoryBuffer();
 				}
@@ -255,7 +256,7 @@ namespace System
 
 				assert(this->GetElementPointer() != NULL);
 
-				Array::Clear(this->GetElementPointer(), 0, iArraySize);
+				Array<ValueType>::Clear(this->GetElementPointer(), 0, iArraySize);
 			}
 
 			// Destory the buffer

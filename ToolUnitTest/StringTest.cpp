@@ -429,9 +429,9 @@ namespace ToolUnitTest
 		{
 			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
 
-			wchar_t pWBuffer[60];
+			wchar_t pWBuffer[60] = {0};
 		
-			memcpy_s(pWBuffer, m_TestString.GetLength(), m_TestString.AllocWideString(), m_TestString.GetLength());
+			memcpy_s(pWBuffer, sizeof(pWBuffer), m_TestString.AllocWideString(),sizeof(wchar_t)*m_TestString.GetLength());
 
 		}
 
