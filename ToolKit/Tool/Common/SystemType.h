@@ -14,6 +14,7 @@
 #include <assert.h>
 #include <Windows.h>
 #include <tchar.h>
+#include <cstring>
 #include <string>
 #include <sstream>
 #include <vector>

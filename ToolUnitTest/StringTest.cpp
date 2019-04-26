@@ -335,7 +335,11 @@ namespace ToolUnitTest
 		{
 			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
 
-			Assert::IsTrue(m_TestString.Replace(8, 1,_T("T")));
+			String strOld = m_TestString;
+
+			m_TestString = m_TestString.Replace(8, 1, _T("T"));
+
+			Assert::IsTrue(m_TestString != strOld);
 		}
 
 		// Test Replace function
@@ -343,7 +347,11 @@ namespace ToolUnitTest
 		{
 			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
 
-			Assert::IsFalse(m_TestString.Replace(-1, 1, _T("T")));
+			String strOld = m_TestString;
+
+			m_TestString = m_TestString.Replace(-1, 1, _T("T"));
+
+			Assert::IsTrue(m_TestString == strOld);
 		}
 
 		// Test Replace function
@@ -351,7 +359,11 @@ namespace ToolUnitTest
 		{
 			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
 
-			Assert::IsFalse(m_TestString.Replace(0, -1, _T("T")));
+			String strOld = m_TestString;
+
+			m_TestString = m_TestString.Replace(0, -1, _T("T"));
+
+			Assert::IsTrue(m_TestString == strOld);
 		}
 
 		// Test Replace function
@@ -359,9 +371,11 @@ namespace ToolUnitTest
 		{
 			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
 
-			bool bRet = m_TestString.Replace(3, 1, _T("S"));
+			String strOld = m_TestString;
 
-			Assert::IsTrue(bRet == true);
+			m_TestString = m_TestString.Replace(3, 1, _T("S"));
+
+			Assert::IsTrue(m_TestString != strOld);
 		}
 
 		// Test Replace function
@@ -369,9 +383,11 @@ namespace ToolUnitTest
 		{
 			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
 
-			bool bRet = m_TestString.Replace(3, 3, _T("We"));
+			String strOld = m_TestString;
 
-			Assert::IsTrue(bRet == true);
+			m_TestString = m_TestString.Replace(3, 3, _T("We"));
+
+			Assert::IsTrue(m_TestString != strOld);
 		}
 
 		// Test Replace function
@@ -379,9 +395,11 @@ namespace ToolUnitTest
 		{
 			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
 
-			bool bRet = m_TestString.Replace(m_TestString.GetLength(), 3, _T("We"));
+			String strOld = m_TestString;
 
-			Assert::IsTrue(bRet == false);
+			m_TestString = m_TestString.Replace(m_TestString.GetLength(), 3, _T("We"));
+
+			Assert::IsTrue(m_TestString == strOld);
 		}
 
 		// Test Replace function
@@ -389,9 +407,11 @@ namespace ToolUnitTest
 		{
 			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
 
-			bool bRet = m_TestString.Replace(1, 0, _T("We"));
+			String strOld = m_TestString;
 
-			Assert::IsTrue(bRet == false);
+			m_TestString = m_TestString.Replace(1, 0, _T("We"));
+
+			Assert::IsTrue(m_TestString == strOld);
 		}
 
 		// Test Replace function
@@ -399,9 +419,11 @@ namespace ToolUnitTest
 		{
 			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
 
-			bool bRet = m_TestString.Replace(1, m_TestString.GetLength(), _T("kkk"));
+			String strOld = m_TestString;
 
-			Assert::IsTrue(bRet == true);
+			m_TestString = m_TestString.Replace(1, m_TestString.GetLength(), _T("kkk"));
+
+			Assert::IsTrue(m_TestString != strOld);
 		}
 
 		// Test Replace function
@@ -409,9 +431,11 @@ namespace ToolUnitTest
 		{
 			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
 
-			bool bRet = m_TestString.Replace(1, m_TestString.GetLength()+10, _T("kkk"));
+			String strOld = m_TestString;
 
-			Assert::IsTrue(bRet == true);
+			m_TestString = m_TestString.Replace(1, m_TestString.GetLength() + 10, _T("kkk"));
+
+			Assert::IsTrue(m_TestString != strOld);
 		}
 
 		// Test Replace function
@@ -419,9 +443,11 @@ namespace ToolUnitTest
 		{
 			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
 
-			bool bRet = m_TestString.Replace(1, m_TestString.GetLength() + 10, _T(""));
+			String strOld = m_TestString;
 
-			Assert::IsTrue(bRet == true);
+			m_TestString = m_TestString.Replace(1, m_TestString.GetLength() + 10, _T(""));
+
+			Assert::IsTrue(m_TestString != strOld);
 		}
 
 		// Test AllocWideString function
@@ -432,8 +458,24 @@ namespace ToolUnitTest
 			wchar_t pWBuffer[60] = {0};
 		
 			memcpy_s(pWBuffer, sizeof(pWBuffer), m_TestString.AllocWideString(),sizeof(wchar_t)*m_TestString.GetLength());
-
 		}
+
+		// Test Makeupper function
+		TEST_METHOD(TestMakeUpper1)
+		{
+			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+
+			m_TestString = m_TestString.MakeUpper();
+		}
+
+		// Test MakeLower function
+		TEST_METHOD(TestMakeLower)
+		{
+			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
+
+			m_TestString = m_TestString.MakeLower();
+		}
+
 
 	private:
 		// Test String

@@ -448,18 +448,16 @@ String::Index String::Find(String strSpecialStr, Index iStartPos)
 /// Note: you can use "" to replace source string(trunc the string)
 /// </remarks>
 ///***********************************************************************
-String::BOOL String::Replace(Index iReplacePos, Length iReplaceLength, String strReplaceString)
+String& String::Replace(Index iReplacePos, Length iReplaceLength, String strReplaceString)
 {
-	BOOL bSuccess = false;
-
 	if (iReplacePos < 0 || iReplacePos >= this->GetLength())
 	{
-		return bSuccess;
+		return *this;
 	}
 
 	if (iReplaceLength <= 0)
 	{
-		return bSuccess;
+		return *this;
 	}
 
 	StdString strSource = this->GetStdString();
@@ -468,9 +466,7 @@ String::BOOL String::Replace(Index iReplacePos, Length iReplaceLength, String st
 
 	this->SetStdString(strSource);
 
-	bSuccess = true;
-
-	return bSuccess;
+	return *this;
 }
 
 
@@ -518,13 +514,15 @@ System::WByteArray String::AllocWideString()
 ///***********************************************************************
 String& String::MakeUpper()
 {
+	StdString strSource = this->GetStdString();
+
 #ifdef UNICODE
-	transform(this->GetStdString().begin(), this->GetStdString().end(), this->GetStdString().begin(), towupper);
-
+	transform(strSource.begin(), strSource.end(), strSource.begin(), towupper);
 #else
-	transform(this->GetStdString().begin(), this->GetStdString().end(), this->GetStdString().begin(), toupper);
-
+	transform(strSource.begin(), strSource.end(), strSource.begin(), toupper);
 #endif
+
+	this->SetStdString(strSource);
 
 	return *this;
 }
@@ -541,13 +539,15 @@ String& String::MakeUpper()
 ///***********************************************************************
 String& String::MakeLower()
 {
+	StdString strSource = this->GetStdString();
+
 #ifdef UNICODE
-	transform(this->GetStdString().begin(), this->GetStdString().end(), this->GetStdString().begin(), towlower);
-
+	transform(strSource.begin(), strSource.end(), strSource.begin(), towlower);
 #else
-	transform(this->GetStdString().begin(), this->GetStdString().end(), this->GetStdString().begin(), tolower);
-
+	transform(strSource.begin(), strSource.end(), strSource.begin(), tolower);
 #endif
+
+	this->SetStdString(strSource);
 
 	return *this;
 }

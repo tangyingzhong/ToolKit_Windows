@@ -78,7 +78,7 @@ namespace System
 			Index FindLast(String strSpecialStr);
 
 			// Replace the string by another one
-			BOOL Replace(Index iReplacePos, Length iReplaceLength, String strReplaceString);
+			String& Replace(Index iReplacePos, Length iReplaceLength, String strReplaceString);
 
 			// Get the wide string when you are in ASCII environment to program
 			WByteArray AllocWideString();
