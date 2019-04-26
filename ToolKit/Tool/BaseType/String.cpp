@@ -204,41 +204,9 @@ String::BOOL String::Equal(String& OtherString)
 /// none
 /// </remarks>
 ///***********************************************************************
-String& String::operator+(String& OtherString)
+String& String::operator+(String OtherString)
 {
 	return Append(OtherString.GetStdString());
-}
-
-
-///************************************************************************
-/// <summary>
-/// Cohesion std String to be a new String
-/// </summary>
-/// <param name=str>std String</param>
-/// <returns>current String</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-String& String::operator+(StdString& OtherStdString)
-{
-	return Append(OtherStdString);
-}
-
-
-///************************************************************************
-/// <summary>
-/// Cohesion C-type String to be a new String
-/// </summary>
-/// <param name=str>C String value</param>
-/// <returns>currrent String</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-String& String::operator+(CharArray pString)
-{
-	return Append(StdString(pString));
 }
 
 
@@ -558,7 +526,7 @@ String& String::MakeLower()
 /// Get a character from the string at special position
 /// </summary>
 /// <param name=Index iPos></param>
-/// <returns></returns>
+/// <returns>Failed: 'N'</returns>
 /// <remarks>
 /// None
 /// </remarks>
@@ -570,5 +538,5 @@ String::Character String::operator[](Index iPos)
 		return _T('N');
 	}
 
-	return this->GetStdString()[iPos];
+	return this->GetStdString().at(iPos);
 }

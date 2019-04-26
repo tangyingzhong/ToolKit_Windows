@@ -89,17 +89,11 @@ namespace System
 			// Make string lower
 			String& MakeLower();
 
-			// Get a character from the string at special position
+			// Get a character from the string. Fialed return 'N'
 			Character operator[](Index iPos);
 
 			// Cohesion string to be a new string
-			String& operator+(String& OtherString);
-
-			// Cohesion std string to be a new string
-			String& operator+(StdString& OtherStdString);
-
-			// Cohesion C-type string to be a new string
-			String& operator+(CharArray pString);
+			String& operator+(String OtherString);
 
 			// Is string equals to the other one
 			BOOL operator==(String OtherString);
@@ -125,7 +119,7 @@ namespace System
 			{
 				// Streaming the string
 				StringStream Streamer;
-				Streamer << NumberString.CStr();
+				Streamer << NumberString.GetStdString();
 
 				// Format the stream to number
 				BaseType Number;

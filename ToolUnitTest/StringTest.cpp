@@ -476,6 +476,191 @@ namespace ToolUnitTest
 			m_TestString = m_TestString.MakeLower();
 		}
 
+		// Test [] function
+		TEST_METHOD(TestGetCharFunc1)
+		{
+			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
+
+			TCHAR ch = m_TestString[3];
+
+			Assert::IsTrue(ch != _T('N'));
+		}
+
+		// Test [] function
+		TEST_METHOD(TestGetCharFunc2)
+		{
+			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
+
+			TCHAR ch = m_TestString[-1];
+
+			Assert::IsTrue(ch == _T('N'));
+		}
+
+		// Test [] function
+		TEST_METHOD(TestGetCharFunc3)
+		{
+			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
+
+			TCHAR ch = m_TestString[m_TestString.GetLength()];
+
+			Assert::IsTrue(ch == _T('N'));
+		}
+
+		// Test [] function
+		TEST_METHOD(TestGetCharFunc4)
+		{
+			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
+
+			TCHAR ch = m_TestString[11.2];
+
+			Assert::IsTrue(ch != _T('N'));
+		}
+
+		// Test [] function
+		TEST_METHOD(TestGetCharFunc5)
+		{
+			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
+
+			TCHAR ch = m_TestString['a'];
+
+			Assert::IsTrue(ch == _T('N'));
+		}
+
+		// Test + function
+		TEST_METHOD(TestAddFunc1)
+		{
+			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
+
+			String strOld = m_TestString;
+
+			m_TestString + _T(" Calm dowm");
+
+			Assert::IsTrue(strOld != m_TestString);
+		}
+
+		// Test + function
+		TEST_METHOD(TestAddFunc2)
+		{
+			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
+
+			String strOld = m_TestString;
+
+			m_TestString + String(_T(" Love you Winnie"));
+
+			Assert::IsTrue(strOld != m_TestString);
+		}
+
+		// Test + function
+		TEST_METHOD(TestAddFunc3)
+		{
+			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
+
+			String strOld = m_TestString;
+
+			m_TestString + std::wstring(_T(" Love you Winnie"));
+
+			Assert::IsTrue(strOld != m_TestString);
+		}
+
+		// Test == function
+		TEST_METHOD(TestEqualFunc1)
+		{
+			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
+
+			bool bRet = false;
+
+			if (m_TestString == _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT"))
+			{
+				bRet = true;
+			}
+
+			Assert::IsTrue(bRet == true);
+		}
+
+		// Test == function
+		TEST_METHOD(TestEqualFunc2)
+		{
+			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
+
+			bool bRet = false;
+
+			if (m_TestString == String(_T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT")))
+			{
+				bRet = true;
+			}
+
+			Assert::IsTrue(bRet == true);
+		}
+
+		// Test == function
+		TEST_METHOD(TestEqualFunc3)
+		{
+			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
+
+			bool bRet = false;
+
+			if (m_TestString == std::wstring(_T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT")))
+			{
+				bRet = true;
+			}
+
+			Assert::IsTrue(bRet == true);
+		}
+
+		// Test != function
+		TEST_METHOD(TestNotEqualFunc1)
+		{
+			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
+
+			bool bRet = false;
+
+			if (m_TestString != std::wstring(_T("OK")))
+			{
+				bRet = true;
+			}
+
+			Assert::IsTrue(bRet == true);
+		}
+
+		// Test != function
+		TEST_METHOD(TestNotEqualFunc2)
+		{
+			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
+
+			bool bRet = false;
+
+			if (m_TestString != String(_T("OK")))
+			{
+				bRet = true;
+			}
+
+			Assert::IsTrue(bRet == true);
+		}
+
+		// Test != function
+		TEST_METHOD(TestNotEqualFunc3)
+		{
+			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
+
+			bool bRet = false;
+
+			if (m_TestString != _T("OK"))
+			{
+				bRet = true;
+			}
+
+			Assert::IsTrue(bRet == true);
+		}
+
+		// Test parse function
+		TEST_METHOD(TestParseFunc1)
+		{
+			m_TestString = _T("452");
+
+			int iResult = String::Parse<int>(m_TestString);
+
+			Assert::IsTrue(iResult == 452);
+		}
 
 	private:
 		// Test String
