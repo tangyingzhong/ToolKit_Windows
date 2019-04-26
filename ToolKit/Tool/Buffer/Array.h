@@ -177,7 +177,7 @@ namespace System
 			// Clear the Array
 			Empty Clear()
 			{
-				Array<T>().Swap(*this);
+				Array<T>::Clear(this->Data(),0,this->Size());
 			}
 
 		public:
