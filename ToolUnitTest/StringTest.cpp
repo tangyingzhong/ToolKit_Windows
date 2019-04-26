@@ -662,6 +662,107 @@ namespace ToolUnitTest
 			Assert::IsTrue(iResult == 452);
 		}
 
+		// Test parse function
+		TEST_METHOD(TestParseFunc2)
+		{
+			m_TestString = _T("452.415");
+
+			float fResult = String::Parse<float>(m_TestString);
+
+			Assert::IsTrue(fResult >= 452.415f);
+		}
+
+		// Test parse function
+		TEST_METHOD(TestParseFunc3)
+		{
+			m_TestString = _T("452.415");
+
+			double dResult = String::Parse<double>(m_TestString);
+
+			Assert::IsTrue(dResult >= 452.415l);
+		}
+
+		// Test parse function
+		TEST_METHOD(TestParseFunc4)
+		{
+			m_TestString = _T("-90");
+
+			int iResult = String::Parse<int>(m_TestString);
+
+			Assert::IsTrue(iResult == -90);
+		}
+
+		// Test parse function
+		TEST_METHOD(TestParseFunc5)
+		{
+			m_TestString = _T("-90.67");
+
+			float fResult = String::Parse<float>(m_TestString);
+
+			Assert::IsTrue(fResult >= -90.67f);
+		}
+
+		// Test tostring function
+		TEST_METHOD(TestToString1)
+		{
+			int iTest = 999;
+
+			String strTest = String::ToString(iTest);
+
+			Assert::IsTrue(strTest == _T("999"));
+		}
+
+		// Test tostring function
+		TEST_METHOD(TestToString2)
+		{
+			int iTest = -999;
+
+			String strTest = String::ToString(iTest);
+
+			Assert::IsTrue(strTest == _T("-999"));
+		}
+
+		// Test tostring function
+		TEST_METHOD(TestToString3)
+		{
+			float iTest = -999.8888f;
+
+			String strTest = String::ToString(iTest);
+
+			Assert::IsTrue(strTest != _T("-999.8888"));
+		}
+
+		// Test tostring function
+		TEST_METHOD(TestToString4)
+		{
+			float iTest = 999.8888f;
+
+			String strTest = String::ToString(iTest);
+
+			Assert::IsTrue(strTest != _T("999.8888"));
+		}
+
+		// Test tostring function
+		TEST_METHOD(TestToString5)
+		{
+			double iTest = 999.8888l;
+
+			String strTest = String::ToString(iTest);
+
+			Assert::IsTrue(strTest != _T("999.8888"));
+		}
+
+		// Test tostring function
+		TEST_METHOD(TestToString6)
+		{
+			double iTest = -999.8888l;
+
+			String strTest = String::ToString(iTest);
+
+			Assert::IsTrue(strTest != _T("-999.8888"));
+		}
+
+
 	private:
 		// Test String
 		String m_TestString;

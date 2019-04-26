@@ -113,7 +113,7 @@ namespace System
 				return m_Length;
 			}
 
-			// Parse the string to number
+			// Parse the string to base type number
 			template <class BaseType>
 			static BaseType Parse(String NumberString, BaseType Data = 0)
 			{
