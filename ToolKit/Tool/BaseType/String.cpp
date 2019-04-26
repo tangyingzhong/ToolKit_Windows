@@ -456,18 +456,18 @@ System::WByteArray String::AllocWideString()
 	Array<SByte> AsciiArray((Int32)strAsciiString.length() + 1);
 
 	// Copy the Ascii string to the Ascii buffer
-	Array<SByte>::Copy((SByteArray)strAsciiString.c_str(), (Int32)strAsciiString.length(), AsciiArray, AsciiArray.Size());
+	Array<SByte>::Copy((SByteArray)strAsciiString.c_str(), (Int32)strAsciiString.length(), AsciiArray.Data(), AsciiArray.Size());
 
 	// Get the wide string from the ascii array
-	std::wstring strWideString = System::Encoding::Unicode::GetString(AsciiArray, 0, AsciiArray.Size(), EncodeType::E_ASCII);
+	std::wstring strWideString = System::Encoding::Unicode::GetString(AsciiArray.Data(), 0, AsciiArray.Size(), EncodeType::E_ASCII);
 
 	// Resize the wide array
 	this->m_WideArray.Resize((Length)strWideString.length());
 
 	// Fill the wide array
-	Array<WByte>::Copy((WByteArray)strWideString.data(), (Length)strWideString.length(), this->m_WideArray, this->m_WideArray.Size());
+	Array<WByte>::Copy((WByteArray)strWideString.data(), (Length)strWideString.length(), this->m_WideArray.Data(), this->m_WideArray.Size());
 
-	return this->m_WideArray;
+	return this->m_WideArray.Data();
 }
 
 

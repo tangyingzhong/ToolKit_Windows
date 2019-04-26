@@ -89,10 +89,20 @@ namespace System
 			}
 
 		public:
-			// Override the data type
-			operator Pointer()
+			// Get the array pointer
+			Pointer Data()
 			{
-				return this->Data();
+				assert(this->GetElementPointer() != NULL);
+				assert(this->GetArraySize() != 0);
+
+				if (this->GetElementPointer() == NULL || this->GetArraySize() == 0)
+				{
+					MessageBox(NULL, _T("There is no data in the array,this is an irlegal array"), _T("Error"), 0);
+
+					return NULL;
+				}
+
+				return this->GetElementPointer();
 			}
 
 			// Get the element by index
@@ -313,22 +323,6 @@ namespace System
 				}
 
 				return this->GetElementPointer()[iIndex];
-			}
-
-			// Get the array pointer
-			Pointer Data()
-			{
-				assert(this->GetElementPointer() != NULL);
-				assert(this->GetArraySize() != 0);
-
-				if (this->GetElementPointer() == NULL || this->GetArraySize() == 0)
-				{
-					MessageBox(NULL, _T("There is no data in the array,this is an irlegal array"), _T("Error"), 0);
-
-					return NULL;
-				}
-
-				return this->GetElementPointer();
 			}
 
 		private:

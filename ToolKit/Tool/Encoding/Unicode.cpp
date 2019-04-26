@@ -22,10 +22,10 @@ Unicode::WStdString Unicode::GetString(SCharArray Buffer, Index iPos, Length iCo
 	Array<SCharacter> MultibyteArray(iCount + 1);
 
 	// Copy the array
-	Array<SCharacter>::Copy(Buffer + iPos, iCount, MultibyteArray, MultibyteArray.Size());
+	Array<SCharacter>::Copy(Buffer+ iPos, iCount, MultibyteArray.Data(), MultibyteArray.Size());
 
 	//Set the string
-	StdString MultiString = MultibyteArray;
+	StdString MultiString = MultibyteArray.Data();
 
 	return GetString(MultiString, EncodingType);
 }
@@ -84,7 +84,7 @@ Unicode::WStdString Unicode::UTF8ToUnicode(StdString Utf8String)
 	Array<WCharacter> UnicodeArray(iWideLength + 1);
 	
 	// Convert the UTF8 bytes to the Unicode bytes  
-	int iUnicodeLength = ::MultiByteToWideChar(CP_UTF8, NULL, Utf8String.c_str(), iUtf8StrLength, UnicodeArray, iWideLength);
+	int iUnicodeLength = ::MultiByteToWideChar(CP_UTF8, NULL, Utf8String.c_str(), iUtf8StrLength, UnicodeArray.Data(), iWideLength);
 	assert(iUnicodeLength == iWideLength);
 	if (iUnicodeLength != iWideLength)
 	{
@@ -94,7 +94,7 @@ Unicode::WStdString Unicode::UTF8ToUnicode(StdString Utf8String)
 	UnicodeArray[iUnicodeLength] = '\0';
 
 	// Set the unicode string
-	WStdString UnicodeString = UnicodeArray;
+	WStdString UnicodeString = UnicodeArray.Data();
 
 	return UnicodeString;
 }
@@ -127,7 +127,7 @@ Unicode::WStdString Unicode::AsciiToUnicode(StdString AsciiString)
 	Array<WCharacter>::Clear(UnicodeArray, 0, UnicodeArray.Size());
 
 	// Convert the ascii bytes to the unicode bytes  
-	int iUnicodeLength = ::MultiByteToWideChar(CP_ACP, 0, AsciiString.c_str(), iAsciiLength, UnicodeArray, iWideLength);
+	int iUnicodeLength = ::MultiByteToWideChar(CP_ACP, 0, AsciiString.c_str(), iAsciiLength, UnicodeArray.Data(), iWideLength);
 	assert(iUnicodeLength == iWideLength);
 	if (iUnicodeLength != iWideLength)
 	{
@@ -137,7 +137,7 @@ Unicode::WStdString Unicode::AsciiToUnicode(StdString AsciiString)
 	UnicodeArray[iUnicodeLength] = '\0';
 
 	// Set the unicode string
-	WStdString UnicodeString = UnicodeArray;
+	WStdString UnicodeString = UnicodeArray.Data();
 
 	return UnicodeString;
 }

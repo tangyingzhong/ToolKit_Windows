@@ -23,10 +23,10 @@ UTF8::StdString UTF8::GetString(SCharArray AsciiBuffer, Index iPos, Length iCoun
 	Array<SCharacter> AsciiArray(iCount + 1);
 
 	// Copy source array to the new one
-	Array<SCharacter>::Copy(AsciiBuffer + iPos, iCount, AsciiArray, AsciiArray.Size());
+	Array<SCharacter>::Copy(AsciiBuffer + iPos, iCount, AsciiArray.Data(), AsciiArray.Size());
 
 	// Set the string
-	StdString AsciiString = AsciiArray;
+	StdString AsciiString = AsciiArray.Data();
 
 	return ASCIIToUTF8(AsciiString);
 }
@@ -49,10 +49,10 @@ UTF8::StdString UTF8::GetString(WCharArray UnicodeBuffer, Index iPos, Length iCo
 	Array<WCharacter> UnicodeArray(iCount + 1);
 
 	// Copy source array to the new one
-	Array<WCharacter>::Copy(UnicodeBuffer + iPos, iCount, UnicodeArray, UnicodeArray.Size());
+	Array<WCharacter>::Copy(UnicodeBuffer + iPos, iCount, UnicodeArray.Data(), UnicodeArray.Size());
 
 	// Set the string
-	WStdString UnicodeString = UnicodeArray;
+	WStdString UnicodeString = UnicodeArray.Data();
 
 	return UnicodeToUTF8(UnicodeString);
 }
@@ -117,7 +117,7 @@ UTF8::StdString UTF8::UnicodeToUTF8(WStdString UnicodeString)
 	Array<SCharacter>::Clear(MultiBytesArray, 0, MultiBytesArray.Size());
 
 	// Convert the Unicode bytes to the UTF8 bytes  
-	int iUtf8Length = WideCharToMultiByte(CP_UTF8, 0, UnicodeString.c_str(), iUnicodeStrLength, MultiBytesArray, iMultiLength, NULL, NULL);
+	int iUtf8Length = WideCharToMultiByte(CP_UTF8, 0, UnicodeString.c_str(), iUnicodeStrLength, MultiBytesArray.Data(), iMultiLength, NULL, NULL);
 	assert(iUtf8Length == iMultiLength);
 	if (iUtf8Length != iMultiLength)
 	{
@@ -127,7 +127,7 @@ UTF8::StdString UTF8::UnicodeToUTF8(WStdString UnicodeString)
 	MultiBytesArray[iUtf8Length] = '\0';
 
 	// Set the UTF8 string
-	StdString Utf8String = MultiBytesArray;
+	StdString Utf8String = MultiBytesArray.Data();
 
 	return Utf8String;
 }

@@ -190,11 +190,11 @@ AudioPlayer::AudioHeader AudioPlayer::GetHeadInfo(String strFileName)
 
 	Array<SByte> HeadArray(AudioEnum::AUDIO_HEAD_SIZE);
 
-	this->GetFile()->Read(HeadArray, 0, AudioEnum::AUDIO_HEAD_SIZE);
+	this->GetFile()->Read(HeadArray.Data(), 0, AudioEnum::AUDIO_HEAD_SIZE);
 
 	// Set the audio header
 	AudioHeader header;
-	SByteArray p = HeadArray;
+	SByteArray p = HeadArray.Data();
 
 	// It must be "RIFF"
 	header.head[0] = p[0];
@@ -341,10 +341,10 @@ AudioPlayer::Empty AudioPlayer::Play(String fileName)
 			this->GetBlockPlayer()->Continue();
 		}
 		// Read a piece of data
-		readSize = this->GetFile()->Read(readBlockArray, 0, runSize);
+		readSize = this->GetFile()->Read(readBlockArray.Data(), 0, runSize);
 
 		// Play the piece data
-		this->GetBlockPlayer()->Play(readBlockArray, readSize);
+		this->GetBlockPlayer()->Play(readBlockArray.Data(), readSize);
 
 		// Update the left size of file
 		incrementSize = incrementSize + readSize;

@@ -583,7 +583,7 @@ USB::BOOL USB::Configure(Target eTarget,
 	Array<Byte> Buffer(iBufferSize);
 
 	// Fill the buffer's head
-	ByteArray pBuffer = Buffer;
+	ByteArray pBuffer = Buffer.Data();
 	PHeadPackage pSingleTransfer = (PHeadPackage)pBuffer;
 	pSingleTransfer->SetupPacket.bmReqType.Recipient = eTarget;
 	pSingleTransfer->SetupPacket.bmReqType.Type = eReqType;
@@ -603,9 +603,9 @@ USB::BOOL USB::Configure(Target eTarget,
 	UInt64 dwBytes = 0;
 	if (DeviceIoControl(this->GetUsbHandle(),
 		UsbCommand::SENDRECEIVE_EP0,
-		Buffer,
+		Buffer.Data(),
 		iBufferSize,
-		Buffer,
+		Buffer.Data(),
 		iBufferSize,
 		&dwBytes,
 		NULL) == TRUE)
@@ -653,13 +653,13 @@ USB::Size USB::Read(ByteArray pReadArray, Offset iOffset, ArraySize iReadSize)
 	Array<Byte> PacketBuffer(iPackageSize);
 
 	// Setup the package head
-	PHeadPackage head = SetupHeadPackage(PacketBuffer, EndPoint::USB_INPOINT, 0, sizeof(HeadPackage), iReadSize);
+	PHeadPackage head = SetupHeadPackage(PacketBuffer.Data(), EndPoint::USB_INPOINT, 0, sizeof(HeadPackage), iReadSize);
 
 	// Set the package with transferring array
-	SetupTransPackage(PacketBuffer, head, pReadArray, iReadSize);
+	SetupTransPackage(PacketBuffer.Data(), head, pReadArray, iReadSize);
 
 	// Read data from the usb through read in endpoint
-	dwReadSize = _ReadWriteEndPoint(UsbCommand::SENDRECEIVE_NONE_ENP0, PacketBuffer, PacketBuffer.Size());
+	dwReadSize = _ReadWriteEndPoint(UsbCommand::SENDRECEIVE_NONE_ENP0, PacketBuffer.Data(), PacketBuffer.Size());
 	if (dwReadSize == 0)
 	{
 		return dwReadSize;
@@ -669,7 +669,7 @@ USB::Size USB::Read(ByteArray pReadArray, Offset iOffset, ArraySize iReadSize)
 	dwReadSize = dwReadSize - sizeof(HeadPackage);
 
 	// Copy the return data to the outside
-	Array<Byte>::Copy(PacketBuffer + sizeof(HeadPackage), dwReadSize, pReadArray + iOffset, dwReadSize);
+	Array<Byte>::Copy(PacketBuffer.Data() + sizeof(HeadPackage), dwReadSize, pReadArray + iOffset, dwReadSize);
 
 	return dwReadSize;
 }
@@ -711,13 +711,13 @@ USB::Size USB::Write(ByteArray pWriteArray, Offset iOffset, ArraySize iWriteSize
 	Array<Byte> PacketBuffer(iPackageSize);
 
 	// Setup the package head
-	PHeadPackage PacketHead = SetupHeadPackage(PacketBuffer, EndPoint::USB_OUTPOINT, 0, sizeof(HeadPackage), iWriteSize);
+	PHeadPackage PacketHead = SetupHeadPackage(PacketBuffer.Data(), EndPoint::USB_OUTPOINT, 0, sizeof(HeadPackage), iWriteSize);
 
 	// Set the package with transferring array
-	SetupTransPackage(PacketBuffer, PacketHead, pWriteArray, iWriteSize);
+	SetupTransPackage(PacketBuffer.Data(), PacketHead, pWriteArray, iWriteSize);
 
 	// Write data to the usb through out endpoint
-	dwWriteSize = _ReadWriteEndPoint(UsbCommand::SENDRECEIVE_NONE_ENP0, PacketBuffer, PacketBuffer.Size());
+	dwWriteSize = _ReadWriteEndPoint(UsbCommand::SENDRECEIVE_NONE_ENP0, PacketBuffer.Data(), PacketBuffer.Size());
 
 	return dwWriteSize;
 }
