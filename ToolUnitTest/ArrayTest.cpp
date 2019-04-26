@@ -146,7 +146,7 @@ namespace ToolUnitTest
 			Assert::IsTrue(iValue == 2);
 		}
 
-		// Test + function
+		// Test *(p+1) function
 		TEST_METHOD(TestAddFunc2)
 		{
 			Array<Int> TestArray(5);
@@ -159,6 +159,33 @@ namespace ToolUnitTest
 			Int iData = *(TestArray + 2);
 
 			Assert::IsTrue(iData == 2);
+		}
+
+		// Test Clear function
+		TEST_METHOD(TestClearFunc1)
+		{
+			Array<Int> TestArray(5);
+
+			for (Int index = 0; index < TestArray.Size(); index++)
+			{
+				TestArray[index] = index;
+			}
+
+			for (Int index = 0; index < TestArray.Size(); index++)
+			{
+				Int iValue0 = TestArray[index];
+
+				Assert::IsTrue(iValue0 == index);
+			}
+
+			TestArray.Clear();
+
+			for (Int index = 0; index < TestArray.Size(); index++)
+			{
+				Int iValue = TestArray[index];
+
+				Assert::IsTrue(iValue == 0);
+			}
 		}
 
 	};

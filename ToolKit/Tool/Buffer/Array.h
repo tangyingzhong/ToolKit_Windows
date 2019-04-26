@@ -177,7 +177,7 @@ namespace System
 			// Clear the Array
 			Empty Clear()
 			{
-				Array<T>().Swap(this);
+				Array<T>().Swap(*this);
 			}
 
 		public:
