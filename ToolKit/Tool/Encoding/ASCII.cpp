@@ -25,10 +25,7 @@ ASCII::StdString ASCII::GetString(WCharArray UnicodeBuffer, Index iPos, Length i
 	// Copy source array to the new one
 	Array<WCharacter>::Copy(UnicodeBuffer + iPos, iCount, UnicodeArray.Data(), UnicodeArray.Size());
 
-	// Set the string
-	WStdString UnicodeString = UnicodeArray.Data();
-
-	return UnicodeToASCII(UnicodeString);
+	return UnicodeToASCII(UnicodeArray.Data());
 }
 
 
@@ -51,10 +48,7 @@ ASCII::StdString ASCII::GetString(SCharArray UTF8Buffer, Index iPos, Length iCou
 	// Copy the array
 	Array<SCharacter>::Copy(UTF8Buffer + iPos, iCount, Utf8Array.Data(), Utf8Array.Size());
 
-	// Set the string
-	StdString UTF8String = Utf8Array.Data();
-
-	return UTF8ToASCII(UTF8String);
+	return UTF8ToASCII(Utf8Array.Data());
 }
 
 
@@ -118,26 +112,30 @@ ASCII::StdString ASCII::UTF8ToASCII(StdString UTF8String)
 ///***********************************************************************
 ASCII::StdString ASCII::UnicodeToASCII(WStdString UnicodeString)
 {
-	// Get the Unicode string length
-	int iUnicodeLength = (int)UnicodeString.length() + 1;
+	// Get the Unicode string real length
+	const int END_CHAR_COUNT = 1;
+	int iUnicodeLength = (int)UnicodeString.length() + END_CHAR_COUNT;
 
 	// Get the multibytes size
 	int iMultiByteLength = ::WideCharToMultiByte(CP_ACP, 0, UnicodeString.c_str(), iUnicodeLength, NULL, 0, NULL, NULL);
 	assert(iMultiByteLength > 0);
+	if (iMultiByteLength <= 0)
+	{
+		return "";
+	}
 
-	// Create an ASCII buffer 
-	Array<SCharacter> ASCIIArray(iMultiByteLength + 1);
-	//Clear the buffer
-	Array<SCharacter>::Clear(ASCIIArray, 0, ASCIIArray.Size());
-
+	// Create an ASCII Array 
+	Array<SCharacter> ASCIIArray(iMultiByteLength + END_CHAR_COUNT);
+	
 	// Convert unicode to multibytes
-	int iAsciiLength = ::WideCharToMultiByte(CP_ACP, 0, UnicodeString.c_str(), iUnicodeLength, ASCIIArray.Data(), iMultiByteLength, NULL, NULL);
+	int iAsciiLength = ::WideCharToMultiByte(CP_ACP, 0, UnicodeString.c_str(), iUnicodeLength, ASCIIArray.Data(), ASCIIArray.Size(), NULL, NULL);
 	assert(iAsciiLength == iMultiByteLength);
+	if (iAsciiLength != iMultiByteLength)
+	{
+		return "";
+	}
 
 	ASCIIArray[iAsciiLength] = '\0';
 
-	// Set the ascii string
-	StdString AsciiString = ASCIIArray.Data();
-
-	return AsciiString;
+	return ASCIIArray.Data();
 }

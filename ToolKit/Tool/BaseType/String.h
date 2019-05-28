@@ -115,7 +115,7 @@ namespace System
 
 			// Parse the string to base type number
 			template <class BaseType>
-			static BaseType Parse(String NumberString, BaseType Data = 0)
+			static BaseType Parse(String NumberString)
 			{
 				// Streaming the string
 				StringStream Streamer;

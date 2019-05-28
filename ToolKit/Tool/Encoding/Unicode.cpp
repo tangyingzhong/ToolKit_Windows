@@ -24,10 +24,7 @@ Unicode::WStdString Unicode::GetString(SCharArray Buffer, Index iPos, Length iCo
 	// Copy the array
 	Array<SCharacter>::Copy(Buffer+ iPos, iCount, MultibyteArray.Data(), MultibyteArray.Size());
 
-	//Set the string
-	StdString MultiString = MultibyteArray.Data();
-
-	return GetString(MultiString, EncodingType);
+	return GetString(MultibyteArray.Data(), EncodingType);
 }
 
 
@@ -72,7 +69,9 @@ Unicode::WStdString Unicode::GetString(StdString MultiString, EncodeType Encodin
 Unicode::WStdString Unicode::UTF8ToUnicode(StdString Utf8String)
 {
 	// Get the utf8 string length 
-	int iUtf8StrLength = (int)Utf8String.length() + 1;
+	const int END_CHAR_COUNT = 1;
+	int iUtf8StrLength = (int)Utf8String.length() + END_CHAR_COUNT;
+
 	int iWideLength = ::MultiByteToWideChar(CP_UTF8, NULL, Utf8String.c_str(), iUtf8StrLength, NULL, 0);
 	assert(iWideLength > 0);
 	if (iWideLength <= 0)
@@ -84,19 +83,16 @@ Unicode::WStdString Unicode::UTF8ToUnicode(StdString Utf8String)
 	Array<WCharacter> UnicodeArray(iWideLength + 1);
 	
 	// Convert the UTF8 bytes to the Unicode bytes  
-	int iUnicodeLength = ::MultiByteToWideChar(CP_UTF8, NULL, Utf8String.c_str(), iUtf8StrLength, UnicodeArray.Data(), iWideLength);
+	int iUnicodeLength = ::MultiByteToWideChar(CP_UTF8, NULL, Utf8String.c_str(), iUtf8StrLength, UnicodeArray.Data(), UnicodeArray.Size());
 	assert(iUnicodeLength == iWideLength);
 	if (iUnicodeLength != iWideLength)
 	{
 		return L"";
 	}
 
-	UnicodeArray[iUnicodeLength] = '\0';
+	UnicodeArray[iUnicodeLength] = L'\0';
 
-	// Set the unicode string
-	WStdString UnicodeString = UnicodeArray.Data();
-
-	return UnicodeString;
+	return UnicodeArray.Data();
 }
 
 
@@ -113,7 +109,9 @@ Unicode::WStdString Unicode::UTF8ToUnicode(StdString Utf8String)
 Unicode::WStdString Unicode::AsciiToUnicode(StdString AsciiString)
 {
 	// Get the ascii string length
-	int iAsciiLength = (int)AsciiString.length() + 1;
+	const int END_CHAR_COUNT = 1;
+	int iAsciiLength = (int)AsciiString.length() + END_CHAR_COUNT;
+
 	int iWideLength = MultiByteToWideChar(CP_ACP, 0, AsciiString.c_str(), iAsciiLength, NULL, 0);
 	assert(iWideLength > 0);
 	if (iWideLength <= 0)
@@ -122,22 +120,17 @@ Unicode::WStdString Unicode::AsciiToUnicode(StdString AsciiString)
 	}
 
 	// Create a unicode buffer    
-	Array<WCharacter> UnicodeArray(iWideLength + 1);
-	// Clear the array
-	Array<WCharacter>::Clear(UnicodeArray, 0, UnicodeArray.Size());
-
+	Array<WCharacter> UnicodeArray(iWideLength + END_CHAR_COUNT);
+	
 	// Convert the ascii bytes to the unicode bytes  
-	int iUnicodeLength = ::MultiByteToWideChar(CP_ACP, 0, AsciiString.c_str(), iAsciiLength, UnicodeArray.Data(), iWideLength);
+	int iUnicodeLength = ::MultiByteToWideChar(CP_ACP, 0, AsciiString.c_str(), iAsciiLength, UnicodeArray.Data(), UnicodeArray.Size());
 	assert(iUnicodeLength == iWideLength);
 	if (iUnicodeLength != iWideLength)
 	{
 		return L"";
 	}
 
-	UnicodeArray[iUnicodeLength] = '\0';
+	UnicodeArray[iUnicodeLength] = L'\0';
 
-	// Set the unicode string
-	WStdString UnicodeString = UnicodeArray.Data();
-
-	return UnicodeString;
+	return UnicodeArray.Data();
 }
