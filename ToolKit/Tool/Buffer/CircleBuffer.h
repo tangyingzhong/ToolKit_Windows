@@ -38,8 +38,7 @@ namespace System
 			typedef System::Byte Byte;
 			typedef System::ByteArray ByteArray;
 			typedef System::UInt32 Length;
-			typedef Length Offset;
-			typedef Offset Index;
+			typedef System::UInt32 Index;
 			typedef T ValueType;
 			typedef ValueType* Pointer;
 			typedef ValueType& Reference;
@@ -187,12 +186,6 @@ namespace System
 				this->m_CircleBuffer.Clear();
 			}
 
-			// Get the write pos of buffer 
-			inline Offset GetWritePos() const
-			{
-				return this->m_WritePos;
-			}
-
 		private:
 			// Initialize the CircleBuffer
 			Empty Initialize(Length iBufferSize)
@@ -264,8 +257,14 @@ namespace System
 			}
 
 		private:
+			// Get the write pos of buffer 
+			inline Index GetWritePos() const
+			{
+				return this->m_WritePos;
+			}
+
 			// Set the write position
-			inline Empty SetWritePos(Offset iWritePos)
+			inline Empty SetWritePos(Index iWritePos)
 			{
 				this->m_WritePos = iWritePos;
 			}
