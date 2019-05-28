@@ -113,11 +113,11 @@ ASCII::StdString ASCII::UTF8ToASCII(StdString UTF8String)
 ASCII::StdString ASCII::UnicodeToASCII(WStdString UnicodeString)
 {
 	// Get the Unicode string real length
-	const int END_CHAR_COUNT = 1;
-	int iUnicodeLength = (int)UnicodeString.length() + END_CHAR_COUNT;
+	const Length END_CHAR_COUNT = 1;
+	Length iUnicodeLength = (Length)UnicodeString.length() + END_CHAR_COUNT;
 
 	// Get the multibytes size
-	int iMultiByteLength = ::WideCharToMultiByte(CP_ACP, 0, UnicodeString.c_str(), iUnicodeLength, NULL, 0, NULL, NULL);
+	Length iMultiByteLength = ::WideCharToMultiByte(CP_ACP, 0, UnicodeString.c_str(), iUnicodeLength, NULL, 0, NULL, NULL);
 	assert(iMultiByteLength > 0);
 	if (iMultiByteLength <= 0)
 	{
@@ -128,7 +128,7 @@ ASCII::StdString ASCII::UnicodeToASCII(WStdString UnicodeString)
 	Array<SCharacter> ASCIIArray(iMultiByteLength + END_CHAR_COUNT);
 	
 	// Convert unicode to multibytes
-	int iAsciiLength = ::WideCharToMultiByte(CP_ACP, 0, UnicodeString.c_str(), iUnicodeLength, ASCIIArray.Data(), ASCIIArray.Size(), NULL, NULL);
+	Length iAsciiLength = ::WideCharToMultiByte(CP_ACP, 0, UnicodeString.c_str(), iUnicodeLength, ASCIIArray.Data(), ASCIIArray.Size(), NULL, NULL);
 	assert(iAsciiLength == iMultiByteLength);
 	if (iAsciiLength != iMultiByteLength)
 	{

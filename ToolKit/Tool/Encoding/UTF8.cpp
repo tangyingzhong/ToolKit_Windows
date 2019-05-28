@@ -97,10 +97,10 @@ UTF8::StdString UTF8::GetString(WStdString UnicodeString)
 UTF8::StdString UTF8::UnicodeToUTF8(WStdString UnicodeString)
 {
 	// Get the unicode string length
-	const int END_CHAR_COUNT = 1;
-	int iUnicodeStrLength =(int)UnicodeString.length() + END_CHAR_COUNT;
+	const Length END_CHAR_COUNT = 1;
+	Length iUnicodeStrLength =(Length)UnicodeString.length() + END_CHAR_COUNT;
 
-	int iMultiLength = WideCharToMultiByte(CP_UTF8, 0, UnicodeString.c_str(), iUnicodeStrLength, NULL, 0, NULL, NULL);
+	Length iMultiLength = WideCharToMultiByte(CP_UTF8, 0, UnicodeString.c_str(), iUnicodeStrLength, NULL, 0, NULL, NULL);
 	assert(iMultiLength > 0);
 	if (iMultiLength <= 0)
 	{
@@ -111,7 +111,7 @@ UTF8::StdString UTF8::UnicodeToUTF8(WStdString UnicodeString)
 	Array<SCharacter> MultiBytesArray(iMultiLength + END_CHAR_COUNT);
 	
 	// Convert the Unicode bytes to the UTF8 bytes  
-	int iUtf8Length = WideCharToMultiByte(CP_UTF8, 0, UnicodeString.c_str(), iUnicodeStrLength, MultiBytesArray.Data(), MultiBytesArray.Size(), NULL, NULL);
+	Length iUtf8Length = WideCharToMultiByte(CP_UTF8, 0, UnicodeString.c_str(), iUnicodeStrLength, MultiBytesArray.Data(), MultiBytesArray.Size(), NULL, NULL);
 	assert(iUtf8Length == iMultiLength);
 	if (iUtf8Length != iMultiLength)
 	{

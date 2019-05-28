@@ -126,7 +126,7 @@ String::Empty String::Initialize(StdString OtherStdString)
 	this->SetStdString(OtherStdString);
 
 	// Set length of the String
-	this->SetLength((Length)this->GetStdString().length());
+	this->SetLength((Length)(this->GetStdString().length()));
 }
 
 
@@ -162,10 +162,10 @@ String::Empty String::Destroy()
 String& String::Append(StdString& OtherStdString)
 {
 	// Set the std String
-	this->SetStdString(this->GetStdString().append(OtherStdString));
+	this->GetStdString().append(OtherStdString);
 
 	// Set the length
-	this->SetLength((Length)this->GetStdString().length());
+	this->SetLength((Length)(this->GetStdString().length()));
 
 	return *this;
 }
@@ -222,14 +222,7 @@ String& String::operator+(String OtherString)
 ///***********************************************************************
 String::BOOL String::operator==(String OtherString)
 {
-	BOOL bEqual = false;
-
-	if (this->GetStdString() == OtherString.GetStdString())
-	{
-		bEqual = true;
-	}
-
-	return bEqual;
+	return this->Equal(OtherString);
 }
 
 
@@ -245,14 +238,7 @@ String::BOOL String::operator==(String OtherString)
 ///***********************************************************************
 String::BOOL String::operator!=(String OtherString)
 {
-	BOOL bEqual = false;
-
-	if (this->GetStdString() != OtherString.GetStdString())
-	{
-		bEqual = true;
-	}
-
-	return bEqual;
+	return this->Equal(OtherString);
 }
 
 
@@ -272,14 +258,16 @@ String::BOOL String::Split(String strSeperator, StringTable& vStringTable)
 
 	// Set the current character's position
 	Index iCurrentIndex = this->Find(strSeperator, 0);
-	if (iCurrentIndex == -1)
+	const Int32 FIND_FAIL = -1;
+	if (iCurrentIndex == FIND_FAIL)
 	{
 		return bSuccess;
 	}
 
-	// Loop to vector
+	// Loop the vector
 	Index iStartIndex = 0;
-	while (StdString::npos != iCurrentIndex)
+	const Int32 STOP_POSITION = -1;
+	while (STOP_POSITION != iCurrentIndex)
 	{
 		// Get the splited string
 		String strSplitedString = this->SubString(iStartIndex, iCurrentIndex - iStartIndex);
@@ -452,8 +440,10 @@ System::WByteArray String::AllocWideString()
 	// Get the ASCII string at first
 	std::string strAsciiString = System::Encoding::ASCII::GetString(this->GetStdString());
 
-	// Create an ascii array 
-	Array<SByte> AsciiArray((Int32)strAsciiString.length() + 1);
+	// Create an ASCII array 
+	const Int32 END_CHAR_COUNT = 1;
+	Int32 iAsciiLen = (Int32)strAsciiString.length() + END_CHAR_COUNT;
+	Array<SByte> AsciiArray(iAsciiLen);
 
 	// Copy the Ascii string to the Ascii buffer
 	Array<SByte>::Copy((SByteArray)strAsciiString.c_str(), (Int32)strAsciiString.length(), AsciiArray.Data(), AsciiArray.Size());

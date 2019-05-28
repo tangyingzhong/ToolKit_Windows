@@ -69,10 +69,10 @@ Unicode::WStdString Unicode::GetString(StdString MultiString, EncodeType Encodin
 Unicode::WStdString Unicode::UTF8ToUnicode(StdString Utf8String)
 {
 	// Get the utf8 string length 
-	const int END_CHAR_COUNT = 1;
-	int iUtf8StrLength = (int)Utf8String.length() + END_CHAR_COUNT;
+	const Length END_CHAR_COUNT = 1;
+	Length iUtf8StrLength = (Length)Utf8String.length() + END_CHAR_COUNT;
 
-	int iWideLength = ::MultiByteToWideChar(CP_UTF8, NULL, Utf8String.c_str(), iUtf8StrLength, NULL, 0);
+	Length iWideLength = ::MultiByteToWideChar(CP_UTF8, NULL, Utf8String.c_str(), iUtf8StrLength, NULL, 0);
 	assert(iWideLength > 0);
 	if (iWideLength <= 0)
 	{
@@ -83,7 +83,7 @@ Unicode::WStdString Unicode::UTF8ToUnicode(StdString Utf8String)
 	Array<WCharacter> UnicodeArray(iWideLength + 1);
 	
 	// Convert the UTF8 bytes to the Unicode bytes  
-	int iUnicodeLength = ::MultiByteToWideChar(CP_UTF8, NULL, Utf8String.c_str(), iUtf8StrLength, UnicodeArray.Data(), UnicodeArray.Size());
+	Length iUnicodeLength = ::MultiByteToWideChar(CP_UTF8, NULL, Utf8String.c_str(), iUtf8StrLength, UnicodeArray.Data(), UnicodeArray.Size());
 	assert(iUnicodeLength == iWideLength);
 	if (iUnicodeLength != iWideLength)
 	{
@@ -109,10 +109,10 @@ Unicode::WStdString Unicode::UTF8ToUnicode(StdString Utf8String)
 Unicode::WStdString Unicode::AsciiToUnicode(StdString AsciiString)
 {
 	// Get the ascii string length
-	const int END_CHAR_COUNT = 1;
-	int iAsciiLength = (int)AsciiString.length() + END_CHAR_COUNT;
+	const Length END_CHAR_COUNT = 1;
+	Length iAsciiLength = (Length)AsciiString.length() + END_CHAR_COUNT;
 
-	int iWideLength = MultiByteToWideChar(CP_ACP, 0, AsciiString.c_str(), iAsciiLength, NULL, 0);
+	Length iWideLength = MultiByteToWideChar(CP_ACP, 0, AsciiString.c_str(), iAsciiLength, NULL, 0);
 	assert(iWideLength > 0);
 	if (iWideLength <= 0)
 	{
@@ -123,7 +123,7 @@ Unicode::WStdString Unicode::AsciiToUnicode(StdString AsciiString)
 	Array<WCharacter> UnicodeArray(iWideLength + END_CHAR_COUNT);
 	
 	// Convert the ascii bytes to the unicode bytes  
-	int iUnicodeLength = ::MultiByteToWideChar(CP_ACP, 0, AsciiString.c_str(), iAsciiLength, UnicodeArray.Data(), UnicodeArray.Size());
+	Length iUnicodeLength = ::MultiByteToWideChar(CP_ACP, 0, AsciiString.c_str(), iAsciiLength, UnicodeArray.Data(), UnicodeArray.Size());
 	assert(iUnicodeLength == iWideLength);
 	if (iUnicodeLength != iWideLength)
 	{
