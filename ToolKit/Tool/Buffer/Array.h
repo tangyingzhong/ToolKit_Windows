@@ -44,7 +44,7 @@ namespace System
 
 		public:
 			// Construct the Array with size
-			Array(ArraySize iArraySize = 0) :m_ArraySize(iArraySize), m_Pos(0), m_Disposed(false)
+			Array(ArraySize iArraySize = 0) :m_ArraySize(iArraySize), m_ElementPosition(0), m_Disposed(false)
 			{
 				Initialize();
 			}
@@ -58,14 +58,13 @@ namespace System
 			// Allow the object's copy behavior
 			Array(const Array<T>& other)
 			{
-				this->DestoryBuffer();
 				this->SetArraySize(other.GetArraySize());
-				this->SetPos(other.GetPos());
+				this->SetElementPos(other.GetElementPos());
 				this->SetDisposed(other.GetDisposed());
 				this->CreateBuffer(this->GetArraySize());
 				if (this->GetElementPointer())
 				{
-					Array::Copy(other.GetElementPointer(), 0, this->GetElementPointer(), 0, this->GetArraySize());
+					Array::Copy(other.GetElementPointer(), other.GetArraySize(), this->GetElementPointer(), this->GetArraySize());
 				}
 			}
 
@@ -76,7 +75,7 @@ namespace System
 				{
 					this->DestoryBuffer();
 					this->SetArraySize(other.GetArraySize());
-					this->SetPos(other.GetPos());
+					this->SetElementPos(other.GetElementPos());
 					this->SetDisposed(other.GetDisposed());
 					this->CreateBuffer(this->GetArraySize());
 					if (this->GetElementPointer())
@@ -89,19 +88,9 @@ namespace System
 			}
 
 		public:
-			// Get the array pointer
+			// Get the array's data pointer
 			Pointer Data()
-			{
-				assert(this->GetElementPointer() != NULL);
-				assert(this->GetArraySize() != 0);
-
-				if (this->GetElementPointer() == NULL || this->GetArraySize() == 0)
-				{
-					MessageBox(NULL, _T("There is no data in the array,this is an irlegal array"), _T("Error"), 0);
-
-					return NULL;
-				}
-
+			{				
 				return this->GetElementPointer();
 			}
 
@@ -117,9 +106,9 @@ namespace System
 				assert(iNewSize > 0);
 				assert(iNewSize != this->GetArraySize());
 
-				if (iNewSize < 0 || iNewSize == this->GetArraySize())
+				if (iNewSize <= 0 || iNewSize == this->GetArraySize())
 				{
-					MessageBox(NULL, _T("Irlegal new size,please input a new size not equal to the current one or 0"), _T("Error"), 0);
+					MessageBox(NULL, _T("Irlegal new size,please input a new size not equal to the current one or 0"), _T("Array Error"), 0);
 
 					return;
 				}
@@ -131,7 +120,7 @@ namespace System
 				this->SetArraySize(iNewSize);
 
 				// Update the buffer pos
-				this->SetPos(0);
+				this->SetElementPos(0);
 			}
 
 			// Make the array can be used as *(p+1)
@@ -142,12 +131,12 @@ namespace System
 
 				if (iIndex < 0 || iIndex >= this->GetArraySize())
 				{
-					MessageBox(NULL, _T("Irlegal input index,you must input a correct index in array's size range."), _T("Error"), 0);
+					MessageBox(NULL, _T("Irlegal input index,you must input a correct index in array's size range."), _T("Array Error"), 0);
 
 					return *this;
 				}
 
-				this->SetPos(iIndex);
+				this->SetElementPos(iIndex);
 
 				return *this;
 			}
@@ -155,10 +144,10 @@ namespace System
 			// Get the value of current pos
 			Reference operator*()
 			{
-				return At(this->GetPos());
+				return At(this->GetElementPos());
 			}
 
-			// Swap two array
+			// Swap two arrays
 			Empty Swap(Array<T>& other)
 			{
 				Array<T> tempArray;
@@ -196,6 +185,8 @@ namespace System
 
 				if (pSourceArray == NULL || pDestArray == NULL || iDestSize < iSourceSize)
 				{
+					MessageBox(NULL, _T("Input or Dest array pointer is null or dest size < source size"), _T("Array error"), 0);
+
 					return;
 				}
 
@@ -209,12 +200,14 @@ namespace System
 				assert(iStartIndex >= 0);
 				assert(iCount >= 0);
 
-				if (iStartIndex < 0 || iCount <= 0 || pArray == NULL)
+				if (iStartIndex < 0 || iCount < 0 || pArray == NULL)
 				{
+					MessageBox(NULL, _T("Input or Dest array pointer is null or clear count <0"), _T("Array error"), 0);
+
 					return;
 				}
 
-				memset(pArray + iStartIndex, 0, sizeof(ValueType)*(iCount));
+				memset(pArray + iStartIndex, 0, sizeof(ValueType)*iCount);
 			}
 
 			// Clear the array. Notice: you must input legal start position and count of element
@@ -224,8 +217,10 @@ namespace System
 				assert(iStartIndex >= 0);
 				assert(iCount >= 0);
 
-				if (iStartIndex < 0 || iCount <= 0 || Arr.Data() == NULL)
+				if (iStartIndex < 0 || iCount < 0 || Arr.Data() == NULL)
 				{
+					MessageBox(NULL, _T("Input or Dest array pointer is null or clear count <0"), _T("Array error"), 0);
+
 					return;
 				}
 
@@ -247,7 +242,7 @@ namespace System
 				{
 					this->SetDisposed(true);
 
-					//Destory the buffer
+					// Destory the buffer
 					DestoryBuffer();
 				}
 			}
@@ -264,6 +259,13 @@ namespace System
 
 				this->SetElementPointer(new ValueType[iArraySize]);
 
+				if (this->GetElementPointer() == NULL)
+				{
+					MessageBox(NULL, _T("Failed to create buffer in the array!"), _T("Array Error"), 0);
+
+					return;
+				} 
+			
 				assert(this->GetElementPointer() != NULL);
 
 				Array<ValueType>::Clear(this->GetElementPointer(), 0, iArraySize);
@@ -317,9 +319,9 @@ namespace System
 
 				if (iIndex < 0 || iIndex >= this->GetArraySize() || this->GetElementPointer() == NULL)
 				{
-					MessageBox(NULL, _T("Irlegal input index,you must input a correct index in array's size range."), _T("Error"), 0);
+					MessageBox(NULL, _T("Irlegal input index,you must input a correct index in array's size range."), _T("Array Error"), 0);
 
-					return this->m_EmptyValue;
+					return this->m_EmptyElement;
 				}
 
 				return this->GetElementPointer()[iIndex];
@@ -351,15 +353,15 @@ namespace System
 			}
 
 			// Get the element's position
-			inline Offset GetPos() const
+			inline Offset GetElementPos() const
 			{
-				return m_Pos;
+				return m_ElementPosition;
 			}
 
 			// Set the element's position
-			inline Empty SetPos(Offset m_Pos)
+			inline Empty SetElementPos(Offset iElementPosition)
 			{
-				this->m_Pos = m_Pos;
+				this->m_ElementPosition = iElementPosition;
 			}
 
 			//Get the Disposed status
@@ -382,10 +384,10 @@ namespace System
 			ArraySize m_ArraySize;
 
 			// Position of the pointer
-			Offset m_Pos;
+			Offset m_ElementPosition;
 
-			// Error value data
-			ValueType m_EmptyValue;
+			// Empty value data
+			ValueType m_EmptyElement;
 
 			// Disposed status 
 			BOOL m_Disposed;
@@ -393,4 +395,4 @@ namespace System
 	}
 }
 
-#endif //ARRAY_H_
+#endif //ARRAY_H
