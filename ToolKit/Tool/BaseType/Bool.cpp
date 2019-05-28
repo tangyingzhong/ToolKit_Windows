@@ -100,6 +100,29 @@ Bool Bool::operator!()
 	return (!this->GetValue());
 }
 
+ 
+///************************************************************************
+/// <summary>
+/// Equal to another one
+/// </summary>
+/// <param name=bValue>the other bool</param>
+/// <returns>bool</returns>
+/// <remarks>
+/// none
+/// </remarks>
+///***********************************************************************
+Bool Bool::Equal(Bool bValue)
+{
+	bool bEqual = false;
+
+	if (this->GetValue() == bValue.GetValue())
+	{
+		bEqual = true;
+	}
+
+	return bEqual;
+}
+
 
 ///************************************************************************
 /// <summary>
@@ -113,14 +136,7 @@ Bool Bool::operator!()
 ///***********************************************************************
 Bool Bool::operator==(const Bool& Another)
 {
-	System::Boolean bEqual = false;
-
-	if (this->GetValue() == Another.GetValue())
-	{
-		bEqual = true;
-	}
-
-	return bEqual;
+	return this->Equal(Another);
 }
 
 
@@ -136,14 +152,7 @@ Bool Bool::operator==(const Bool& Another)
 ///***********************************************************************
 Bool Bool::operator==(const bool bValue)
 {
-	System::Boolean bEqual = false;
-
-	if (this->GetValue() == bValue)
-	{
-		bEqual = true;
-	}
-
-	return bEqual;
+	return this->Equal(bValue);
 }
 
 
@@ -159,14 +168,7 @@ Bool Bool::operator==(const bool bValue)
 ///***********************************************************************
 Bool Bool::operator!=(const Bool& Another)
 {
-	System::Boolean bEqual = false;
-
-	if (this->GetValue() != Another.GetValue())
-	{
-		bEqual = true;
-	}
-
-	return bEqual;
+	return this->Equal(Another);
 }
 
 
@@ -182,14 +184,7 @@ Bool Bool::operator!=(const Bool& Another)
 ///***********************************************************************
 Bool Bool::operator!=(const bool bValue)
 {
-	System::Boolean bEqual = false;
-
-	if (this->GetValue() != bValue)
-	{
-		bEqual = true;
-	}
-
-	return bEqual;
+	return this->Equal(bValue);
 }
 
 
@@ -220,7 +215,7 @@ Bool::operator bool() const
 ///***********************************************************************
 Bool Bool::Parse(String& BoolString)
 {
-	System::Boolean bResult = false;
+	bool bResult = false;
 
 	if (BoolString == _T("true") || BoolString == _T("True") || BoolString == _T("TRUE"))
 	{
@@ -232,7 +227,7 @@ Bool Bool::Parse(String& BoolString)
 	}
 	else
 	{
-		MessageBox(NULL, _T("You should input the correct bool string like: true,True,TRUE or false,False,FALSE"), _T("ErrorTips"), 0);
+		MessageBox(NULL, _T("You should input the correct bool string like: true,True,TRUE or false,False,FALSE"), _T("Bool Error"), 0);
 	}
 
 	return bResult;

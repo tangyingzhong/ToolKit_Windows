@@ -71,6 +71,10 @@ namespace System
 			String ToString();
 
 		private:
+			// Equal to another one
+			Bool Equal(Bool bValue);
+
+		private:
 			// Get the bool value
 			inline bool GetValue() const
 			{

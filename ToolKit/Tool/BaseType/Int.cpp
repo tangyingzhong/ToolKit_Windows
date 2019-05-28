@@ -259,6 +259,8 @@ Int Int::operator/(Int& Another)
 {
 	if (Another.GetValue() == 0)
 	{
+		MessageBox(NULL, _T("Divider can't be 0"), _T("Int Error"), 0);
+
 		return -1;
 	}
 
@@ -280,6 +282,8 @@ Int Int::operator/(int iValue)
 {
 	if (iValue == 0)
 	{
+		MessageBox(NULL, _T("Divider can't be 0"), _T("Int Error"), 0);
+
 		return -1;
 	}
 
@@ -321,6 +325,29 @@ Int Int::operator%(int iValue)
 
 ///************************************************************************
 /// <summary>
+/// Equal to another one
+/// </summary>
+/// <param name=value>the Another object</param>
+/// <returns>false£ºnot equal true£ºequal</returns>
+/// <remarks>
+/// none
+/// </remarks>
+///***********************************************************************
+Int::BOOL Int::Equal(Int Another)
+{
+	BOOL bEqual = false;
+
+	if (this->GetValue() == Another.GetValue())
+	{
+		bEqual = true;
+	}
+
+	return bEqual;
+}
+
+
+///************************************************************************
+/// <summary>
 /// Implement the == object
 /// </summary>
 /// <param name=Another>the Another object</param>
@@ -331,14 +358,7 @@ Int Int::operator%(int iValue)
 ///***********************************************************************
 Int::BOOL Int::operator==(Int& Another)
 {
-	BOOL bEqual = false;
-
-	if (this->GetValue() == Another.GetValue())
-	{
-		bEqual = true;
-	}
-
-	return bEqual;
+	return this->Equal(Another);
 }
 
 
@@ -354,14 +374,7 @@ Int::BOOL Int::operator==(Int& Another)
 ///***********************************************************************
 Int::BOOL Int::operator==(int iValue)
 {
-	BOOL bEqual = false;
-
-	if (this->GetValue() == iValue)
-	{
-		bEqual = true;
-	}
-
-	return bEqual;
+	return this->Equal(iValue);
 }
 
 
@@ -377,14 +390,7 @@ Int::BOOL Int::operator==(int iValue)
 ///***********************************************************************
 Int::BOOL Int::operator!=(Int& Another)
 {
-	BOOL bEqual = false;
-
-	if (this->GetValue() != Another.GetValue())
-	{
-		bEqual = true;
-	}
-
-	return bEqual;
+	return this->Equal(Another);
 }
 
 
@@ -400,14 +406,7 @@ Int::BOOL Int::operator!=(Int& Another)
 ///***********************************************************************
 Int::BOOL Int::operator!=(int iValue)
 {
-	BOOL bEqual = false;
-
-	if (this->GetValue() != iValue)
-	{
-		bEqual = true;
-	}
-
-	return bEqual;
+	return this->Equal(iValue);
 }
 
 

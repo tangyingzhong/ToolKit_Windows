@@ -160,6 +160,10 @@ namespace System
 			String ToString();
 
 		private:
+			// Equal to another one
+			BOOL Equal(Int Another);
+
+		private:
 			// Get the Value
 			inline int GetValue() const
 			{
