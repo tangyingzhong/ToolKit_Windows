@@ -12,6 +12,7 @@
 #define CIRCLEBUFFER_H
 
 #include "Tool\Common\SystemType.h"
+#include "Array.h"
 
 namespace System
 {
@@ -43,15 +44,6 @@ namespace System
 			typedef ValueType* Pointer;
 			typedef ValueType& Reference;
 
-			typedef struct _RingParamenter
-			{
-				std::vector<ValueType> vCache;				// Cache for the data 
-				Length iCacheSize;							// Cache size
-				Offset iReadPos;							// Read position
-				Offset iWritePos;							// Write position
-				BOOL bIsFull;								// Is the cache full or not
-			}RingParamenter;
-
 		public:
 			// Construct the CircleBuffer
 			CircleBuffer(Length iBufferSize = 8) :m_Disposed(false)
@@ -68,12 +60,12 @@ namespace System
 			// Allow the object copying
 			CircleBuffer(const CircleBuffer& other)
 			{
-				this->m_RingParamenter.vCache = other.m_RingParamenter.vCache;
-				this->m_RingParamenter.iCacheSize = 0;
-				this->m_RingParamenter.iReadPos = 0;
-				this->m_RingParamenter.iWritePos = 0;
-				this->m_RingParamenter.iIsFull = false;
-				this->m_Disposed = other.m_Disposed;
+				this->SetBufferSize(other.GetBufferSize());
+				this->m_CircleBuffer = other.m_CircleBuffer;
+				this->SetReadPos(other.GetReadPos());
+				this->SetWritePos(other.GetWritePos());
+				this->SetIsFull(other.GetIsFull());
+				this->SetDisposed(other.GetDisposed());
 			}
 
 			// Allow the object assignment
@@ -81,40 +73,41 @@ namespace System
 			{
 				if (this != &other)
 				{
-					this->m_RingParamenter.vCache = other.m_RingParamenter.vCache;
-					this->m_RingParamenter.iCacheSize = 0;
-					this->m_RingParamenter.iReadPos = 0;
-					this->m_RingParamenter.iWritePos = 0;
-					this->m_RingParamenter.iIsFull = false;
-					this->m_Disposed = other.m_Disposed;
+					this->SetBufferSize(other.GetBufferSize());
+					this->m_CircleBuffer = other.m_CircleBuffer;
+					this->SetReadPos(other.GetReadPos());
+					this->SetWritePos(other.GetWritePos());
+					this->SetIsFull(other.GetIsFull());
+					this->SetDisposed(other.GetDisposed());
 				}
 				return *this;
 			}
 
 		public:
 			// Read the data from the exactly position
-			BOOL Read(Reference data, Offset iPos)
+			BOOL Read(Index iPos, Reference data)
 			{
 				BOOL bSuccess = false;
 
-				// To know wether there is data in buffer
-				if (this->IsEmpty() == true)
+				// Check the position's legal
+				assert(iPos >= 0);
+				assert(iPos <= (this->GetBufferSize() - 1));
+
+				if (iPos<0 || iPos>(this->GetBufferSize() - 1))
 				{
-					Sleep(2);
 					return bSuccess;
 				}
 
-				// Check the position's legal
-				assert(iPos >= 0);
-				assert(iPos <= (this->m_RingParamenter.iCacheSize - 1));
-
-				if (iPos<0 || iPos>(this->m_RingParamenter.iCacheSize - 1))
+				// To know wether the buffer is empty
+				if (this->IsEmpty() == true)
 				{
+					Sleep(2);
+
 					return bSuccess;
 				}
 
 				// Get the data
-				data = this->m_RingParamenter.vCache[iPos];
+				data = this->m_CircleBuffer[iPos];
 
 				bSuccess = true;
 
@@ -126,21 +119,22 @@ namespace System
 			{
 				BOOL bSuccess = false;
 
-				// To know wether there is data in buffer
+				// To know wether the buffer is empty
 				if (this->IsEmpty() == true)
 				{
 					Sleep(2);
+
 					return bSuccess;
 				}
 
 				// Get the current reading position
-				Index iReadPos = this->m_RingParamenter.iReadPos & (this->m_RingParamenter.iCacheSize - 1);
+				Index iReadPos = this->GetReadPos() & (this->GetBufferSize() - 1);
 
 				// Get the data
-				data = this->m_RingParamenter.vCache[iReadPos];
+				data = this->m_CircleBuffer[iReadPos];
 
 				// Change the read pos
-				++(this->m_RingParamenter.iReadPos);
+				this->IncrementReadPos();
 
 				bSuccess = true;
 
@@ -152,26 +146,22 @@ namespace System
 			{
 				BOOL bSuccess = false;
 
-				// To know wether there is data in buffer
+				// To know wether the buffer is full
 				if (this->IsFull() == true)
 				{
 					Sleep(2);
+
 					return bSuccess;
 				}
 
 				// Get the current writing position
-				Index iWritePos = this->m_RingParamenter.iWritePos & (this->m_RingParamenter.iCacheSize - 1);
+				Index iWritePos = this->GetWritePos() & (this->GetBufferSize() - 1);
 
 				// Write the data
-				this->m_RingParamenter.vCache[iWritePos] = data;
+				this->m_CircleBuffer[iWritePos] = data;
 
 				// Change the write pos
-				++(this->m_RingParamenter.iWritePos);
-
-				if (this->m_RingParamenter.iWritePos == this->m_RingParamenter.iCacheSize)
-				{
-					this->m_RingParamenter.bIsFull = true;
-				}
+				this->IncrementWritePos();
 
 				bSuccess = true;
 
@@ -180,45 +170,63 @@ namespace System
 
 			// Resize the Buffer size
 			Empty Resize(Length iNewSize)
-			{
-				assert(iNewSize > 0);
-				assert(this->m_RingParamenter.iCacheSize != iNewSize);
-
-				if (iNewSize <= 0 || this->m_RingParamenter.iCacheSize == iNewSize)
-				{
-					return;
-				}
-
-				this->m_RingParamenter.vCache.resize(iNewSize);
+			{			
+				this->SetReadPos(0);
+				this->SetWritePos(0);
+				this->SetIsFull(false);
+				this->SetBufferSize(iNewSize);
+				this->m_CircleBuffer.Resize(this->GetBufferSize());
 			}
 
 			// Clear the buffer
 			Empty Clear()
 			{
-				Length iBackupLength = this->m_RingParamenter.iCacheSize;
-
-				this->ClearRingParamenter();
-
-				this->Resize(iBackupLength);
-			}
-
-			// Get the buffer full state
-			inline BOOL GetIsFull() const
-			{
-				return this->m_RingParamenter.iIsFull;
+				this->SetReadPos(0);
+				this->SetWritePos(0);
+				this->SetIsFull(false);
+				this->m_CircleBuffer.Clear();
 			}
 
 			// Get the write pos of buffer 
 			inline Offset GetWritePos() const
 			{
-				return this->m_RingParamenter.iWritePos;
+				return this->m_WritePos;
 			}
 
 		private:
+			// Initialize the CircleBuffer
+			Empty Initialize(Length iBufferSize)
+			{
+				// Set the buffer size
+				this->SetBufferSize(iBufferSize);
+
+				// Resize the array
+				this->m_CircleBuffer.Resize(this->GetBufferSize());
+
+				// Set the read position
+				this->SetReadPos(0);
+
+				// Set the write position
+				this->SetWritePos(0);
+
+				// Set the full flag
+				this->SetIsFull(false);
+			}
+
+			// Destory the CircleBuffer
+			Empty Destory()
+			{
+				if (!GetDisposed())
+				{
+					SetDisposed(true);
+
+				}
+			}
+
 			// Is the buffer full
 			BOOL IsFull()
 			{
-				if (this->m_RingParamenter.iWritePos - this->m_RingParamenter.iReadPos == this->m_RingParamenter.iCacheSize)
+				if (this->GetWritePos() - this->GetReadPos() == this->GetBufferSize())
 				{
 					return true;
 				}
@@ -229,7 +237,7 @@ namespace System
 			// Is the buffer empty
 			BOOL IsEmpty()
 			{
-				if (this->m_RingParamenter.iWritePos - this->m_RingParamenter.iReadPos == 0)
+				if (this->GetReadPos() - this->GetWritePos() == 0)
 				{
 					return true;
 				}
@@ -237,47 +245,53 @@ namespace System
 				return false;
 			}
 
-		private:
-			// Initialize the CircleBuffer IPC
-			Empty Initialize(Length iCacheSize)
+			// Increment the position
+			void IncrementPos(Index& iPos)
 			{
-				// Clear the ring paramenter
-				this->ClearRingParamenter();
-
-				// Set the buffer size
-				this->m_RingParamenter.iCacheSize = iCacheSize;
+				iPos++;
 			}
 
-			// Destory the CircleBuffer IPC
-			Empty Destory()
+			// Increment the read position
+			void IncrementReadPos()
 			{
-				if (!GetDisposed())
-				{
-					SetDisposed(true);
-				}
+				this->IncrementPos(this->GetReadPos());
 			}
 
-			// Clear the ring paramenter
-			Empty ClearRingParamenter()
+			// Increment the write position
+			void IncrementWritePos()
 			{
-				std::vector<ValueType>().swap(this->m_RingParamenter.vCache);
-				this->m_RingParamenter.iCacheSize = 0;
-				this->m_RingParamenter.iReadPos = 0;
-				this->m_RingParamenter.iWritePos = 0;
-				this->m_RingParamenter.iIsFull = false;
+				this->IncrementPos(this->GetWritePos());
 			}
 
 		private:
 			// Set the write position
 			inline Empty SetWritePos(Offset iWritePos)
 			{
-				this->m_RingParamenter.iWritePos = iWritePos;
+				this->m_WritePos = iWritePos;
 			}
 
-			// Set the buffer full state
-			inline Empty SetIsFull(BOOL bIsFull)
+			// Get the read position
+			inline Index GetReadPos() const
 			{
-				this->m_RingParamenter.bIsFull = bIsFull;
+				return m_ReadPos;
+			}
+
+			// Set the read position
+			inline Empty SetReadPos(Index iReadPos)
+			{
+				this->m_ReadPos = iReadPos;
+			}
+
+			// Set the buffer size
+			inline Empty SetBufferSize(Length iBufferSize)
+			{
+				this->m_BufferSize = iBufferSize;
+			}
+
+			// Get the buffer size
+			inline Length GetBufferSize() const
+			{
+				return m_BufferSize;
 			}
 
 			// Get the disposed
@@ -293,14 +307,22 @@ namespace System
 			}
 
 		private:
-			// Paramenter of the cache
-			RingParamenter m_RingParamenter;
+			// Circle buffer
+			Array<ValueType> m_CircleBuffer;
+
+			// Buffer size
+			Length m_BufferSize;
+
+			// Write position
+			Index m_WritePos;
+
+			// Read position
+			Index m_ReadPos;
 
 			// Disposed status
 			BOOL m_Disposed;
-
 		};
 	}
 }
 
-#endif //CIRCLEBUFFER_H_
+#endif //CIRCLEBUFFER_H
