@@ -82,39 +82,9 @@ namespace System
 				return *this;
 			}
 
-		public:
-			// Read the data from the exactly position
-			BOOL Read(Index iPos, Reference data)
-			{
-				BOOL bSuccess = false;
-
-				// Check the position's legal
-				assert(iPos >= 0);
-				assert(iPos <= (this->GetBufferSize() - 1));
-
-				if (iPos<0 || iPos>(this->GetBufferSize() - 1))
-				{
-					return bSuccess;
-				}
-
-				// To know wether the buffer is empty
-				if (this->IsEmpty() == true)
-				{
-					Sleep(2);
-
-					return bSuccess;
-				}
-
-				// Get the data
-				data = this->m_CircleBuffer[iPos];
-
-				bSuccess = true;
-
-				return bSuccess;
-			}
-
-			// Read the data automatically
-			BOOL Read(Reference data)
+		public:	
+			// Get the data automatically
+			BOOL Fetch(Reference data)
 			{
 				BOOL bSuccess = false;
 
@@ -129,19 +99,17 @@ namespace System
 				// Get the current reading position
 				Index iReadPos = this->GetReadPos() & (this->GetBufferSize() - 1);
 
-				// Get the data
-				data = this->m_CircleBuffer[iReadPos];
+				// Get the data at the position
+				bSuccess = this->Read(iReadPos, data);
 
 				// Change the read pos
-				this->IncrementReadPos();
-
-				bSuccess = true;
+				this->IncreaseReadPos();
 
 				return bSuccess;
 			}
 
-			// Write the data automatically
-			BOOL Write(Reference data)
+			// Push the data automatically
+			BOOL Push(Reference data)
 			{
 				BOOL bSuccess = false;
 
@@ -157,12 +125,10 @@ namespace System
 				Index iWritePos = this->GetWritePos() & (this->GetBufferSize() - 1);
 
 				// Write the data
-				this->m_CircleBuffer[iWritePos] = data;
+				bSuccess = this->Write(iWritePos, data);
 
 				// Change the write pos
-				this->IncrementWritePos();
-
-				bSuccess = true;
+				this->IncreaseWritePos();
 
 				return bSuccess;
 			}
@@ -239,21 +205,65 @@ namespace System
 			}
 
 			// Increment the position
-			void IncrementPos(Index& iPos)
+			Empty IncrementPos(Index& iPos)
 			{
 				iPos++;
 			}
 
-			// Increment the read position
-			void IncrementReadPos()
+			// Increase the read position
+			Empty IncreaseReadPos()
 			{
 				this->IncrementPos(this->GetReadPos());
 			}
 
-			// Increment the write position
-			void IncrementWritePos()
+			// Increase the write position
+			Empty IncreaseWritePos()
 			{
 				this->IncrementPos(this->GetWritePos());
+			}
+
+			// Read the data from the exactly position
+			BOOL Read(Index iPos, Reference data)
+			{
+				BOOL bSuccess = false;
+
+				// Check the position's legal
+				assert(iPos >= 0);
+				assert(iPos <= (this->GetBufferSize() - 1));
+
+				if (iPos<0 || iPos>(this->GetBufferSize() - 1))
+				{
+					return bSuccess;
+				}
+
+				// Get the data
+				data = this->m_CircleBuffer[iPos];
+
+				bSuccess = true;
+
+				return bSuccess;
+			}
+
+			// Write the data from the exactly position
+			BOOL Write(Index iPos, Reference data)
+			{
+				BOOL bSuccess = false;
+
+				// Check the position's legal
+				assert(iPos >= 0);
+				assert(iPos <= (this->GetBufferSize() - 1));
+
+				if (iPos<0 || iPos>(this->GetBufferSize() - 1))
+				{
+					return bSuccess;
+				}
+
+				// Get the data
+				this->m_CircleBuffer[iPos] = data;
+
+				bSuccess = true;
+
+				return bSuccess;
 			}
 
 		private:
