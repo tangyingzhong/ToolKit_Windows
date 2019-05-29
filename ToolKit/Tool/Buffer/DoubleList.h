@@ -4,12 +4,12 @@
 /// <contact>tangyz114987@outlook.com</contact>
 /// <version>V1.0.0</version>
 /// <describe>
-/// Pipe ,which can load any data and it has no border.
+/// DoubleList structure which is designed by principle ,FIFO
 ///</describe>
 /// <date>2019/3/6</date>
 ///***********************************************************************
-#ifndef PIPE_H
-#define PIPE_H
+#ifndef DOUBLELIST_H
+#define DOUBLELIST_H
 
 #include "Tool\Common\SystemType.h"
 
@@ -18,9 +18,9 @@ namespace System
 	namespace Buffer
 	{
 		///*********************************************************
-		/// <class> Pipe<T> </class>
+		/// <class> DoubleList<T> </class>
 		/// <summary>
-		/// It has no border so you have to pay attention to the size of it
+		/// FIFO data structure.you can only read the first element and wirte to the end
 		/// </summary>
 		/// <version>V1.0.0 </version>
 		/// <goup> C++ </group>
@@ -28,42 +28,41 @@ namespace System
 		/// <contact>tangyz114987@outlook.com</contact>
 		///**********************************************************/
 		template<class T>
-		class Pipe
+		class DoubleList
 		{
 		public:
 			typedef System::Empty Empty;
 			typedef System::Boolean BOOL;
-			typedef System::Int32 PipeSize;
+			typedef System::Int32 ListSize;			
 			typedef T ValueType;
 			typedef ValueType& Reference;
 			typedef ValueType* Pointer;
-			typedef std::queue<ValueType> DataQueue;
-
+		
 		public:
-			// Construct the pipe
-			Pipe() {	}
+			// Construct the DoubleList
+			DoubleList() {	}
 
-			// Detructe the Pipe
-			~Pipe() {	}
+			// Detructe the DoubleList
+			~DoubleList() {	}
 
 		private:
 			// Forbid the object copying
-			Pipe(const Pipe& other) {	}
+			DoubleList(const DoubleList& other) {	}
 
 			// Forbid the obejct assignment
-			Pipe& operator=(const Pipe& other) {	}
+			DoubleList& operator=(const DoubleList& other) {	}
 
 		public:
-			// Read the data 
-			BOOL Read(Reference data)
+			// Pop the data 
+			BOOL Pop(Reference data)
 			{
 				BOOL bSuccess = false;
 
-				if (!m_DataQueue.empty())
+				if (!m_DataDoubleList.empty())
 				{
-					ValueType value = m_DataQueue.front();
+					ValueType value = m_DataDoubleList.front();
 
-					m_DataQueue.pop();
+					m_DataDoubleList.pop();
 
 					data = value;
 
@@ -75,35 +74,37 @@ namespace System
 				return bSuccess;
 			}
 
-			// Write the data to the pipe
-			Empty Write(ValueType data)
+			// Push the data to the DoubleList
+			Empty Push(ValueType data)
 			{
-				m_DataQueue.push(data);
+				m_DataDoubleList.push(data);
 			}
 
-			// Clear the pipe
+			// Clear the DoubleList
 			Empty Clear()
 			{
-				DataQueue().swap(this->m_DataQueue);
+				DataDoubleList().swap(this->m_DataDoubleList);
 			}
 
-			// Get pipe size
-			PipeSize Size()
+			// Get DoubleList size
+			ListSize Size()
 			{
-				return m_DataQueue.size();
+				return m_DataDoubleList.size();
 			}
 
-			// Swap two pipes
-			Empty Swap(Pipe& pipe)
+			// Swap two DoubleLists
+			Empty Swap(DoubleList& DoubleList)
 			{
-				m_DataQueue.swap(pipe.m_DataQueue);
+				m_DataDoubleList.swap(DoubleList.m_DataDoubleList);
 			}
 
 		private:
-			// Data queue
-			DataQueue m_DataQueue;
+			// Data pointer
+
+			
+
 		};
 	}
 }
 
-#endif //PIPE_H_
+#endif //DoubleList_H_

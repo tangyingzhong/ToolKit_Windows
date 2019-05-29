@@ -500,7 +500,7 @@ Int::BOOL Int::operator!()
 ///***********************************************************************
 Int& Int::operator++()
 {
-	(this->m_Value)++;
+	++(this->m_Value);
 
 	return *this;
 }
@@ -516,11 +516,13 @@ Int& Int::operator++()
 /// this is ++a
 /// </remarks>
 ///***********************************************************************
-Int& Int::operator++(int)
+Int Int::operator++(int)
 {
-	++(this->m_Value);
+	Int temp = *this;
 
-	return *this;
+	(this->m_Value)++;
+
+	return temp;
 }
 
 

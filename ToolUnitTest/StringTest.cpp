@@ -11,6 +11,7 @@
 
 #include "StdAfx.h"
 #include <CppUnitTest.h>
+#include <list>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace System::BasicType;
@@ -29,6 +30,23 @@ namespace ToolUnitTest
 		// Clean up the class
 		TEST_CLASS_CLEANUP(CleanString)
 		{
+
+		}
+
+		// Test Substring function
+		TEST_METHOD(TestSTL)
+		{
+			std::list<int> IdTable;
+
+			IdTable.push_back(89);
+			IdTable.push_back(12);
+			IdTable.push_back(23);
+			IdTable.push_back(443);
+
+			for (std::list<int>::iterator Iter = IdTable.begin(); Iter != IdTable.end(); Iter++)
+			{
+			
+			}
 
 		}
 

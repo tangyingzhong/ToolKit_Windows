@@ -124,7 +124,7 @@ namespace System
 			Int& operator++();
 
 			// Implement the ++value
-			Int& operator++(int);
+			Int operator++(int);
 
 			// Implement the >value
 			BOOL operator>(Int& other);

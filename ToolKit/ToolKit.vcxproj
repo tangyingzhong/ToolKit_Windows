@@ -72,8 +72,11 @@
     <ClInclude Include="Tool\BaseType\String.h" />
     <ClInclude Include="Tool\Buffer\Array.h" />
     <ClInclude Include="Tool\Buffer\CircleBuffer.h" />
-    <ClInclude Include="Tool\Buffer\Pipe.h" />
+    <ClInclude Include="Tool\Buffer\DoubleList.h" />
+    <ClInclude Include="Tool\Buffer\Iterator.h" />
+    <ClInclude Include="Tool\Buffer\Queue.h" />
     <ClInclude Include="Tool\Buffer\SharedMemory.h" />
+    <ClInclude Include="Tool\Buffer\SingleList.h" />
     <ClInclude Include="Tool\Common\SystemType.h" />
     <ClInclude Include="Tool\DateTime\DateTime.h" />
     <ClInclude Include="Tool\Directory\Directory.h" />
