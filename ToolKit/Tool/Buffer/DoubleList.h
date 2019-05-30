@@ -4,7 +4,7 @@
 /// <contact>tangyz114987@outlook.com</contact>
 /// <version>V1.0.0</version>
 /// <describe>
-/// DoubleList structure which is designed by principle ,FIFO
+/// DoubleList structure which can fast insert and delete elments
 ///</describe>
 /// <date>2019/3/6</date>
 ///***********************************************************************
@@ -20,7 +20,7 @@ namespace System
 		///*********************************************************
 		/// <class> DoubleList<T> </class>
 		/// <summary>
-		/// FIFO data structure.you can only read the first element and wirte to the end
+		/// It can find the previous and next element 
 		/// </summary>
 		/// <version>V1.0.0 </version>
 		/// <goup> C++ </group>
@@ -33,78 +33,340 @@ namespace System
 		public:
 			typedef System::Empty Empty;
 			typedef System::Boolean BOOL;
-			typedef System::Int32 ListSize;			
+			typedef System::Int32 Length;
+			typedef System::Int32 Index;
 			typedef T ValueType;
 			typedef ValueType& Reference;
 			typedef ValueType* Pointer;
-		
+			typedef struct Element
+			{
+				ValueType Data;
+				struct Element* pPre;
+				struct Element* pNext;
+			}Node;
+
+			typedef Node* NodeElement;
+
 		public:
 			// Construct the DoubleList
-			DoubleList() {	}
+			DoubleList() :m_Disposed(false)
+			{
+				this->Initialize();
+			}
 
 			// Detructe the DoubleList
-			~DoubleList() {	}
-
-		private:
-			// Forbid the object copying
-			DoubleList(const DoubleList& other) {	}
-
-			// Forbid the obejct assignment
-			DoubleList& operator=(const DoubleList& other) {	}
-
-		public:
-			// Pop the data 
-			BOOL Pop(Reference data)
+			~DoubleList() 
 			{
-				BOOL bSuccess = false;
+				this->Destory();
+			}
 
-				if (!m_DataDoubleList.empty())
+			// Allow the object copying
+			DoubleList(const DoubleList& other)
+			{
+				if (this->IsEmpty())
 				{
-					ValueType value = m_DataDoubleList.front();
-
-					m_DataDoubleList.pop();
-
-					data = value;
-
-					bSuccess = true;
-
-					return bSuccess;
+					this->SetHead(other.GetHead());
+				}
+				else
+				{
+					// Copy the list
+					this->Copy(other);
 				}
 
-				return bSuccess;
+				this->SetDisposed(other.GetDisposed());
 			}
 
-			// Push the data to the DoubleList
-			Empty Push(ValueType data)
+			// Allow the obejct assignment
+			DoubleList& operator=(const DoubleList& other)
 			{
-				m_DataDoubleList.push(data);
+				if (this != &other)
+				{
+					if (this->IsEmpty())
+					{
+						this->SetHead(other.GetHead());
+					}
+					else
+					{
+						// Destory the list at first
+						this->DeleteNode(this->GetHead());
+
+						// Create a head node
+						this->CreateHeadNode();
+
+						// Copy the list
+						this->Copy(other);
+					}
+
+					this->SetDisposed(other.GetDisposed());
+				}
+
+				return *this;
 			}
 
-			// Clear the DoubleList
-			Empty Clear()
+		public:
+			// Add the element 
+			Empty Add(Reference Data)
 			{
-				DataDoubleList().swap(this->m_DataDoubleList);
+				// Link the node to the end
+				this->LinkToEnd(Data);
 			}
 
-			// Get DoubleList size
-			ListSize Size()
+			// Remove the element
+			BOOL Remove(Reference Data)
 			{
-				return m_DataDoubleList.size();
+				// Unlink the element
+				this->Unlink(Data);
 			}
 
-			// Swap two DoubleLists
-			Empty Swap(DoubleList& DoubleList)
+			// Get the list size
+			Length Size()
 			{
-				m_DataDoubleList.swap(DoubleList.m_DataDoubleList);
+				return this->GetLength();
+			}
+
+			// Is list empty or not
+			BOOL IsEmpty()
+			{
+				return this->_IsEmpty();
 			}
 
 		private:
-			// Data pointer
+			// Init the list
+			Empty Initialize()
+			{
+				// Create head node
+				this->CreateHeadNode();
+			}
 
-			
+			// Destory the list
+			Empty Destory()
+			{
+				if (!this->GetDisposed())
+				{
+					this->SetDisposed(true);
 
+					if (!this->_IsEmpty())
+					{
+						this->DeleteNode(this->GetHead());
+					}
+				}
+			}
+
+			// Delete the element
+			Empty DeleteNode(NodeElement pNodeElement)
+			{
+				if (pNodeElement == NULL)
+				{
+					return;
+				}
+
+				DeleteNode(pNodeElement->pNext);
+
+				// Destory the node
+				this->DestoryNode(pNodeElement);
+			}
+
+			// Link a node to the end
+			Empty LinkToEnd(Reference Data)
+			{
+				// Create a node
+				NodeElement pNode = this->CeateNode(Data);
+
+				this->LinkToEnd(pNode);	
+			}
+
+			// Link a node to the end
+			Empty LinkToEnd(NodeElement pNodeElement)
+			{
+				// Get the last element
+				NodeElement pLastNode = this->FindLast();
+
+				// Link the element to the end element
+				pLastNode->pNext = pNodeElement;
+
+				pNodeElement->pPre = pLastNode;
+			}
+
+			// Unlink the node
+			Empty Unlink(NodeElement pNodeElement)
+			{
+				// Find the previous node
+				NodeElement PreNode = pNodeElement->pPre;
+
+				// Unlink
+				PreNode->pNext = pNodeElement->pNext;
+
+				pNodeElement->pNext->pPre = PreNode;
+
+				// Destory this node
+				this->DestoryNode(pNodeElement);
+			}
+
+			// Unlink the node
+			Empty Unlink(Reference Data)
+			{
+				// Find the current node
+				NodeElement CurNode = this->Find(Data);
+
+				this->Unlink(CurNode);
+			}
+
+			// Create a node
+			NodeElement CeateNode(Reference Data)
+			{
+				NodeElement pNode = new Node();
+
+				pNode->Data = Data;
+
+				pNode->pPre = NULL;
+
+				pNode->pNext = NULL;
+
+				return pNode;
+			}
+
+			// Destory the node
+			Empty DestoryNode(NodeElement pNodeElement)
+			{
+				if (pNodeElement != NULL)
+				{
+					delete pNodeElement;
+
+					pNodeElement = NULL;
+				}
+			}
+
+			// Create head node
+			Empty CreateHeadNode()
+			{
+				ValueType Data;
+
+				this->SetHead(this->CeateNode(Data));
+			}
+
+			// Find the element
+			NodeElement Find(Reference Data)
+			{
+				if (this->_IsEmpty())
+				{
+					return NULL;
+				}
+
+				NodeElement CurNode = this->GetHead();
+
+				while (CurNode->pNext != NULL)
+				{
+					CurNode = CurNode->pNext;
+
+					// Element class must override the operator ==
+					if (CurNode->Data == Data)
+					{
+						break;
+					}
+				}
+
+				return CurNode;
+			}
+
+			// Find the last element 
+			NodeElement FindLast()
+			{
+				if (this->_IsEmpty())
+				{
+					return NULL;
+				}
+
+				NodeElement CurNode = this->GetHead();
+
+				while (CurNode->pNext != NULL)
+				{
+					CurNode = CurNode->pNext;
+				}
+
+				return CurNode;
+			}
+
+			// Get the current list length
+			Length GetLength()
+			{
+				if (this->_IsEmpty())
+				{
+					return 0;
+				}
+
+				NodeElement CurNode = this->GetHead();
+
+				int iCount = 0;
+
+				while (CurNode->pNext != NULL)
+				{
+					CurNode = CurNode->pNext;
+
+					iCount++;
+				}
+
+				return iCount;
+			}
+
+			// List is empty or not
+			BOOL _IsEmpty()
+			{
+				if (this->GetHead() == NULL)
+				{
+					return true;
+				}
+
+				return false;
+			}
+
+			// Copy the list 
+			BOOL Copy(const DoubleList& List)
+			{
+				NodeElement pNode = List.GetHead();
+
+				while (pNode->pNext != NULL)
+				{
+					pNode = pNode->pNext;
+
+					NodeElement pNode = this->CeateNode(pNode->Data);
+
+					this->LinkToEnd(pNode);
+				}
+			}
+
+		private:
+			// Get the head element
+			inline NodeElement GetHead() const
+			{
+				return m_Head;
+			}
+
+			// Set the head element
+			inline Empty SetHead(NodeElement pNodeElement)
+			{
+				this->m_Head = pNodeElement;
+			}
+
+			// Get the disposed status
+			inline BOOL GetDisposed() const
+			{
+				return m_Disposed;
+			}
+
+			// Set the disposed status
+			inline Empty SetDisposed(BOOL bDisposed)
+			{
+				this->m_Disposed = bDisposed;
+			}
+
+		private:
+			// Head node
+			NodeElement m_Head;
+
+			// Disposed status
+			BOOL m_Disposed;
 		};
 	}
 }
 
-#endif //DoubleList_H_
+#endif //DOUBLELIST_H

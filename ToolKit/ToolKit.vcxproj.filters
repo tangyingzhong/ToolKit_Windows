@@ -337,10 +337,10 @@
     <ClInclude Include="Tool\Buffer\SingleList.h">
       <Filter>Tool\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Tool\Buffer\DoubleList.h">
+    <ClInclude Include="Tool\Buffer\Iterator.h">
       <Filter>Tool\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Tool\Buffer\Iterator.h">
+    <ClInclude Include="Tool\Buffer\DoubleList.h">
       <Filter>Tool\Buffer</Filter>
     </ClInclude>
   </ItemGroup>

@@ -35,7 +35,6 @@ namespace System
 			typedef System::Boolean BOOL;
 			typedef System::Int32 Length;
 			typedef System::Int32 Index;
-			typedef System::SByteArray SByteArray;
 			typedef T ValueType;
 			typedef ValueType& Reference;
 			typedef ValueType* Pointer;
@@ -172,11 +171,7 @@ namespace System
 				// Create a node
 				NodeElement pNode = this->CeateNode(Data);
 
-				// Get the last element
-				NodeElement pLastNode = this->FindLast();
-
-				// Link the element to the end element
-				pLastNode->pNext = pNode;
+				this->LinkToEnd(pNode);				
 			}
 
 			// Link a node to the end
@@ -206,13 +201,14 @@ namespace System
 			Empty Unlink(Reference Data)
 			{
 				// Find the previous node
-				NodeElement PreNode = this->FindPrevious(Data);
+				NodeElement CurNode = NULL;
+				NodeElement PreNode = this->FindPrevious(Data, CurNode);
 
 				// Unlink
-				PreNode->pNext = pNodeElement->pNext;
+				PreNode->pNext = CurNode->pNext;
 
 				// Destory this node
-				this->DestoryNode(pNodeElement);
+				this->DestoryNode(CurNode);
 			}
 
 			// Create a node
@@ -241,7 +237,9 @@ namespace System
 			// Create head node
 			Empty CreateHeadNode()
 			{
-				this->SetHead(this->CeateNode(NULL));
+				ValueType Data;
+
+				this->SetHead(this->CeateNode(Data));
 			}
 
 			// Find the element
@@ -319,7 +317,7 @@ namespace System
 			}
 
 			// Find the previous element
-			NodeElement FindPrevious(Reference Data)
+			NodeElement FindPrevious(Reference Data, NodeElement& pCurNode)
 			{
 				if (this->_IsEmpty())
 				{
@@ -343,90 +341,13 @@ namespace System
 
 					if (CurNode->Data == Data)
 					{
+						pCurNode = CurNode;
+
 						break;
 					}
 				}
 
 				return PreNode;
-			}
-
-			// Get the element's position(-1: fail to find)
-			Index GetPos(Reference Data)
-			{
-				if (this->_IsEmpty())
-				{
-					return -1;
-				}
-
-				NodeElement CurNode = this->GetHead();
-
-				int iCount = -1;
-
-				while (CurNode->pNext != NULL)
-				{
-					CurNode = CurNode->pNext;
-
-					iCount++;
-
-					// Element class must override the operator ==
-					if (CurNode->Data == Data)
-					{
-						break;
-					}
-				}
-
-				return iCount;
-			}
-
-			// Find the element in position
-			NodeElement At(Index iPos)
-			{
-				if (this->_IsEmpty())
-				{
-					return NULL;
-				}
-
-				if (iPos < 0 || iPos >= this->GetLength())
-				{
-					return NULL;
-				}
-
-				NodeElement CurNode = this->GetHead();
-
-				// Not inclued head node 
-				int iCount = -1;
-
-				while (CurNode->pNext != NULL)
-				{
-					CurNode = CurNode->pNext;
-
-					iCount++;
-
-					if (iCount == iPos)
-					{
-						break;
-					}
-				}
-
-				return CurNode;
-			}
-			
-			// Get the index element(you shouldn't use it in the loop)
-			Reference operator[](Index iPos)
-			{
-				if (this->_IsEmpty())
-				{
-					return m_EmptyElment;
-				}
-
-				if (iPos<0 || iPos >= this->GetLength())
-				{
-					return m_EmptyElment;
-				}
-
-				NodeElement pNode = this->At(iPos);
-
-				return pNode->Data;
 			}
 
 			// Get the current list length
@@ -505,9 +426,6 @@ namespace System
 		private:
 			// Head node
 			NodeElement m_Head;
-
-			// Empty value
-			ValueType m_EmptyElment;
 
 			// Disposed status
 			BOOL m_Disposed;
