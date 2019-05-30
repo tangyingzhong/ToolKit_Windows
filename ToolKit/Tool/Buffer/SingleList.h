@@ -63,7 +63,17 @@ namespace System
 			// Allow the object copying
 			SingleList(const SingleList& other)
 			{
-				
+				if (this->IsEmpty())
+				{
+					this->SetHead(other.GetHead());
+				}
+				else
+				{
+					// Copy the list
+					this->Copy(other);
+				}
+
+				this->SetDisposed(other.GetDisposed());
 			}
 
 			// Allow the obejct assignment
@@ -71,8 +81,23 @@ namespace System
 			{
 				if (this != &other)
 				{
+					if (this->IsEmpty())
+					{
+						this->SetHead(other.GetHead());
+					}
+					else
+					{
+						// Destory the list at first
+						this->DeleteNode(this->GetHead());
 
+						// Create a head node
+						this->CreateHeadNode();
 
+						// Copy the list
+						this->Copy(other);
+					}
+
+					this->SetDisposed(other.GetDisposed());
 				}
 
 				return *this;
@@ -434,12 +459,22 @@ namespace System
 					return true;
 				}
 
-				if (this->GetHead()->pNext = NULL)
-				{
-					return true;
-				}
-
 				return false;
+			}
+
+			// Copy the list 
+			BOOL Copy(const SingleList& List)
+			{
+				NodeElement pNode = List.GetHead();
+
+				while (pNode->pNext != NULL)
+				{
+					pNode = pNode->pNext;
+
+					NodeElement pNode = this->CeateNode(pNode->Data);
+
+					this->LinkToEnd(pNode);
+				}
 			}
 
 		private:

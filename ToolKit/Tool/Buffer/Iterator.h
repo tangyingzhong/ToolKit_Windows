@@ -35,6 +35,7 @@ namespace System
 			typedef System::Boolean BOOL;
 			typedef System::Int32 Length;
 			typedef System::Int32 Index;
+
 			typedef T ValueType;
 			typedef ValueType& Reference;
 			typedef ValueType* Pointer;
