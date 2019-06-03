@@ -19,16 +19,6 @@ namespace System
 {
 	namespace IO
 	{
-		///*********************************************************
-		/// <class>File</class>
-		/// <summary>
-		/// It support the file operations on window
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++</group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyingzhong@szangell.com</contact>
-		///*********************************************************
 		class File
 		{
 		public:
@@ -169,4 +159,4 @@ namespace System
 	}
 }
 
-#endif // !FILE_H_
+#endif // FILE_H

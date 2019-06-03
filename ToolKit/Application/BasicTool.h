@@ -55,4 +55,4 @@
 #include "Tool\USB\USB.h"
 #include "Tool\USB\USBType.h"
 
-#endif //BASIC_TOOL_H 
+#endif // BASIC_TOOL_H 

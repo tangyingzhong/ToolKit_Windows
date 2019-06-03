@@ -19,16 +19,6 @@ namespace System
 {
 	namespace Buffer
 	{
-		///*********************************************************
-		/// <class> SharedMemory </class>
-		/// <summary>
-		/// It can be shared by all process in the same computer
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		class SharedMemory
 		{
 		public:
@@ -153,4 +143,4 @@ namespace System
 	}
 }
 
-#endif //SHAREDMEMORY_TANG_H_
+#endif // SHAREDMEMORY_H

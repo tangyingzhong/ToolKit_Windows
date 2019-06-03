@@ -15,16 +15,6 @@ namespace System
 {
 	namespace Clock
 	{
-		///*********************************************************
-		/// <class>Delay</class>
-		/// <summary>
-		///  Delay some us time
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++</group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyingzhong@szangell.com</contact>
-		///*********************************************************
 		class Delay
 		{
 		public:
@@ -77,4 +67,4 @@ namespace System
 	}
 }
 
-#endif //DELAY_H_
+#endif // DELAY_H

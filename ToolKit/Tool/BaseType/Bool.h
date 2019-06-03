@@ -17,16 +17,6 @@ namespace System
 {
 	namespace BasicType
 	{
-		///*********************************************************
-		/// <class> Bool </class>
-		/// <summary>
-		/// You can use it as a common bool.And it supports string conversion
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		class Bool
 		{
 		public:
@@ -94,4 +84,4 @@ namespace System
 	}
 }
 
-#endif //BOOL_TANG_H_
+#endif // BOOL_H

@@ -17,16 +17,6 @@ namespace System
 {
 	namespace Encoding
 	{
-		///*********************************************************
-		/// <class> Unicode </class>
-		/// <summary>
-		/// Convert string to be Unicode one
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		class Unicode
 		{
 		public:
@@ -70,4 +60,4 @@ namespace System
 	}
 }
 
-#endif //UNICODE_H_
+#endif // UNICODE_H

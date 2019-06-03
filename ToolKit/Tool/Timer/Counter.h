@@ -15,16 +15,6 @@ namespace System
 {
 	namespace Clock
 	{
-		///*********************************************************
-		/// <class>Counter</class>
-		/// <summary>
-		/// Count the time for task
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++</group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyingzhong@szangell.com</contact>
-		///*********************************************************
 		class Counter
 		{
 		public:
@@ -101,4 +91,4 @@ namespace System
 	}
 }
 
-#endif //COUNTER_H_
+#endif // COUNTER_H

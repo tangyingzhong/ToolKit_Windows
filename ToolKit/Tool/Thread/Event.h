@@ -19,16 +19,6 @@ namespace System
 {
 	namespace Thread
 	{
-		///*********************************************************
-		/// <class> Event </class>
-		/// <summary>
-		/// Sychronize threads
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		class Event
 		{
 		public:
@@ -124,4 +114,4 @@ namespace System
 	}
 }
 
-#endif //EVENT_TANG_H_
+#endif // EVENT_H

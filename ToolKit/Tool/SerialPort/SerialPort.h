@@ -19,16 +19,6 @@ namespace System
 {
 	namespace IO
 	{
-		///*********************************************************
-		/// <class>SerialPort</class>
-		/// <summary>
-		/// Support port's open,close,read ,write in asychronize way or sychronize way
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++</group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyingzhong@szangell.com</contact>
-		///*********************************************************
 		class SerialPort
 		{
 		public:
@@ -151,4 +141,4 @@ namespace System
 	}
 }
 
-#endif // !SERIALPORT_H_
+#endif // SERIALPORT_H

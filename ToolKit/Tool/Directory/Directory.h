@@ -19,16 +19,6 @@ namespace System
 {
 	namespace IO
 	{
-		///*********************************************************
-		/// <class> Directory </class>
-		/// <summary>
-		/// Directory operations on window
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		class Directory
 		{
 		public:
@@ -98,4 +88,4 @@ namespace System
 	}
 }
 
-#endif //!DIRECTORY_H_
+#endif // DIRECTORY_H

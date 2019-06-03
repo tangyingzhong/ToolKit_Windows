@@ -19,16 +19,6 @@ namespace System
 {
 	namespace Thread
 	{
-		///*********************************************************
-		/// <class> Process </class>
-		/// <summary>
-		/// Use it to start a process or stop process
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		class Process
 		{
 		public:
@@ -117,4 +107,4 @@ namespace System
 	}
 }
 
-#endif //PROCESS_TANG_H_
+#endif // PROCESS_H

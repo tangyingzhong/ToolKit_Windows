@@ -17,16 +17,6 @@ namespace System
 {
 	namespace Peripherals
 	{
-		///*********************************************************
-		/// <class> NetPrinter </class>
-		/// <summary>
-		/// It is a higher level abstract for net printer
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++</group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///*********************************************************
 		class NetPrinter :public IPrinter
 		{
 		public:
@@ -85,4 +75,4 @@ namespace System
 	}
 }
 
-#endif //NETPRINTER_H
+#endif // NETPRINTER_H

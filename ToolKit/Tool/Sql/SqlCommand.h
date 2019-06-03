@@ -4,7 +4,7 @@
 /// <contact>tangyz114987@outlook.com</contact>
 /// <version>V1.0.0</version>
 /// <describe>
-/// Command for the database operation
+/// Command to excute sql command
 ///</describe>
 /// <date>2019/3/6</date>
 ///***********************************************************************
@@ -18,16 +18,6 @@ namespace System
 {
 	namespace ADO
 	{
-		///*********************************************************
-		/// <class>SqlCommand</class>
-		/// <summary>
-		///  Command to excute sql command
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++</group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyingzhong@szangell.com</contact>
-		///*********************************************************
 		class SqlCommand
 		{
 		public:
@@ -169,4 +159,4 @@ namespace System
 	}
 }
 
-#endif //SQLCOMMAND_H_
+#endif // SQLCOMMAND_H

@@ -15,16 +15,6 @@ namespace System
 {
 	namespace Thread
 	{
-		///*********************************************************
-		/// <class> Mutex </class>
-		/// <summary>
-		/// Lock the object or code section 
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		class Mutex
 		{
 		public:
@@ -52,4 +42,4 @@ namespace System
 	}
 }
 
-#endif //MUTEX_H_
+#endif // MUTEX_H

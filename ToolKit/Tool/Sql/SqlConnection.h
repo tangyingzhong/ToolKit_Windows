@@ -34,16 +34,6 @@ namespace System
 			ADO_BROKEN = 16
 		}ConnectionState;
 
-		///*********************************************************
-		/// <class>SqlConnection</class>
-		/// <summary>
-		///  Connect the database
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++</group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyingzhong@szangell.com</contact>
-		///*********************************************************
 		class SqlConnection
 		{
 		public:
@@ -151,4 +141,4 @@ namespace System
 	}
 }
 
-#endif //SQLCONNECTION_H_
+#endif // SQLCONNECTION_H

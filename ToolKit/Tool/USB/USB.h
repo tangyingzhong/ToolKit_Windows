@@ -21,16 +21,6 @@ namespace System
 {
 	namespace IO
 	{
-		///*********************************************************
-		/// <class>USB</class>
-		/// <summary>
-		/// Open ,Close ,Read,Write,etc.
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++</group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyingzhong@szangell.com</contact>
-		///*********************************************************
 		class USB
 		{
 		public:
@@ -255,4 +245,4 @@ namespace System
 		};
 	}
 }
-#endif // !USB_H
+#endif // USB_H

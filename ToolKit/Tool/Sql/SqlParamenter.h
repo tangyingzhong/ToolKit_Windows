@@ -4,7 +4,7 @@
 /// <contact>tangyz114987@outlook.com</contact>
 /// <version>V1.0.0</version>
 /// <describe>
-/// Sql paras for operating
+/// Sql paras for sql command
 ///</describe>
 /// <date>2019/3/6</date>
 ///***********************************************************************
@@ -23,16 +23,6 @@ namespace System
 {
 	namespace ADO
 	{
-		///*********************************************************
-		/// <class>SqlParamenter</class>
-		/// <summary>
-		///  Paras for sql command
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++</group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyingzhong@szangell.com</contact>
-		///*********************************************************
 		class SqlParamenter
 		{
 		public:
@@ -161,4 +151,4 @@ namespace System
 	}
 }
 
-#endif //SQLPARAMENTER_H_
+#endif // SQLPARAMENTER_H

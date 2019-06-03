@@ -18,16 +18,6 @@ namespace System
 {
 	namespace Buffer
 	{
-		///*********************************************************
-		/// <class> CircleBuffer<T> </class>
-		/// <summary>
-		/// it is circle buffer designed by STL vector
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		template <class T>
 		class CircleBuffer
 		{
@@ -334,4 +324,4 @@ namespace System
 	}
 }
 
-#endif //CIRCLEBUFFER_H
+#endif // CIRCLEBUFFER_H

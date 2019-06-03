@@ -18,16 +18,6 @@ namespace System
 {
 	namespace BasicType
 	{
-		///*********************************************************
-		/// <class> Int </class>
-		/// <summary>
-		/// Make it as an value we used to,so that we can make it powerful
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///*********************************************************/
 		class Int
 		{
 		public:
@@ -183,4 +173,4 @@ namespace System
 	}
 }
 
-#endif //INT_TANG_H_
+#endif // INT_H

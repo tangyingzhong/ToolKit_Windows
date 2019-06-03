@@ -17,16 +17,6 @@ namespace System
 {
 	namespace Encoding
 	{
-		///*********************************************************
-		/// <class> UTF8 </class>
-		/// <summary>
-		/// Convert string to be ASCII one
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		class UTF8
 		{
 		public:
@@ -75,4 +65,4 @@ namespace System
 	}
 }
 
-#endif //UTF8_TANG_H_
+#endif // UTF8_H

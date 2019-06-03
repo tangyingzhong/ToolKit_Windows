@@ -19,16 +19,6 @@ namespace System
 {
 	namespace Thread
 	{
-		///*********************************************************
-		/// <class> MessageDistributor </class>
-		/// <summary>
-		/// Send windows messages
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		class MessageDistributor
 		{
 		public:
@@ -85,4 +75,4 @@ namespace System
 	}
 }
 
-#endif //MESSAGEDISTRIBUTOR_H_
+#endif // MESSAGEDISTRIBUTOR_H

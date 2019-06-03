@@ -20,16 +20,6 @@ namespace System
 {
 	namespace Clock
 	{
-		///*********************************************************
-		/// <class> DateTime </class>
-		/// <summary>
-		/// Supported time getting
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		class DateTime
 		{
 		public:
@@ -95,4 +85,4 @@ namespace System
 	}
 }
 
-#endif //!DATETIME_H_
+#endif // DATETIME_H

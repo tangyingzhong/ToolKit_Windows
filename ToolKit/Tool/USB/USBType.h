@@ -172,4 +172,4 @@ namespace System
 	}
 }
 
-#endif //USBTYPE_H_
+#endif // USBTYPE_H

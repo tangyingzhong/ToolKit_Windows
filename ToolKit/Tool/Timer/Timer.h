@@ -5,6 +5,8 @@
 /// <version>V1.0.0</version>
 /// <describe>
 /// Timer on the window that can used for counting
+/// Calling back function template is below:
+/// void CALLBACK (TIMECALLBACK)(UINT uTimerID, UINT uMsg, DWORD_PTR dwUser, DWORD_PTR dw1, DWORD_PTR dw2);
 ///</describe>
 /// <date>2019/3/6</date>
 ///***********************************************************************
@@ -19,17 +21,6 @@ namespace System
 {
 	namespace Clock
 	{
-		///*********************************************************
-		/// <class>Timer</class>
-		/// <summary>
-		/// Calling back function template is below:
-		/// void CALLBACK (TIMECALLBACK)(UINT uTimerID, UINT uMsg, DWORD_PTR dwUser, DWORD_PTR dw1, DWORD_PTR dw2);
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++</group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyingzhong@szangell.com</contact>
-		///*********************************************************
 		class Timer
 		{
 		public:
@@ -157,4 +148,4 @@ namespace System
 	}
 }
 
-#endif //TIMER_H_
+#endif // TIMER_H

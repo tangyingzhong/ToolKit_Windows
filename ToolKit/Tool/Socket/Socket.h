@@ -4,7 +4,7 @@
 /// <contact>tangyz114987@outlook.com</contact>
 /// <version>V1.0.0</version>
 /// <describe>
-/// Windows socket for net operation
+/// Windows socket for net operation.Low level net operation
 ///</describe>
 /// <date>2019/3/6</date>
 ///***********************************************************************
@@ -21,16 +21,6 @@ namespace System
 {
 	namespace Network
 	{
-		///*********************************************************
-		/// <class>Socket</class>
-		/// <summary>
-		///  Low level net operation
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++</group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyingzhong@szangell.com</contact>
-		///*********************************************************
 		class Socket
 		{
 		public:
@@ -208,4 +198,4 @@ namespace System
 	}
 }
 
-#endif //SOCKET_H_
+#endif // SOCKET_H

@@ -160,4 +160,4 @@ namespace System
 	}
 }
 
-#endif //SOCKETTYPE_H_
+#endif // SOCKETTYPE_H

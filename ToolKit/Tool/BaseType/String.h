@@ -19,16 +19,6 @@ namespace System
 {
 	namespace BasicType
 	{
-		///*********************************************************
-		/// <class> String </class>
-		/// <summary>
-		/// We use it casually and it can change to fix the current project encoding
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		class String
 		{
 		public:
@@ -203,4 +193,4 @@ namespace System
 	}
 }
 
-#endif //!STRING_H_
+#endif // STRING_H

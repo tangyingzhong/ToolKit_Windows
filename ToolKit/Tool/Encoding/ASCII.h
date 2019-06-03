@@ -17,16 +17,6 @@ namespace System
 {
 	namespace Encoding
 	{
-		///*********************************************************
-		/// <class> ASCII </class>
-		/// <summary>
-		/// Convert string to be ASCII one
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		class ASCII
 		{
 		public:
@@ -75,4 +65,4 @@ namespace System
 	}
 }
 
-#endif //ASCII_H_
+#endif // ASCII_H

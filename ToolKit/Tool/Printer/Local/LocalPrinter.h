@@ -4,7 +4,10 @@
 /// <contact>tangyz114987@outlook.com</contact>
 /// <version>V1.0.0</version>
 /// <describe>
-/// Local printer which can be used with SerialPort or USB or LPT
+/// It is a higher level abstract for local printer so that it must
+/// support different type connection to printer,such as COM,USB,LPT
+/// But it is more difficult to use because of its needing ESC command
+/// to operate the printer.
 ///</describe>
 /// <date>2019/4/25</date>
 ///***********************************************************************
@@ -18,19 +21,6 @@ namespace System
 {
 	namespace Peripherals
 	{
-		///*********************************************************
-		/// <class> LocalPrinter </class>
-		/// <summary>
-		/// It is a higher level abstract for local printer so that it must
-		/// support different type connection to printer,such as COM,USB,LPT
-		/// But it is more difficult to use because of its needing ESC command
-		/// to operate the printer.
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++</group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///*********************************************************
 		class LocalPrinter :public IPrinter
 		{
 		public:
@@ -111,4 +101,4 @@ namespace System
 	}
 }
 
-#endif //LOCALPRINTER_H
+#endif // LOCALPRINTER_H

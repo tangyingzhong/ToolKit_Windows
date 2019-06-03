@@ -36,4 +36,4 @@ namespace System
 	}
 }
 
-#endif //PRINTERCMD_H
+#endif // PRINTERCMD_H

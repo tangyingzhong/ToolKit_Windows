@@ -15,16 +15,6 @@ namespace System
 {
 	namespace EventArgument
 	{
-		///*********************************************************
-		/// <class> EventArgs </class>
-		/// <summary>
-		/// Base event args for callback events
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		class EventArgs
 		{
 		public:
@@ -46,4 +36,4 @@ namespace System
 	}
 }
 
-#endif //EVENTARGS_H
+#endif // EVENTARGS_H

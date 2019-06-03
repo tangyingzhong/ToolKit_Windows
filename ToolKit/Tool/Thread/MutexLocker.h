@@ -17,16 +17,6 @@ namespace System
 {
 	namespace Thread
 	{
-		///*********************************************************
-		/// <class> MutexLocker </class>
-		/// <summary>
-		/// Help user to manage the lock automatically
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		class MutexLocker
 		{
 		public:
@@ -60,4 +50,4 @@ namespace System
 	}
 }
 
-#endif //MUTEXLOCKER_TANG_H_
+#endif // MUTEXLOCKER_H

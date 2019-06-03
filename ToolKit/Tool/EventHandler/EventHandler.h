@@ -18,16 +18,6 @@ namespace System
 {
 	namespace EventArgument
 	{
-		///*********************************************************
-		/// <class> EventHandler<Args> </class>
-		/// <summary>
-		/// Events handler for calling functions needed.
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		template<class TEventArgs = EventArgs>
 		class EventHandler
 		{
@@ -271,4 +261,4 @@ namespace System
 	}
 }
 
-#endif //EVENT_HANDLER_H_
+#endif // EVENT_HANDLER_H

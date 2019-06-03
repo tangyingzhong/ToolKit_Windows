@@ -19,16 +19,6 @@ namespace System
 {
 	namespace Thread
 	{
-		///*********************************************************
-		/// <class> Semaphore </class>
-		/// <summary>
-		/// Signal for manging resouces, that just like traffic signals
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		class Semaphore
 		{
 		public:
@@ -153,4 +143,4 @@ namespace System
 	}
 }
 
-#endif //SEMAPHORE_TANG_H_
+#endif // SEMAPHORE_H

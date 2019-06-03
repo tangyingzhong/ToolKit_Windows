@@ -4,7 +4,8 @@
 /// <contact>tangyz114987@outlook.com</contact>
 /// <version>V1.0.0</version>
 /// <describe>
-/// It offers the common interface for the printers
+/// You can use this interface to operate different type printers
+/// USB Printer's GUID is { 0xA5DCBF10L, 0x6530, 0x11D2,0x90, 0x1F, 0x00, 0xC0, 0x4F, 0xB9, 0x51, 0xED }
 ///</describe>
 /// <date>2019/4/25</date>
 ///***********************************************************************
@@ -17,17 +18,6 @@ namespace System
 {
 	namespace Peripherals
 	{
-		///*********************************************************
-		/// <class> IPrinter </class>
-		/// <summary>
-		/// You can use this interface to operate different type printers
-		/// USB Printer's GUID is { 0xA5DCBF10L, 0x6530, 0x11D2,0x90, 0x1F, 0x00, 0xC0, 0x4F, 0xB9, 0x51, 0xED }
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++</group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///*********************************************************
 		class IPrinter
 		{
 		public:
@@ -60,4 +50,4 @@ namespace System
 	}
 }
 
-#endif //IPRINTER_H
+#endif // IPRINTER_H

@@ -17,16 +17,6 @@ namespace System
 {
 	namespace BasicType
 	{
-		///*********************************************************
-		/// <class> Double </class>
-		/// <summary>
-		/// Make it as an object we used to,so that we can make it powerful
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		class Double
 		{
 		public:
@@ -111,4 +101,4 @@ namespace System
 	}
 }
 
-#endif //DOUBLE_TANG_H_
+#endif // DOUBLE_H

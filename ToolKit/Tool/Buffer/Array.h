@@ -17,17 +17,6 @@ namespace System
 {
 	namespace Buffer
 	{
-		///*********************************************************
-		/// <class>Array<T></class>
-		/// <summary>
-		/// We can use it like an array,so that we do not need
-		/// to notice the array's memory management
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		template<class T>
 		class Array
 		{
@@ -395,4 +384,4 @@ namespace System
 	}
 }
 
-#endif //ARRAY_H
+#endif // ARRAY_H

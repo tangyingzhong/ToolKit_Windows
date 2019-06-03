@@ -17,16 +17,6 @@ namespace System
 {
 	namespace Network
 	{
-		///*********************************************************
-		/// <class>SocketClient</class>
-		/// <summary>
-		///  client using socket
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++</group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyingzhong@szangell.com</contact>
-		///*********************************************************
 		class SocketClient
 		{
 		public:
@@ -158,4 +148,4 @@ namespace System
 	}
 }
 
-#endif //SOCKETCLIENT_H_
+#endif // SOCKETCLIENT_H
