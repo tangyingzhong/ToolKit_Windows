@@ -39,7 +39,7 @@ namespace System
 	typedef std::wstring StdString;										// String of the STL
 	typedef std::wstringstream StringStream;							// Convert string to other type data or other type data transfers to be string
 #else
-	typedef SByte Character;												// An character that is ranged from -128 - 127
+	typedef SByte Character;											// An character that is ranged from -128 - 127
 	typedef Character* CharArray;										// Characters' array
 	typedef std::string StdString;										// String of the STL
 	typedef std::stringstream StringStream;								// Convert string to other type data or other type data transfers to be string
@@ -234,4 +234,4 @@ namespace System
 	}FileAttribute;
 }
 
-#endif // !SYSTEMTYPE_H
+#endif // SYSTEMTYPE_H
