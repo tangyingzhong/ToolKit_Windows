@@ -4,7 +4,7 @@
 /// <contact>tangyz114987@outlook.com</contact>
 /// <version>V1.0.0</version>
 /// <describe>
-/// Queue structure which is designed by principle ,FIFO
+/// FIFO data structure.you can only read the first element and wirte to the end
 ///</describe>
 /// <date>2019/3/6</date>
 ///***********************************************************************
@@ -17,16 +17,6 @@ namespace System
 {
 	namespace Buffer
 	{
-		///*********************************************************
-		/// <class> Queue<T> </class>
-		/// <summary>
-		/// FIFO data structure.you can only read the first element and wirte to the end
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		template<class T>
 		class Queue
 		{

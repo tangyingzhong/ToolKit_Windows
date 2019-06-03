@@ -4,7 +4,7 @@
 /// <contact>tangyz114987@outlook.com</contact>
 /// <version>V1.0.0</version>
 /// <describe>
-/// SingleList structure which can fast insert and delete elments
+/// List can insert and delete the elements quickly.
 ///</describe>
 /// <date>2019/3/6</date>
 ///***********************************************************************
@@ -17,16 +17,6 @@ namespace System
 {
 	namespace Buffer
 	{
-		///*********************************************************
-		/// <class> SingleList<T> </class>
-		/// <summary>
-		/// List can insert and delete the elements quickly.
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		template<class T>
 		class SingleList
 		{

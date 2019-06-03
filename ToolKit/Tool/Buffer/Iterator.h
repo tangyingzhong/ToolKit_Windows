@@ -17,16 +17,6 @@ namespace System
 {
 	namespace Buffer
 	{
-		///*********************************************************
-		/// <class> Iterator<T> </class>
-		/// <summary>
-		/// Make effect like a pointer
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++ </group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyz114987@outlook.com</contact>
-		///**********************************************************/
 		template<class T>
 		class Iterator
 		{
