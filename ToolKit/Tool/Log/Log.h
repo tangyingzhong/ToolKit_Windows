@@ -23,16 +23,6 @@ namespace System
 {
 	namespace IO
 	{
-		///*********************************************************
-		/// <class>Log</class>
-		/// <summary>
-		/// Log the message to the file
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++</group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyingzhong@szangell.com</contact>
-		///*********************************************************
 		class Log
 		{
 		public:
@@ -145,18 +135,18 @@ namespace System
 			// The mutex
 			static Lock m_Mutex;
 
-			// The directory of log file
-			static String m_Directory;
-
-			// Back up directory of log file
-			static String m_BackupDirectory;
-
 		private:
 			// The file in the windows
 			LogFile m_LogFile;
 
 			// The name of log file
 			String m_LogFileName;
+
+			// The directory of log file
+			String m_Directory;
+
+			// Back up directory of log file
+			String m_BackupDirectory;
 
 			// Message array
 			LogMessageTable m_LogMesaageTable;
@@ -167,4 +157,4 @@ namespace System
 	}
 }
 
-#endif // !LOG_H_
+#endif // LOG_H

@@ -11,10 +11,6 @@ Log* Log::m_Instance = NULL;
 
 Log::Lock Log::m_Mutex = new Mutex();
 
-String Log::m_Directory = _T("D:\\SystemLog");
-
-String Log::m_BackupDirectory = _T("D:\\BackupLog");
-
 ///************************************************************************
 /// <summary>
 /// get the instance of log
@@ -50,7 +46,7 @@ Log* Log::GetInstance()
 /// none
 /// </remarks>
 ///***********************************************************************
-Log::Log()
+Log::Log() :m_Directory(_T("D:\\SystemLog")), m_BackupDirectory(_T("D:\\BackupLog"))
 {
 	Initialize();
 }
