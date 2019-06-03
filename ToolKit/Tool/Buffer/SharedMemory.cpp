@@ -199,16 +199,16 @@ SharedMemory::BOOL SharedMemory::Write(ByteArray buffer, Length offset, Length l
 		this->Open();
 	}
 
-	//Map to a view
+	// Map to a view
 	Object pShared = ::MapViewOfFile(this->GetMapfileHandle(), FILE_MAP_ALL_ACCESS, 0, 0, 0);
 	if (pShared == NULL)
 	{
 		return bSuccess;
 	}
-	//Copy the data from the map file
+	// Copy the data from the map file
 	Array<Byte>::Copy(buffer + offset, len, (ByteArray)pShared, len);
 
-	//UnMap to the view
+	// UnMap to the view
 	::UnmapViewOfFile(pShared);
 
 	bSuccess = true;
