@@ -97,4 +97,4 @@ namespace System
 	}
 }
 
-#endif //Queue_H_
+#endif // QUEUE_H

@@ -359,4 +359,4 @@ namespace System
 	}
 }
 
-#endif //DOUBLELIST_H
+#endif // DOUBLELIST_H

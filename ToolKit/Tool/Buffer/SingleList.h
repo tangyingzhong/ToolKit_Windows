@@ -423,4 +423,4 @@ namespace System
 	}
 }
 
-#endif //SINGLELIST_H
+#endif // SINGLELIST_H

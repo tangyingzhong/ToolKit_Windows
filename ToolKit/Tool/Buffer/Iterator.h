@@ -134,4 +134,4 @@ namespace System
 	}
 }
 
-#endif //ITERATOR_H
+#endif // ITERATOR_H
