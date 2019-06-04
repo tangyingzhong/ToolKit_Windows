@@ -6,8 +6,6 @@ using namespace System::IO;
 using namespace System::Buffer;
 using namespace System::MultiMedia;
 
-AudioPlayer::Lock AudioPlayer::m_Mutex = new Mutex();
-
 ///************************************************************************
 /// <summary>
 /// Construct the AudioPlayer
@@ -17,7 +15,8 @@ AudioPlayer::Lock AudioPlayer::m_Mutex = new Mutex();
 /// none
 /// </remarks>
 ///***********************************************************************
-AudioPlayer::AudioPlayer() :m_MusicFileName(_T("")),
+AudioPlayer::AudioPlayer() :m_Mutex(NULL),
+m_MusicFileName(_T("")),
 m_BlockPlayer(NULL),
 m_WinFile(NULL),
 m_PlayStatus(PlayStatus::PLAYER_NOT_START),
@@ -54,6 +53,9 @@ AudioPlayer::~AudioPlayer()
 ///***********************************************************************
 AudioPlayer::Empty AudioPlayer::Initialize()
 {
+	// Create a lock
+	CreateLock();
+
 	// Create a windows file
 	CreateWinFile();
 }
@@ -81,8 +83,23 @@ AudioPlayer::Empty AudioPlayer::Destory()
 		DestoryWinFile();
 
 		// Destory the lock
-		DestoryMutex();
+		DestoryLock();
 	}
+}
+
+
+///************************************************************************
+/// <summary>
+/// Create a lock
+/// </summary>
+/// <returns></returns>
+/// <remarks>
+/// none
+/// </remarks>
+///***********************************************************************
+AudioPlayer::Empty AudioPlayer::CreateLock()
+{
+	this->SetMutex(new Mutex());
 }
 
 
@@ -95,12 +112,13 @@ AudioPlayer::Empty AudioPlayer::Destory()
 /// none
 /// </remarks>
 ///***********************************************************************
-AudioPlayer::Empty AudioPlayer::DestoryMutex()
+AudioPlayer::Empty AudioPlayer::DestoryLock()
 {
-	if (AudioPlayer::m_Mutex)
+	if (this->GetMutex())
 	{
-		delete AudioPlayer::m_Mutex;
-		AudioPlayer::m_Mutex = NULL;
+		delete this->GetMutex();
+
+		this->SetMutex(NULL);
 	}
 }
 
@@ -134,6 +152,7 @@ AudioPlayer::Empty AudioPlayer::DestoryBlockPlayer()
 	if (this->GetBlockPlayer())
 	{
 		delete this->GetBlockPlayer();
+
 		this->SetBlockPlayer(NULL);
 	}
 }
@@ -168,6 +187,7 @@ AudioPlayer::Empty AudioPlayer::DestoryWinFile()
 	if (this->GetFile())
 	{
 		delete this->GetFile();
+
 		this->SetFile(NULL);
 	}
 }
@@ -316,8 +336,7 @@ AudioPlayer::Empty AudioPlayer::Play(String fileName)
 
 	// New a space for the file piece data
 	Array<SByte> readBlockArray(runSize);
-	Array<SByte>::Clear(readBlockArray, 0, runSize);
-
+	
 	// Loop playing the piece data
 	while (1)
 	{
@@ -379,11 +398,11 @@ AudioPlayer::Empty AudioPlayer::Pause()
 {
 	if (this->GetBlockPlayer())
 	{
-		m_Mutex->Lock();
+		this->GetMutex()->Lock();
 		{
 			SetPlayStatus(PlayStatus::PLAYER_PAUSE);
 		}
-		m_Mutex->Unlock();
+		this->GetMutex()->Unlock();
 	}
 }
 
@@ -401,11 +420,11 @@ AudioPlayer::Empty AudioPlayer::Continue()
 {
 	if (this->GetBlockPlayer())
 	{
-		m_Mutex->Lock();
+		this->GetMutex()->Lock();
 		{
 			SetPlayStatus(PlayStatus::PLAYER_CONTINUE);
 		}
-		m_Mutex->Unlock();
+		this->GetMutex()->Unlock();
 	}
 }
 
@@ -423,10 +442,10 @@ AudioPlayer::Empty AudioPlayer::Stop()
 {
 	if (this->GetBlockPlayer())
 	{
-		m_Mutex->Lock();
+		this->GetMutex()->Lock();
 		{
 			SetPlayStatus(PlayStatus::PLAYER_STOP);
 		}
-		m_Mutex->Unlock();
+		this->GetMutex()->Unlock();
 	}
 }

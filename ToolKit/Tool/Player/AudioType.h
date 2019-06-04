@@ -81,9 +81,9 @@ namespace System
 			PLAYER_PAUSE,													// Pause the play but can play again here
 			PLAYER_CONTINUE													// continue palying at the position
 		}PlayStatus;
-
-		typedef WAVEHDR* CacheBlock;
+		
 		typedef WAVEHDR BlockHead;
+		typedef BlockHead* CacheBlock;
 
 		// Audio's head
 		typedef struct _AudioHeadBlock
@@ -94,4 +94,4 @@ namespace System
 	}
 }
 
-#endif//!AUDIOTYPE_H_
+#endif// AUDIOTYPE_H

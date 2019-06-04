@@ -4,7 +4,7 @@
 /// <contact>tangyz114987@outlook.com</contact>
 /// <version>V1.0.0</version>
 /// <describe>
-/// Audio player
+/// Audio player which plays PCM files
 ///</describe>
 /// <date>2019/3/6</date>
 ///***********************************************************************
@@ -22,16 +22,6 @@ namespace System
 {
 	namespace MultiMedia
 	{
-		///*********************************************************
-		/// <class>AudioPlayer</class>
-		/// <summary>
-		/// play pcm file
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++</group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyingzhong@szangell.com</contact>
-		///*********************************************************
 		class AudioPlayer
 		{
 		public:
@@ -92,8 +82,11 @@ namespace System
 			// Destory the palyer
 			Empty Destory();
 
+			// Create a lock
+			Empty CreateLock();
+
 			// Destory the lock
-			Empty DestoryMutex();
+			Empty DestoryLock();
 
 			// Create a block player
 			Empty CreateBlockPlayer(CodingFormat eCodingFormat, Channel eChannel, BitWidth eBitWidth, SampleFreq eSampleFreq);
@@ -111,6 +104,18 @@ namespace System
 			AudioHeader GetHeadInfo(String strFileName);
 
 		private:
+			// Get the Mutex
+			Lock GetMutex() const
+			{
+				return this->m_Mutex;
+			}
+
+			// Set the Mutex
+			void SetMutex(Lock pMutex)
+			{
+				this->m_Mutex = pMutex;
+			}
+
 			// Get the music file name 
 			inline String GetMusicFileName() const
 			{
@@ -173,7 +178,7 @@ namespace System
 
 		private:
 			// Thread lock
-			static Lock m_Mutex;
+			Lock m_Mutex;
 
 			// Music file name
 			String m_MusicFileName;

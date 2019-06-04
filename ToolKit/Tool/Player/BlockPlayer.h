@@ -23,16 +23,6 @@ namespace System
 {
 	namespace MultiMedia
 	{
-		///*********************************************************
-		/// <class>BlockPlayer</class>
-		/// <summary>
-		///  play block data of pcm file
-		/// </summary>
-		/// <version>V1.0.0 </version>
-		/// <goup> C++</group>
-		/// <author>tangyingzhong</author>
-		/// <contact>tangyingzhong@szangell.com</contact>
-		///*********************************************************
 		class BlockPlayer
 		{
 		public:
