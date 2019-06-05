@@ -4,7 +4,7 @@
 /// <contact>tangyz114987@outlook.com</contact>
 /// <version>V1.0.0</version>
 /// <describe>
-/// Audio player which plays PCM files
+/// Audio player which plays PCM files on windows
 ///</describe>
 /// <date>2019/3/6</date>
 ///***********************************************************************
