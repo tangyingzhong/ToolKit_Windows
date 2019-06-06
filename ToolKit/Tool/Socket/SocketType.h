@@ -25,66 +25,176 @@ namespace System
 
 		typedef enum _AddressFamily
 		{
-			UnknownAddr = -1,												// Unknown address family.	
-			UnspecifiedAddr = 0,											// Unspecified address family.		
-			Unix = 1,																// Unix local to host address.
-			InterNetwork = 2,													// Address for IP version 4.
-			ImpLink = 3,															// ARPANET IMP address.
-			PupAddr = 4,														// Address for PUP protocols.
-			Chaos = 5,															// Address for MIT CHAOS protocols.
-			IpxAddr = 6,															// IPX or SPX address.
-			NS = 6,																	// Address for Xerox NS protocols.
-			Osi = 7,																	// Address for OSI protocols.
-			Iso = 7,																	// Address for ISO protocols.
-			Ecma = 8,																// European Computer Manufacturers Association (ECMA) address.
-			DataKit = 9,															// Address for Datakit protocols.
-			Ccitt = 10,																// Addresses for CCITT protocols, such as X.25.
-			Sna = 11,																// IBM SNA address.
-			DecNet = 12,														// DECnet address.
-			DataLink = 13,														// Direct data-link interface address.
-			Lat = 14,																// LAT address.
-			HyperChannel = 15,												// NSC Hyperchannel address.
-			AppleTalk = 16,														// AppleTalk address.
-			NetBios = 17,														// NetBios address.
-			VoiceView = 18,													// VoiceView address.
-			FireFox = 19,															// FireFox address.
-			Banyan = 21,														// Banyan address.
-			Atm = 22,																// Native ATM services address.
-			InterNetworkV6 = 23,											// Address for IP version 6.
-			Cluster = 24,															// Address for Microsoft cluster products.
-			Ieee12844 = 25,													// IEEE 1284.4 workgroup address.
-			Irda = 26,																// IrDA address.
-			NetworkDesigners = 28,										// Address for Network Designers OSI gateway-enabled protocols.
-			Max = 29,																// MAX address.
+			// Unknown address family.	
+			UnknownAddr = -1,						
+
+			// Unspecified address family.	
+			UnspecifiedAddr = 0,				
+
+			// Unix local to host address.
+			Unix = 1,						
+
+			// Address for IP version 4.
+			InterNetwork = 2,			
+
+			// ARPANET IMP address.
+			ImpLink = 3,				
+
+			// Address for PUP protocols.
+			PupAddr = 4,							
+
+			// Address for MIT CHAOS protocols.
+			Chaos = 5,							
+
+			// IPX or SPX address.
+			IpxAddr = 6,															
+
+			// Address for Xerox NS protocols.
+			NS = 6,																	
+
+			// Address for OSI protocols.
+			Osi = 7,																	
+
+			// Address for ISO protocols.
+			Iso = 7,												
+
+			// European Computer Manufacturers Association (ECMA) address.
+			Ecma = 8,																
+
+			// Address for Datakit protocols.
+			DataKit = 9,							
+
+			// Addresses for CCITT protocols, such as X.25.
+			Ccitt = 10,														
+
+			// IBM SNA address.
+			Sna = 11,																
+
+			// DECnet address.
+			DecNet = 12,					
+
+			// Direct data-link interface address.
+			DataLink = 13,									
+
+			// LAT address.
+			Lat = 14,												
+
+			// NSC Hyperchannel address.
+			HyperChannel = 15,	
+
+			// AppleTalk address.
+			AppleTalk = 16,								
+
+			// NetBios address.
+			NetBios = 17,														
+
+			// VoiceView address.
+			VoiceView = 18,													
+
+			// FireFox address.
+			FireFox = 19,												
+
+			// Banyan address.
+			Banyan = 21,														
+
+			// Native ATM services address.
+			Atm = 22,																
+
+			// Address for IP version 6.
+			InterNetworkV6 = 23,								
+
+			// Address for Microsoft cluster products.
+			Cluster = 24,															
+
+			// IEEE 1284.4 workgroup address.
+			Ieee12844 = 25,									
+
+			// IrDA address.
+			Irda = 26,													
+
+			// Address for Network Designers OSI gateway-enabled protocols.
+			NetworkDesigners = 28,									
+
+			// MAX address.
+			Max = 29,																
 		}AddressFamily;
 
 		typedef enum _ProtocolType
 		{
-			UnknownProtocol = -1,										// Unknown protocol.
-			IPv6HopByHopOptions = 0,									// IPv6 Hop by Hop Options header.
-			UnspecifiedProtocol = 0,										// Unspecified protocol.
-			IP = 0,																	// Internet Protocol.
-			Icmp = 1,																// Internet Control Message Protocol.
-			Igmp = 2,																// Internet Group Management Protocol.
-			Ggp = 3,																// Gateway To Gateway Protocol.
-			IPv4 = 4,																// Internet Protocol version 4.
-			Tcp = 6,																// Transmission Control Protocol.
-			PupProtocol = 12,													// PARC Universal Packet Protocol.
-			Udp = 17,																// User Datagram Protocol.
-			Idp = 22,																// Internet Datagram Protocol.
-			IPv6 = 41,																// Internet Protocol version 6 (IPv6).
-			IPv6RoutingHeader = 43,										// IPv6 Routing header.
-			IPv6FragmentHeader = 44,									// IPv6 Fragment header.
-			IPSecEncapsulatingSecurityPayload = 50,				// IPv6 Encapsulating Security Payload header.
-			IPSecAuthenticationHeader = 51,							// IPv6 Authentication header. For details, see RFC 2292 section 2.2.1, available
-			IcmpV6 = 58,														// Internet Control Message Protocol for IPv6.
-			IPv6NoNextHeader = 59,										// IPv6 No next header.
-			IPv6DestinationOptions = 60,								// IPv6 Destination Options header.
-			ND = 77,																// Net Disk Protocol (unofficial).
-			RawProtocol = 255,												// Raw IP packet protocol.
-			IpxProtocol = 1000,												// Internet Packet Exchange Protocol.
-			Spx = 1256,															// Sequenced Packet Exchange protocol.
-			SpxII = 1257,															// Sequenced Packet Exchange version 2 protocol.
+			// Unknown protocol.
+			UnknownProtocol = -1,										
+
+			// IPv6 Hop by Hop Options header.
+			IPv6HopByHopOptions = 0,								
+
+			// Unspecified protocol.
+			UnspecifiedProtocol = 0,		
+
+			// Internet Protocol.
+			IP = 0,												
+
+			// Internet Control Message Protocol.
+			Icmp = 1,																
+
+			// Internet Group Management Protocol.
+			Igmp = 2,																
+
+			// Gateway To Gateway Protocol.
+			Ggp = 3,																
+
+			// Internet Protocol version 4.
+			IPv4 = 4,																
+
+			// Transmission Control Protocol.
+			Tcp = 6,																
+
+			// PARC Universal Packet Protocol.
+			PupProtocol = 12,							
+
+			// User Datagram Protocol.
+			Udp = 17,																
+
+			// Internet Datagram Protocol.
+			Idp = 22,																
+
+			// Internet Protocol version 6 (IPv6).
+			IPv6 = 41,																
+
+			// IPv6 Routing header.
+			IPv6RoutingHeader = 43,										
+
+			// IPv6 Fragment header.
+			IPv6FragmentHeader = 44,									
+
+			// IPv6 Encapsulating Security Payload header.
+			IPSecEncapsulatingSecurityPayload = 50,				
+
+			// IPv6 Authentication header. For details, see RFC 2292 section 2.2.1, available
+			IPSecAuthenticationHeader = 51,							
+
+			// Internet Control Message Protocol for IPv6.
+			IcmpV6 = 58,														
+
+			// IPv6 No next header.
+			IPv6NoNextHeader = 59,										
+
+			// IPv6 Destination Options header.
+			IPv6DestinationOptions = 60,								
+
+			// Net Disk Protocol (unofficial).
+			ND = 77,															
+
+			// Raw IP packet protocol.
+			RawProtocol = 255,											
+
+			// Internet Packet Exchange Protocol.
+			IpxProtocol = 1000,												
+
+			// Sequenced Packet Exchange protocol.
+			Spx = 1256,															
+
+			// Sequenced Packet Exchange version 2 protocol.
+			SpxII = 1257,															
 		}ProtocolType;
 
 		typedef enum _SocketType

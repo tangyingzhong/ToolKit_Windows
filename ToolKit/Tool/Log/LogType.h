@@ -28,10 +28,15 @@ namespace System
 
 	typedef enum
 	{
-		MAX_FILE_SIZE = 10 * 1024 * 1024,						// The log file's max size
-		MAX_MSG_NUM = 3,											// The container of log's max contains
-		ERROR_TYPE_NUM = 9											// The number of error type
+		// The log file's max size
+		MAX_FILE_SIZE = 10 * 1024 * 1024,					
+
+		// The container of log's max contains
+		MAX_MSG_NUM = 3,						
+
+		// The number of error type
+		ERROR_TYPE_NUM = 9											
 	}LogConfig;
 }
 
-#endif // !LOGTYPE_H_
+#endif // LOGTYPE_H
