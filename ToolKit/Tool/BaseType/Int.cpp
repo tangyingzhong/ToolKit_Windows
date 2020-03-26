@@ -1,343 +1,147 @@
-#include "Application\PreCompile.h"
+#include "PreCompile.h"
 #include "Int.h"
 
 using namespace System::BasicType;
 
-///************************************************************************
-/// <summary>
-/// Contruct a int 
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Contruct a int 
 Int::Int() :m_Value(0)
 {
 
 }
 
-
-///************************************************************************
-/// <summary>
-/// Contruct a int with a GetValue 
-/// </summary>
-/// <param name=v>initialize the Int with a GetValue</param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Contruct a int with a GetValue 
 Int::Int(int iGetValue) :m_Value(iGetValue)
 {
 
 }
 
-///************************************************************************
-/// <summary>
-/// Destruct the int
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Destruct the int
 Int::~Int()
 {
 
 }
 
-
-///************************************************************************
-/// <summary>
-/// Copy Int
-/// </summary>
-/// <param name=Another></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Copy Int
 Int::Int(const Int& Another)
 {
-	this->SetValue(Another.GetValue());
+	SetValue(Another.GetValue());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Asiigment of Int
-/// </summary>
-/// <param name=Another></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Asiigment of Int
 Int& Int::operator=(const Int& Another)
 {
 	if (this != &Another)
 	{
-		this->SetValue(Another.GetValue());
+		SetValue(Another.GetValue());
 	}
 
 	return *this;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the + object
-/// </summary>
-/// <param name=Another>Object of Int</param>
-/// <returns>The result of +</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the + object
 Int Int::operator+(Int& Another)
 {
-	return (this->GetValue() + Another.GetValue());
+	return (GetValue() + Another.GetValue());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the + GetValue
-/// </summary>
-/// <param name=GetValue>A GetValue</param>
-/// <returns>The Object</returns>
-/// <remarks>
-/// 
-/// </remarks>
-///***********************************************************************
+// Implement the + GetValue
 Int Int::operator+(int iValue)
 {
-	return (this->GetValue() + iValue);
+	return (GetValue() + iValue);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the += object
-/// </summary>
-/// <param name=Another></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the += object
 Int Int::operator+=(Int& Another)
 {
-	return (this->m_Value += Another.GetValue());
+	return (m_Value += Another.GetValue());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the += GetValue
-/// </summary>
-/// <param name=GetValue></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the += GetValue
 Int Int::operator+=(int iValue)
 {
-	return (this->m_Value += iValue);
+	return (m_Value += iValue);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the -= object
-/// </summary>
-/// <param name=Another></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///************************************************************************
+// Implement the -= object
 Int Int::operator-=(Int& Another)
 {
-	return (this->m_Value -= Another.GetValue());
+	return (m_Value -= Another.GetValue());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the -= GetValue
-/// </summary>
-/// <param name=GetValue></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///************************************************************************
+// Implement the -= GetValue
 Int Int::operator-=(int iValue)
 {
-	return (this->m_Value -= iValue);
+	return (m_Value -= iValue);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the - object
-/// </summary>
-/// <param name=Another>Object of Int</param>
-/// <returns>The Int Object</returns>
-/// <remarks>
-/// 
-/// </remarks>
-///***********************************************************************
+// Implement the - object
 Int Int::operator-(Int& Another)
 {
-	return (this->GetValue() - Another.GetValue());
+	return (GetValue() - Another.GetValue());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the - GetValue
-/// </summary>
-/// <param name=GetValue>A GetValue</param>
-/// <returns>The Int Object</returns>
-/// <remarks>
-/// 
-/// </remarks>
-///***********************************************************************
+// Implement the - GetValue
 Int Int::operator-(int iValue)
 {
-	return (this->GetValue() - iValue);
+	return (GetValue() - iValue);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the * object
-/// </summary>
-/// <param name=Another>An Object of Int</param>
-/// <returns>Object of Int</returns>
-/// <remarks>
-/// 
-/// </remarks>
-///***********************************************************************
+// Implement the * object
 Int Int::operator*(Int& Another)
 {
-	return (this->GetValue()*Another.GetValue());
+	return (GetValue()*Another.GetValue());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the * GetValue
-/// </summary>
-/// <param name=GetValue>A GetValue</param>
-/// <returns>The Int Object</returns>
-/// <remarks>
-/// 
-/// </remarks>
-///***********************************************************************
+// Implement the * GetValue
 Int Int::operator*(int iValue)
 {
-	return (this->GetValue()*iValue);
+	return (GetValue()*iValue);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the / object
-/// </summary>
-/// <param name=Another>An Object</param>
-/// <returns>The Int Object</returns>
-/// <remarks>
-/// 
-/// </remarks>
-///***********************************************************************
+// Implement the / object
 Int Int::operator/(Int& Another)
 {
 	if (Another.GetValue() == 0)
 	{
-		MessageBox(NULL, _T("Divider can't be 0"), _T("Int Error"), 0);
-
+		ERROR_MESSAGEBOX(_T("Int Error"), _T("Divider can't be 0"));
+	
 		return -1;
 	}
 
-	return (this->GetValue() / Another.GetValue());
+	return (GetValue() / Another.GetValue());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the / GetValue
-/// </summary>
-/// <param name=GetValue>A GetValue</param>
-/// <returns>The Int Object</returns>
-/// <remarks>
-/// 
-/// </remarks>
-///***********************************************************************
+// Implement the / GetValue
 Int Int::operator/(int iValue)
 {
 	if (iValue == 0)
 	{
-		MessageBox(NULL, _T("Divider can't be 0"), _T("Int Error"), 0);
+		ERROR_MESSAGEBOX(_T("Int Error"), _T("Divider can't be 0"));
 
 		return -1;
 	}
 
-	return (this->GetValue() / iValue);
+	return (GetValue() / iValue);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the % object
-/// </summary>
-/// <param name=Another>An Object</param>
-/// <returns>The Object of Int</returns>
-/// <remarks>
-/// 
-/// </remarks>
-///***********************************************************************
+// Implement the % object
 Int Int::operator%(Int& Another)
 {
-	return ((this->GetValue()) % (Another.GetValue()));
+	return ((GetValue()) % (Another.GetValue()));
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the % GetValue
-/// </summary>
-/// <param name=GetValue>A GetValue</param>
-/// <returns>Int Object</returns>
-/// <remarks>
-/// 
-/// </remarks>
-///***********************************************************************
+// Implement the % GetValue
 Int Int::operator%(int iValue)
 {
-	return (this->GetValue() % iValue);
+	return (GetValue() % iValue);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Equal to another one
-/// </summary>
-/// <param name=value>the Another object</param>
-/// <returns>false£ºnot equal true£ºequal</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Equal to another one
 Int::BOOL Int::Equal(Int Another)
 {
 	BOOL bEqual = false;
 
-	if (this->GetValue() == Another.GetValue())
+	if (GetValue() == Another.GetValue())
 	{
 		bEqual = true;
 	}
@@ -345,202 +149,84 @@ Int::BOOL Int::Equal(Int Another)
 	return bEqual;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the == object
-/// </summary>
-/// <param name=Another>the Another object</param>
-/// <returns>false£ºnot equal true£ºequal</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the == object
 Int::BOOL Int::operator==(Int& Another)
 {
-	return this->Equal(Another);
+	return Equal(Another);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the % GetValue
-/// </summary>
-/// <param name=GetValue>int GetValue</param>
-/// <returns>false£ºnot equal true£ºequal</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the % GetValue
 Int::BOOL Int::operator==(int iValue)
 {
-	return this->Equal(iValue);
+	return Equal(iValue);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the != object
-/// </summary>
-/// <param name=Another>the Another object</param>
-/// <returns>false£ºequal true£ºnot equal</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the != object
 Int::BOOL Int::operator!=(Int& Another)
 {
-	return this->Equal(Another);
+	return !Equal(Another);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the % GetValue
-/// </summary>
-/// <param name=GetValue>int GetValue</param>
-/// <returns>false£ºequal true£ºnot equal</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the % GetValue
 Int::BOOL Int::operator!=(int iValue)
 {
-	return this->Equal(iValue);
+	return !Equal(iValue);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the << object
-/// </summary>
-/// <param name=Another>the Another object</param>
-/// <returns>reference int </returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the << object
 Int Int::operator << (Int& Another)
 {
-	return (this->m_Value << Another.GetValue());
+	return (m_Value << Another.GetValue());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the << GetValue
-/// </summary>
-/// <param name=GetValue>int GetValue</param>
-/// <returns>reference int</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the << GetValue
 Int Int::operator<<(int iValue)
 {
-	return (this->m_Value << iValue);
+	return (m_Value << iValue);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the >> object
-/// </summary>
-/// <param name=Another>the Another object</param>
-/// <returns>reference int</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the >> object
 Int Int::operator >> (Int& Another)
 {
-	return (this->m_Value >> Another.GetValue());
+	return (m_Value >> Another.GetValue());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the >> GetValue
-/// </summary>
-/// <param name=GetValue>int GetValue</param>
-/// <returns>reference int</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the >> GetValue
 Int Int::operator >> (int iValue)
 {
-	return (this->m_Value >> iValue);
+	return (m_Value >> iValue);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the ! object
-/// </summary>
-/// <returns>reference int</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the ! object
 Int::BOOL Int::operator!()
 {
-	return (!this->GetValue());
+	return (!GetValue());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the object++ 
-/// </summary>
-/// <returns>reference of Int</returns>
-/// <remarks>
-/// this is a++
-/// </remarks>
-///***********************************************************************
+// Implement the object++ 
 Int& Int::operator++()
 {
-	++(this->m_Value);
+	++(m_Value);
 
 	return *this;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the ++object
-/// </summary>
-/// <param name=></param>
-/// <returns>reference of Int</returns>
-/// <remarks>
-/// this is ++a
-/// </remarks>
-///***********************************************************************
+// Implement the ++object
 Int Int::operator++(int)
 {
 	Int temp = *this;
 
-	(this->m_Value)++;
+	(m_Value)++;
 
 	return temp;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the >object
-/// </summary>
-/// <param name=Another>the Another object</param>
-/// <returns>false£º<=   true£º></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the >object
 Int::BOOL Int::operator>(Int& Another)
 {
 	BOOL bOK = false;
 
-	if (this->GetValue() > Another.GetValue())
+	if (GetValue() > Another.GetValue())
 	{
 		bOK = true;
 	}
@@ -548,22 +234,12 @@ Int::BOOL Int::operator>(Int& Another)
 	return bOK;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the > GetValue
-/// </summary>
-/// <param name=Another>int GetValue</param>
-/// <returns>false£º<=   true£º></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the > GetValue
 Int::BOOL Int::operator>(int iValue)
 {
 	BOOL bOK = false;
 
-	if (this->GetValue() > iValue)
+	if (GetValue() > iValue)
 	{
 		bOK = true;
 	}
@@ -571,22 +247,12 @@ Int::BOOL Int::operator>(int iValue)
 	return bOK;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the >=object
-/// </summary>
-/// <param name=Another>the Another obeject</param>
-/// <returns>false£º<   true£º>= </returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the >=object
 Int::BOOL Int::operator>=(Int& Another)
 {
 	BOOL bOK = false;
 
-	if (this->GetValue() >= Another.GetValue())
+	if (GetValue() >= Another.GetValue())
 	{
 		bOK = true;
 	}
@@ -594,22 +260,12 @@ Int::BOOL Int::operator>=(Int& Another)
 	return bOK;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the >= GetValue
-/// </summary>
-/// <param name=Another>int GetValue</param>
-/// <returns>false£º<   true£º>= </returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the >= GetValue
 Int::BOOL Int::operator>=(int iValue)
 {
 	BOOL bOK = false;
 
-	if (this->GetValue() >= iValue)
+	if (GetValue() >= iValue)
 	{
 		bOK = true;
 	}
@@ -617,22 +273,12 @@ Int::BOOL Int::operator>=(int iValue)
 	return bOK;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the <object
-/// </summary>
-/// <param name=Another>the Another object</param>
-/// <returns>false£º>=   true£º< </returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the <object
 Int::BOOL Int::operator<(Int& Another)
 {
 	BOOL bOK = false;
 
-	if (this->GetValue() < Another.GetValue())
+	if (GetValue() < Another.GetValue())
 	{
 		bOK = true;
 	}
@@ -640,22 +286,12 @@ Int::BOOL Int::operator<(Int& Another)
 	return bOK;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the < GetValue
-/// </summary>
-/// <param name=Another>int GetValue</param>
-/// <returns>false£º>=   true£º< </returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the < GetValue
 Int::BOOL Int::operator<(int iValue)
 {
 	BOOL bOK = false;
 
-	if (this->GetValue() < iValue)
+	if (GetValue() < iValue)
 	{
 		bOK = true;
 	}
@@ -663,22 +299,12 @@ Int::BOOL Int::operator<(int iValue)
 	return bOK;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the <=object
-/// </summary>
-/// <param name=Another>the Another object</param>
-/// <returns>false£º>   true£º<= </returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the <=object
 Int::BOOL Int::operator<=(Int& Another)
 {
 	BOOL bOK = false;
 
-	if (this->GetValue() <= Another.GetValue())
+	if (GetValue() <= Another.GetValue())
 	{
 		bOK = true;
 	}
@@ -686,22 +312,12 @@ Int::BOOL Int::operator<=(Int& Another)
 	return bOK;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the < GetValue
-/// </summary>
-/// <param name=Another>int GetValue</param>
-/// <returns>false£º>   true£º<= </returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the < GetValue
 Int::BOOL Int::operator<=(int iValue)
 {
 	BOOL bOK = false;
 
-	if (this->GetValue() <= iValue)
+	if (GetValue() <= iValue)
 	{
 		bOK = true;
 	}
@@ -709,32 +325,13 @@ Int::BOOL Int::operator<=(int iValue)
 	return bOK;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Override the int type
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Override the int type
 Int::operator int() const
 {
-	return this->GetValue();
+	return GetValue();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Parse the string to int
-/// </summary>
-/// <param name=str>the string</param>
-/// <returns>int GetValue</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Parse the string to int
 Int Int::Parse(String NumberString)
 {
 	if (NumberString == _T("true") || NumberString == _T("True") || NumberString == _T("TRUE"))
@@ -751,18 +348,8 @@ Int Int::Parse(String NumberString)
 	return iNumber;
 }
 
-
-///************************************************************************
-/// <summary>
-/// make the int to string
-/// </summary>
-/// <param name=GetValue>int GetValue</param>
-/// <returns>a string</returns>
-/// <remarks>
-/// 
-/// </remarks>
-///***********************************************************************
+// make the int to string
 String Int::ToString()
 {
-	return String::ToString(this->m_Value);
+	return String::ToString(m_Value);
 }

@@ -1,18 +1,9 @@
-#include "Application\PreCompile.h"
+#include "PreCompile.h"
 #include "SqlCommand.h"
 
 using namespace System::ADO;
 
-///************************************************************************
-/// <summary>
-/// Construct the SqlCommand
-/// </summary>
-/// <param name=con>connection object</param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Construct the SqlCommand
 SqlCommand::SqlCommand(String strSqlText, Connection pConnection) :m_Connection(pConnection),
 m_Commnd(NULL),
 m_SqlText(strSqlText),
@@ -21,32 +12,13 @@ m_Disposed(false)
 	Initialize();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Detructe the SqlCommand
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Detructe the SqlCommand
 SqlCommand::~SqlCommand()
 {
 	Destory();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Init the cmd
-/// </summary>
-/// <param name=con>connection</param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Init the cmd
 SqlCommand::Empty SqlCommand::Initialize()
 {
 	// Init the com
@@ -56,16 +28,7 @@ SqlCommand::Empty SqlCommand::Initialize()
 	CreateCommand();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Destory the command
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Destory the command
 SqlCommand::Empty SqlCommand::Destory()
 {
 	if (!GetDisposed())
@@ -80,59 +43,33 @@ SqlCommand::Empty SqlCommand::Destory()
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Create the command ptr
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Create the command ptr
 SqlCommand::Empty SqlCommand::CreateCommand()
 {
 	try
 	{
 		m_Commnd.CreateInstance(__uuidof(Command));
-		m_Commnd->ActiveConnection = this->GetConnection()->GetConnector();
+
+		m_Commnd->ActiveConnection = GetConnection()->GetConnector();
 	}
 	catch (_com_error e)
 	{
-		MessageBox(NULL, e.ErrorMessage(), _T("DB Error"), 0);
+		ERROR_MESSAGEBOX(_T("DB Error"), e.ErrorMessage());
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Destory the command ptr
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Destory the command ptr
 SqlCommand::Empty SqlCommand::DestoryCommand()
 {
-	if (this->GetComm())
+	if (GetComm())
 	{
-		this->GetComm()->Release();
+		GetComm()->Release();
 
-		this->SetComm(NULL);
+		SetComm(NULL);
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Excute the sql(add,delete,modify)
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Excute the sql(add,delete,modify)
 SqlCommand::AffectedRows SqlCommand::ExecuteNonQuery()
 {
 	_variant_t AffectedCount = 0;
@@ -140,30 +77,20 @@ SqlCommand::AffectedRows SqlCommand::ExecuteNonQuery()
 	try
 	{
 		// Set the sql command 
-		GetComm()->CommandText = this->GetSqlText().AllocWideString();
+		GetComm()->CommandText = GetSqlText().AllocWideString();
 
 		// Excute the sql
 		GetComm()->Execute(&AffectedCount, NULL, CommandTypeEnum::adCmdText);
 	}
 	catch (_com_error e)
 	{
-		MessageBox(NULL, e.ErrorMessage(), _T("DB Error"), 0);
+		ERROR_MESSAGEBOX(_T("DB Error"), e.ErrorMessage());
 	}
 
 	return (AffectedRows)AffectedCount;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Excute the sql(serach)
-/// </summary>
-/// <param name=affectRows>get the return rows</param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Excute the sql(serach)
 SqlCommand::pRecordSet SqlCommand::ExecuteNonQuery(AffectedRows& iAffectRows)
 {
 	pRecordSet Records = NULL;
@@ -171,7 +98,7 @@ SqlCommand::pRecordSet SqlCommand::ExecuteNonQuery(AffectedRows& iAffectRows)
 	try
 	{
 		// Set the sql command 
-		GetComm()->CommandText = this->GetSqlText().AllocWideString();
+		GetComm()->CommandText = GetSqlText().AllocWideString();
 
 		// Excute the sql
 		_variant_t AffectedCount = 0;
@@ -181,120 +108,85 @@ SqlCommand::pRecordSet SqlCommand::ExecuteNonQuery(AffectedRows& iAffectRows)
 	}
 	catch (_com_error e)
 	{
-		MessageBox(NULL, e.ErrorMessage(), _T("DB Error"), 0);
+		ERROR_MESSAGEBOX(_T("DB Error"), e.ErrorMessage());
 	}
 
 	return Records;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Add Paramenter
-/// </summary>
-/// <param name=para></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Add Paramenter
 SqlCommand::Empty SqlCommand::Add(SqlParamenter* pSqlPara)
 {
-	if (this->GetComm())
+	if (GetComm())
 	{
 		if (pSqlPara->GetDirection() == adParamReturnValue || pSqlPara->GetDirection() == adParamOutput)
 		{
 			// Create the paramenter
-			IDispatch* pObject = this->GetComm()->CreateParameter(pSqlPara->GetParaName().AllocWideString(), pSqlPara->GetDataType(), pSqlPara->GetDirection(), pSqlPara->GetParamenterSize());
+			IDispatch* pObject = GetComm()->CreateParameter(pSqlPara->GetParaName().AllocWideString(), 
+				pSqlPara->GetDataType(),
+				pSqlPara->GetDirection(), 
+				pSqlPara->GetParamenterSize());
 
 			// Append the para
-			this->GetComm()->Parameters->Append(pObject);
+			GetComm()->Parameters->Append(pObject);
 		}
 		else
 		{
 			// Create the paramenter
-			IDispatch* pObject = this->GetComm()->CreateParameter(pSqlPara->GetParaName().AllocWideString(), pSqlPara->GetDataType(), pSqlPara->GetDirection(), pSqlPara->GetParamenterSize(), pSqlPara->GetParaValue());
+			IDispatch* pObject = GetComm()->CreateParameter(pSqlPara->GetParaName().AllocWideString(), 
+				pSqlPara->GetDataType(),
+				pSqlPara->GetDirection(),
+				pSqlPara->GetParamenterSize(), 
+				pSqlPara->GetParaValue());
 
 			// Append the para
-			this->GetComm()->Parameters->Append(pObject);
+			GetComm()->Parameters->Append(pObject);
 		}
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Excute the process
-/// </summary>
-/// <param name=procName>process name</param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Excute the process
 SqlCommand::Empty SqlCommand::Excute(String strStoreProcName)
 {
-	assert(strStoreProcName != _T(""));
-
 	if (strStoreProcName == _T(""))
 	{
 		return;
 	}
 
-	if (this->GetComm())
+	if (GetComm())
 	{
 		try
 		{
-			this->GetComm()->CommandText = strStoreProcName.AllocWideString();
+			GetComm()->CommandText = strStoreProcName.AllocWideString();
 
-			this->GetComm()->CommandType = adCmdStoredProc;
+			GetComm()->CommandType = adCmdStoredProc;
 
-			this->GetComm()->Execute(NULL, NULL, adCmdStoredProc);
+			GetComm()->Execute(NULL, NULL, adCmdStoredProc);
 		}
 		catch (_com_error e)
 		{
-			MessageBox(NULL, e.ErrorMessage(), _T("Stored Procedure Run Error"), 0);
+			ERROR_MESSAGEBOX(_T("Stored Procedure Run Error"), e.ErrorMessage());
 		}
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Get the values
-/// </summary>
-/// <param name=paraName></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Get the values
 SqlCommand::Any SqlCommand::GetParamenterValue(String strParaName)
 {
-	if (this->GetComm())
+	if (GetComm())
 	{
-		return this->GetComm()->Parameters->GetItem(strParaName.AllocWideString())->GetValue();
+		return GetComm()->Parameters->GetItem(strParaName.AllocWideString())->GetValue();
 	}
 
 	return 0;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Get the values
-/// </summary>
-/// <param name=index></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Get the values
 SqlCommand::Any SqlCommand::GetParamenterValue(Index index)
 {
-	if (this->GetComm())
+	if (GetComm())
 	{
-		return this->GetComm()->Parameters->GetItem(short(index))->GetValue();
+		return GetComm()->Parameters->GetItem(short(index))->GetValue();
 	}
 
 	return 0;

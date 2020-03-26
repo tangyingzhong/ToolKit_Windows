@@ -1,17 +1,18 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// Serial port's operation supported here
 ///</describe>
-/// <date>2019/3/6</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef SERIALPORT_H
 #define SERIALPORT_H
 
-#include "Tool\BaseType\String.h"
+#include "PortType.h"
+#include "BaseType/String.h"
 
 using namespace System::BasicType;
 
@@ -25,21 +26,27 @@ namespace System
 			typedef System::Empty Empty;
 			typedef System::Boolean BOOL;
 			typedef System::Byte Byte;
-			typedef System::ByteArray ByteArray;
-			typedef System::BoundRate BoundRate;
-			typedef System::Parity Parity;
-			typedef System::DataBits DataBits;
-			typedef System::StopBits StopBits;
-			typedef System::PortTimeOut PortTimeOut;
-			typedef System::FileAttrEnum FileAttrEnum;
+			typedef System::ByteArray ByteArray;	
+			typedef System::FILE_ATTRIBUTE_ENUM FileAttrEnum;
 			typedef System::FileAttribute FileAttribute;
 			typedef System::Object PortHandle;
 			typedef System::Int32 Offset;
 			typedef System::Int32 TimeoutMs;
 			typedef System::Int32 PortSize;
+			typedef System::FILE_MODE_ENUM FileMode;
+			typedef System::FILE_ACCESS_ENUM FileAccess;
+			typedef System::SEEK_ORIGIN_ENUM SeekOrigin;
+			typedef System::FILE_ATTRIBUTE_ENUM FileAttrEnum;
 			typedef PortSize ArraySize;
 			typedef DCB DCBBlock;
 			typedef COMMTIMEOUTS TimeOut;
+			typedef BOUNDRATE_ENUM BoundRate;
+			typedef PARITY_ENUM Parity;
+			typedef DATABIT_ENUM DataBits;
+			typedef STOPBIT_ENUM StopBits;
+			typedef PORT_TIMEOUT_ENUM PortTimeOut;
+			typedef PORT_CACHE_ENUM PortCache;
+			typedef PORT_CACHE_STATE_ENUM CacheStatus;
 
 		public:
 			// Construct the port with port's name
@@ -116,7 +123,7 @@ namespace System
 			// Set the PortHandle
 			inline Empty SetPortHandle(PortHandle hPortHandle)
 			{
-				this->m_PortHandle = hPortHandle;
+				m_PortHandle = hPortHandle;
 			}
 
 			// Get the disposed status
@@ -128,7 +135,7 @@ namespace System
 			// Set the disposed status
 			inline Empty SetDisposed(BOOL bDisposed)
 			{
-				this->m_Disposed = bDisposed;
+				m_Disposed = bDisposed;
 			}
 
 		private:

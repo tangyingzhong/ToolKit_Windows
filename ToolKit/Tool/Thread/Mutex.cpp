@@ -1,62 +1,27 @@
-#include "Application\PreCompile.h"
+#include "PreCompile.h"
 #include "Mutex.h"
 
 using namespace System::Thread;
 
-///************************************************************************
-/// <summary>
-/// Construct a lock
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Construct a lock
 Mutex::Mutex()
 {
 	InitializeCriticalSection(&m_CritialSection);
 }
 
-
-///************************************************************************
-/// <summary>
-/// destory the lock
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// destory the lock
 Mutex::~Mutex()
 {
 	DeleteCriticalSection(&m_CritialSection);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Lock the resource
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Lock the resource
 Mutex::Empty Mutex::Lock()
 {
 	EnterCriticalSection(&m_CritialSection);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Unlock the resource
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Unlock the resource
 Mutex::Empty Mutex::Unlock()
 {
 	LeaveCriticalSection(&m_CritialSection);

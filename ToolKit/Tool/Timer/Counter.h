@@ -1,15 +1,17 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// Count the time 
 ///</describe>
-/// <date>2019/3/6</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef COUNTER_H
 #define COUNTER_H
+
+#include "Common/SystemType.h"
 
 namespace System
 {
@@ -19,9 +21,9 @@ namespace System
 		{
 		public:
 			typedef System::Empty Empty;
-			typedef System::Double TimeS;
-			typedef System::Double TimeMs;
-			typedef System::Double TimeUs;
+			typedef System::Real TimeS;
+			typedef System::Real TimeMs;
+			typedef System::Real TimeUs;
 			typedef LARGE_INTEGER LargeTime;
 
 		public:
@@ -71,7 +73,7 @@ namespace System
 			// Set the disposed	
 			inline Empty SetDisposed(BOOL bDisposed)
 			{
-				this->m_Disposed = bDisposed;
+				m_Disposed = bDisposed;
 			}
 
 		private:

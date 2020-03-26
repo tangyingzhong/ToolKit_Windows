@@ -1,18 +1,9 @@
-#include "Application\PreCompile.h"
+#include "PreCompile.h"
 #include "SqlConnection.h"
 
 using namespace System::ADO;
 
-///************************************************************************
-/// <summary>
-/// Construct the SqlConnection
-/// </summary>
-/// <param name=connectStr>connect string</param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Construct the SqlConnection
 SqlConnection::SqlConnection(String strConnectCmd) :m_ConnectCmd(strConnectCmd),
 m_Connector(NULL),
 m_ConnectState(ConnectionState::ADO_CLOSED),
@@ -21,32 +12,13 @@ m_Disposed(false)
 	Initialize();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Detructe the SqlConnection
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Detructe the SqlConnection
 SqlConnection::~SqlConnection()
 {
 	Destory();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Init the connection
-/// </summary>
-/// <param name=conStr>connect string</param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Init the connection
 SqlConnection::Empty SqlConnection::Initialize()
 {
 	// Init the com
@@ -56,16 +28,7 @@ SqlConnection::Empty SqlConnection::Initialize()
 	CreateConn();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Destory the connection
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Destory the connection
 SqlConnection::Empty SqlConnection::Destory()
 {
 	if (!GetDisposed())
@@ -80,16 +43,7 @@ SqlConnection::Empty SqlConnection::Destory()
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Create a connection
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Create a connection
 SqlConnection::Empty SqlConnection::CreateConn()
 {
 	try
@@ -98,74 +52,50 @@ SqlConnection::Empty SqlConnection::CreateConn()
 	}
 	catch (_com_error e)
 	{
-		MessageBox(NULL, e.ErrorMessage(), _T("Database Error"), 0);
+		ERROR_MESSAGEBOX(_T("Database Error"), e.ErrorMessage());
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Destory the Connection
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Destory the Connection
 SqlConnection::Empty SqlConnection::DestoryConn()
 {
-	// Close the conn
-	this->Close();
+	Close();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Open the DB
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-SqlConnection::Empty SqlConnection::Open()
+// Open the DB
+SqlConnection::BOOL SqlConnection::Open()
 {
 	try
 	{
-		HRESULT hConnect = this->GetConnector()->Open(this->GetConnectStr().AllocWideString(), _T(""), _T(""), adConnectUnspecified);
+		HRESULT hConnect = GetConnector()->Open(GetConnectStr().CStr(), _T(""), _T(""), adConnectUnspecified);
 		if (SUCCEEDED(hConnect))
 		{
-			this->SetConnectState(ConnectionState::ADO_OPENED);
+			SetConnectState(ConnectionState::ADO_OPENED);
+
+			return true;
 		}
 	}
 	catch (_com_error e)
 	{
-		this->Close();
+		Close();
 
 		// Update the connect state
-		this->SetConnectState(ConnectionState::ADO_BROKEN);
+		SetConnectState(ConnectionState::ADO_BROKEN);
 
 		// Send the error outside
-		MessageBox(NULL, e.ErrorMessage(), _T("Database Error"), 0);
+		ERROR_MESSAGEBOX(_T("Database Error"), e.ErrorMessage());
 	}
+
+	return false;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Close the DB
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Close the DB
 SqlConnection::Empty SqlConnection::Close()
 {
-	if (this->GetConnector())
+	if (GetConnector())
 	{
-		this->GetConnector()->Close();
+		GetConnector()->Release();
 
-		this->SetConnectState(ConnectionState::ADO_CLOSED);
+		SetConnectState(ConnectionState::ADO_CLOSED);
 	}
 }

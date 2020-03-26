@@ -1,12 +1,13 @@
-#include "Application\PreCompile.h"
-#include <ws2tcpip.h>
-#include "Tool\Buffer\Array.h"
-#include "Tool\Thread\Mutex.h"
-#include "Tool\Encoding\Unicode.h"
+#include "PreCompile.h"
+#include <Iphlpapi.h>
+#include "Buffer/Array.h"
+#include "Thread/Mutex.h"
+#include "Encoding/Unicode.h"
 #include "Socket.h"
 
 #pragma comment(lib,"Ws2_32.lib")
 #pragma comment(lib, "wsock32.lib")
+#pragma comment(lib,"Iphlpapi.lib")
 
 using namespace System::Buffer;
 using namespace System::Thread;
@@ -15,138 +16,86 @@ using namespace System::Encoding;
 
 static Mutex lock;
 
-///************************************************************************
-/// <summary>
-/// Construct the Socket
-/// </summary>
-/// <param name=family></param>
-/// <param name=socketType></param>
-/// <param name=protocolType></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Socket::Socket(AddressFamily eFamily, SocketType eSocketType, ProtocolType eProtocolType) :m_ListenSocket(INVALID_SOCKET),
-m_AddrFamily(eFamily),
-m_SocketType(eSocketType),
-m_ProtocolType(eProtocolType),
-m_Disposed(false)
+// Construct the Socket
+Socket::Socket(AddressFamily eFamily,
+	SocketType eSocketType,
+	ProtocolType eProtocolType) :
+	m_ListenSocket(INVALID_SOCKET),
+	m_AddrFamily(eFamily),
+	m_SocketType(eSocketType),
+	m_ProtocolType(eProtocolType),
+	m_Disposed(false)
 {
 	Initialize();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Detructe the Socket
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Detructe the Socket
 Socket::~Socket()
 {
 	Destory();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Copy Socket
-/// </summary>
-/// <param name=other></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Copy Socket
 Socket::Socket(const Socket& other)
 {
-	this->m_ListenSocket = other.m_ListenSocket;
-	Array<Byte>::Copy((ByteArray)(&(other.m_SocketAddr)), sizeof(SocketAddr), (ByteArray)(&this->m_SocketAddr), sizeof(SocketAddr));
-	this->SetAddrFamily(other.GetAddrFamily());
-	this->SetSocketType(other.GetSocketType());
-	this->SetProtocolType(other.GetProtocolType());
-	this->SetDisposed(other.GetDisposed());
+	m_ListenSocket = other.m_ListenSocket;
+
+	Array<Byte>::Copy((ByteArray)(&(other.m_SocketAddr)), 
+		sizeof(SocketAddr), 
+		(ByteArray)(&m_SocketAddr), 
+		sizeof(SocketAddr));
+
+	SetAddrFamily(other.GetAddrFamily());
+
+	SetSocketType(other.GetSocketType());
+
+	SetProtocolType(other.GetProtocolType());
+
+	SetDisposed(other.GetDisposed());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Asigment of Socket
-/// </summary>
-/// <param name=other></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Asigment of Socket
 Socket& Socket::operator=(const Socket& other)
 {
 	if (this != &other)
 	{
-		this->m_ListenSocket = other.m_ListenSocket;
-		Array<Byte>::Copy((ByteArray)(&(other.m_SocketAddr)), sizeof(SocketAddr), (ByteArray)(&this->m_SocketAddr), sizeof(SocketAddr));
-		this->SetAddrFamily(other.GetAddrFamily());
-		this->SetSocketType(other.GetSocketType());
-		this->SetProtocolType(other.GetProtocolType());
-		this->SetDisposed(other.GetDisposed());
+		m_ListenSocket = other.m_ListenSocket;
+
+		Array<Byte>::Copy((ByteArray)(&(other.m_SocketAddr)),
+			sizeof(SocketAddr),
+			(ByteArray)(&m_SocketAddr),
+			sizeof(SocketAddr));
+
+		SetAddrFamily(other.GetAddrFamily());
+
+		SetSocketType(other.GetSocketType());
+
+		SetProtocolType(other.GetProtocolType());
+
+		SetDisposed(other.GetDisposed());
 	}
 
 	return *this;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Init the socket
-/// </summary>
-/// <param name=family></param>
-/// <param name=socketType></param>
-/// <param name=protocolType></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Init the socket
 Socket::Empty Socket::Initialize()
 {
-	Array<Byte>::Clear((ByteArray)(&(this->m_SocketAddr)), 0, sizeof(this->m_SocketAddr));
+	Array<Byte>::Clear((ByteArray)(&(m_SocketAddr)), 0, sizeof(m_SocketAddr));
 }
 
-
-///************************************************************************
-/// <summary>
-/// Dispose the socket
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Dispose the socket
 Socket::Empty Socket::Destory()
 {
 	if (!GetDisposed())
 	{
 		SetDisposed(true);
 
-		// Destory the socket
 		Destory();
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Create a new socket
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Create a new socket
 Socket::Empty Socket::CreateSocket()
 {
 	// The WSADATA
@@ -156,60 +105,31 @@ Socket::Empty Socket::CreateSocket()
 	WSAStartup(MAKEWORD(2, 2), &(WsdData));
 
 	// Create a socket 
-	this->m_ListenSocket = ::socket(this->GetAddrFamily(), this->GetSocketType(), this->GetProtocolType());
+	m_ListenSocket = ::socket(GetAddrFamily(), GetSocketType(), GetProtocolType());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Destory the socket
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Destory the socket
 Socket::Empty Socket::DestorySocket()
 {
-	this->Close();
+	Close();
 
 	WSACleanup();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Configure the socket
-/// </summary>
-/// <param name=addr></param>
-/// <param name=port></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Configure the socket
 Socket::Empty Socket::Configure(IPAddress strIPAddress, NetPort iPortNo)
 {
-	InetPton(this->GetAddrFamily(), strIPAddress.CStr(), &(this->m_SocketAddr.sin_addr));
+	m_SocketAddr.sin_addr.S_un.S_addr = inet_addr(strIPAddress.ToAnsiData().c_str());
 
-	this->m_SocketAddr.sin_family = this->GetAddrFamily();
+	m_SocketAddr.sin_family = GetAddrFamily();
 
-	this->m_SocketAddr.sin_port = htons(iPortNo);
+	m_SocketAddr.sin_port = htons(iPortNo);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Sokcet is valid
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Sokcet is valid
 Socket::BOOL Socket::IsValid()
 {
-	if (this->m_ListenSocket == INVALID_SOCKET)
+	if (m_ListenSocket == INVALID_SOCKET)
 	{
 		return false;
 	}
@@ -217,78 +137,38 @@ Socket::BOOL Socket::IsValid()
 	return true;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Open the socket
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Open the socket
 Socket::Empty Socket::Open()
 {
-	this->CreateSocket();
+	CreateSocket();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Bind the port
-/// </summary>
-/// <param name=addr></param>
-/// <param name=port></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Bind the port
 Socket::BOOL Socket::Bind(IPAddress strIPAddress, NetPort iPortNo)
 {
-	BOOL bSuccess = false;
-
-	assert(this->IsValid() == true);
-
-	if (!this->IsValid())
+	if (!IsValid())
 	{
-		return bSuccess;
+		return false;
 	}
 
 	// Config the socket
-	this->Configure(strIPAddress, iPortNo);
+	Configure(strIPAddress, iPortNo);
 
 	// Bind the port
-	if (::bind(this->m_ListenSocket, (LPSOCKADDR)&(this->m_SocketAddr), sizeof(SOCKADDR)) == S_FAILE)
+	if (::bind(m_ListenSocket, (LPSOCKADDR)&(m_SocketAddr), sizeof(SOCKADDR)) == S_FAILE)
 	{
-		return bSuccess;
+		return false;
 	}
 
-	bSuccess = true;
-
-	return bSuccess;
+	return true;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Listen the port
-/// </summary>
-/// <param name=num></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Listen the port
 Socket::BOOL Socket::Listen(ListenCapacity iListenNum)
 {
-	BOOL bSuccess = false;
-
-	assert(this->IsValid() == true);
-
-	if (!this->IsValid())
+	if (!IsValid())
 	{
-		return bSuccess;
+		return false;
 	}
 
 	// Ensure that we have at least one listen 
@@ -297,248 +177,352 @@ Socket::BOOL Socket::Listen(ListenCapacity iListenNum)
 		iListenNum = 1;
 	}
 
-	if (::listen(this->m_ListenSocket, iListenNum) == S_FAILE)
+	if (::listen(m_ListenSocket, iListenNum) == S_FAILE)
 	{
-		return bSuccess;
+		return false;
 	}
 
-	bSuccess = true;
-
-	return bSuccess;
+	return true;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Accept the clients
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Accept the clients
 Socket::BOOL Socket::Accept(Socket& ClientSocket)
 {
-	BOOL bSuccess = false;
-
-	assert(this->IsValid() == true);
-
-	if (!this->IsValid())
+	if (!IsValid())
 	{
-		return bSuccess;
+		return false;
 	}
 
 	SocketAddr ClientAddr;
 	Length ClientAddrLen = sizeof(ClientAddr);
 
 	// Accept the clients
-	ClientSocket.m_ListenSocket = ::accept(this->m_ListenSocket, (SOCKADDR FAR*)&ClientAddr, &ClientAddrLen);
-
-	assert(ClientSocket.m_ListenSocket != INVALID_SOCKET);
-
+	ClientSocket.m_ListenSocket = ::accept(m_ListenSocket, (SOCKADDR FAR*)&ClientAddr, &ClientAddrLen);
 	if (ClientSocket.m_ListenSocket == INVALID_SOCKET)
 	{
-		return bSuccess;
+		return false;
 	}
 
 	// Set the client
-	Array<Byte>::Copy((ByteArray)(&ClientAddr), sizeof(SocketAddr), (ByteArray)(&ClientSocket.m_SocketAddr), sizeof(SocketAddr));
+	Array<Byte>::Copy((ByteArray)(&ClientAddr), 
+		sizeof(SocketAddr), 
+		(ByteArray)(&ClientSocket.m_SocketAddr),
+		sizeof(SocketAddr));
 
-	bSuccess = true;
-
-	return bSuccess;
+	return true;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Connect the server
-/// </summary>
-/// <param name=addr></param>
-/// <param name=port></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Connect the server
 Socket::BOOL Socket::Connect(IPAddress strIPAddress, NetPort iPortNo)
 {
-	BOOL bSuccess = false;
-
-	assert(this->IsValid() == true);
-
-	if (!this->IsValid())
+	if (!IsValid())
 	{
-		return bSuccess;
+		return false;
 	}
 
 	// Configure the socket
-	this->Configure(strIPAddress, iPortNo);
+	Configure(strIPAddress, iPortNo);
 
 	// Connect the server
-	if (::connect(this->m_ListenSocket, (LPSOCKADDR)&(this->m_SocketAddr), sizeof(SOCKADDR)) == S_FAILE)
+	if (::connect(m_ListenSocket, (LPSOCKADDR)&(m_SocketAddr), sizeof(SOCKADDR)) == S_FAILE)
 	{
-		return bSuccess;
+		return false;
 	}
 
-	bSuccess = true;
-
-	return bSuccess;
+	return true;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Get the local ip
-/// </summary>
-/// <param name=addr></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Socket::BOOL Socket::GetLoaclIP(IPAddress& ip)
+// Get the local ip
+Socket::BOOL Socket::GetLoaclIP(IPAddress& IpAdddr)
 {
-	BOOL bSuccess = false;
+	// The WSADATA
+	WSADATA WsdData;
+
+	// Init the dll of socket
+	WSAStartup(MAKEWORD(2, 2), &(WsdData));
+
+	const System::Int32 MAX_NAME_LEN = 128;
 
 	// Get the host name
-	const System::Int32 MAX_NAME_LEN = 128;
 	SByte HostName[MAX_NAME_LEN] = { 0 };
 
-	System::Int32 iRet = ::gethostname(HostName, MAX_NAME_LEN);
-	if (iRet != S_SUCCESS)
+	if (::gethostname(HostName, MAX_NAME_LEN) != S_SUCCESS)
 	{
-		return bSuccess;
+		return false;
 	}
 
-#ifdef UNICODE
-	// Set unicode name 
-	String strHostName = Encoding::Unicode::GetString(HostName, 0, MAX_NAME_LEN, EncodeType::E_ASCII);
+	std::string strHostName = HostName;
+
+	String strFinalHostName = strHostName;
 
 	// Get the host info
-	PADDRINFOW ailist;
-	ADDRINFOW hint;
-	if (GetAddrInfo(strHostName.CStr(), NULL, &hint, &ailist) != S_SUCCESS)
+	ADDRINFO hint;
+
+	memset(&hint, 0, sizeof(ADDRINFO));
+
+	hint.ai_family = AF_INET;
+
+	hint.ai_flags = AI_PASSIVE;
+
+	hint.ai_protocol = 0;
+
+	hint.ai_socktype = SOCK_STREAM;
+
+	ADDRINFO* ailist;
+	if (GetAddrInfoA(strFinalHostName.ToAnsiData().c_str(), NULL, &hint, &ailist) != S_SUCCESS)
 	{
-		return bSuccess;
+		return false;
 	}
-#else
-	// Set unicode name 
-	String strHostName = HostName;
 
-	// Get the host info
-	PADDRINFOA ailist;
-	ADDRINFOA hint;
-	if (GetAddrInfo(strHostName.CStr(), NULL, &hint, &ailist) != S_SUCCESS)
+	ADDRINFO* CurList = ailist;
+	
+	std::string strCurIpAddr;
+
+	for (CurList = ailist; CurList != NULL; CurList = CurList->ai_next)
 	{
-		return bSuccess;
+		struct sockaddr_in * pAddr = (struct sockaddr_in *)CurList->ai_addr;
+
+		char IpAddr[16];
+
+		sprintf(IpAddr, "%d.%d.%d.%d",
+			(*pAddr).sin_addr.S_un.S_un_b.s_b1,
+			(*pAddr).sin_addr.S_un.S_un_b.s_b2,
+			(*pAddr).sin_addr.S_un.S_un_b.s_b3,
+			(*pAddr).sin_addr.S_un.S_un_b.s_b4);
+
+		strCurIpAddr = IpAddr;
 	}
-#endif 
-	TCHAR buf[INET_ADDRSTRLEN] = { 0 };
-	InetNtop(this->GetAddrFamily(), &(ailist->ai_addr), buf, sizeof(buf));
 
-	bSuccess = true;
+	IpAdddr = strCurIpAddr;
 
-	return bSuccess;
+	freeaddrinfo(ailist);
+
+	WSACleanup();
+
+	return true;
 }
 
+// Get the local ip
+Socket::BOOL Socket::GetLoaclIP(vector<IPAddress>& vIPAddrTable)
+{
+	// The WSADATA
+	WSADATA WsdData;
 
-///************************************************************************
-/// <summary>
-/// Receive the data
-/// </summary>
-/// <param name=buffer></param>
-/// <param name=offset></param>
-/// <param name=len></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+	// Init the dll of socket
+	WSAStartup(MAKEWORD(2, 2), &(WsdData));
+
+	const System::Int32 MAX_NAME_LEN = 128;
+
+	// Get the host name
+	SByte HostName[MAX_NAME_LEN] = { 0 };
+
+	if (::gethostname(HostName, MAX_NAME_LEN) != S_SUCCESS)
+	{
+		return false;
+	}
+
+	std::string strHostName = HostName;
+
+	String strFinalHostName = strHostName;
+
+	// Get the host info
+	ADDRINFO hint;
+
+	memset(&hint, 0, sizeof(ADDRINFO));
+
+	hint.ai_family = AF_INET;
+
+	hint.ai_flags = AI_PASSIVE;
+
+	hint.ai_protocol = 0;
+
+	hint.ai_socktype = SOCK_STREAM;
+
+	ADDRINFO* ailist;
+	if (GetAddrInfoA(strFinalHostName.ToAnsiData().c_str(), NULL, &hint, &ailist) != S_SUCCESS)
+	{
+		return false;
+	}
+
+	ADDRINFO* CurList = ailist;
+
+	for (CurList = ailist; CurList != NULL; CurList = CurList->ai_next)
+	{
+		struct sockaddr_in * pAddr = (struct sockaddr_in *)CurList->ai_addr;
+
+		char IpAddr[16];
+
+		sprintf(IpAddr, "%d.%d.%d.%d",
+			(*pAddr).sin_addr.S_un.S_un_b.s_b1,
+			(*pAddr).sin_addr.S_un.S_un_b.s_b2,
+			(*pAddr).sin_addr.S_un.S_un_b.s_b3,
+			(*pAddr).sin_addr.S_un.S_un_b.s_b4);
+		
+		std::string strCurIpAddr = IpAddr;
+
+		vIPAddrTable.push_back(strCurIpAddr);
+	}
+
+	freeaddrinfo(ailist);
+
+	WSACleanup();
+
+	return true;
+}
+
+// Get Ip with Mac table
+Socket::Empty Socket::GetLocalIpMAc(MacIpTable& IpMacTable)
+{
+	// Store local machine's card's info
+	PIP_ADAPTER_INFO pIpAdapterInfo = new IP_ADAPTER_INFO();
+
+	unsigned long stSize = sizeof(IP_ADAPTER_INFO);
+
+	int nRel = GetAdaptersInfo(pIpAdapterInfo, &stSize);
+
+	int netCardNum = 0;
+
+	int IPnumPerNetCard = 0;
+
+	// Not enoough space for GetAdaptersInfo Func
+	if (ERROR_BUFFER_OVERFLOW == nRel)
+	{
+		delete pIpAdapterInfo;
+
+		// New size it needs
+		pIpAdapterInfo = (PIP_ADAPTER_INFO)new BYTE[stSize];
+
+		nRel = GetAdaptersInfo(pIpAdapterInfo, &stSize);
+	}
+
+	if (ERROR_SUCCESS == nRel)
+	{
+		while (pIpAdapterInfo)
+		{
+			// Get MAC
+			char MacAddr[50] = { 0 };
+
+			std::string strShortMac="";
+
+			for (DWORD i = 0; i < pIpAdapterInfo->AddressLength; i++)
+			{
+				sprintf(MacAddr, "%02X-", pIpAdapterInfo->Address[i]);
+
+				strShortMac = strShortMac+MacAddr;
+			}
+
+			String strFinalMac = strShortMac;
+
+			std::string strCurMac = strFinalMac.Left(strFinalMac.GetLength()-1).ToAnsiData();
+
+			// Get Mac's IP
+			IP_ADDR_STRING *pIpAddrString = &(pIpAdapterInfo->IpAddressList);
+
+			vector<std::string> vIpTable;
+
+			do
+			{
+				std::string strCurIpAddr=pIpAddrString->IpAddress.String;
+
+				vIpTable.push_back(strCurIpAddr);
+
+				pIpAddrString = pIpAddrString->Next;
+
+			} while (pIpAddrString);
+
+			// Save the mac and ip
+			IpMacTable[strCurMac] = vIpTable;
+
+			pIpAdapterInfo = pIpAdapterInfo->Next;
+		}
+	}
+
+	if (pIpAdapterInfo)
+	{
+		delete pIpAdapterInfo;
+	}
+}
+
+// Get Mac by ip
+Socket::BOOL Socket::GetMacByIp(String strIpAddr, String& strMacAddr)
+{
+	if (strIpAddr.IsEmpty())
+	{
+		return false;
+	}
+
+	Socket::MacIpTable Table;
+
+	GetLocalIpMAc(Table);
+
+	vector<std::string> IpAddrTable;
+
+	for (Socket::MacIpTable::iterator Iter = Table.begin();
+		Iter != Table.end();
+		++Iter)
+	{
+		IpAddrTable = Iter->second;
+
+		for (Int32 iIndex = 0; iIndex < (Int32)IpAddrTable.size(); ++iIndex)
+		{
+			if (strIpAddr.ToAnsiData() == IpAddrTable[iIndex])
+			{
+				std::string strCurMac = Iter->first;
+
+				strMacAddr = strCurMac;
+
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+// Receive the data
 Socket::BOOL Socket::Receive(SByteArray pReadBuffer, Length iOffset, Length iReadSize)
 {
-	BOOL bSuccess = false;
-
-	assert(this->IsValid() == true);
-
-	if (!this->IsValid())
+	if (!IsValid())
 	{
-		return bSuccess;
+		return false;
 	}
 
-	System::Int32 iRet = ::recv(this->m_ListenSocket, pReadBuffer + iOffset, iReadSize, 0);
-	if (iRet != SOCKET_ERROR)
+	if (::recv(m_ListenSocket, pReadBuffer + iOffset, iReadSize, 0) != SOCKET_ERROR)
 	{
-		bSuccess = true;
+		return  true;
 	}
 
-	return bSuccess;
+	return false;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Send the data
-/// </summary>
-/// <param name=buffer></param>
-/// <param name=offset></param>
-/// <param name=len></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Send the data
 Socket::BOOL Socket::Send(SByteArray pWriteBuffer, Length iOffset, Length iWriteSize)
 {
-	BOOL bSuccess = false;
-
-	assert(this->IsValid() == true);
-
-	if (!this->IsValid())
+	if (!IsValid())
 	{
-		return bSuccess;
+		return false;
 	}
 
-	System::Int32 iRet = ::send(this->m_ListenSocket, pWriteBuffer + iOffset, iWriteSize, 0);
-	if (iRet != SOCKET_ERROR)
+	if (::send(m_ListenSocket, pWriteBuffer + iOffset, iWriteSize, 0) != SOCKET_ERROR)
 	{
-		bSuccess = true;
+		return true;
 	}
 
-	return bSuccess;
+	return false;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Close the socket
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Close the socket
 Socket::Empty Socket::Close()
 {
-	if (this->m_ListenSocket != INVALID_SOCKET)
+	if (m_ListenSocket != INVALID_SOCKET)
 	{
-		::closesocket(this->m_ListenSocket);
+		::closesocket(m_ListenSocket);
 
-		this->m_ListenSocket = INVALID_SOCKET;
+		m_ListenSocket = INVALID_SOCKET;
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// 
-/// </summary>
-/// <param name=paramenter></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Asyn read the data
 Socket::Size WINAPI Socket::AsyncRead(Object paramenter)
 {
 	// Restore the async paramenter
@@ -563,13 +547,23 @@ Socket::Size WINAPI Socket::AsyncRead(Object paramenter)
 	// Enter the read mode
 	lock.Lock();
 	{
-		Length len = WSARecv(s->m_ListenSocket, &(result->Result.wsaBuf), 1, &(result->Result.iOutSize), (LPDWORD)0, &(result->AsynSocket), NULL);
+		Length len = WSARecv(s->m_ListenSocket,
+			&(result->Result.wsaBuf), 
+			1, 
+			&(result->Result.iOutSize), 
+			(LPDWORD)0, 
+			&(result->AsynSocket),
+			NULL);
 		if (len == 0)
 		{
 			if (GetLastError() == WSA_IO_PENDING)
 			{
 				// Wait for the operation's finish
-				while (WSAGetOverlappedResult(s->m_ListenSocket, &(result->AsynSocket), &(result->Result.iOutSize), FALSE, (LPDWORD)0))
+				while (WSAGetOverlappedResult(s->m_ListenSocket, 
+					&(result->AsynSocket), 
+					&(result->Result.iOutSize),
+					FALSE, 
+					(LPDWORD)0))
 				{
 					if (result->Result.pCallBackFunc)
 					{
@@ -594,23 +588,14 @@ Socket::Size WINAPI Socket::AsyncRead(Object paramenter)
 			}
 		}
 	}
+
 	// Leave the read mode
 	lock.Unlock();
 
 	return 0;
 }
 
-
-///************************************************************************
-/// <summary>
-/// The thread function of Write socket
-/// </summary>
-/// <param name=paramenter></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// The thread function of Write socket
 Socket::Size WINAPI Socket::AsyncWrite(Object paramenter)
 {
 	// Restore the async paramenter
@@ -635,13 +620,22 @@ Socket::Size WINAPI Socket::AsyncWrite(Object paramenter)
 	// Enter the read mode
 	lock.Lock();
 	{
-		Length len = WSASend(s->m_ListenSocket, &(result->Result.wsaBuf), 1, &(result->Result.iOutSize), 0, &(result->AsynSocket), NULL);
+		Length len = WSASend(s->m_ListenSocket, 
+			&(result->Result.wsaBuf), 
+			1, 
+			&(result->Result.iOutSize), 
+			0, 
+			&(result->AsynSocket), NULL);
 		if (len == 0)
 		{
 			if (GetLastError() == WSA_IO_PENDING)
 			{
 				// Wait for the operation's finish
-				while (WSAGetOverlappedResult(s->m_ListenSocket, &(result->AsynSocket), &(result->Result.iOutSize), FALSE, (LPDWORD)0))
+				while (WSAGetOverlappedResult(s->m_ListenSocket, 
+					&(result->AsynSocket), 
+					&(result->Result.iOutSize), 
+					FALSE,
+					(LPDWORD)0))
 				{
 					if (result->Result.pCallBackFunc)
 					{
@@ -666,38 +660,23 @@ Socket::Size WINAPI Socket::AsyncWrite(Object paramenter)
 			}
 		}
 	}
+
 	// Leave the read mode
 	lock.Unlock();
 
 	return 0;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Asyn the read or write 
-/// </summary>
-/// <param name=buffer></param>
-/// <param name=len></param>
-/// <param name=callback></param>
-/// <param name=threadCallBack></param>
-/// <param name=self></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Socket::BOOL Socket::_Async(SByteArray pBuffer, Size iBufSize, AsyncCallBack pAsyncCallBack, ThreadRountine pThreadRountine, Object pObject)
+// Asyn the read or write 
+Socket::BOOL Socket::_Async(SByteArray pBuffer, 
+	Size iBufSize, 
+	AsyncCallBack pAsyncCallBack, 
+	ThreadRountine pThreadRountine, 
+	Object pObject)
 {
-	BOOL bSuccess = false;
-
-	assert(this->IsValid() == true);
-	assert(pBuffer != NULL);
-	assert(iBufSize > 0);
-
-	if (!this->IsValid() || pBuffer == NULL || iBufSize <= 0)
+	if (!IsValid() || pBuffer == NULL || iBufSize <= 0)
 	{
-		return bSuccess;
+		return false;
 	}
 
 	// Init the Async paramenter
@@ -712,46 +691,26 @@ Socket::BOOL Socket::_Async(SByteArray pBuffer, Size iBufSize, AsyncCallBack pAs
 	// Create a thread running the read
 	::CreateThread(NULL, 0, pThreadRountine, result, 0, NULL);
 
-	bSuccess = true;
-
-	return bSuccess;
+	return true;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Asyn receive the data 
-/// </summary>
-/// <param name=buffer></param>
-/// <param name=len></param>
-/// <param name=callback></param>
-/// <param name=self></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Socket::BOOL Socket::BeginReceive(SByteArray pReadBuffer, Length iReadSize, AsyncCallBack pAsyncCallBack, Object pObject)
+// Asyn receive the data 
+Socket::BOOL Socket::BeginReceive(SByteArray pReadBuffer, 
+	Length iReadSize, 
+	AsyncCallBack pAsyncCallBack, 
+	Object pObject)
 {
-	return _Async(pReadBuffer, iReadSize, pAsyncCallBack, AsyncRead, pObject);
+	return _Async(pReadBuffer,
+		iReadSize, 
+		pAsyncCallBack, 
+		AsyncRead, 
+		pObject);
 }
 
-
-///************************************************************************
-/// <summary>
-/// End receive the data
-/// </summary>
-/// <param name=asyncResult></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// End receive the data
 Socket::Length Socket::EndReceive(IAsyncResult pAsyncResult)
 {
 	Length iRecSize = 0;
-
-	assert(pAsyncResult != NULL);
 
 	if (pAsyncResult == NULL)
 	{
@@ -763,41 +722,23 @@ Socket::Length Socket::EndReceive(IAsyncResult pAsyncResult)
 	return iRecSize;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Asyn send the data
-/// </summary>
-/// <param name=buffer></param>
-/// <param name=len></param>
-/// <param name=callback></param>
-/// <param name=self></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Socket::BOOL Socket::BeginSend(SByteArray pWriteBuffer, Length iWriteSize, AsyncCallBack pAsyncCallBack, Object pObject)
+// Asyn send the data
+Socket::BOOL Socket::BeginSend(SByteArray pWriteBuffer, 
+	Length iWriteSize,
+	AsyncCallBack pAsyncCallBack, 
+	Object pObject)
 {
-	return _Async(pWriteBuffer, iWriteSize, pAsyncCallBack, AsyncWrite, pObject);
+	return _Async(pWriteBuffer, 
+		iWriteSize, 
+		pAsyncCallBack, 
+		AsyncWrite, 
+		pObject);
 }
 
-
-///************************************************************************
-/// <summary>
-/// End send the data
-/// </summary>
-/// <param name=asyncResult></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// End send the data
 Socket::Length Socket::EndSend(IAsyncResult pAsyncResult)
 {
 	Length iSendSize = 0;
-
-	assert(pAsyncResult != NULL);
 
 	if (pAsyncResult == NULL)
 	{

@@ -1,18 +1,9 @@
-#include "Application\PreCompile.h"
+#include "PreCompile.h"
 #include "MutexLocker.h"
 
 using namespace System::Thread;
 
-///************************************************************************
-/// <summary>
-/// Construct the MutexLocker
-/// </summary>
-/// <param name=locker></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Construct the MutexLocker
 MutexLocker::MutexLocker(Lock pLock) :m_Lock(pLock)
 {
 	if (GetLocker())
@@ -21,16 +12,7 @@ MutexLocker::MutexLocker(Lock pLock) :m_Lock(pLock)
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Detructe the MutexLocker
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Detructe the MutexLocker
 MutexLocker::~MutexLocker()
 {
 	if (GetLocker())

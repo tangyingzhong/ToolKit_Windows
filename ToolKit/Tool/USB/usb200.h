@@ -62,7 +62,7 @@ typedef struct _USB_DEFAULT_PIPE_SETUP_PACKET {
 } USB_DEFAULT_PIPE_SETUP_PACKET, *PUSB_DEFAULT_PIPE_SETUP_PACKET;
 
 // setup packet is eight bytes -- defined by spec
-C_ASSERT(sizeof(USB_DEFAULT_PIPE_SETUP_PACKET) == 8);
+//C_assert(sizeof(USB_DEFAULT_PIPE_SETUP_PACKET) == 8);
 
 
 #define USB_DEVICE_QUALIFIER_DESCRIPTOR_TYPE        0x06

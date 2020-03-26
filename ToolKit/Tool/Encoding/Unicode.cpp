@@ -1,79 +1,81 @@
-#include "Application\PreCompile.h"
-#include "Tool\Buffer\Array.h"
+#include "PreCompile.h"
+#include "Buffer/Array.h"
 #include "Unicode.h"
 
 using namespace System::Encoding;
 using namespace System::Buffer;
 
-///************************************************************************
-/// <summary>
-/// Get the Unicode string from the multibytes array
-/// </summary>
-/// <param name=buffer>Multibyte array</param>
-/// <param name=index>Buffer start index</param>
-/// <param name=count>Buffer count</param>
-/// <returns>Unicode string</returns>
-/// <remarks>
-/// Note: Buffer must contain '\0'
-/// </remarks>
-///***********************************************************************
-Unicode::WStdString Unicode::GetString(SCharArray Buffer, Index iPos, Length iCount, EncodeType EncodingType)
+// Get the Unicode string from the multibytes array
+Unicode::WStdString Unicode::GetString(SCharArray Buffer,
+	Index iPos,
+	Length iCount,
+	EncodeType eEncodingType)
 {
-	Array<SCharacter> MultibyteArray(iCount + 1);
+	if (Buffer==NULL)
+	{
+		return L""; 
+	}
 
-	// Copy the array
-	Array<SCharacter>::Copy(Buffer+ iPos, iCount, MultibyteArray.Data(), MultibyteArray.Size());
-
-	return GetString(MultibyteArray.Data(), EncodingType);
-}
-
-
-///************************************************************************
-/// <summary>
-/// Get the Unicode string from the multibyte string
-/// </summary>
-/// <param name=StdString MultiString></param>
-/// <returns></returns>
-/// <remarks>
-/// None
-/// </remarks>
-///***********************************************************************
-Unicode::WStdString Unicode::GetString(StdString MultiString, EncodeType EncodingType)
-{
-	assert(EncodingType != EncodeType::E_UNICODE);
-
-	if (EncodingType == EncodeType::E_UNICODE)
+	if (iCount<=0)
 	{
 		return L"";
 	}
 
-	if (EncodingType == EncodeType::E_ASCII)
+	if (eEncodingType==ENCODE_ANSI)
 	{
-		return AsciiToUnicode(MultiString);
+		std::string strAnsi;
+
+		strAnsi.append(Buffer + iPos, iCount);
+
+		return ANSIToUnicode(strAnsi);
+	}
+	else if (eEncodingType==ENCODE_UTF8)
+	{
+		std::string strUtf8;
+
+		strUtf8.append(Buffer + iPos, iCount);
+
+		return UTF8ToUnicode(strUtf8);
 	}
 
-	return UTF8ToUnicode(MultiString);
+	return L"";
 }
 
+// Get the Unicode string from the multibyte string
+Unicode::WStdString Unicode::GetString(StdString MultiString, EncodeType eEncodingType)
+{
+	if (MultiString.empty())
+	{
+		return L"";
+	}
 
-///************************************************************************
-/// <summary>
-/// UTF8 to Unicode
-/// </summary>
-/// <param name=utfStr>UTF8 string</param>
-/// <returns>Unicode String</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+	if (eEncodingType == ENCODE_ANSI)
+	{
+		return ANSIToUnicode(MultiString);
+	}
+
+	if (eEncodingType == ENCODE_UTF8)
+	{
+		return UTF8ToUnicode(MultiString);
+	}
+
+	return L"";
+}
+
+// UTF8 to Unicode
 Unicode::WStdString Unicode::UTF8ToUnicode(StdString Utf8String)
 {
-	// Get the utf8 string length 
-	const Length END_CHAR_COUNT = 1;
-	Length iUtf8StrLength = (Length)Utf8String.length() + END_CHAR_COUNT;
+	if (Utf8String.empty())
+	{
+		return L"";
+	}
 
-	Length iWideLength = ::MultiByteToWideChar(CP_UTF8, NULL, Utf8String.c_str(), iUtf8StrLength, NULL, 0);
-	assert(iWideLength > 0);
+	// Get the unicode length
+	Length iWideLength = ::MultiByteToWideChar(CP_UTF8, NULL,
+		Utf8String.c_str(), 
+		-1,
+		NULL, 
+		0);
 	if (iWideLength <= 0)
 	{
 		return L"";
@@ -83,54 +85,53 @@ Unicode::WStdString Unicode::UTF8ToUnicode(StdString Utf8String)
 	Array<WCharacter> UnicodeArray(iWideLength + 1);
 	
 	// Convert the UTF8 bytes to the Unicode bytes  
-	Length iUnicodeLength = ::MultiByteToWideChar(CP_UTF8, NULL, Utf8String.c_str(), iUtf8StrLength, UnicodeArray.Data(), UnicodeArray.Size());
-	assert(iUnicodeLength == iWideLength);
+	Length iUnicodeLength = ::MultiByteToWideChar(CP_UTF8, NULL, 
+		Utf8String.c_str(), 
+		-1, 
+		UnicodeArray.Data(), 
+		UnicodeArray.Size());
 	if (iUnicodeLength != iWideLength)
 	{
 		return L"";
 	}
 
-	UnicodeArray[iUnicodeLength] = L'\0';
-
-	return UnicodeArray.Data();
+	return WStdString(UnicodeArray.Data());
 }
 
-
-///************************************************************************
-/// <summary>
-/// ASCII to Unicode
-/// </summary>
-/// <param name=asciiStr>ascii string</param>
-/// <returns>unicode string</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Unicode::WStdString Unicode::AsciiToUnicode(StdString AsciiString)
+// ANSI to Unicode
+Unicode::WStdString Unicode::ANSIToUnicode(StdString ANSIString)
 {
-	// Get the ascii string length
-	const Length END_CHAR_COUNT = 1;
-	Length iAsciiLength = (Length)AsciiString.length() + END_CHAR_COUNT;
+	if (ANSIString.empty())
+	{
+		return L"";
+	}
 
-	Length iWideLength = MultiByteToWideChar(CP_ACP, 0, AsciiString.c_str(), iAsciiLength, NULL, 0);
-	assert(iWideLength > 0);
+	// Get the unicode length
+	Length iWideLength = MultiByteToWideChar(CP_ACP, 
+		0, 
+		ANSIString.c_str(), 
+		-1, 
+		NULL,
+		0);
 	if (iWideLength <= 0)
 	{
 		return L"";
 	}
 
 	// Create a unicode buffer    
-	Array<WCharacter> UnicodeArray(iWideLength + END_CHAR_COUNT);
+	Array<WCharacter> UnicodeArray(iWideLength + 1);
 	
-	// Convert the ascii bytes to the unicode bytes  
-	Length iUnicodeLength = ::MultiByteToWideChar(CP_ACP, 0, AsciiString.c_str(), iAsciiLength, UnicodeArray.Data(), UnicodeArray.Size());
-	assert(iUnicodeLength == iWideLength);
+	// Convert the ANSI bytes to the unicode bytes  
+	Length iUnicodeLength = ::MultiByteToWideChar(CP_ACP, 
+		0, 
+		ANSIString.c_str(), 
+		-1, 
+		UnicodeArray.Data(), 
+		UnicodeArray.Size());
 	if (iUnicodeLength != iWideLength)
 	{
 		return L"";
 	}
 
-	UnicodeArray[iUnicodeLength] = L'\0';
-
-	return UnicodeArray.Data();
+	return WStdString(UnicodeArray.Data());
 }

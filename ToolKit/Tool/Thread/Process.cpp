@@ -1,48 +1,21 @@
-#include "Application\PreCompile.h"
-#include <shellapi.h>
+#include "PreCompile.h"
 #include "Process.h"
 
 using namespace System::Thread;
 
-///************************************************************************
-/// <summary>
-/// Construct the Process
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Process::Process(ExcutablePath strExcutablePath) :m_ExcutablePath(strExcutablePath), m_Disposed(false)
+// Construct the Process
+Process::Process() :m_Disposed(false)
 {
 	Initialize();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Detructe the Process
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Detructe the Process
 Process::~Process()
 {
 	Destory();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Initialize the  process
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Initialize the  process
 Process::Empty Process::Initialize()
 {
 	// Clear the process start info
@@ -50,94 +23,133 @@ Process::Empty Process::Initialize()
 
 	// Clear the process info
 	ZeroMemory(&m_ProcessInfo, sizeof(ProcessInfo));
+
+	// Set the operation table
+	m_OpTable[PRO_EDIT] = _T("edit");
+
+	m_OpTable[PRO_EXPLORE] = _T("explore");
+
+	m_OpTable[PRO_FIND] = _T("find");
+
+	m_OpTable[PRO_OPEN] = _T("open");
+
+	m_OpTable[PRO_PRINT] = _T("print");
+
+	m_OpTable[PRO_PROPERTIES] = _T("properties");
+
+	m_OpTable[PRO_RUNAS] = _T("runas");
+
+	m_OpTable[PRO_NULL] = _T("NULL");
 }
 
-
-///************************************************************************
-/// <summary>
-/// Dispose the process
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Dispose the process
 Process::Empty Process::Destory()
 {
 	if (!GetDisposed())
 	{
 		SetDisposed(true);
 
-		// Stop the process
-		this->Stop();
+		Stop();
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Create a process
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Process::Empty Process::CreateProc()
+// Create a process
+Boolean Process::CreateProc(ExcutablePath strExcutablePath, ExcutablePath strExcutableDir)
 {
-	::CreateProcess(this->GetExcutablePath().CStr(), NULL, NULL, NULL, false, 0, NULL, NULL, &m_StartupInfo, &m_ProcessInfo);
+	Int32 iRet=::CreateProcess(strExcutablePath.CStr(),
+		NULL, 
+		NULL, 
+		NULL,
+		false, 
+		0, 
+		NULL, 
+		strExcutableDir.CStr(),
+		&m_StartupInfo, 
+		&m_ProcessInfo);
+
+	if (iRet==FALSE)
+	{
+		return false;
+	}
+
+	WaitForSingleObject(m_ProcessInfo.hProcess, 1000);
+
+	return true;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Destory the process
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Destory the process
 Process::Empty Process::DestoryProc()
 {
 	if (m_ProcessInfo.hThread)
 	{
 		::CloseHandle(m_ProcessInfo.hThread);
+
 		m_ProcessInfo.hThread = NULL;
 	}
+
 	if (m_ProcessInfo.hProcess)
 	{
 		::CloseHandle(m_ProcessInfo.hProcess);
+
 		m_ProcessInfo.hProcess = NULL;
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Start the another process
-/// </summary>
-/// <param name=targetPath></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Process::Empty Process::Start()
+// Start the process
+Boolean Process::Start(ExcutablePath strExcutablePath, ExcutablePath strExcutableDir)
 {
-	CreateProc();
+	return CreateProc(strExcutablePath, strExcutableDir);
 }
 
+// Start the process by shell
+Boolean Process::StartByShell(ExcutablePath strExcutablePath,
+	ExcutablePath strExcutableDir,
+	ProcessOpEnum eOperation, 
+	ParaTable& ParamenterTable)
+{
+	// Build the paramenters
+	String strFinalPara = _T("");
 
-///************************************************************************
-/// <summary>
-/// Stop the process
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+	for (Int32 iIndex = 0; iIndex < (Int32)ParamenterTable.size();++iIndex)
+	{
+		strFinalPara = strFinalPara + ParamenterTable[iIndex]+_T(" ");
+	}
+
+	String strParamenter = _T("");
+
+	if (!strFinalPara.IsEmpty())
+	{
+		strParamenter = strFinalPara.Left(strFinalPara.GetLength() - 1);
+	}
+
+	// Excute the exe
+	Int32 iRet = (Int32)ShellExecute(NULL,
+		m_OpTable[eOperation].CStr(),
+		strExcutablePath.CStr(),
+		strParamenter.CStr(),
+		strExcutableDir.CStr(),
+		SW_HIDE);
+
+	if (iRet<32)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+// Start the process by shell
+Boolean Process::StartByAdmin(ExcutablePath strExcutablePath,
+	ExcutablePath strExcutableDir,
+	ParaTable& ParamenterTable)
+{
+	return StartByShell(strExcutablePath,
+		strExcutableDir,
+		PRO_RUNAS,
+		ParamenterTable);
+}
+
+// Stop the process
 Process::Empty Process::Stop()
 {
 	// Get the exitcode at first
@@ -149,19 +161,4 @@ Process::Empty Process::Stop()
 
 	// Destory the process
 	DestoryProc();
-}
-
-
-///************************************************************************
-/// <summary>
-/// Start the process by shell
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Process::Empty Process::StartByShell(ExcutablePath strExcutablePath)
-{
-	ShellExecute(NULL, _T("open"), strExcutablePath.CStr(), NULL, NULL, SW_SHOWNORMAL);
 }

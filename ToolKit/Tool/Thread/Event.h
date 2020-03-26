@@ -1,17 +1,17 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// It can be used to synchronize the threads
 ///</describe>
-/// <date>2019/3/6</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef	EVENT_H
 #define	EVENT_H
 
-#include "Tool\BaseType\String.h"
+#include "BaseType/String.h"
 
 using namespace System::BasicType;
 
@@ -29,7 +29,7 @@ namespace System
 
 		public:
 			// Construct the Event
-			Event(String strEventName);
+			Event();
 
 			// Destruct the Event
 			~Event();
@@ -42,7 +42,7 @@ namespace System
 
 		public:
 			// Open the event
-			BOOL Open();
+			BOOL Open(String strEventName = _T(""));
 
 			// Activate the event
 			Empty Signaled();
@@ -64,18 +64,6 @@ namespace System
 			Empty Close();
 
 		private:
-			// Get the event name
-			inline String GetEventName() const
-			{
-				return m_EventName;
-			}
-
-			// Set the event name
-			inline Empty SetEventName(String strEventName)
-			{
-				this->m_EventName = strEventName;
-			}
-
 			// Get the EventHandle
 			inline EventHandle GetEventHandle() const
 			{
@@ -85,7 +73,7 @@ namespace System
 			// Set the EventHandle
 			inline Empty SetEventHandle(EventHandle pEventHandle)
 			{
-				this->m_EventHandle = pEventHandle;
+				m_EventHandle = pEventHandle;
 			}
 
 			// Get the disposed status
@@ -97,13 +85,10 @@ namespace System
 			// Set the disposed status
 			inline Empty SetDisposed(BOOL bDisposed)
 			{
-				this->m_Disposed = bDisposed;
+				m_Disposed = bDisposed;
 			}
 
 		private:
-			// The name of the Event
-			String m_EventName;
-
 			// The handle of the event
 			EventHandle m_EventHandle;
 

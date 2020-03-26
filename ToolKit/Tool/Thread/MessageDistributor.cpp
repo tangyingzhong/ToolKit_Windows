@@ -1,32 +1,15 @@
-#include "Application\PreCompile.h"
+#include "PreCompile.h"
 #include "MessageDistributor.h"
 
 using namespace System::Thread;
 
-///************************************************************************
-/// <summary>
-/// Construct the MessageDistributor
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Construct the MessageDistributor
 MessageDistributor::MessageDistributor():m_Disposed(false)
 {
 	
 }
 
-
-///************************************************************************
-/// <summary>
-/// Detructe the MessageDistributor
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Detructe the MessageDistributor
 MessageDistributor::~MessageDistributor()
 {
 	if (!GetDisposed())
@@ -35,19 +18,7 @@ MessageDistributor::~MessageDistributor()
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Send message to the Form and attaching the data 
-/// </summary>
-/// <param name=ReceiverName strFormName>Target form</param>
-/// <param name=MessageValue iMessageValue>Message value</param>
-/// <param name=DataAttach & AttachData>Attach data</param>
-/// <returns></returns>
-/// <remarks>
-/// None
-/// </remarks>
-///***********************************************************************
+// Send message to the Form and attaching the data 
 MessageDistributor::Empty MessageDistributor::Send(TargetFormName strFormName, MessageValue iMessageValue, DataAttach& AttachData)
 {
 	HWND hForm = ::FindWindow(NULL, strFormName.CStr());
@@ -57,18 +28,7 @@ MessageDistributor::Empty MessageDistributor::Send(TargetFormName strFormName, M
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Send the message to the specify form
-/// </summary>
-/// <param name=ReceiverName strFormName>Target form</param>
-/// <param name=MessageValue iMessageValue>Message value</param>
-/// <returns></returns>
-/// <remarks>
-/// None
-/// </remarks>
-///***********************************************************************
+// Send the message to the specify form
 MessageDistributor::Empty MessageDistributor::Send(TargetFormName strFormName, MessageValue iMessageValue)
 {	
 	HWND hForm = ::FindWindow(NULL, strFormName.CStr());
@@ -78,19 +38,7 @@ MessageDistributor::Empty MessageDistributor::Send(TargetFormName strFormName, M
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Post the Message to the sepcify window
-/// </summary>
-/// <param name=ReceiverName strFormName>Target Form</param>
-/// <param name=MessageValue iMessageValue>Message value</param>
-/// <param name=DataAttach & AttachData>Attach data to the form</param>
-/// <returns></returns>
-/// <remarks>
-/// Note:the message will be stored in windows message queue
-/// </remarks>
-///***********************************************************************
+// Post the Message to the sepcify window
 MessageDistributor::Empty MessageDistributor::Post(TargetFormName strFormName, MessageValue iMessageValue, DataAttach& AttachData)
 {
 	HWND hForm = ::FindWindow(NULL, strFormName.CStr());
@@ -100,18 +48,7 @@ MessageDistributor::Empty MessageDistributor::Post(TargetFormName strFormName, M
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Post the Message to the sepcify window
-/// </summary>
-/// <param name=ReceiverName strFormName>Target Form</param>
-/// <param name=MessageValue iMessageValue>Message value</param>
-/// <returns></returns>
-/// <remarks>
-/// Note:the message will be stored in windows message queue
-/// </remarks>
-///***********************************************************************
+// Post the Message to the sepcify window
 MessageDistributor::Empty MessageDistributor::Post(TargetFormName strFormName, MessageValue iMessageValue)
 {
 	HWND hForm = ::FindWindow(NULL, strFormName.CStr());

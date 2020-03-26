@@ -1,19 +1,19 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// Windows socket for net operation.Low level net operation
 ///</describe>
-/// <date>2019/3/6</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef SOCKET_H
 #define SOCKET_H
 
-#include <WinSock2.h>
 #include "SocketType.h"
-#include "Tool\BaseType\String.h"
+#include "Encoding/EncodeType.h"
+#include "BaseType/String.h"
 
 using namespace System::BasicType;
 
@@ -33,14 +33,19 @@ namespace System
 			typedef System::Object Object;
 			typedef System::Int32 NetPort;
 			typedef System::Int32 Length;
-			typedef System::UInt64 Size;
+			typedef System::FixedUInt32 Size;
 			typedef System::Int32 ListenCapacity;
 			typedef System::ThreadRountine ThreadRountine;
+			typedef System::Encoding::ENCODE_TYPE_ENUM EncodeType;
+			typedef ADDRESS_FAMILY_ENUM AddressFamily;
+			typedef SOCKET_TYPE_ENUM SocketType;
+			typedef PROTOCOL_ENUM ProtocolType;
 			typedef SOCKET NetSocket;
 			typedef SOCKADDR_IN SocketAddr;
 			typedef String IPAddress;
 			typedef AsyncResult* IAsyncResult;
 			typedef AsyncCallBack AsyncCallBack;
+			typedef std::map<std::string, vector<std::string> > MacIpTable;
 
 		public:
 			// Construct the Socket
@@ -71,7 +76,16 @@ namespace System
 			BOOL Connect(IPAddress strIPAddress, NetPort iPortNo);
 
 			// Get the local ip
-			BOOL GetLoaclIP(IPAddress& strIPAddress);
+			BOOL GetLoaclIP(IPAddress& IpAdddr);
+
+			// Get the local ip
+			BOOL GetLoaclIP(vector<IPAddress>& vIPAddrTable);
+
+			// Get Ip with Mac table
+			Empty GetLocalIpMAc(MacIpTable& IpMacTable);
+
+			// Get Mac by ip
+			BOOL Socket::GetMacByIp(String strIpAddr, String& strMacAddr);
 
 		public:
 			// Open the socket
@@ -84,13 +98,19 @@ namespace System
 			BOOL Send(SByteArray pWriteBuffer, Length iOffset, Length iWriteSize);
 
 			// Asyn receive the data 
-			BOOL BeginReceive(SByteArray pReadBuffer, Length iReadSize, AsyncCallBack pAsyncCallBack, Object pObject);
+			BOOL BeginReceive(SByteArray pReadBuffer, 
+				Length iReadSize, 
+				AsyncCallBack pAsyncCallBack, 
+				Object pObject);
 
 			// End receive the data
 			Length EndReceive(IAsyncResult pAsyncResult);
 
 			// Asyn send the data
-			BOOL BeginSend(SByteArray pWriteBuffer, Length iWriteSize, AsyncCallBack pAsyncCallBack, Object pObject);
+			BOOL BeginSend(SByteArray pWriteBuffer, 
+				Length iWriteSize, 
+				AsyncCallBack pAsyncCallBack, 
+				Object pObject);
 
 			// End send the data
 			Length EndSend(IAsyncResult pAsyncResult);
@@ -118,7 +138,11 @@ namespace System
 			BOOL IsValid();
 
 			// Asyn the read or write 
-			BOOL _Async(SByteArray pBuffer, Size iBufSize, AsyncCallBack pAsyncCallBack, ThreadRountine pThreadRountine, Object pObject);
+			BOOL _Async(SByteArray pBuffer, 
+				Size iBufSize, 
+				AsyncCallBack pAsyncCallBack, 
+				ThreadRountine pThreadRountine, 
+				Object pObject);
 
 		private:
 			// The thread function of Read socket
@@ -137,7 +161,7 @@ namespace System
 			// Set the family address
 			inline Empty SetAddrFamily(AddressFamily eAddrFamily)
 			{
-				this->m_AddrFamily = eAddrFamily;
+				m_AddrFamily = eAddrFamily;
 			}
 
 			// Get the socket type
@@ -149,7 +173,7 @@ namespace System
 			// Set the socket type
 			inline Empty SetSocketType(SocketType eSocketType)
 			{
-				this->m_SocketType = eSocketType;
+				m_SocketType = eSocketType;
 			}
 
 			// Get the protocol type
@@ -161,7 +185,7 @@ namespace System
 			// Set the protocol type
 			inline Empty SetProtocolType(ProtocolType eProtocolType)
 			{
-				this->m_ProtocolType = eProtocolType;
+				m_ProtocolType = eProtocolType;
 			}
 
 			// Get the disposed status
@@ -173,7 +197,7 @@ namespace System
 			// Set the disposed	status
 			inline Empty SetDisposed(BOOL bDisposed)
 			{
-				this->m_Disposed = bDisposed;
+				m_Disposed = bDisposed;
 			}
 
 		private:

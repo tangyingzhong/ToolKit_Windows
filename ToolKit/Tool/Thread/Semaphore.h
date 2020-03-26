@@ -1,17 +1,17 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// Signal under the windows ,which used to manage several resources' used at one time
 ///</describe>
-/// <date>2019/3/6</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef	SEMAPHORE_H
 #define	SEMAPHORE_H
 
-#include "Tool\BaseType\String.h"
+#include "BaseType/String.h"
 
 using namespace System::BasicType;
 
@@ -31,7 +31,9 @@ namespace System
 
 		public:
 			// Construct the Semaphore with name
-			Semaphore(SemaphoreName strSignalName = _T(""), ResourceCount iMinCount = 1, ResourceCount iMaxCount = 1);
+			Semaphore(SemaphoreName strSignalName = _T(""), 
+				ResourceCount iMinCount = 1, 
+				ResourceCount iMaxCount = 1);
 
 			// Destruct the Semaphore
 			~Semaphore();
@@ -72,7 +74,7 @@ namespace System
 			// Set the SignalHandle
 			inline Empty SetSignalHandle(SemaphoreHandle hSignalHandle)
 			{
-				this->m_SignalHandle = hSignalHandle;
+				m_SignalHandle = hSignalHandle;
 			}
 
 			// Get the semaphore name
@@ -84,7 +86,7 @@ namespace System
 			// Set the semaphore name
 			inline Empty SetSignalName(SemaphoreName strSignalName)
 			{
-				this->m_SignalName = strSignalName;
+				m_SignalName = strSignalName;
 			}
 
 			// Get the min resource count
@@ -96,7 +98,7 @@ namespace System
 			// Set the min resource count
 			inline Empty SetMinResourceCount(ResourceCount iMinCount)
 			{
-				this->m_MinCount = iMinCount;
+				m_MinCount = iMinCount;
 			}
 
 			// Get the max resource count
@@ -108,7 +110,7 @@ namespace System
 			// Set the max resource count
 			inline Empty SetMaxResourceCount(ResourceCount iMaxCount)
 			{
-				this->m_MaxCount = iMaxCount;
+				m_MaxCount = iMaxCount;
 			}
 
 			// Get the disposed status
@@ -120,7 +122,7 @@ namespace System
 			// Set the disposed status
 			inline Empty SetDisposed(BOOL bDisposed)
 			{
-				this->m_Disposed = bDisposed;
+				m_Disposed = bDisposed;
 			}
 
 		private:

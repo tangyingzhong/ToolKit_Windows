@@ -1,17 +1,17 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// Support file operations on window
 ///</describe>
-/// <date>2019/3/6</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef FILE_H
 #define FILE_H
 
-#include "Tool\BaseType\String.h"
+#include "BaseType/String.h"
 
 using namespace System::BasicType;
 
@@ -24,18 +24,22 @@ namespace System
 		public:
 			typedef System::Empty Empty;
 			typedef System::Boolean BOOL;
-			typedef System::FileMode FileMode;
-			typedef System::FileAccess FileAccess;
-			typedef System::SeekOrigin SeekOrigin;
-			typedef System::FileAttrEnum FileAttrEnum;
+			typedef System::FILE_MODE_ENUM FileMode;
+			typedef System::FILE_ACCESS_ENUM FileAccess;
+			typedef System::SEEK_ORIGIN_ENUM SeekOrigin;
+			typedef System::FILE_ATTRIBUTE_ENUM FileAttrEnum;
 			typedef System::FileAttribute FileAttribute;
-			typedef System::ByteArray ByteArray;
+			typedef System::Character Character;
+			typedef System::CharArray CharArray;
+			typedef System::SByte SByte;
 			typedef System::SByteArray SByteArray;
+			typedef System::WByte WByte;
+			typedef System::WByteArray WByteArray;
 			typedef System::Object FileHandle;
 			typedef System::UInt64 FileSize;
+			typedef System::FixedUInt32 ArraySize;
 			typedef System::Int32 Index;
 			typedef Index Offset;
-			typedef FileSize ArraySize;
 
 		public:
 			// Construct the File
@@ -53,53 +57,61 @@ namespace System
 
 		public:
 			// Open the File with the define mode and access
-			virtual BOOL Open(String strFilePath, FileMode OpenMode, FileAccess OperateAccess = FileAccess::READWRITE);
+			BOOL Open(String strFilePath, 
+				FileMode OpenMode, 
+				FileAccess OperateAccess = FileAccess::READWRITE);
 
 			// Read the File to the array started with offset position
-			virtual FileSize Read(SByteArray pReadArray, Offset iOffset, ArraySize iArraySize);
+			ArraySize Read(char* pReadArray, Offset iOffset, ArraySize iArraySize);
 
 			// Write to the File with the array started with offset position
-			virtual FileSize Write(const SByteArray pWriteArray, Offset iOffset, ArraySize iArraySize);
+			ArraySize Write(CONST char* pWriteArray, Offset iOffset, ArraySize iArraySize);
 
 			// Close the File
-			virtual Empty Close();
+			Empty Close();
 
 			// Create a new File and cover one if it is exist in the directory
-			virtual BOOL Create(String strFileName);
-
-			// Judge that File is exist or not
-			virtual BOOL Exists(String strFileName);
-
-			// Delete the File
-			virtual BOOL Delete(String strFileName);
+			BOOL Create(String strFileName);
 
 			// Get the File Size 
-			virtual FileSize GetSize();
-
-			// Move the File in different volume
-			virtual BOOL Move(String strSrcFilePath, String strDestFilePath);
-
-			// Rename the File 
-			virtual BOOL Rename(String strSrcFileName, String strDestFileName);
-
-			// Copy the File and no access to cover exist one
-			virtual BOOL Copy(String strSrcFilePath, String strDestFilePath);
-
-			// Get the File Attribute(hidden,directory,normal ,system etc.)
-			virtual FileAttribute GetAttributes(String strFileName);
+			FileSize GetSize();
 
 			// Set the position of the File Pointer 
-			virtual Offset Seek(SeekOrigin SeekType, Offset iOffset);
+			Offset Seek(SeekOrigin SeekType, Offset iOffset);
 
 			// Flush the file and cause the buffer data written to the file
-			virtual BOOL Flush();
+			BOOL Flush();
+
+			// Judge that File is exist or not
+			static BOOL IsExisted(String strFileName);
+
+			// Delete the File
+			static BOOL Delete(String strFileName);
+
+			// Move the File in different volume
+			static BOOL Move(String strSrcFilePath, String strDestFilePath);
+
+			// Rename the File 
+			static BOOL Rename(String strSrcFileName, String strDestFileName);
+
+			// Copy the File and no access to cover exist one
+			static BOOL Copy(String strSrcFilePath, String strDestFilePath);
+
+			// Get the File Attribute(hidden,directory,normal ,system etc.)
+			static FileAttribute GetAttributes(String strFileName);
 
 		private:
 			// File is opened 
 			BOOL IsOpen();
 
 			// Create the File
-			BOOL _CreateFile(String strFilePath, FileMode OpenMode, FileAccess OperateAccess, FileAttrEnum AttributeEnum);
+			BOOL _CreateFile(String strFilePath, 
+				FileMode OpenMode,
+				FileAccess OperateAccess, 
+				FileAttrEnum AttributeEnum);
+
+			// Prepare the envir
+			static BOOL PrepareEnvironment(String strFilePath);
 
 		private:
 			// Initialize the File
@@ -118,7 +130,7 @@ namespace System
 			// Set the Handle
 			inline Empty SetFileHandle(FileHandle hFileHandle)
 			{
-				this->m_FileHandle = hFileHandle;
+				m_FileHandle = hFileHandle;
 			}
 
 			// Get the FileName
@@ -130,7 +142,7 @@ namespace System
 			// Set the FileName
 			inline Empty SetFileName(String strFileName)
 			{
-				this->m_FileName = strFileName;
+				m_FileName = strFileName;
 			}
 
 			// Get the Disposed
@@ -142,7 +154,7 @@ namespace System
 			// Set the Disposed
 			inline Empty SetDisposed(BOOL bDisposed)
 			{
-				this->m_Disposed = bDisposed;
+				m_Disposed = bDisposed;
 			}
 
 		private:

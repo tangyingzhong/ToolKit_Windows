@@ -1,42 +1,42 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// USB paramenters needing 
 ///</describe>
-/// <date>2019/3/7</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef USBTYPE_H
 #define USBTYPE_H
 
 #include "cyioctl.h"
-#include "Tool\Common\SystemType.h"
+#include "Common/SystemType.h"
 
 namespace System
 {
-	namespace USB
+	namespace IO
 	{
 		// Time out of the usb
-		typedef enum _USBTimeOut
+		enum USB_TIMEOUT_ENUM
 		{
 			// The time out of the USB
 			TIMEOUT = 10																
-		}USBTimeOut;
+		};
 
 		// USB device's configuration
-		typedef enum _DeviceConfiguration
+		enum DEVICE_CONFIG_ENUM
 		{
 			// Supported max devices' number
 			USB_MAXDEVICE = 127,	
 
 			// Transfer size of the endpoint 0
 			USB_ENP0_TRANSFER_SIZE = 64									
-		}DeviceConfiguration;
+		};
 
 		// USB endpoint address
-		typedef enum _EndPoint
+		enum END_POINT_ENUM
 		{
 			// Endpoint address of the endpoint 0
 			USB_CONTRL = 0x00,													
@@ -46,10 +46,10 @@ namespace System
 
 			// Endpoint address of the output endpoint
 			USB_OUTPOINT = 0x01													
-		}EndPoint;
+		};
 
 		// USB target
-		typedef enum _Target
+		enum TARGET_ENUM
 		{
 			// USB device
 			USB_DEVICE = 0,															
@@ -62,10 +62,10 @@ namespace System
 
 			// Others
 			OTHER																			
-		}Target;
+		};
 
 		// USB request type
-		typedef enum _RequestType
+		enum REQUEST_TYPE_ENUM
 		{
 			// Standart request
 			STANDARD = 0,														
@@ -75,19 +75,19 @@ namespace System
 
 			// Vendor request
 			VENDOR																		
-		}RequestType;
+		};
 
 		//USB transfer direction
-		typedef enum _Direction
+		enum DIRECTION_ENUM
 		{
 			// Host to device
 			TO_DEVICE = 0,															
 
 			// Device to host
 			FROM_DEVICE																
-		}Direction;
+		};
 
-		typedef enum
+		enum USB_CMD_ENUM
 		{
 			// Send to endpoint 0 or receive from it
 			SENDRECEIVE_EP0 = IOCTL_ADAPT_SEND_EP0_CONTROL_TRANSFER,					
@@ -145,10 +145,10 @@ namespace System
 
 			// Get the device current frame
 			GET_CURRENT_FRAME = IOCTL_ADAPT_GET_CURRENT_FRAME,							
-		}UsbCommand;
+		};
 
 		// One transferring paras
-		typedef struct
+		struct SingleTranfer
 		{
 			// The command of USB operation
 			Int32 iCommond;																									
@@ -167,10 +167,10 @@ namespace System
 
 			// Output size
 			Int32 iOutSize;																									
-		}SingleTranfer;
+		};
 
 		// USB device descriptor
-		typedef struct
+		struct UsbDeviceDescriptor
 		{
 			// The length of the descriptor(0x12)
 			Byte cLength;																										
@@ -216,10 +216,10 @@ namespace System
 
 			// Not use£¨0x00£©
 			Byte cReserve;																										
-		}UsbDeviceDescriptor;
+		};
 
 		// USB configuration descriptor
-		typedef struct
+		struct UsbConfigurationDescriptor
 		{
 			// The length of the descriptor(0x09) 
 			Byte cLength;																										
@@ -244,10 +244,10 @@ namespace System
 
 			// The max power electric(value£º2-500 mA), you should set it to 1-250,,because of it unit is 2 mA
 			Byte cMaxPower;																									
-		}UsbConfigurationDescriptor;
+		};
 
 		// USB interface descriptor
-		typedef struct
+		struct UsbInterfaceDescriptor
 		{
 			// The length of the descriptor(0x09) 
 			Byte cLength;																									
@@ -275,10 +275,10 @@ namespace System
 
 			// String descriptor's index
 			Byte cStringDescriptorIndex;																				
-		}UsbInterfaceDescriptor;
+		};
 
 		// USB endpoint descriptor
-		typedef struct
+		struct UsbEndpointDescriptor
 		{
 			// The length of the descriptor(0x07)
 			Byte cLength;																										
@@ -297,10 +297,10 @@ namespace System
 
 			// The interval of access the endpoint(ms)
 			Byte cInterval;																									
-		}UsbEndpointDescriptor;
+		};
 
 		// USB string descriptor
-		typedef struct
+		struct UsbStringDescriptor
 		{
 			// The length of the descriptor
 			Byte cLength;																									
@@ -310,17 +310,17 @@ namespace System
 
 			// Unicode string
 			Byte cStr[1];																											
-		}UsbStringDescriptor;
+		};
 
 		// USB common descriptor
-		typedef struct
+		struct UsbCommonDescriptor
 		{
 			// The length of the descriptor 
 			Byte cLength;																									
 
 			// The type of the decriptor(0x03)
 			Byte cDescriptorType;																						
-		}UsbCommonDescriptor;
+		};
 	}
 }
 

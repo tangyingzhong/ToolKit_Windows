@@ -1,82 +1,36 @@
-#include "Application\PreCompile.h"
+#include "PreCompile.h"
 #include "Delay.h"
 
 using namespace System::Clock;
 
-///************************************************************************
-/// <summary>
-/// Construct the Delay
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Construct the Delay
 Delay::Delay() :m_Disposed(false)
 {
 	Initialize();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Detructe the Delay
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Detructe the Delay
 Delay::~Delay()
 {
 	Destory();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Init the delay 
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Init the delay 
 Delay::Empty Delay::Initialize()
 {
 
 }
 
-
-///************************************************************************
-/// <summary>
-/// Destory the delay
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Destory the delay
 Delay::Empty Delay::Destory()
 {
 	if (!GetDisposed())
 	{
 		SetDisposed(true);
-
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// delay for us
-/// </summary>
-/// <param name=us></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Delay for us
 Delay::Empty Delay::DelayUs(TimeUs iTimeUs)
 {
 	LARGE_INTEGER dwStart;
@@ -87,7 +41,8 @@ Delay::Empty Delay::DelayUs(TimeUs iTimeUs)
 	// Check the current OS is supporting such delay or not
 	if (!QueryPerformanceFrequency(&dwFreq))
 	{
-		MessageBox(NULL, _T("Delay Not OK"), _T("OS do not support such delay"), 0);
+		ERROR_MESSAGEBOX(_T("Delay Error"), _T("OS do not support such delay"));
+
 		return;
 	}
 

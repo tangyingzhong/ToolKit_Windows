@@ -1,17 +1,17 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// It can be used betwwen producer and customer as a common cache
 ///</describe>
-/// <date>2019/3/6</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef CIRCLEBUFFER_H
 #define CIRCLEBUFFER_H
 
-#include "Tool\Common\SystemType.h"
+#include "Common/SystemType.h"
 #include "Array.h"
 
 namespace System
@@ -49,12 +49,12 @@ namespace System
 			// Allow the object copying
 			CircleBuffer(const CircleBuffer& other)
 			{
-				this->SetBufferSize(other.GetBufferSize());
-				this->m_CircleBuffer = other.m_CircleBuffer;
-				this->SetReadPos(other.GetReadPos());
-				this->SetWritePos(other.GetWritePos());
-				this->SetIsFull(other.GetIsFull());
-				this->SetDisposed(other.GetDisposed());
+				SetBufferSize(other.GetBufferSize());
+				m_CircleBuffer = other.m_CircleBuffer;
+				SetReadPos(other.GetReadPos());
+				SetWritePos(other.GetWritePos());
+				SetIsFull(other.GetIsFull());
+				SetDisposed(other.GetDisposed());
 			}
 
 			// Allow the object assignment
@@ -62,12 +62,12 @@ namespace System
 			{
 				if (this != &other)
 				{
-					this->SetBufferSize(other.GetBufferSize());
-					this->m_CircleBuffer = other.m_CircleBuffer;
-					this->SetReadPos(other.GetReadPos());
-					this->SetWritePos(other.GetWritePos());
-					this->SetIsFull(other.GetIsFull());
-					this->SetDisposed(other.GetDisposed());
+					SetBufferSize(other.GetBufferSize());
+					m_CircleBuffer = other.m_CircleBuffer;
+					SetReadPos(other.GetReadPos());
+					SetWritePos(other.GetWritePos());
+					SetIsFull(other.GetIsFull());
+					SetDisposed(other.GetDisposed());
 				}
 				return *this;
 			}
@@ -79,7 +79,7 @@ namespace System
 				BOOL bSuccess = false;
 
 				// To know wether the buffer is empty
-				if (this->IsEmpty() == true)
+				if (IsEmpty() == true)
 				{
 					Sleep(2);
 
@@ -87,13 +87,13 @@ namespace System
 				}
 
 				// Get the current reading position
-				Index iReadPos = this->GetReadPos() & (this->GetBufferSize() - 1);
+				Index iReadPos = GetReadPos() & (GetBufferSize() - 1);
 
 				// Get the data at the position
-				bSuccess = this->Read(iReadPos, data);
+				bSuccess = Read(iReadPos, data);
 
 				// Change the read pos
-				this->IncreaseReadPos();
+				IncreaseReadPos();
 
 				return bSuccess;
 			}
@@ -104,7 +104,7 @@ namespace System
 				BOOL bSuccess = false;
 
 				// To know wether the buffer is full
-				if (this->IsFull() == true)
+				if (IsFull() == true)
 				{
 					Sleep(2);
 
@@ -112,13 +112,13 @@ namespace System
 				}
 
 				// Get the current writing position
-				Index iWritePos = this->GetWritePos() & (this->GetBufferSize() - 1);
+				Index iWritePos = GetWritePos() & (GetBufferSize() - 1);
 
 				// Write the data
-				bSuccess = this->Write(iWritePos, data);
+				bSuccess = Write(iWritePos, data);
 
 				// Change the write pos
-				this->IncreaseWritePos();
+				IncreaseWritePos();
 
 				return bSuccess;
 			}
@@ -126,20 +126,20 @@ namespace System
 			// Resize the Buffer size
 			Empty Resize(Length iNewSize)
 			{			
-				this->SetReadPos(0);
-				this->SetWritePos(0);
-				this->SetIsFull(false);
-				this->SetBufferSize(iNewSize);
-				this->m_CircleBuffer.Resize(this->GetBufferSize());
+				SetReadPos(0);
+				SetWritePos(0);
+				SetIsFull(false);
+				SetBufferSize(iNewSize);
+				m_CircleBuffer.Resize(GetBufferSize());
 			}
 
 			// Clear the buffer
 			Empty Clear()
 			{
-				this->SetReadPos(0);
-				this->SetWritePos(0);
-				this->SetIsFull(false);
-				this->m_CircleBuffer.Clear();
+				SetReadPos(0);
+				SetWritePos(0);
+				SetIsFull(false);
+				m_CircleBuffer.Clear();
 			}
 
 		private:
@@ -147,19 +147,19 @@ namespace System
 			Empty Initialize(Length iBufferSize)
 			{
 				// Set the buffer size
-				this->SetBufferSize(iBufferSize);
+				SetBufferSize(iBufferSize);
 
 				// Resize the array
-				this->m_CircleBuffer.Resize(this->GetBufferSize());
+				m_CircleBuffer.Resize(GetBufferSize());
 
 				// Set the read position
-				this->SetReadPos(0);
+				SetReadPos(0);
 
 				// Set the write position
-				this->SetWritePos(0);
+				SetWritePos(0);
 
 				// Set the full flag
-				this->SetIsFull(false);
+				SetIsFull(false);
 			}
 
 			// Destory the CircleBuffer
@@ -175,7 +175,7 @@ namespace System
 			// Is the buffer full
 			BOOL IsFull()
 			{
-				if (this->GetWritePos() - this->GetReadPos() == this->GetBufferSize())
+				if (GetWritePos() - GetReadPos() == GetBufferSize())
 				{
 					return true;
 				}
@@ -186,7 +186,7 @@ namespace System
 			// Is the buffer empty
 			BOOL IsEmpty()
 			{
-				if (this->GetReadPos() - this->GetWritePos() == 0)
+				if (GetReadPos() - GetWritePos() == 0)
 				{
 					return true;
 				}
@@ -203,13 +203,13 @@ namespace System
 			// Increase the read position
 			Empty IncreaseReadPos()
 			{
-				this->IncrementPos(this->GetReadPos());
+				IncrementPos(GetReadPos());
 			}
 
 			// Increase the write position
 			Empty IncreaseWritePos()
 			{
-				this->IncrementPos(this->GetWritePos());
+				IncrementPos(GetWritePos());
 			}
 
 			// Read the data from the exactly position
@@ -218,16 +218,13 @@ namespace System
 				BOOL bSuccess = false;
 
 				// Check the position's legal
-				assert(iPos >= 0);
-				assert(iPos <= (this->GetBufferSize() - 1));
-
-				if (iPos<0 || iPos>(this->GetBufferSize() - 1))
+				if (iPos<0 || iPos>(GetBufferSize() - 1))
 				{
 					return bSuccess;
 				}
 
 				// Get the data
-				data = this->m_CircleBuffer[iPos];
+				data = m_CircleBuffer[iPos];
 
 				bSuccess = true;
 
@@ -240,16 +237,13 @@ namespace System
 				BOOL bSuccess = false;
 
 				// Check the position's legal
-				assert(iPos >= 0);
-				assert(iPos <= (this->GetBufferSize() - 1));
-
-				if (iPos<0 || iPos>(this->GetBufferSize() - 1))
+				if (iPos<0 || iPos>(GetBufferSize() - 1))
 				{
 					return bSuccess;
 				}
 
 				// Get the data
-				this->m_CircleBuffer[iPos] = data;
+				m_CircleBuffer[iPos] = data;
 
 				bSuccess = true;
 
@@ -260,13 +254,13 @@ namespace System
 			// Get the write pos of buffer 
 			inline Index GetWritePos() const
 			{
-				return this->m_WritePos;
+				return m_WritePos;
 			}
 
 			// Set the write position
 			inline Empty SetWritePos(Index iWritePos)
 			{
-				this->m_WritePos = iWritePos;
+				m_WritePos = iWritePos;
 			}
 
 			// Get the read position
@@ -278,13 +272,13 @@ namespace System
 			// Set the read position
 			inline Empty SetReadPos(Index iReadPos)
 			{
-				this->m_ReadPos = iReadPos;
+				m_ReadPos = iReadPos;
 			}
 
 			// Set the buffer size
 			inline Empty SetBufferSize(Length iBufferSize)
 			{
-				this->m_BufferSize = iBufferSize;
+				m_BufferSize = iBufferSize;
 			}
 
 			// Get the buffer size
@@ -302,7 +296,7 @@ namespace System
 			// Set the disposed	
 			inline Empty SetDisposed(BOOL bDisposed)
 			{
-				this->m_Disposed = bDisposed;
+				m_Disposed = bDisposed;
 			}
 
 		private:

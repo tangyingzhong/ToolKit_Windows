@@ -1,29 +1,30 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// Some needing paramenters or types of socket
 ///</describe>
-/// <date>2019/3/7</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef SOCKETTYPE_H
 #define SOCKETTYPE_H
 
-#include "Tool\Common\SystemType.h"
+#include "Common/SystemType.h"
 
 namespace System
 {
 	namespace Network
 	{
-		typedef enum _SocketResult
+		enum SOKCET_RESULT
 		{
 			S_SUCCESS = 0,
-			S_FAILE
-		}SocketResult;
 
-		typedef enum _AddressFamily
+			S_FAILE
+		};
+
+		enum ADDRESS_FAMILY_ENUM
 		{
 			// Unknown address family.	
 			UnknownAddr = -1,						
@@ -117,9 +118,9 @@ namespace System
 
 			// MAX address.
 			Max = 29,																
-		}AddressFamily;
+		};
 
-		typedef enum _ProtocolType
+		enum PROTOCOL_ENUM
 		{
 			// Unknown protocol.
 			UnknownProtocol = -1,										
@@ -195,9 +196,9 @@ namespace System
 
 			// Sequenced Packet Exchange version 2 protocol.
 			SpxII = 1257,															
-		}ProtocolType;
+		};
 
-		typedef enum _SocketType
+		enum SOCKET_TYPE_ENUM
 		{
 			// Specifies an unknown Socket type.
 			UnknownType = -1,
@@ -241,18 +242,23 @@ namespace System
 			// of type System.Net.Sockets.SocketType.Seqpacket communicates with a single
 			// peer and requires a remote host connection before communication can begin.
 			Seqpacket = 5,
-		}SocketType;
+		};
 
 		// Asynchronize configure structure
-		typedef struct _AsyncResult
+		struct AsyncResult
 		{
 			WSABUF wsaBuf;
-			System::Int32 iBufSize;
-			typedef Empty(*AsyncCallBack)(struct _AsyncResult*);
+
+			Int32 iBufSize;
+
+			typedef Empty(*AsyncCallBack)(struct AsyncResult*);
+
 			AsyncCallBack pCallBackFunc;
+
 			Object SocketState;
-			System::UInt64 iOutSize;
-		}AsyncResult;
+
+			FixedUInt32 iOutSize;
+		};
 
 		// Socket call back function
 		typedef AsyncResult::AsyncCallBack AsyncCallBack;
@@ -261,11 +267,12 @@ namespace System
 		typedef WSAOVERLAPPED wsaAsync;
 
 		// Asynchronize result
-		typedef struct
+		struct AsyncRes
 		{
 			wsaAsync AsynSocket;
+
 			AsyncResult Result;
-		}AsyncRes;
+		};
 	}
 }
 

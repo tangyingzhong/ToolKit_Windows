@@ -1,20 +1,11 @@
-#include "Application\PreCompile.h"
+#include "PreCompile.h"
 #include "Timer.h"
+
+#pragma comment(lib,"Winmm.lib")
 
 using namespace System::Clock;
 
-///************************************************************************
-/// <summary>
-/// Construct the Timer
-/// </summary>
-/// <param name=timerID></param>
-/// <param name=time></param>
-/// <param name=func></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Construct the Timer
 Timer::Timer(DelayMs DelayTime, CallBackFunc Func, Object Paramenter) :m_TimerId(0),
 m_TimerDelayTime(DelayTime),
 m_CallbackFunc(Func),
@@ -24,64 +15,40 @@ m_Disposed(false)
 
 }
 
-
-///************************************************************************
-/// <summary>
-/// Detructe the Timer
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Detructe the Timer
 Timer::~Timer()
 {
 	if (!GetDisposed())
 	{
 		SetDisposed(true);
 
-		//Close the timer
-		this->Close();
+		Close();
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Open the timer
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Open the timer
 Timer::Empty Timer::Open()
 {
-	if (this->GetClosed() == true)
+	if (GetClosed() == true)
 	{
-		this->SetClosed(false);
+		SetClosed(false);
 
 		// Delay's resolution is 1 ms
-		this->SetTimerId(::timeSetEvent(this->GetTimerDelayTime(), 1, this->GetCallbackFunc(), (DWORD_PTR)this->GetTimerPara(), TIME_PERIODIC));
+		SetTimerId(::timeSetEvent(GetTimerDelayTime(), 
+			1, 
+			GetCallbackFunc(), 
+			(DWORD_PTR)GetTimerPara(), 
+			TIME_PERIODIC));
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Close the timer
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Close the timer
 Timer::Empty Timer::Close()
 {
-	if (this->GetClosed() == false)
+	if (GetClosed() == false)
 	{
-		::timeKillEvent(this->GetTimerId());
+		::timeKillEvent(GetTimerId());
 
-		this->SetClosed(true);
+		SetClosed(true);
 	}
 }

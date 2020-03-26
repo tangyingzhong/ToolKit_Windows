@@ -1,12 +1,12 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
-/// Double class which can support conversion with string 
+/// Double class which can support conversion with string
 ///</describe>
-/// <date>2019/3/5</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef DOUBLE_H
 #define DOUBLE_H
@@ -91,7 +91,7 @@ namespace System
 			// Set the Value
 			inline Empty SetValue(double dValue)
 			{
-				this->m_Value = dValue;
+				m_Value = dValue;
 			}
 
 		private:

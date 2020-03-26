@@ -1,25 +1,18 @@
-#include "Application\PreCompile.h"
-#include "Tool\Encoding\ASCII.h"
-#include "Tool\Encoding\Unicode.h"
-#include "Tool\Directory\Directory.h"
-#include "Tool\DateTime\DateTime.h"
+#include "PreCompile.h"
+#include "Encoding/ANSI.h"
+#include "Encoding/Unicode.h"
+#include "Directory/Directory.h"
+#include "DateTime/DateTime.h"
 #include "Log.h"
 
 using namespace System::IO;
+using namespace System::Clock;
 
 Log* Log::m_Instance = NULL;
 
 Log::Lock Log::m_Mutex = new Mutex();
 
-///************************************************************************
-/// <summary>
-/// get the instance of log
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Get the instance of log
 Log* Log::GetInstance()
 {
 	if (m_Instance == NULL)
@@ -29,6 +22,7 @@ Log* Log::GetInstance()
 		if (m_Instance == NULL)
 		{
 			Log* log = new Log();
+
 			m_Instance = log;
 		}
 	}
@@ -36,473 +30,419 @@ Log* Log::GetInstance()
 	return m_Instance;
 }
 
+// Destory log self
+Log::Empty Log::DestoryInstance()
+{
+	if (m_Instance)
+	{
+		delete m_Instance;
 
-///************************************************************************
-/// <summary>
-/// construct the log
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Log::Log() :m_Directory(_T("D:\\SystemLog")), m_BackupDirectory(_T("D:\\BackupLog"))
+		m_Instance = NULL;
+	}
+}
+
+// Construct the log
+Log::Log() :m_LogDirectory(_T("")), m_iMaxLogSize(MAX_FILE_SIZE)
 {
 	Initialize();
 }
 
-
-///************************************************************************
-/// <summary>
-/// destory the log
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Destory the log
 Log::~Log()
 {
 	Destory();
 }
 
-
-///************************************************************************
-/// <summary>
-/// init the log
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Init the log
 Log::Empty Log::Initialize()
 {
-	// Create a file
-	CreateLogFile();
+	String strCurExePath = System::IO::Directory::GetExcutableDirectory();
 
-	// Register the error type
-	RegisterErrorType();
+	strCurExePath = System::IO::Directory::AddEnding(strCurExePath) + _T("SystemLog");
+
+	ConfigureEnvironment(strCurExePath);
+
+	RegisterLogType();
 }
 
-
-///************************************************************************
-/// <summary>
-/// dispose the resource of log
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Dispose the resource of log
 Log::Empty Log::Destory()
 {
-	// Destory the log file
-	DestoryLogFile();
-}
-
-
-///************************************************************************
-/// <summary>
-/// create a file handle
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Log::Empty Log::CreateLogFile()
-{
-	this->SetLogFile(new File());
-}
-
-
-///************************************************************************
-/// <summary>
-/// destory the file handle
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Log::Empty Log::DestoryLogFile()
-{
-	if (this->GetLogFile())
+	if (!GetDisposed())
 	{
-		delete this->GetLogFile();
-		SetLogFile(NULL);
+		SetDisposed(true);
+
+		Flush();
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// register the error type
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Log::Empty Log::RegisterErrorType()
+// Register the log type
+Log::Empty Log::RegisterLogType()
 {
-	ErrorTypeArray[ErrorType::COM_OPEN_FAILED] = _T("COM_OPEN_FAILED");
-	ErrorTypeArray[ErrorType::COM_READ_FAILED] = _T("COM_READ_FAILED");
-	ErrorTypeArray[ErrorType::COM_WRITE_FAILED] = _T("COM_WRITE_FAILED");
-	ErrorTypeArray[ErrorType::DB_OPEN_FAILED] = _T("DB_OPEN_FAILED");
-	ErrorTypeArray[ErrorType::DB_READ_FAILED] = _T("DB_READ_FAILED");
-	ErrorTypeArray[ErrorType::DB_WRITE_FAILED] = _T("DB_WRITE_FAILED");
-	ErrorTypeArray[ErrorType::USB_OPEN_FAILED] = _T("USB_OPEN_FAILED");
-	ErrorTypeArray[ErrorType::USB_READ_FAILED] = _T("USB_READ_FAILED");
-	ErrorTypeArray[ErrorType::USB_WRITE_FAILED] = _T("USB_WRITE_FAILED");
+	LogTypeArray[LOGGING_ERROR] = _T("LOG_ERROR");
+
+	LogTypeArray[LOGGING_INFORMATION] = _T("LOG_INFORMATION");
+
+	LogTypeArray[LOGGING_DEBUG] = _T("LOG_DEBUG");
 }
 
+// Add seperate lines to log file
+Log::BOOL Log::AddSeperateLines(String strLogFileName)
+{
+	if (strLogFileName.IsEmpty())
+	{
+		return false;
+	}
 
-///************************************************************************
-/// <summary>
-/// log the message into file
-/// </summary>
-/// <param name=fileName>file full path</param>
-/// <param name=logMessage>log message</param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+	File FileHelper;
+
+	if (!FileHelper.Open(strLogFileName, FileMode::OPEN, FileAccess::READWRITE))
+	{
+		return false;
+	}
+
+	FileHelper.Seek(SeekOrigin::END, 0);
+
+	std::string strSepData = "\r\n\r\n";
+
+	FileHelper.Write(strSepData.c_str(), 0, strSepData.length());
+
+	FileHelper.Close();
+
+	return true;
+}
+
+// Log the message into file
 Log::Empty Log::LogToFile(String& strLogFileName, String& strLogMessage)
 {
-	assert(strLogFileName != _T(""));
-	assert(strLogMessage != _T(""));
-
-	if (this->GetLogFile() == NULL)
+	if (strLogFileName.IsEmpty() || strLogMessage.IsEmpty())
 	{
-		// Create the file handle
-		CreateLogFile();
+		return;
 	}
 
-	// Open the file
-	this->GetLogFile()->Open(strLogFileName, FileMode::APPEND, FileAccess::WRITE);
-	this->GetLogFile()->Seek(SeekOrigin::END, 0);
+	File FileHelper;
 
-	// Change the encode of the log message
-	std::string LogMsg = System::Encoding::ASCII::GetString(strLogMessage.AllocWideString());
+	FileHelper.Open(strLogFileName, FileMode::APPEND, FileAccess::WRITE);
 
-	// Write the message to the file
-	this->GetLogFile()->Write((SByteArray)LogMsg.c_str(), 0, strLogMessage.GetLength());
+	FileHelper.Seek(SeekOrigin::END, 0);
 
-	// Close the file
-	this->GetLogFile()->Close();
+	FileHelper.Write((SByteArray)strLogMessage.ToUtf8Data().c_str(), 0, strLogMessage.ToUtf8Data().length());
+
+	FileHelper.Close();
 }
 
-
-///************************************************************************
-/// <summary>
-/// get the current time
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-String Log::LocalTime()
+// Get the current time
+String Log::LocalTime(String strTimeFormat)
 {
-	return System::Clock::DateTime::Now().ToString(System::Clock::DateTime::YEAR_MONTH_DAY,_T("_"));
+	return DateTime::Now().ToString(strTimeFormat);
 }
 
+// Create log directory
+Log::BOOL Log::CreateLogDirectory()
+{
+	if (GetLogDirectory().IsEmpty())
+	{
+		ERROR_MESSAGEBOX(_T("Log Configure Error"),
+			_T("Please configure the log environment at first with interface: ConfigureEnvironment"));
 
-///************************************************************************
-/// <summary>
-/// create a new file name
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+		return false;
+	}
+
+	if (!Directory::IsExisted(GetLogDirectory()))
+	{
+		// Create a directory
+		if (!Directory::Create(GetLogDirectory(), true))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+// Create log file
+Log::BOOL Log::CreateLogFile()
+{
+	// Create log file name
+	if (GetFileName().IsEmpty())
+	{
+		SetFileName(CreateFileName());
+	}
+
+	File FileHelper;
+
+	if (!FileHelper.IsExisted(GetFileName()))
+	{
+		if (!FileHelper.Create(GetFileName()))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+// Create a new file name
 String Log::CreateFileName()
 {
-	if (!this->GetLogFile())
-	{
-		this->CreateLogFile();
-	}
-
-	// Get the current time
-	String strCurrentTime = LocalTime();
-
 	// Organize the new file name
-	String strRootDir = Log::m_Directory + _T("\\");
+	String strRootDir = Directory::AddEnding(GetLogDirectory());
 
-	String strFileName = strRootDir + _T("SystemLog_") + strCurrentTime + _T(".log");
+	String strFileName = strRootDir + _T("SystemLog") + _T(".log");
 
 	return strFileName;
 }
 
-
-///************************************************************************
-/// <summary>
-/// back up the log file to another directory
-/// </summary>
-/// <param name=destDir></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Log::Empty Log::BackupLogFile()
+// Get current log file size
+Log::Size Log::GetCurLogFileSize()
 {
-	if (!this->GetLogFile())
+	Size iCurFileSize = 0;
+
+	File FileHelper;
+
+	if (FileHelper.Open(GetFileName(), FileMode::OPEN, FileAccess::READ))
 	{
-		this->CreateLogFile();
+		iCurFileSize = FileHelper.GetSize();
 	}
 
-	if (!Directory::Exists(m_BackupDirectory))
-	{
-		Directory::Create(m_BackupDirectory);
-	}
+	FileHelper.Close();
 
-	String strSrcDirectory = Log::m_Directory;
-
-	String strDestDirectory = Log::m_BackupDirectory;
-
-	// Find all the log file of source directory
-	Directory::FileTable vFileTable;
-	Directory::GetAllFiles(strSrcDirectory, vFileTable);
-
-	// Move to dest directory
-	for (Index iFileIndex = 0; iFileIndex < (Index)vFileTable.size();iFileIndex++)
-	{
-		// Rebuild the source path
-		String strSrcPath = strSrcDirectory + _T("\\") + vFileTable[iFileIndex];
-
-		// Build the dest path
-		String strDestPath = strDestDirectory + _T("\\") + _T("_") + vFileTable[iFileIndex];
-
-		this->GetLogFile()->Move(strSrcPath, strDestPath);
-	}
+	return iCurFileSize;
 }
 
-
-///************************************************************************
-/// <summary>
-/// write the message to log
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Write the message to log
 Log::Empty Log::WriteLog()
 {
-	if (Directory::Exists(Log::m_Directory) == false)
+	// Create a log directory
+	if (!CreateLogDirectory())
 	{
-		// Create a directory
-		Directory::Create(Log::m_Directory);
+		return;
 	}
 
-	if (this->GetFileName() == _T(""))
+	// Create a log file
+	if (!CreateLogFile())
 	{
-		// Create a new file name
-		this->SetFileName(this->CreateFileName());
+		ERROR_MESSAGEBOX(_T("Create Error"), _T("Create a log file failed!"));
+
+		return;
 	}
 
-	if (!this->GetLogFile()->Exists(this->GetFileName()))
-	{
-		// Create the file
-		this->GetLogFile()->Create(this->GetFileName());
-
-		this->GetLogFile()->Close();
-	}
 	// Connect all string together 
 	String strNewMessage = ConnectAllMessages();
 
 	// Clear all messages in log buffer
-	this->Clear();
+	Clear();
 
 	// Get the current file's size
-	Size iCurFileSize = 0;
-	if (this->GetLogFile()->Open(this->GetFileName(), FileMode::OPEN, FileAccess::READ) == true)
-	{
-		iCurFileSize = this->GetLogFile()->GetSize();
-
-		this->GetLogFile()->Close();
-	}
+	Size iCurFileSize = GetCurLogFileSize();
 
 	// Compare the size with preSet fileSize
-	Size leftSize = LogConfig::MAX_FILE_SIZE - iCurFileSize;
+	Size leftSize = GetMaxLogSize() - iCurFileSize;
 
 	Size iMsgLen = strNewMessage.GetLength();
 
 	if (leftSize < iMsgLen)
 	{
-		// Back up the full log file
-		this->BackupLogFile();
+		// Backup the old log
+		BackupLog(GetFileName());
 
 		// Create a new file name
-		this->SetFileName(this->CreateFileName());
+		SetFileName(CreateFileName());
 
 		// Log the message to the new file
-		this->LogToFile(this->GetFileName(), strNewMessage);
+		LogToFile(GetFileName(), strNewMessage);
 
 		return;
 	}
 
 	// Write the connected message to the file
-	this->LogToFile(this->GetFileName(), strNewMessage);
+	LogToFile(GetFileName(), strNewMessage);
 }
 
+// Bacckup log file
+Empty Log::BackupLog(String strLogFileName)
+{
+	// Create a new file name
+	Int32 iPos = strLogFileName.FindLast(_T("\\"));
 
-///************************************************************************
-/// <summary>
-/// build a full log message
-/// </summary>
-/// <param name=errorType>error type</param>
-/// <param name=errorFileName>error happened file name</param>
-/// <param name=errorLine>error happened line in file</param>
-/// <param name=errorFuncName>error happend in which method</param>
-/// <param name=errorMsg>error message</param>
-/// <param name=remark>remark</param>
-/// <returns>log message</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-String Log::BuildMessage(ErrorType eErrorType, String strErrorFileName, LineNumber iErrorLine, String strErrorFuncName, String strErrorMsg, String strRemark)
+	String strLogDir = strLogFileName.Left(iPos + 1);
+
+	String strLogName = strLogFileName.Right(strLogFileName.GetLength() - iPos - 1);
+
+	Int32 iPos1 = strLogName.FindLast(_T("."));
+
+	String strLog = strLogName.Left(iPos1);
+
+	String strNewLogFileName = strLogDir
+		+ strLog
+		+ _T("_")
+		+ LocalTime(_T("yyyy_MM_dd_hh_mm_ss"))
+		+ _T(".log");
+
+	// Rename the log file
+	File::Rename(strLogFileName, strNewLogFileName);
+
+	// Create a new file with old name
+	File FileHelper;
+
+	FileHelper.Create(strLogFileName);
+
+	FileHelper.Close();
+}
+
+// Build a full log message
+String Log::BuildMessage(LogType eLogType,
+	ProcessID strProcessID,
+	ThreadID strThreadID,
+	String strFileName,
+	LineNumber iLineNo,
+	String strFuncName,
+	String strMessage,
+	String strRemark)
 {
 	// Get the time
-	String strCurTime = this->LocalTime();
+	String strCurTime = LocalTime();
 
 	// Build the message
 	String strBuildMsg = _T("");
 
-	strBuildMsg = strBuildMsg + _T("ErrorType:")
-		+ ErrorTypeArray[eErrorType]
-		+ _T("|") + _T("ErrorFile:")
-		+ strErrorFileName
-		+ _T("|") + _T("ErrorLine:")
-		+ String::ToString(iErrorLine)
-		+ _T("|") + _T("ErrorFunction:")
-		+ strErrorFuncName
-		+ _T("|") + _T("ErrorMessage:")
-		+ strErrorMsg
-		+ _T("|") + _T("ErrorRemark:")
-		+ strRemark
-		+ _T("|") + _T("ErrorTime:")
-		+ strCurTime
+	strBuildMsg = String(_T("[")) + LogTypeArray[eLogType] + _T("]")
+		+ _T("[") + strProcessID.ToString() + _T("]")
+		+ _T("[") + strThreadID.ToString() + _T("]")
+		+ _T("[") + strFileName + _T("]")
+		+ _T("[") + iLineNo.ToString() + _T("]")
+		+ _T("[") + strFuncName + _T("]")
+		+ _T("[") + strMessage + _T("]")
+		+ _T("[") + strRemark + _T("]")
+		+ _T("[") + strCurTime + _T("]")
 		+ _T("\r\n");
 
 	return strBuildMsg;
 }
 
-
-
-///************************************************************************
-/// <summary>
-/// add log message into container
-/// </summary>
-/// <param name=message></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Add log message into container
 Log::Empty Log::Add(String& strMessage)
 {
-	this->m_LogMesaageTable.push_back(strMessage);
+	m_LogMesaageTable.push(strMessage);
 }
 
-
-
-
-///************************************************************************
-/// <summary>
-/// Connect all string together 
-/// </summary>
-/// <returns>a new log message</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Connect all string together 
 String Log::ConnectAllMessages()
 {
 	String strMessage = _T("");
-	for (Index iIndex = 0; iIndex < (Index)(this->m_LogMesaageTable.size()); iIndex++)
+
+	for (Index iIndex = 0; iIndex < (Index)(m_LogMesaageTable.size()); ++iIndex)
 	{
-		strMessage = strMessage + this->m_LogMesaageTable[iIndex];
+		String strLogMsg = m_LogMesaageTable.front();
+
+		m_LogMesaageTable.pop();
+
+		strMessage = strMessage + strLogMsg;
 	}
 
 	return strMessage;
 }
 
-
-
-///************************************************************************
-/// <summary>
-/// clear the log message container
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Clear the log message container
 Log::Empty Log::Clear()
 {
-	LogMessageTable::iterator iter;
-
-	for (iter = this->m_LogMesaageTable.begin(); iter != this->m_LogMesaageTable.end();)
+	while (!m_LogMesaageTable.empty())
 	{
-		iter = this->m_LogMesaageTable.erase(iter);
+		m_LogMesaageTable.pop();
 	}
+
+	LogMessageTable().swap(m_LogMesaageTable);
 }
 
-
-///************************************************************************
-/// <summary>
-/// record log message
-/// </summary>
-/// <param name=errorType>error type</param>
-/// <param name=errorFileName>error happened file name</param>
-/// <param name=errorLine>error happened line in file</param>
-/// <param name=errorFuncName>error happend in which method</param>
-/// <param name=errorMsg>error message</param>
-/// <param name=remark>remark</param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Log::Empty Log::Record(ErrorType eErrorType, String strErrorFileName, LineNumber iErrorLine, String strErrorFuncName, String strErrorMsg, String strRemark)
+// Config the log environment
+Log::Empty Log::ConfigureEnvironment(String strLogDirectory)
 {
+	if (strLogDirectory.IsEmpty())
+	{
+		ERROR_MESSAGEBOX(_T("Configure log error"),
+			_T("Please give me a correct directory for the log"));
+
+		return;
+	}
+
+	SetLogDirectory(strLogDirectory);
+}
+
+// Record log message
+Log::Empty Log::Record(LogType eLogType,
+	ProcessID strProcessID,
+	ThreadID strThreadID,
+	String strFileName,
+	LineNumber iLineNo,
+	String strFuncName,
+	String strMessage,
+	String strRemark)
+{
+	MutexLocker locker(m_Mutex);
+
 	// Rebuild the message
-	String strBuildMessage = BuildMessage(eErrorType, strErrorFileName, iErrorLine, strErrorFuncName, strErrorMsg, strRemark);
+	String strBuildMessage = BuildMessage(eLogType,
+		strProcessID,
+		strThreadID,
+		strFileName,
+		iLineNo,
+		strFuncName,
+		strMessage,
+		strRemark);
 
 	// Judge the current message's number
-	if (this->m_LogMesaageTable.size() < LogConfig::MAX_MSG_NUM)
+	Int32 iLogTableSize = m_LogMesaageTable.size();
+	if (iLogTableSize < MAX_MSG_NUM)
 	{
 		// Log the message into buffer
-		this->Add(strBuildMessage);
+		Add(strBuildMessage);
 
 		return;
 	}
 
 	// Log the message into file
-	this->WriteLog();
+	WriteLog();
 
 	// Log the message into buffer
-	this->Add(strBuildMessage);
+	Add(strBuildMessage);
 }
 
-
-///************************************************************************
-/// <summary>
-/// flush the log messages in container to the file
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Flush the log messages in container to the file
 Log::Empty Log::Flush()
 {
-	this->WriteLog();
+	MutexLocker locker(m_Mutex);
+
+	// Write the left messages
+	WriteLog();
+}
+
+// Log the message to trace window
+Log::Empty Log::Trace(LogType eLogType,
+	ProcessID strProcessID,
+	ThreadID strThreadID,
+	String strFileName,
+	LineNumber iLineNo,
+	String strFuncName,
+	String strMessage,
+	String strRemark)
+{
+	MutexLocker locker(m_Mutex);
+
+	// Rebuild the message
+	String strBuildMessage = BuildMessage(eLogType,
+		strProcessID,
+		strThreadID,
+		strFileName,
+		iLineNo,
+		strFuncName,
+		strMessage,
+		strRemark);
+
+	::OutputDebugString(strBuildMessage.CStr());
+}
+
+// Set log size
+Log::Empty Log::SetMaxLoggerSize(Size iSize)
+{
+	SetMaxLogSize(iSize);
 }

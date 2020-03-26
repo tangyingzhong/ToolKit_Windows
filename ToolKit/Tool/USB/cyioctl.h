@@ -26,7 +26,7 @@
 #ifndef DRIVER
 
 #ifndef CTL_CODE
-#include <devioctl.h>
+#include "devioctl.h"
 #endif
 
 #ifndef BM_REQUEST_TYPE

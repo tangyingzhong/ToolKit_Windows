@@ -1,17 +1,18 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// Convert other encoding string to be UTF8 string
 ///</describe>
-/// <date>2019/3/6</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef	UTF8_H
 #define	UTF8_H
 
-#include "Tool\Common\SystemType.h"
+#include "Common/SystemType.h"
+#include "EncodeType.h"
 
 namespace System
 {
@@ -28,6 +29,7 @@ namespace System
 			typedef System::WByteArray WCharArray;
 			typedef std::string StdString;
 			typedef std::wstring WStdString;
+			typedef ENCODE_TYPE_ENUM EncodeType;
 
 		private:
 			// Construct the UTF8
@@ -42,22 +44,28 @@ namespace System
 			// Forbid the obejct assignment
 			UTF8& operator=(const UTF8& other) {	}
 
-		public:
+		public:	
 			// Get the UTF8 string from the multibytes array Notice: count must contain '\0'
-			static StdString GetString(SCharArray AsciiBuffer, Index iPos, Length iCount);
+			static StdString GetString(SCharArray pMultiBuffer, 
+				Index iPos,
+				Length iCount, 
+				EncodeType eEncodeType);
 
-			// Get the UTF8 string from the ascii string
-			static StdString GetString(StdString AsciiString);
+			// Get the UTF8 string from the multi string
+			static StdString GetString(StdString strMultiString,EncodeType eEncodeType);
 
 			// Get the UTF8 string from the width char array Notice: count must contain '\0'
-			static StdString GetString(WCharArray UnicodeBuffer, Index iPos, Length iCount);
+			static StdString GetString(WCharArray UnicodeBuffer, 
+				Index iPos, 
+				Length iCount,
+				EncodeType eEncodeType);
 
 			// Get the UTF8 string from the unicode string
-			static StdString GetString(WStdString UnicodeString);
+			static StdString GetString(WStdString UnicodeString, EncodeType eEncodeType);
 
 		private:
-			// Convert Ascii string to UTF8 string
-			static StdString ASCIIToUTF8(StdString AsciiString);
+			// Convert ANSI string to UTF8 string
+			static StdString ANSIToUTF8(StdString ANSIString);
 
 			// Convert Unicode string to UTF8 string
 			static StdString UnicodeToUTF8(WStdString UnicodeString);

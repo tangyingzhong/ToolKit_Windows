@@ -1,12 +1,12 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// Basic type with the value:true or false
 ///</describe>
-/// <date>2019/3/5</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef BOOL_H
 #define BOOL_H
@@ -74,7 +74,7 @@ namespace System
 			// Set the bool value
 			inline Empty SetValue(bool bValue)
 			{
-				this->m_Value = bValue;
+				m_Value = bValue;
 			}
 
 		private:

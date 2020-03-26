@@ -1,308 +1,122 @@
-#include "Application\PreCompile.h"
+#include "PreCompile.h"
 #include "Float.h"
 
 using namespace System::BasicType;
 
-///************************************************************************
-/// <summary>
-/// Contruct a Float 
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// 
-/// </remarks>
-///***********************************************************************
+// Contruct a Float
 Float::Float() :m_Value(0.0f)
 {
 
 }
 
-
-///************************************************************************
-/// <summary>
-/// Contruct a Float with a value 
-/// </summary>
-/// <param name=v>initialize the Float with a value</param>
-/// <returns></returns>
-/// <remarks>
-/// 
-/// </remarks>
-///***********************************************************************
+// Contruct a Float with a value 
 Float::Float(float dValue) :m_Value(dValue)
 {
 
 }
 
-
-///************************************************************************
-/// <summary>
-/// Destruct the Float
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Destruct the Float
 Float::~Float()
 {
 
 }
 
-
-///************************************************************************
-/// <summary>
-/// Allow the object copying
-/// </summary>
-/// <param name=other>another Float object</param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Allow the object copying
 Float::Float(const Float& Another)
 {
-	this->SetValue(Another.GetValue());
+	SetValue(Another.GetValue());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Allow the obejct assignment
-/// </summary>
-/// <param name=other>another Float object</param>
-/// <returns>self object</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Allow the obejct assignment
 Float& Float::operator=(const Float& Another)
 {
 	if (this != &Another)
 	{
-		this->SetValue(Another.GetValue());
+		SetValue(Another.GetValue());
 	}
 
 	return *this;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the + object
-/// </summary>
-/// <param name=other>another Float object</param>
-/// <returns>a new Float object</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the + object
 Float Float::operator+(Float& Another)
 {
-	return (this->GetValue() + Another.GetValue());
+	return (GetValue() + Another.GetValue());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the + value
-/// </summary>
-/// <param name=value>A Float value</param>
-/// <returns>a new Float object</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the + value
 Float Float::operator+(float dValue)
 {
-	return (this->GetValue() + dValue);
+	return (GetValue() + dValue);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the += object
-/// </summary>
-/// <param name=other>another Float object</param>
-/// <returns>a new Float object</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the += object
 Float Float::operator+=(Float& Another)
 {
-	return (this->m_Value += Another.GetValue());
+	return (m_Value += Another.GetValue());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the += value
-/// </summary>
-/// <param name=value>a Float value</param>
-/// <returns>a new Float object</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the += value
 Float Float::operator+=(float dValue)
 {
-	return (this->m_Value += dValue);
+	return (m_Value += dValue);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the -= object
-/// </summary>
-/// <param name=other>another Float object</param>
-/// <returns>a new Float object</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///************************************************************************
+// Implement the -= object
 Float Float::operator-=(Float& Another)
 {
-	return (this->m_Value -= Another.GetValue());
+	return (m_Value -= Another.GetValue());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the -= value
-/// </summary>
-/// <param name=value>a Float value</param>
-/// <returns>a new Float object</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///************************************************************************
+// Implement the -= value
 Float Float::operator-=(float dValue)
 {
-	return (this->m_Value -= dValue);
+	return (m_Value -= dValue);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the - object
-/// </summary>
-/// <param name=other>another Float object</param>
-/// <returns>a new Float object</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the - object
 Float Float::operator-(Float& Another)
 {
-	return (this->m_Value - Another.GetValue());
+	return (m_Value - Another.GetValue());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the - value
-/// </summary>
-/// <param name=value>A Float value</param>
-/// <returns>a new Float object</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the - value
 Float Float::operator-(float dValue)
 {
-	return (this->m_Value - dValue);
+	return (m_Value - dValue);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the * object
-/// </summary>
-/// <param name=other>another Float object</param>
-/// <returns>a new Float object</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the * object
 Float Float::operator*(Float& Another)
 {
-	return (this->m_Value * Another.GetValue());
+	return (m_Value * Another.GetValue());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the * value
-/// </summary>
-/// <param name=value>A Float value</param>
-/// <returns>a new Float object</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the * value
 Float Float::operator*(float dValue)
 {
-	return (this->m_Value * dValue);
+	return (m_Value * dValue);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the / object
-/// </summary>
-/// <param name=other>another Float object</param>
-/// <returns>a new Float object</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the / object
 Float Float::operator/(Float& Another)
 {
-	return (this->m_Value / Another.GetValue());
+	return (m_Value / Another.GetValue());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Implement the / value
-/// </summary>
-/// <param name=value>A Float value</param>
-/// <returns>a new Float object</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Implement the / value
 Float Float::operator/(float dValue)
 {
-	return (this->m_Value / dValue);
+	return (m_Value / dValue);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Override the float type
-/// </summary>
-/// <returns> </returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Override the float type
 Float::operator float() const
 {
-	return this->GetValue();
+	return GetValue();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Parse the string to Float
-/// </summary>
-/// <param name=FloatString>Float string</param>
-/// <returns>a new Float object</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Parse the string to Float
 Float Float::Parse(String NumberString)
 {
 	if (NumberString == _T("true") || NumberString == _T("True") || NumberString == _T("TRUE"))
@@ -319,18 +133,8 @@ Float Float::Parse(String NumberString)
 	return fNumber;
 }
 
-
-///************************************************************************
-/// <summary>
-/// make the Float to string
-/// </summary>
-/// <param name=value>Float value</param>
-/// <returns>a string</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// make the Float to string
 String Float::ToString()
 {
-	return String::ToString(this->m_Value);
+	return String::ToString(m_Value);
 }

@@ -1,86 +1,42 @@
-#include "Application\PreCompile.h"
+#include "PreCompile.h"
+#include "Directory/Directory.h"
 #include "File.h"
 
 using namespace System::IO;
 
-///************************************************************************
-/// <summary>
-/// construct the File Stream
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Construct the File Stream
 File::File() :m_FileHandle(NULL), m_FileName(_T("")), m_Disposed(false)
 {
 	Initialize();
 }
 
-
-///************************************************************************
-/// <summary>
-/// destruct the File Stream
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Destruct the File Stream
 File::~File()
 {
 	Destory();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Initialize the File
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Initialize the File
 File::Empty File::Initialize()
 {
 
 }
 
-
-///************************************************************************
-/// <summary>
-/// Dispose the File
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Dispose the File
 File::Empty File::Destory()
 {
 	if (!GetDisposed())
 	{
 		SetDisposed(true);
 
-		// Close the File
-		this->Close();
+		Close();
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// File is opened 
-/// </summary>
-/// <returns>true£ºOpened  false£ºNot opened</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// File is opened 
 File::BOOL File::IsOpen()
 {
-	if (this->GetFileHandle())
+	if (GetFileHandle())
 	{
 		return true;
 	}
@@ -88,183 +44,118 @@ File::BOOL File::IsOpen()
 	return false;
 }
 
-
-///************************************************************************
-/// <summary>
-/// create the windows file handle
-/// </summary>
-/// <param name=path>the name of target file</param>
-/// <param name=mode>operation mode</param>
-/// <param name=access>operation access</param>
-/// <param name=attr>operation attribute</param>
-/// <returns>FIALED£ºopen file failed SUCCESS£ºsuccessfully open</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-File::BOOL File::_CreateFile(String strFilePath, FileMode OpenMode, FileAccess OperateAccess, FileAttrEnum AttributeEnum)
+// Create the windows file handle
+File::BOOL File::_CreateFile(String strFilePath, 
+	FileMode OpenMode, 
+	FileAccess OperateAccess, 
+	FileAttrEnum AttributeEnum)
 {
-	BOOL bSuccess = false;
-
-	assert(strFilePath != _T(""));
-
-	if (strFilePath == _T(""))
+	if (strFilePath.IsEmpty())
 	{
-		return bSuccess;
+		return false;
 	}
 
 	// Set the file name
-	this->SetFileName(strFilePath);
+	SetFileName(strFilePath);
 
 	// Create the file 
-	this->SetFileHandle(::CreateFile(this->GetFileName().CStr(), OperateAccess, 0, NULL, OpenMode, AttributeEnum, NULL));
-	if (this->GetFileHandle() == INVALID_HANDLE_VALUE)
+	SetFileHandle(::CreateFile(GetFileName().CStr(), OperateAccess, 0, NULL, OpenMode, AttributeEnum, NULL));
+	if (GetFileHandle() == INVALID_HANDLE_VALUE)
 	{
-		this->Close();
+		if (GetLastError()==32)
+		{
+			//ERROR_MESSAGEBOX(_T("File Error"), _T("File is used by another process, please close it at first"));
+		}
 
-		return bSuccess;
+		return false;
 	}
 
 	// Set the file pointer position
 	if (OpenMode == FileMode::APPEND)
 	{
-		this->Seek(SeekOrigin::END, 0);
+		Seek(SeekOrigin::END, 0);
 	}
 	else
 	{
-		this->Seek(SeekOrigin::BEGIN, 0);
+		Seek(SeekOrigin::BEGIN, 0);
 	}
 
-	bSuccess = true;
-
-	return bSuccess;
+	return true;
 }
 
-
-///************************************************************************
-/// <summary>
-/// judge that whether the file is exist or not
-/// </summary>
-/// <param name=fileName>file's full path</param>
-/// <returns>true£ºexists false£ºnot exist</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-File::BOOL File::Exists(String strFileName)
+// Judge that whether the file is exist or not
+File::BOOL File::IsExisted(String strFileName)
 {
-	BOOL bExisted = false;
-
-	assert(strFileName != _T(""));
-
-	if (strFileName == _T(""))
+	if (strFileName.IsEmpty())
 	{
-		return bExisted;
+		return false;
 	}
 
 	// Get the valid file attribute
-	FileAttribute Attributes = this->GetAttributes(strFileName);
+	FileAttribute Attributes = GetAttributes(strFileName);
 	if (Attributes.IsEmpty())
 	{
-		return bExisted;
+		return false;
 	}
 
 	// If it is not directory then we get the this file existed 
 	if (Attributes.dwDirectory == 0)
 	{
-		bExisted = true;
-
-		return bExisted;
+		return true;
 	}
 
-	return bExisted;
+	return false;
 }
 
-
-///************************************************************************
-/// <summary>
-/// create a file with default mode and access
-/// </summary>
-/// <param name=path>full file path</param>
-/// <returns>FAILED or SUCCESS</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Create a file with default mode and access
 File::BOOL File::Create(String strFileName)
 {
-	return _CreateFile(strFileName, FileMode::CREATE, FileAccess::READWRITE, FileAttrEnum::NORMAL);
+	return _CreateFile(strFileName, 
+		FileMode::CREATE, 
+		FileAccess::READWRITE, 
+		FileAttrEnum::NORMAL);
 }
 
-
-///************************************************************************
-/// <summary>
-/// delete the special file
-/// </summary>
-/// <param name=path>file's full path</param>
-/// <returns>0£ºdelete failed other£ºdelete ok</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Delete the special file
 File::BOOL File::Delete(String strFileName)
 {
-	BOOL bSuccess = false;
+	if (strFileName.IsEmpty())
+	{
+		return false;
+	}
 
 	if (::DeleteFile(strFileName.CStr()) == FALSE)
 	{
-		return bSuccess;
+		return false;
 	}
 
-	bSuccess = true;
-
-	return bSuccess;
+	return true;
 }
 
-
-///************************************************************************
-/// <summary>
-/// get the file's size
-/// </summary>
-/// <returns>the total size of file</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Get the file's size
 File::FileSize File::GetSize()
 {
-	FileSize dwFileSize = 0;
-
-	assert(this->IsOpen() == true);
-
-	if (!this->IsOpen())
+	if (!IsOpen())
 	{
-		return dwFileSize;
+		return 0;
 	}
 
-	dwFileSize = ::GetFileSize(this->GetFileHandle(), NULL);
+	LARGE_INTEGER LargeFileSize = { 0 };
 
-	return dwFileSize;
+	if (!GetFileSizeEx(GetFileHandle(), &LargeFileSize))
+	{
+		return 0;
+	}
+
+	return LargeFileSize.QuadPart;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Get the File Attribute(hidden,directory,normal ,system etc.)
-/// </summary>
-/// <param name=path>file's path</param>
-/// <returns>windows file's attribute</returns>
-/// <remarks>
-/// this attribute is different in differnt os
-/// </remarks>
-///***********************************************************************
+// Get the File Attribute(hidden,directory,normal ,system etc.)
 File::FileAttribute File::GetAttributes(String strFileName)
 {
 	FileAttribute Attribute = { 0 };
 
-	assert(strFileName != _T(""));
-
-	if (strFileName == _T(""))
+	if (strFileName.IsEmpty())
 	{
 		return Attribute;
 	}
@@ -282,9 +173,7 @@ File::FileAttribute File::GetAttributes(String strFileName)
 	Attribute.dwDirectory = dwAttribute&(FileAttrEnum::DIRECTORY);
 	Attribute.dwEncrypted = dwAttribute&(FileAttrEnum::ENCRYPTED);
 	Attribute.dwHidden = dwAttribute&(FileAttrEnum::HIDDEN);
-	Attribute.dwIntegrityStream = dwAttribute&(FileAttrEnum::INTEGRITYSTREAM);
 	Attribute.dwNormal = dwAttribute&(FileAttrEnum::NORMAL);
-	Attribute.dwNoScrubData = dwAttribute&(FileAttrEnum::NOSCRUBDATA);
 	Attribute.dwNotContentIndexed = dwAttribute&(FileAttrEnum::NOTCONTENTINDEXED);
 	Attribute.dwOffline = dwAttribute&(FileAttrEnum::OFFLINE);
 	Attribute.dwReadOnly = dwAttribute&(FileAttrEnum::READONLY);
@@ -292,288 +181,221 @@ File::FileAttribute File::GetAttributes(String strFileName)
 	Attribute.dwSparseFile = dwAttribute&(FileAttrEnum::SPARSEFILE);
 	Attribute.dwSystem = dwAttribute&(FileAttrEnum::SYSTEM);
 	Attribute.dwTemporary = dwAttribute&(FileAttrEnum::TEMPORARY);
+	Attribute.dwVirtual = dwAttribute&(FileAttrEnum::VIRTUAL);
 
 	return Attribute;
 }
 
-
-///************************************************************************
-/// <summary>
-/// move the file pointer to special position
-/// </summary>
-/// <param name=origin>start position of moving</param>
-/// <param name=offset>the distance of moving</param>
-/// <returns>the position distance of pointer</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Move the file pointer to special position
 File::Offset File::Seek(SeekOrigin SeekType, Offset iOffset)
 {
 	Offset FileOffset = 0;
 
-	assert(this->IsOpen() == true);
-	assert(iOffset >= 0);
-
-	if (!this->IsOpen() || iOffset < 0)
+	if (!IsOpen() || iOffset < 0)
 	{
 		return FileOffset;
 	}
 
-	FileOffset = ::SetFilePointer(this->GetFileHandle(), iOffset, NULL, SeekType);
+	FileOffset = ::SetFilePointer(GetFileHandle(), iOffset, NULL, SeekType);
 
 	return FileOffset;
 }
 
+// Prepare the envir
+File::BOOL File::PrepareEnvironment(String strFilePath)
+{
+	if (strFilePath.IsEmpty())
+	{
+		return false;
+	}
 
-///************************************************************************
-/// <summary>
-/// move the file to another path
-/// </summary>
-/// <param name=sourceFilePath>source file's path</param>
-/// <param name=destFilePath>destinate file's path</param>
-/// <returns>0£ºmove failed other£ºmove ok</returns>
-/// <remarks>
-/// this moving is limited to differnt file's path
-/// </remarks>
-///***********************************************************************
+	Int32 iCount = strFilePath.Contains('\\');
+	if (iCount < 1)
+	{
+		return false;
+	}
+	
+	// Get the root directory
+	Int32 iPos = strFilePath.FindLast(_T("\\"));
+	if (iPos == -1)
+	{
+		return false;
+	}
+
+	String strRootDirectory = Directory::AddEnding(strFilePath.Left(iPos));
+
+	// Check the directory's existed
+	if (!Directory::IsExisted(strRootDirectory))
+	{
+		if (!Directory::Create(strRootDirectory, true))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+// Move the file to another path
 File::BOOL File::Move(String strSrcFilePath, String strDestFilePath)
 {
-	BOOL bSuccess = false;
-
 	// Check their legal attribute
-	assert(strSrcFilePath != _T(""));
-	assert(strDestFilePath != _T(""));
-
-	if (strSrcFilePath == _T("") || strDestFilePath == _T(""))
+	if (strSrcFilePath.IsEmpty() || strDestFilePath.IsEmpty())
 	{
-		return bSuccess;
+		return false;
+	}
+
+	// Prepare the dest environment
+	if (!PrepareEnvironment(strDestFilePath))
+	{
+		return false;
 	}
 
 	// Copy this file to the destination
-	bSuccess = this->Copy(strSrcFilePath, strDestFilePath);
-	if (!bSuccess)
+	if (!Copy(strSrcFilePath, strDestFilePath))
 	{
-		return bSuccess;
+		Int32 iCode = GetLastError();
+
+		return false;
 	}
 
 	// Delete the source file 
-	bSuccess = this->Delete(strSrcFilePath);
+	if (!Delete(strSrcFilePath))
+	{
+		return false;
+	}
 
-	return bSuccess;
+	return true;
 }
 
-
-///************************************************************************
-/// <summary>
-/// rename the file
-/// </summary>
-/// <param name=sourceFileName>source file name</param>
-/// <param name=destFileName>the name you want to change to be</param>
-/// <returns>0£ºrename failed other£ºrename ok</returns>
-/// <remarks>
-/// the file name is file's full path and their path is the same,but name
-/// </remarks>
-///***********************************************************************
+// Rename the file
 File::BOOL File::Rename(String strSrcFileName, String strDestFileName)
 {
-	BOOL bSuccess = false;
-
-	assert(strSrcFileName != _T(""));
-	assert(strDestFileName != _T(""));
-
-	if (strSrcFileName == _T("") || strDestFileName == _T(""))
+	if (strSrcFileName.IsEmpty() || strDestFileName.IsEmpty())
 	{
-		return bSuccess;
+		return false;
+	}
+
+	// Prepare the dest environment
+	if (!PrepareEnvironment(strDestFileName))
+	{
+		return false;
 	}
 
 	if (::MoveFile(strSrcFileName.CStr(), strDestFileName.CStr()) == FALSE)
 	{
-		return bSuccess;
+		return false;
 	}
 
-	bSuccess = true;
-
-	return bSuccess;
+	return true;
 }
 
-
-///************************************************************************
-/// <summary>
-/// copy the file to another path
-/// </summary>
-/// <param name=sourceFilePath>source file path</param>
-/// <param name=destFilePath>destinate file path</param>
-/// <returns>0£ºcopy failed other£ºcopy ok</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Copy the file to another path
 File::BOOL File::Copy(String strSrcFilePath, String strDestFilePath)
 {
-	BOOL bSuccess = false;
-
-	assert(strSrcFilePath != _T(""));
-	assert(strDestFilePath != _T(""));
-
-	if (strSrcFilePath == _T("") || strDestFilePath == _T(""))
+	if (strSrcFilePath.IsEmpty() || strDestFilePath.IsEmpty())
 	{
-		return bSuccess;
+		return false;
+	}
+
+	// Prepare the dest environment
+	if (!PrepareEnvironment(strDestFilePath))
+	{
+		return false;
 	}
 
 	if (::CopyFile(strSrcFilePath.CStr(), strDestFilePath.CStr(), true) == FALSE)
 	{
-		return bSuccess;
+		Int32 iRetCode = ::GetLastError();
+
+		return false;
 	}
 
-	bSuccess = true;
-
-	return bSuccess;
+	return true;
 }
 
-
-///************************************************************************
-/// <summary>
-/// make the buffer stream written to the file
-/// </summary>
-/// <returns>0£ºflush failed other£ºflush ok</returns>
-/// <remarks>
-/// the flush target file must be opened
-/// </remarks>
-///***********************************************************************
+// Make the buffer stream written to the file
 File::BOOL File::Flush()
 {
-	BOOL bSuccess = false;
-
-	assert(this->IsOpen() == true);
-
-	if (!this->IsOpen())
+	if (!IsOpen())
 	{
-		return bSuccess;
+		return false;
 	}
 
-	if (::FlushFileBuffers(this->GetFileHandle()) == FALSE)
+	if (::FlushFileBuffers(GetFileHandle()) == FALSE)
 	{
-		return bSuccess;
+		return false;
 	}
 
-	bSuccess = true;
-
-	return bSuccess;
+	return true;
 }
 
-
-///************************************************************************
-/// <summary>
-/// open the file with mode and access
-/// </summary>
-/// <param name=path>file's full path</param>
-/// <param name=mode>open mode</param>
-/// <param name=access>open access</param>
-/// <returns>FAILED or SUCCESS</returns>
-/// <remarks>
-/// the mode and access value defined in WinType.h
-/// </remarks>
-///***********************************************************************
+// Open the file with mode and access
 File::BOOL File::Open(String strFilePath, FileMode OpenMode, FileAccess OperateAccess)
 {
-	return (_CreateFile(strFilePath, OpenMode, OperateAccess, FileAttrEnum::NORMAL));
+	return (_CreateFile(strFilePath, 
+		OpenMode,
+		OperateAccess, 
+		FileAttrEnum::NORMAL));
 }
 
-
-///************************************************************************
-/// <summary>
-/// read the data from file
-/// </summary>
-/// <param name=arr>buffer </param>
-/// <param name=offset>buffer offset to have the data</param>
-/// <param name=readSize>read total size</param>
-/// <returns>real read size</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-File::FileSize File::Read(SByteArray pReadArray, Offset iOffset, ArraySize iArraySize)
+// Read the data from file
+File::ArraySize File::Read(char* pReadArray, Offset iOffset, ArraySize iArraySize)
 {
-	FileSize dwReadBytes = 0;
-
-	assert(pReadArray != NULL);
-	assert(iOffset >= 0);
-	assert(iArraySize > 0);
-	assert(IsOpen() == true);
-
 	// Check the legal input
 	if (pReadArray == NULL || iOffset < 0 || iArraySize < 0)
 	{
-		return dwReadBytes;
+		return 0;
 	}
 
 	// Check that wether the file is opened or not
-	if (!this->IsOpen())
+	if (!IsOpen())
 	{
-		return dwReadBytes;
+		return 0;
 	}
 
-	::ReadFile(this->GetFileHandle(), pReadArray, iArraySize, &dwReadBytes, NULL);
+	ArraySize dwReadBytes = 0;
+
+	if (::ReadFile(GetFileHandle(), pReadArray, iArraySize, &dwReadBytes, NULL) == FALSE)
+	{
+		return 0;
+	}
 
 	return dwReadBytes;
 }
 
-
-///************************************************************************
-/// <summary>
-/// write the data to file 
-/// </summary>
-/// <param name=arr>buffer with data </param>
-/// <param name=offset>the offset of begining writing</param>
-/// <param name=writeSize>total write size</param>
-/// <returns>real write size</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-File::FileSize File::Write(const SByteArray pWriteArray, Offset iOffset, ArraySize iArraySize)
+// Write the data to file 
+File::ArraySize File::Write(CONST char* pWriteArray, Offset iOffset, ArraySize iArraySize)
 {
-	FileSize dwWriteBytes = 0;
-
-	assert(pWriteArray != NULL);
-	assert(iOffset >= 0);
-	assert(iArraySize > 0);
-	assert(IsOpen() == true);
-
 	// Check the legal input
 	if (pWriteArray == NULL || iOffset < 0 || iArraySize < 0)
 	{
-		return dwWriteBytes;
+		return 0;
 	}
 
 	// Check that wether the file is opened or not
-	if (!this->IsOpen())
+	if (!IsOpen())
 	{
-		return dwWriteBytes;
+		return 0;
 	}
 
-	::WriteFile(this->GetFileHandle(), pWriteArray, iArraySize, &dwWriteBytes, NULL);
+	ArraySize dwWriteBytes = 0;
+
+	if (::WriteFile(GetFileHandle(), pWriteArray, iArraySize, &dwWriteBytes, NULL) == FALSE)
+	{
+		return 0;
+	}
 
 	return dwWriteBytes;
 }
 
-
-///************************************************************************
-/// <summary>
-/// close the file opened now
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Close the file opened now
 File::Empty File::Close()
 {
-	if (this->GetFileHandle())
+	if (GetFileHandle())
 	{
-		::CloseHandle(this->GetFileHandle());
+		::CloseHandle(GetFileHandle());
 
-		this->SetFileHandle(NULL);
+		SetFileHandle(NULL);
 	}
 }

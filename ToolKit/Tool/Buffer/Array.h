@@ -1,17 +1,19 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// You can use it like a common array
 ///</describe>
-/// <date>2019/3/2</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef ARRAY_H
 #define ARRAY_H
 
-#include "Tool\Common\SystemType.h"
+#include "Common/SystemType.h"
+
+using namespace System;
 
 namespace System
 {
@@ -33,7 +35,9 @@ namespace System
 
 		public:
 			// Construct the Array with size
-			Array(ArraySize iArraySize = 0) :m_ArraySize(iArraySize), m_ElementPosition(0), m_Disposed(false)
+			Array(ArraySize iArraySize = 512) :m_ArraySize(iArraySize),
+				m_ElementPosition(0), 
+				m_Disposed(false)
 			{
 				Initialize();
 			}
@@ -47,13 +51,13 @@ namespace System
 			// Allow the object's copy behavior
 			Array(const Array<T>& other)
 			{
-				this->SetArraySize(other.GetArraySize());
-				this->SetElementPos(other.GetElementPos());
-				this->SetDisposed(other.GetDisposed());
-				this->CreateBuffer(this->GetArraySize());
-				if (this->GetElementPointer())
+				SetArraySize(other.GetArraySize());
+				SetElementPos(other.GetElementPos());
+				SetDisposed(other.GetDisposed());
+				CreateBuffer(GetArraySize());
+				if (GetElementPointer())
 				{
-					Array::Copy(other.GetElementPointer(), other.GetArraySize(), this->GetElementPointer(), this->GetArraySize());
+					Array::Copy(other.GetElementPointer(), other.GetArraySize(), GetElementPointer(), GetArraySize());
 				}
 			}
 
@@ -62,14 +66,14 @@ namespace System
 			{
 				if (this != &other)
 				{
-					this->DestoryBuffer();
-					this->SetArraySize(other.GetArraySize());
-					this->SetElementPos(other.GetElementPos());
-					this->SetDisposed(other.GetDisposed());
-					this->CreateBuffer(this->GetArraySize());
-					if (this->GetElementPointer())
+					DestoryBuffer();
+					SetArraySize(other.GetArraySize());
+					SetElementPos(other.GetElementPos());
+					SetDisposed(other.GetDisposed());
+					CreateBuffer(GetArraySize());
+					if (GetElementPointer())
 					{
-						Array::Copy(other.GetElementPointer(), other.GetArraySize(), this->GetElementPointer(), this->GetArraySize());
+						Array::Copy(other.GetElementPointer(), other.GetArraySize(), GetElementPointer(), GetArraySize());
 					}
 				}
 
@@ -80,7 +84,7 @@ namespace System
 			// Get the array's data pointer
 			Pointer Data()
 			{				
-				return this->GetElementPointer();
+				return GetElementPointer();
 			}
 
 			// Get the element by index
@@ -92,40 +96,34 @@ namespace System
 			// Resize the array
 			Empty Resize(ArraySize iNewSize)
 			{
-				assert(iNewSize > 0);
-				assert(iNewSize != this->GetArraySize());
-
-				if (iNewSize <= 0 || iNewSize == this->GetArraySize())
+				if (iNewSize < 0)
 				{
-					MessageBox(NULL, _T("Irlegal new size,please input a new size not equal to the current one or 0"), _T("Array Error"), 0);
+					ERROR_MESSAGEBOX(_T("Array Error"), _T("Irlegal new size < 0"));
 
 					return;
 				}
 
 				// Deep copy buffer
-				this->DeepCopyBuffer(iNewSize);
+				DeepCopyBuffer(iNewSize);
 
 				// Update the array size
-				this->SetArraySize(iNewSize);
+				SetArraySize(iNewSize);
 
 				// Update the buffer pos
-				this->SetElementPos(0);
+				SetElementPos(0);
 			}
 
 			// Make the array can be used as *(p+1)
 			Array<T>& operator+(Index iIndex)
 			{
-				assert(iIndex >= 0);
-				assert(iIndex < this->GetArraySize());
-
-				if (iIndex < 0 || iIndex >= this->GetArraySize())
+				if (iIndex < 0 || iIndex >= GetArraySize())
 				{
-					MessageBox(NULL, _T("Irlegal input index,you must input a correct index in array's size range."), _T("Array Error"), 0);
+					ERROR_MESSAGEBOX(_T("Array Error"),_T("Irlegal input index,you must input a correct index in array's size range."));
 
 					return *this;
 				}
 
-				this->SetElementPos(iIndex);
+				SetElementPos(iIndex);
 
 				return *this;
 			}
@@ -133,7 +131,7 @@ namespace System
 			// Get the value of current pos
 			Reference operator*()
 			{
-				return At(this->GetElementPos());
+				return At(GetElementPos());
 			}
 
 			// Swap two arrays
@@ -149,13 +147,13 @@ namespace System
 			// Array's size
 			ArraySize Size()
 			{
-				return this->GetArraySize();
+				return GetArraySize();
 			}
 
 			// Clear the Array
 			Empty Clear()
 			{
-				Array<T>::Clear(this->Data(),0,this->Size());
+				Array<T>::Clear(Data(),0,Size());
 			}
 
 		public:
@@ -168,13 +166,9 @@ namespace System
 			//Copy the array. Notice: you must ensure that your dest array has enough space for the source size
 			static Empty Copy(Pointer pSourceArray, ArraySize iSourceSize, Pointer pDestArray, ArraySize iDestSize)
 			{
-				assert(pSourceArray != NULL);
-				assert(pDestArray != NULL);
-				assert(iDestSize >= iSourceSize);
-
 				if (pSourceArray == NULL || pDestArray == NULL || iDestSize < iSourceSize)
 				{
-					MessageBox(NULL, _T("Input or Dest array pointer is null or dest size < source size"), _T("Array error"), 0);
+					ERROR_MESSAGEBOX(_T("Array error"), _T("Input or Dest array pointer is null or dest size < source size"));
 
 					return;
 				}
@@ -185,13 +179,9 @@ namespace System
 			// Clear the array. Notice: you must input legal start position and count of element
 			static Empty Clear(Pointer pArray, Index iStartIndex, ArraySize iCount)
 			{
-				assert(pArray != NULL);
-				assert(iStartIndex >= 0);
-				assert(iCount >= 0);
-
 				if (iStartIndex < 0 || iCount < 0 || pArray == NULL)
 				{
-					MessageBox(NULL, _T("Input or Dest array pointer is null or clear count <0"), _T("Array error"), 0);
+					ERROR_MESSAGEBOX(_T("Array error"), _T("Input or Dest array pointer is null or clear count <0"));
 
 					return;
 				}
@@ -202,18 +192,7 @@ namespace System
 			// Clear the array. Notice: you must input legal start position and count of element
 			static Empty Clear(Array<ValueType>& Arr, Index iStartIndex, ArraySize iCount)
 			{
-				assert(Arr.Data() != NULL);
-				assert(iStartIndex >= 0);
-				assert(iCount >= 0);
-
-				if (iStartIndex < 0 || iCount < 0 || Arr.Data() == NULL)
-				{
-					MessageBox(NULL, _T("Input or Dest array pointer is null or clear count <0"), _T("Array error"), 0);
-
-					return;
-				}
-
-				memset(Arr.Data() + iStartIndex, 0, sizeof(ValueType)*(iCount));
+				Clear(Arr.Data(), iStartIndex, iCount);
 			}
 
 		private:
@@ -221,15 +200,15 @@ namespace System
 			Empty Initialize()
 			{
 				// Create a buffer
-				this->CreateBuffer(this->GetArraySize());
+				CreateBuffer(GetArraySize());
 			}
 
 			// Destorty the array
 			Empty Destory()
 			{
-				if (!this->GetDisposed())
+				if (!GetDisposed())
 				{
-					this->SetDisposed(true);
+					SetDisposed(true);
 
 					// Destory the buffer
 					DestoryBuffer();
@@ -241,58 +220,56 @@ namespace System
 			{
 				if (iArraySize == 0)
 				{
-					this->SetElementPointer(NULL);
+					SetElementPointer(NULL);
 
 					return;
 				}
 
-				this->SetElementPointer(new ValueType[iArraySize]);
+				SetElementPointer(new ValueType[iArraySize]);
 
-				if (this->GetElementPointer() == NULL)
+				if (GetElementPointer() == NULL)
 				{
-					MessageBox(NULL, _T("Failed to create buffer in the array!"), _T("Array Error"), 0);
+					ERROR_MESSAGEBOX(_T("Array Error"), _T("Failed to create buffer in the array!"));
 
 					return;
 				} 
-			
-				assert(this->GetElementPointer() != NULL);
 
-				Array<ValueType>::Clear(this->GetElementPointer(), 0, iArraySize);
+				Array<ValueType>::Clear(GetElementPointer(), 0, iArraySize);
 			}
 
 			// Destory the buffer
 			Empty DestoryBuffer()
 			{
-				if (this->GetElementPointer())
+				if (GetElementPointer())
 				{
-					delete[] this->GetElementPointer();
+					delete[] GetElementPointer();
 
-					this->SetElementPointer(NULL);
+					SetElementPointer(NULL);
 				}
 			}
 
 			// Backup the current buffer
 			Pointer Backup()
 			{
-				return this->GetElementPointer();
+				return GetElementPointer();
 			}
 
 			// Deep copy buffer
 			Empty DeepCopyBuffer(ArraySize iNewSize)
 			{
 				// Backup the current buffer
-				Pointer pPrevious = this->Backup();
+				Pointer pPrevious = Backup();
 
 				// Create a new buffer with the new size
-				this->CreateBuffer(iNewSize);
+				CreateBuffer(iNewSize);
 
 				if (pPrevious != NULL)
 				{
 					// Get the copy size
-					ArraySize iCopySize = (iNewSize < this->GetArraySize() ? iNewSize : this->GetArraySize());
+					ArraySize iCopySize = (iNewSize < GetArraySize() ? iNewSize : GetArraySize());
 
 					// Copy prevoius buffer to the new buffer with the copy size
-					Array::Copy(pPrevious, iCopySize, this->GetElementPointer(), iNewSize);
+					Array::Copy(pPrevious, iCopySize, GetElementPointer(), iNewSize);
 
 					// Destory the previous buffer
 					delete[] pPrevious;
@@ -303,17 +280,14 @@ namespace System
 			// Get the element by index
 			Reference At(Index iIndex)
 			{
-				assert(iIndex >= 0);
-				assert(iIndex < this->GetArraySize());
-
-				if (iIndex < 0 || iIndex >= this->GetArraySize() || this->GetElementPointer() == NULL)
+				if (iIndex < 0 || iIndex >= GetArraySize() || GetElementPointer() == NULL)
 				{
-					MessageBox(NULL, _T("Irlegal input index,you must input a correct index in array's size range."), _T("Array Error"), 0);
+					ERROR_MESSAGEBOX(_T("Array Error"), _T("Irlegal input index,you must input a correct index in array's size range."));
 
-					return this->m_EmptyElement;
+					return m_EmptyElement;
 				}
 
-				return this->GetElementPointer()[iIndex];
+				return GetElementPointer()[iIndex];
 			}
 
 		private:
@@ -326,7 +300,7 @@ namespace System
 			// Set element pointer
 			inline Empty SetElementPointer(Pointer pElementPointer)
 			{
-				this->m_ElementPointer = pElementPointer;
+				m_ElementPointer = pElementPointer;
 			}
 
 			// Get array size
@@ -336,9 +310,9 @@ namespace System
 			}
 
 			// Set array size
-			inline Empty SetArraySize(ArraySize m_ArraySize)
+			inline Empty SetArraySize(ArraySize iArraySize)
 			{
-				this->m_ArraySize = m_ArraySize;
+				m_ArraySize = iArraySize;
 			}
 
 			// Get the element's position
@@ -350,7 +324,7 @@ namespace System
 			// Set the element's position
 			inline Empty SetElementPos(Offset iElementPosition)
 			{
-				this->m_ElementPosition = iElementPosition;
+				m_ElementPosition = iElementPosition;
 			}
 
 			//Get the Disposed status
@@ -362,7 +336,7 @@ namespace System
 			//Set the Disposed status
 			inline Empty SetDisposed(BOOL bDisposed)
 			{
-				this->m_Disposed = bDisposed;
+				m_Disposed = bDisposed;
 			}
 
 		private:

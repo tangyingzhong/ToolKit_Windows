@@ -1,215 +1,112 @@
-#include "Application\PreCompile.h"
+#include "PreCompile.h"
 #include "Event.h"
 
 using namespace System::Thread;
 
-///************************************************************************
-/// <summary>
-/// Construct the Event
-/// </summary>
-/// <param name=name>event name</param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///************************************************************************
-Event::Event(String strEventName) :m_EventName(strEventName), m_EventHandle(NULL), m_Disposed(false)
+// Construct the Event
+Event::Event() :m_EventHandle(NULL), 
+m_Disposed(false)
 {
 	Initialize();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Destruct the Event
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///************************************************************************
+// Destruct the Event
 Event::~Event()
 {
 	Destory();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Copy construct Event
-/// </summary>
-/// <param name=other>another event object</param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Copy construct Event
 Event::Event(const Event& other)
 {
-	this->SetEventHandle(other.GetEventHandle());
-	this->SetEventName(other.GetEventName());
-	this->SetDisposed(other.GetDisposed());
+	SetEventHandle(other.GetEventHandle());
+
+	SetDisposed(other.GetDisposed());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Assignment
-/// </summary>
-/// <param name=other>another event object</param>
-/// <returns>Event reference</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Assignment
 Event& Event::operator=(const Event& other)
 {
 	if (this != &other)
 	{
-		this->SetEventHandle(other.GetEventHandle());
-		this->SetEventName(other.GetEventName());
-		this->SetDisposed(other.GetDisposed());
+		SetEventHandle(other.GetEventHandle());
+
+		SetDisposed(other.GetDisposed());
 	}
 
 	return *this;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Initialize the Event
-/// </summary>
-/// <param name=name></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///************************************************************************
+// Initialize the Event
 Event::Empty Event::Initialize()
 {
-
+	
 }
 
-
-///************************************************************************
-/// <summary>
-/// Dispose the Event
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///************************************************************************
+// Dispose the Event
 Event::Empty Event::Destory()
 {
 	if (!GetDisposed())
 	{
 		SetDisposed(true);
 
-		// Close the event
-		this->Close();
+		Close();
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Open the event
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///************************************************************************
-Event::BOOL Event::Open()
+// Open the event
+Event::BOOL Event::Open(String strEventName)
 {
-	BOOL bSuccess = false;
-
-	this->SetEventHandle(::OpenEvent(EVENT_ALL_ACCESS, FALSE, this->GetEventName().CStr()));
-	if (this->GetEventHandle() == NULL)
+	SetEventHandle(::OpenEvent(EVENT_ALL_ACCESS, FALSE, strEventName.CStr()));
+	if (GetEventHandle() == NULL)
 	{
-		this->SetEventHandle(::CreateEvent(NULL, TRUE, FALSE, this->GetEventName().CStr()));
+		SetEventHandle(::CreateEvent(NULL, TRUE, FALSE, strEventName.CStr()));
 	}
 
 	// Set the event non-signaled after created
-	if (this->GetEventHandle())
+	if (GetEventHandle())
 	{
-		this->NonSignaled();
+		NonSignaled();
 
-		bSuccess = true;
+		return true;
 	}
 
-	return bSuccess;
+	return false;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Activate the event
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///************************************************************************
+// Activate the event
 Event::Empty Event::Signaled()
 {
-	if (this->GetEventHandle())
+	if (GetEventHandle())
 	{
-		::SetEvent(this->GetEventHandle());
+		::SetEvent(GetEventHandle());
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Disactivate the event
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///************************************************************************
+// Disactivate the event
 Event::Empty Event::NonSignaled()
 {
-	if (this->GetEventHandle())
+	if (GetEventHandle())
 	{
-		::ResetEvent(this->GetEventHandle());
+		::ResetEvent(GetEventHandle());
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Wait for the event
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///************************************************************************
+// Wait for the event
 Event::Empty Event::Wait(MsTimeout iMsTimeout)
 {
-	::WaitForSingleObject(this->GetEventHandle(), iMsTimeout);
+	::WaitForSingleObject(GetEventHandle(), iMsTimeout);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Close the event
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///************************************************************************
+// Close the event
 Event::Empty Event::Close()
 {
-	if (this->GetEventHandle())
+	if (GetEventHandle())
 	{
-		this->NonSignaled();
+		NonSignaled();
 
-		::CloseHandle(this->GetEventHandle());
-		this->SetEventHandle(NULL);
+		::CloseHandle(GetEventHandle());
+
+		SetEventHandle(NULL);
 	}
 }

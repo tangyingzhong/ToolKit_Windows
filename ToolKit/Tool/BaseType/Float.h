@@ -1,13 +1,13 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// You can use it as common float you are similiar to.
-///  And it supports transferring to/from string
+/// And it supports transferring to/from string
 ///</describe>
-/// <date>2019/3/6</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef FLOAT_H
 #define FLOAT_H
@@ -92,7 +92,7 @@ namespace System
 			// Set the Value
 			inline Empty SetValue(float fValue)
 			{
-				this->m_Value = fValue;
+				m_Value = fValue;
 			}
 
 		private:

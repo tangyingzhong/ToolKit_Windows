@@ -1,19 +1,18 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// Window USB operation supported here
 ///</describe>
-/// <date>2019/3/6</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef USB_H
 #define USB_H
 
-#include <SetupAPI.h>
 #include "USBType.h"
-#include "Tool\BaseType\String.h"
+#include "BaseType/String.h"
 
 using namespace System::BasicType;
 
@@ -29,22 +28,26 @@ namespace System
 			typedef System::Int32 RequestCode;
 			typedef System::Empty Empty;
 			typedef System::Boolean BOOL;
-			typedef System::USB::Target Target;
-			typedef System::USB::Direction Direction;
-			typedef System::USB::RequestType RequestType;
-			typedef System::USB::USBTimeOut USBTimeOut;
-			typedef System::USB::EndPoint EndPoint;
-			typedef System::USB::UsbCommand UsbCommand;
-			typedef System::USB::DeviceConfiguration DeviceConfiguration;
+			typedef TARGET_ENUM Target;
+			typedef DIRECTION_ENUM Direction;
+			typedef REQUEST_TYPE_ENUM RequestType;
+			typedef USB_TIMEOUT_ENUM USBTimeOut;
+			typedef END_POINT_ENUM EndPoint;
+			typedef USB_CMD_ENUM UsbCommand;
+			typedef DEVICE_CONFIG_ENUM DeviceConfiguration;
 			typedef System::Int32 USBSize;
 			typedef System::Int32 ArraySize;
 			typedef System::Int32 Offset;
 			typedef System::Int32 Length;
 			typedef System::Int32 Command;
-			typedef System::UInt64 Size;
+			typedef System::FixedUInt32 Size;
 			typedef System::ByteArray ByteArray;
 			typedef System::Object UsbHandle;
-			typedef System::FileAttrEnum FileAttrEnum;
+			typedef System::FILE_MODE_ENUM FileMode;
+			typedef System::FILE_ACCESS_ENUM FileAccess;
+			typedef System::FILE_SHARE_ENUM FileShare;
+			typedef System::SEEK_ORIGIN_ENUM SeekOrigin;
+			typedef System::FILE_ATTRIBUTE_ENUM FileAttrEnum;
 			typedef System::FileAttribute FileAttribute;
 			typedef std::vector<String> PVIDTable;
 			typedef std::vector<String> UsbPathTable;
@@ -160,7 +163,7 @@ namespace System
 			// Set the UsbHandle
 			inline Empty SetUsbHandle(UsbHandle hUsbHandle)
 			{
-				this->m_UsbHandle = hUsbHandle;
+				m_UsbHandle = hUsbHandle;
 			}
 
 			// Get the Path
@@ -172,7 +175,7 @@ namespace System
 			// Set the Path
 			inline Empty SetDevicePath(String strDevicePath)
 			{
-				this->m_DevicePath = strDevicePath;
+				m_DevicePath = strDevicePath;
 			}
 
 			// Get the DeviceID
@@ -184,7 +187,7 @@ namespace System
 			// Set the DeviceID
 			inline Empty SetDeviceID(DeviceID iDeviceID)
 			{
-				this->m_DeviceID = iDeviceID;
+				m_DeviceID = iDeviceID;
 			}
 
 			// Get the Vid
@@ -196,7 +199,7 @@ namespace System
 			// Set the Vid
 			inline Empty SetVid(String strUsbVid)
 			{
-				this->m_UsbVid = strUsbVid;
+				m_UsbVid = strUsbVid;
 			}
 
 			// Get the Pid
@@ -208,7 +211,7 @@ namespace System
 			// Set the Pid
 			inline Empty SetPid(String strUsbPid)
 			{
-				this->m_UsbPid = strUsbPid;
+				m_UsbPid = strUsbPid;
 			}
 
 			// Get the Disposed
@@ -220,7 +223,7 @@ namespace System
 			// Set the Disposed
 			inline Empty SetDisposed(BOOL bDisposed)
 			{
-				this->m_Disposed = bDisposed;
+				m_Disposed = bDisposed;
 			}
 
 		private:

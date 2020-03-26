@@ -1,5 +1,5 @@
-#include "Application\PreCompile.h"
-#include "Tool\Buffer\Array.h"
+#include "PreCompile.h"
+#include "Buffer/Array.h"
 #include "USB.h"
 
 #pragma comment(lib, "setupapi")
@@ -7,16 +7,7 @@
 using namespace System::IO;
 using namespace System::Buffer;
 
-///************************************************************************
-/// <summary>
-/// Construct the usb with the Guid
-/// </summary>
-/// <param name=id>usb class guid</param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Construct the usb with the Guid
 USB::USB(String strVid, String strPid, const DeviceID iDeviceID) :m_UsbHandle(NULL),
 m_DevicePath(_T("")),
 m_DeviceID(iDeviceID),
@@ -27,73 +18,32 @@ m_Disposed(false)
 	Initialize();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Destruct the usb
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Destruct the usb
 USB::~USB()
 {
 	Destory();
 }
 
-
-///************************************************************************
-/// <summary>
-/// initialize the usb
-/// </summary>
-/// <param name=usbId>usb class guid</param>
-/// <returns></returns>
-/// <remarks>
-/// the class guid found in inf file
-/// </remarks>
-///***********************************************************************
+// initialize the usb
 USB::Empty USB::Initialize()
 {
 
 }
 
-
-///************************************************************************
-/// <summary>
-/// release all the resource using by usb
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// release all the resource using by usb
 USB::Empty USB::Destory()
 {
 	if (!GetDisposed())
 	{
 		SetDisposed(true);
 
-		// Close the usb
-		this->Close();
+		Close();
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Set the timeout of the device
-/// </summary>
-/// <param name=totalTimeout></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Set the timeout of the device
 USB::BOOL USB::SetTimeOut(USBSize iTotalTimeout)
 {
-	BOOL bSuccess = false;
-
 	COMMTIMEOUTS UsbTimeout;
 
 	UsbTimeout.ReadIntervalTimeout = 0;
@@ -103,28 +53,15 @@ USB::BOOL USB::SetTimeOut(USBSize iTotalTimeout)
 	UsbTimeout.WriteTotalTimeoutMultiplier = 0;
 	UsbTimeout.WriteTotalTimeoutConstant = 0;
 
-	if (::SetCommTimeouts(this->GetUsbHandle(), &UsbTimeout) == FALSE)
+	if (::SetCommTimeouts(GetUsbHandle(), &UsbTimeout) == FALSE)
 	{
-		return bSuccess;
+		return false;
 	}
 
-	bSuccess = true;
-
-	return bSuccess;
+	return true;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Rebuild the vedor ID and product ID
-/// </summary>
-/// <param name=vid></param>
-/// <param name=pid></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Rebuild the vedor ID and product ID
 USB::Empty USB::CreateVidPid(String strVid, String strPid, PVIDTable& vPVIDTable)
 {
 	// Rebuild the vid and pid
@@ -143,17 +80,8 @@ USB::Empty USB::CreateVidPid(String strVid, String strPid, PVIDTable& vPVIDTable
 }
 
 
-///************************************************************************
-/// <summary>
-/// filtrate the current usb path by its' vid and pid
-/// </summary>
-/// <param name=usbPath>all the enumerated usb path in it</param>
-/// <param name=pathCount>the total count of usb path </param>
-/// <returns>the current usb path</returns>
-/// <remarks>
-/// after the enumerating,there is many usb path,so we need to find the correct one
-/// </remarks>
-///***********************************************************************
+// Filtrate the current usb path by its' vid and pid
+// After the enumerating,there is many usb path,so we need to find the correct one
 String USB::Filtrate(UsbPathTable& vUsbPathTable)
 {
 	String strUsbPath = _T("");
@@ -165,7 +93,7 @@ String USB::Filtrate(UsbPathTable& vUsbPathTable)
 
 	// Get the correct VID,PID
 	PVIDTable vVidPidTable;
-	this->CreateVidPid(this->GetVid(), this->GetPid(), vVidPidTable);
+	CreateVidPid(GetVid(), GetPid(), vVidPidTable);
 
 	// Choose one fixed device's interface(device path)
 	for (Index iInterfaceIndex = 0; iInterfaceIndex < (Index)vUsbPathTable.size(); iInterfaceIndex++)
@@ -191,20 +119,13 @@ String USB::Filtrate(UsbPathTable& vUsbPathTable)
 	return strUsbPath;
 }
 
-
-///************************************************************************
-/// <summary>
-/// enum all the usb devices
-/// </summary>
-/// <param name=deviceId>the kind of device's guid</param>
-/// <returns>the list of device</returns>
-/// <remarks>
-/// we can enum all devices with the guid
-/// </remarks>
-///***********************************************************************
+// Enum all the usb devices
 USB::Device USB::EnumDevices(DeviceID iDeviceID)
 {
-	Device device = ::SetupDiGetClassDevs(&iDeviceID, NULL, NULL, DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
+	Device device = ::SetupDiGetClassDevs(&iDeviceID, 
+		NULL, 
+		NULL, 
+		DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
 	if (device == INVALID_HANDLE_VALUE)
 	{
 		return NULL;
@@ -213,17 +134,7 @@ USB::Device USB::EnumDevices(DeviceID iDeviceID)
 	return device;
 }
 
-
-///************************************************************************
-/// <summary>
-/// create the interface detail struct to have the info of interface
-/// </summary>
-/// <param name=size>the size of applying</param>
-/// <returns>interface info struct</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// create the interface detail struct to have the info of interface
 USB::PInterfaceDetailInfo USB::CreateInterfaceDetail(USBSize iSize)
 {
 	PInterfaceDetailInfo pDetail = (PInterfaceDetailInfo)::GlobalAlloc(LMEM_ZEROINIT, iSize);
@@ -237,36 +148,18 @@ USB::PInterfaceDetailInfo USB::CreateInterfaceDetail(USBSize iSize)
 	return pDetail;
 }
 
-
-///************************************************************************
-/// <summary>
-/// destory the applyed interface detail struct
-/// </summary>
-/// <param name=interfaceDetail>the interface detail struct</param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Destory the applyed interface detail struct
 USB::Empty USB::DestoryInterfaceDetail(PInterfaceDetailInfo interfaceDetail)
 {
 	::GlobalFree(interfaceDetail);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Get the correct usb path that you want to operate
-/// </summary>
-/// <returns>the usb path</returns>
-/// <remarks>
-/// This path is specail one on OS,it can symbol the usb you want to operate
-/// </remarks>
-///***********************************************************************
+// Get the correct usb path that you want to operate
+// This path is specail one on OS,it can symbol the usb you want to operate
 String USB::AcquireDevicePath()
 {
 	// Enum the device
-	Device device = EnumDevices(this->GetDeviceID());
+	Device device = EnumDevices(GetDeviceID());
 	if (device == NULL)
 	{
 		return _T("");
@@ -298,7 +191,7 @@ String USB::AcquireDevicePath()
 		deviceInterfaceData.cbSize = sizeof(deviceInterfaceData);
 
 		// Enum device interface owing the GUID
-		UInt64 nCount = 0;
+		UInt32 nCount = 0;
 		bResult = ::SetupDiEnumDeviceInterfaces(device, NULL, &GetDeviceID(), nCount, &deviceInterfaceData);
 		if (bResult)
 		{
@@ -327,34 +220,27 @@ String USB::AcquireDevicePath()
 	return strUsbPath;
 }
 
-
-///************************************************************************
-/// <summary>
-/// create the usb path(open the usb)
-/// </summary>
-/// <param name=usbName>usb path</param>
-/// <param name=attr>open usb with the attribute</param>
-/// <returns>FAILED or SUCCESS</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// create the usb path(open the usb)
 USB::BOOL USB::_CreateFile(String strUsbName, FileAttrEnum eFileAttribute)
 {
 	BOOL bSuccess = false;
 
-	if (this->IsOpen())
+	if (IsOpen())
 	{
 		bSuccess = true;
 
 		return bSuccess;
 	}
 
-	this->SetUsbHandle(CreateFile(strUsbName.CStr(), FileAccess::READWRITE, FileShare::SREADWRITE, NULL, FileMode::OPEN, eFileAttribute, NULL));
-	if (this->GetUsbHandle() == INVALID_HANDLE_VALUE)
+	SetUsbHandle(CreateFile(strUsbName.CStr(),
+		FileAccess::READWRITE, 
+		FileShare::SREADWRITE, 
+		NULL, FileMode::OPEN, 
+		eFileAttribute, NULL));
+	if (GetUsbHandle() == INVALID_HANDLE_VALUE)
 	{
 		// Close the usb
-		this->Close();
+		Close();
 
 		return bSuccess;
 	}
@@ -364,44 +250,32 @@ USB::BOOL USB::_CreateFile(String strUsbName, FileAttrEnum eFileAttribute)
 	return bSuccess;
 }
 
-
-///************************************************************************
-/// <summary>
-/// read write the endpoint of usb
-/// </summary>
-/// <param name=cmd>the command of operating to usb</param>
-/// <param name=package>the buffer having transfering data in</param>
-/// <param name=packageSize>buffer size</param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// read write the endpoint of usb
 USB::Size USB::_ReadWriteEndPoint(Command iUSbCommd, ByteArray pPackage, ArraySize pPackageSize)
 {
-	Size dwBytes = 0;
-
 	if (!IsOpen())
 	{
-		return dwBytes;
+		return 0;
 	}
 
-	DeviceIoControl(this->GetUsbHandle(), iUSbCommd, pPackage, pPackageSize, pPackage, pPackageSize, &dwBytes, NULL);
+	Size dwBytes = 0;
+
+	if (DeviceIoControl(GetUsbHandle(), 
+		iUSbCommd, 
+		pPackage, 
+		pPackageSize, 
+		pPackage, 
+		pPackageSize,
+		&dwBytes, 
+		NULL) == FALSE)
+	{
+		return 0;
+	}
 
 	return dwBytes;
 }
 
-
-///************************************************************************
-/// <summary>
-/// create a package buffer
-/// </summary>
-/// <param name=packageSize>buffer size</param>
-/// <returns>the pointer of buffer</returns>
-/// <remarks>
-/// please do remember to destory the memory if it is not used
-/// </remarks>
-///***********************************************************************
+// Create a package buffer(please do remember to destory the memory if it is not used)
 USB::ByteArray USB::CreateOnePackage(ArraySize iPackageSize)
 {
 	ByteArray pPack = new Byte[iPackageSize];
@@ -411,41 +285,18 @@ USB::ByteArray USB::CreateOnePackage(ArraySize iPackageSize)
 	return pPack;
 }
 
-
-///************************************************************************
-/// <summary>
-/// destory the buffer 
-/// </summary>
-/// <param name=package>the pointer of buffer</param>
-/// <returns></returns>
-/// <remarks>
-/// release the memory of applyed
-/// </remarks>
-///***********************************************************************
+// Destory the buffer 
 USB::Empty USB::DestoryPakcage(ByteArray pPackage)
 {
 	if (pPackage)
 	{
 		delete[] pPackage;
+
 		pPackage = NULL;
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// setup the transfer buffer's head
-/// </summary>
-/// <param name=package>transfering buffer</param>
-/// <param name=enp>the endpoint of usb</param>
-/// <param name=isoPackageLength>the length of iso transfering</param>
-/// <param name=headOffset>the offset size of head in the buffer</param>
-/// <param name=transferSize>transfering buffer size</param>
-/// <returns>the head pointer</returns>
-/// <remarks>
-/// this step is neccesory for any transfering to usb
-/// </remarks>
-///***********************************************************************
+// setup the transfer buffer's head(this step is neccesory for any transfering to usb)
 USB::PHeadPackage USB::SetupHeadPackage(ByteArray pPackage,
 	EndPoint cEndPoint,
 	Length iIsoPackageLength,
@@ -455,27 +306,17 @@ USB::PHeadPackage USB::SetupHeadPackage(ByteArray pPackage,
 	PHeadPackage pHead = (PHeadPackage)pPackage;
 
 	pHead->ucEndpointAddress = cEndPoint;
+
 	pHead->IsoPacketLength = iIsoPackageLength;
+
 	pHead->BufferOffset = iHeadOffset;
+
 	pHead->BufferLength = iTransferSize;
 
 	return pHead;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Setup the transfering buffer's data section
-/// </summary>
-/// <param name=package>transfering buffer</param>
-/// <param name=head>the pointer of head of the transfering buffer</param>
-/// <param name=transferBuffer>user's transfering buffer</param>
-/// <param name=transferSize>user's transfering buffer size</param>
-/// <returns></returns>
-/// <remarks>
-/// we need to create a new package with correct head and user buffer data
-/// </remarks>
-///***********************************************************************
+// Setup the transfering buffer's data section(we need to create a new package with correct head and user buffer data)
 USB::Empty USB::SetupTransPackage(ByteArray pPackage,
 	PHeadPackage pHead,
 	ByteArray pTransferBuffer,
@@ -488,19 +329,10 @@ USB::Empty USB::SetupTransPackage(ByteArray pPackage,
 	Array<Byte>::Copy(pTransferBuffer, iTransferSize, pBuffer, iTransferSize);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Is usb opened
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Is usb opened
 USB::BOOL USB::IsOpen()
 {
-	if (this->GetUsbHandle())
+	if (GetUsbHandle())
 	{
 		return true;
 	}
@@ -508,61 +340,32 @@ USB::BOOL USB::IsOpen()
 	return false;
 }
 
-
-
-///************************************************************************
-/// <summary>
-/// open the usb
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// any usb operation must follow the open of usb
-/// </remarks>
-///***********************************************************************
+// Open the usb
 USB::BOOL USB::Open()
 {
-	BOOL bSuccess = false;
-
 	// Get the usb path
 	String strUsbPath = AcquireDevicePath();
 	if (strUsbPath == _T(""))
 	{
-		return bSuccess;
+		return false;
 	}
 
 	// Create the usb file
-	bSuccess = _CreateFile(strUsbPath, FileAttrEnum::NORMAL);
-	if (!bSuccess)
+	if (!_CreateFile(strUsbPath, FileAttrEnum::NORMAL))
 	{
-		return bSuccess;
+		return false;
 	}
 
 	// Set the usb time out 50ms
-	bSuccess = this->SetTimeOut(USBTimeOut::TIMEOUT);
-	if (!bSuccess)
+	if (!SetTimeOut(USBTimeOut::TIMEOUT))
 	{
-		return bSuccess;
+		return false;
 	}
 
-	return bSuccess;
+	return true;
 }
 
-
-///************************************************************************
-/// <summary>
-/// config the usb so that usb can communicate with the client
-/// </summary>
-/// <param name=target>config target</param>
-/// <param name=direction>config the direction of config endpoint</param>
-/// <param name=reqType>config the requst type</param>
-/// <param name=code>config the request code</param>
-/// <param name=value>config the value</param>
-/// <param name=indexconfig the index></param>
-/// <returns>0£ºconfig failed other£ºconfig ok</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Config the usb so that usb can communicate with the client
 USB::BOOL USB::Configure(Target eTarget,
 	Direction eDirection,
 	RequestType eReqType,
@@ -570,11 +373,9 @@ USB::BOOL USB::Configure(Target eTarget,
 	Value iValue,
 	Index iIndex)
 {
-	BOOL bSuccess = false;
-
-	if (!this->IsOpen())
+	if (!IsOpen())
 	{
-		return bSuccess;
+		return false;
 	}
 
 	// Get buffer size(buffer data size of the endpoint 0 is 64)
@@ -600,8 +401,8 @@ USB::BOOL USB::Configure(Target eTarget,
 	pSingleTransfer->BufferLength = DeviceConfiguration::USB_ENP0_TRANSFER_SIZE;
 
 	// Set the usb device by endpoint 0
-	UInt64 dwBytes = 0;
-	if (DeviceIoControl(this->GetUsbHandle(),
+	FixedUInt32 dwBytes = 0;
+	if (DeviceIoControl(GetUsbHandle(),
 		UsbCommand::SENDRECEIVE_EP0,
 		Buffer.Data(),
 		iBufferSize,
@@ -610,41 +411,23 @@ USB::BOOL USB::Configure(Target eTarget,
 		&dwBytes,
 		NULL) == TRUE)
 	{
-		bSuccess = true;
+		return true;
 	}
 
-	return bSuccess;
+	return false;
 }
 
-
-///************************************************************************
-/// <summary>
-/// read the usb
-/// </summary>
-/// <param name=arr>read buffer</param>
-/// <param name=offset>buffer offset</param>
-/// <param name=readSize>buffer size</param>
-/// <returns>the real size of reading</returns>
-/// <remarks>
-/// you need to do the timeout here
-/// </remarks>
-///***********************************************************************
+// Read the usb
 USB::Size USB::Read(ByteArray pReadArray, Offset iOffset, ArraySize iReadSize)
 {
-	Size dwReadSize = 0;
-
-	assert(pReadArray != NULL);
-	assert(iOffset >= 0);
-	assert(iReadSize > 0);
-
 	if (pReadArray == NULL || iOffset < 0 || iReadSize <= 0)
 	{
-		return dwReadSize;
+		return 0;
 	}
 
-	if (!this->IsOpen())
+	if (!IsOpen())
 	{
-		return dwReadSize;
+		return 0;
 	}
 
 	// Create a package that contains head and transfering array
@@ -659,7 +442,7 @@ USB::Size USB::Read(ByteArray pReadArray, Offset iOffset, ArraySize iReadSize)
 	SetupTransPackage(PacketBuffer.Data(), head, pReadArray, iReadSize);
 
 	// Read data from the usb through read in endpoint
-	dwReadSize = _ReadWriteEndPoint(UsbCommand::SENDRECEIVE_NONE_ENP0, PacketBuffer.Data(), PacketBuffer.Size());
+	Size dwReadSize = _ReadWriteEndPoint(UsbCommand::SENDRECEIVE_NONE_ENP0, PacketBuffer.Data(), PacketBuffer.Size());
 	if (dwReadSize == 0)
 	{
 		return dwReadSize;
@@ -674,35 +457,17 @@ USB::Size USB::Read(ByteArray pReadArray, Offset iOffset, ArraySize iReadSize)
 	return dwReadSize;
 }
 
-
-///************************************************************************
-/// <summary>
-/// write to the usb 
-/// </summary>
-/// <param name=arr>write buffer</param>
-/// <param name=offset>the buffe offset</param>
-/// <param name=writeSize>buffe size</param>
-/// <returns>the real write size</returns>
-/// <remarks>
-/// you need to do the timeout here
-/// </remarks>
-///***********************************************************************
+// Write to the usb 
 USB::Size USB::Write(ByteArray pWriteArray, Offset iOffset, ArraySize iWriteSize)
 {
-	Size dwWriteSize = 0;
-
-	assert(pWriteArray != NULL);
-	assert(iOffset >= 0);
-	assert(iWriteSize > 0);
-
 	if (pWriteArray == NULL || iOffset < 0 || iWriteSize <= 0)
 	{
-		return dwWriteSize;
+		return 0;
 	}
 
-	if (!this->IsOpen())
+	if (!IsOpen())
 	{
-		return dwWriteSize;
+		return 0;
 	}
 
 	// Create a package that contains head and transfering array
@@ -717,27 +482,18 @@ USB::Size USB::Write(ByteArray pWriteArray, Offset iOffset, ArraySize iWriteSize
 	SetupTransPackage(PacketBuffer.Data(), PacketHead, pWriteArray, iWriteSize);
 
 	// Write data to the usb through out endpoint
-	dwWriteSize = _ReadWriteEndPoint(UsbCommand::SENDRECEIVE_NONE_ENP0, PacketBuffer.Data(), PacketBuffer.Size());
+	Size dwWriteSize = _ReadWriteEndPoint(UsbCommand::SENDRECEIVE_NONE_ENP0, PacketBuffer.Data(), PacketBuffer.Size());
 
 	return dwWriteSize;
 }
 
-
-///************************************************************************
-/// <summary>
-/// close the usb
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Close the usb
 USB::Empty USB::Close()
 {
-	if (this->GetUsbHandle())
+	if (GetUsbHandle())
 	{
-		::CloseHandle(this->GetUsbHandle());
+		::CloseHandle(GetUsbHandle());
 
-		this->SetUsbHandle(NULL);
+		SetUsbHandle(NULL);
 	}
 }

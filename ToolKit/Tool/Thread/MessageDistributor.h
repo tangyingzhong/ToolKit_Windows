@@ -1,17 +1,17 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// Distribute the Messages to the windows kernel
 ///</describe>
-/// <date>2019/3/6</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef MESSAGEDISTRIBUTOR_H
 #define MESSAGEDISTRIBUTOR_H
 
-#include "Tool\BaseType\String.h"
+#include "BaseType/String.h"
 
 using namespace System::BasicType;
 
@@ -65,7 +65,7 @@ namespace System
 			// Set the disposed	
 			inline Empty SetDisposed(BOOL bDisposed)
 			{
-				this->m_Disposed = bDisposed;
+				m_Disposed = bDisposed;
 			}
 
 		private:

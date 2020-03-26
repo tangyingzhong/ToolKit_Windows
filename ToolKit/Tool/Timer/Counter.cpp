@@ -1,118 +1,56 @@
-#include "Application\PreCompile.h"
+#include "PreCompile.h"
 #include "Counter.h"
 
 using namespace System::Clock;
 
-///************************************************************************
-/// <summary>
-/// Construct the Counter
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Construct the Counter
 Counter::Counter() :m_Disposed(false)
 {
 	Initialize();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Detructe the Counter
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Detructe the Counter
 Counter::~Counter()
 {
 	Destory();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Init the Counter 
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Init the Counter 
 Counter::Empty Counter::Initialize()
 {
 	// Zero the paras
 	ZeroMemory(&m_PreviousTime, sizeof(LargeTime));
+
 	ZeroMemory(&m_CurTime, sizeof(LargeTime));
+
 	ZeroMemory(&m_CpuFreq, sizeof(LargeTime));
 
 	// Get the cpu freq
 	QueryPerformanceFrequency(&m_CpuFreq);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Dispose the Counter
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Dispose the Counter
 Counter::Empty Counter::Destory()
 {
 	if (!GetDisposed())
 	{
 		SetDisposed(true);
-
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Start the counter
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Start the counter
 Counter::Empty Counter::Start()
 {
 	QueryPerformanceCounter(&m_PreviousTime);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Stop the counter
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Stop the counter
 Counter::Empty Counter::Stop()
 {
 	QueryPerformanceCounter(&m_CurTime);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Get the total time (s)
-/// </summary>
-/// <param name=t></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Get the total time (s)
 Counter::TimeS Counter::GetCountTimeS()
 {
 	TimeS TimeSecond;
@@ -122,21 +60,11 @@ Counter::TimeS Counter::GetCountTimeS()
 	return TimeSecond;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Get the total time (ms)
-/// </summary>
-/// <param name=t></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Get the total time (ms)
 Counter::TimeMs Counter::GetCountTimeMs()
 {
 	TimeS TimeSecond;
-	TimeSecond = this->GetCountTimeS();
+	TimeSecond = GetCountTimeS();
 
 	TimeMs TimeMsecond;
 	TimeMsecond = TimeSecond * 1000;
@@ -144,21 +72,11 @@ Counter::TimeMs Counter::GetCountTimeMs()
 	return TimeMsecond;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Get the total time (us)
-/// </summary>
-/// <param name=t></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Get the total time (us)
 Counter::TimeUs Counter::GetCountTimeUs()
 {
 	TimeMs TimeMsecond;
-	TimeMsecond = this->GetCountTimeMs();
+	TimeMsecond = GetCountTimeMs();
 
 	TimeUs TimeUsecond;
 	TimeUsecond = TimeMsecond * 1000;

@@ -1,12 +1,12 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// Command to excute sql command
 ///</describe>
-/// <date>2019/3/6</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef SQLCOMMAND_H
 #define SQLCOMMAND_H
@@ -88,7 +88,7 @@ namespace System
 			// Set the Connection
 			inline Empty SetConnection(Connection pConnection)
 			{
-				this->m_Connection = pConnection;
+				m_Connection = pConnection;
 			}
 
 			// Get the commmnd
@@ -100,7 +100,7 @@ namespace System
 			// Set the commmnd
 			inline Empty SetComm(pCommand pComm)
 			{
-				this->m_Commnd = pComm;
+				m_Commnd = pComm;
 			}
 
 			// Get the SqlText
@@ -112,7 +112,7 @@ namespace System
 			// Set the SqlText
 			inline Empty SetSqlText(String strSqlText)
 			{
-				this->m_SqlText = strSqlText;
+				m_SqlText = strSqlText;
 			}
 
 			// Get the Paramenter
@@ -124,7 +124,7 @@ namespace System
 			// Set the Paramenter
 			inline Empty SetParamenter(SqlParamenter& SqlPara)
 			{
-				this->m_SqlParamenter = SqlPara;
+				m_SqlParamenter = SqlPara;
 			}
 
 			// Get the disposed status
@@ -136,7 +136,7 @@ namespace System
 			// Set the disposed status
 			inline Empty SetDisposed(BOOL bDisposed)
 			{
-				this->m_Disposed = bDisposed;
+				m_Disposed = bDisposed;
 			}
 
 		private:

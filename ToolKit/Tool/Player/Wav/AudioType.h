@@ -1,51 +1,51 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// It contains some types for the  player
 ///</describe>
-/// <date>2019/3/6</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef AUDIOTYPE_H
 #define AUDIOTYPE_H
 
-#include "Tool\Common\SystemType.h"
+#include "Common/SystemType.h"
 
 namespace System
 {
 	namespace MultiMedia
 	{
 		// Audio coding format
-		typedef enum _CodingFormat
+		enum CODING_FORMAT_ENUM
 		{
 			// Audio's coding format is PCM 
 			PLAYER_WAVE_FORMAT_PCM_F = WAVE_FORMAT_PCM						
-		}CodingFormat;
+		};
 
 		// Audio channels
-		typedef enum _Channel
+		enum CHANNEL_ENUM
 		{
 			// Sample channel is single
 			PLAYER_SINGLE = 1,							
 
 			// Sample channel is double
 			PLAYER_DOUBLE = 2																		
-		}Channel;
+		};
 
 		// Audio sample point's width
-		typedef enum _BitWidth
+		enum BITWIDTH_ENUM
 		{
 			// Sample point's bit width : 8
 			PLAYER_EIGHT = 8,							
 
 			// Sample point's bit width : 16
 			PLAYER_SIXTEE = 16																				
-		}BitWidth;
+		};
 
 		// Audio sample frequency
-		typedef enum _SampleFreq
+		enum SAMPLE_FREQ_ENUM
 		{
 			// Low sample frequency
 			PLAYER_LOW = 11025,				
@@ -58,10 +58,10 @@ namespace System
 
 			// Super sample frequency
 			PLAYER_SUPER = 48000																		
-		}SampleFreq;
+		};
 
 		// The head of audio file (total 44 bytes)
-		typedef struct _AudioHeader
+		struct AudioHeader
 		{
 			// It must be "RIFF"----- (4 bytes)
 			Byte head[4];						
@@ -101,10 +101,10 @@ namespace System
 
 			// It is not including the head size of the file -----(4 bytes)
 			UInt32 size2;																							
-		}AudioHeader;
+		};
 
 		// Audio's enum
-		typedef enum _AudioEnum
+		enum AUDIO_ENUM
 		{
 			// The total count of cache
 			BLOCK_NUM = 20,														
@@ -117,10 +117,10 @@ namespace System
 
 			// The file block size of every reading
 			AUDIOFILE_BLOCK_SIZE = 600,																
-		}AudioEnum;
+		};
 
 		// Audio play status
-		typedef enum _PlayStatus
+		enum PLAY_STATE_ENUM
 		{
 			// Not start to play
 			PLAYER_NOT_START = 0,			
@@ -133,20 +133,21 @@ namespace System
 
 			// continue palying at the position
 			PLAYER_CONTINUE																				
-		}PlayStatus;
+		};
 		
 		typedef WAVEHDR BlockHead;
+
 		typedef BlockHead* CacheBlock;
 
 		// Audio's head
-		typedef struct _AudioHeadBlock
+		struct AudioHeadBlock
 		{
 			// This is the head blocks of device
 			CacheBlock block[BLOCK_NUM];	
 
 			// This is a head block's user data section
 			ByteArray userBlock[BLOCK_NUM];														
-		}AudioHeadBlock;
+		};
 	}
 }
 

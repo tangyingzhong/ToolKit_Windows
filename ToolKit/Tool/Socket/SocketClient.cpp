@@ -1,194 +1,96 @@
-#include "Application\PreCompile.h"
+#include "PreCompile.h"
 #include "SocketClient.h"
 
 #pragma comment(lib, "wsock32.lib")
 
 using namespace System::Network;
 
-///************************************************************************
-/// <summary>
-/// Construct the SocketClient
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-SocketClient::SocketClient(IPAddress strIPAddress, NetPort iPortNo) :m_ServerSocket(NULL), m_ServerIP(strIPAddress), m_ServerPort(iPortNo), m_Disposed(false)
+// Construct the SocketClient
+SocketClient::SocketClient(IPAddress strIPAddress, NetPort iPortNo) :m_ServerSocket(NULL), 
+m_ServerIP(strIPAddress), 
+m_ServerPort(iPortNo), 
+m_Disposed(false)
 {
 	Initialize();
 }
 
-
-
-///************************************************************************
-/// <summary>
-/// Detructe the SocketClient
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Detructe the SocketClient
 SocketClient::~SocketClient()
 {
 	Destory();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Initialize the socket
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Initialize the socket
 SocketClient::Empty SocketClient::Initialize()
 {
-	// Create a socket
-	this->CreateSocket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
+	CreateSocket(InterNetwork, Stream, Tcp);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Dispose the socket
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Dispose the socket
 SocketClient::Empty SocketClient::Destory()
 {
 	if (!GetDisposed())
 	{
 		SetDisposed(true);
 
-		// Destory the socket
-		this->DestorySocket();
+		DestorySocket();
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Create a socket
-/// </summary>
-/// <param name=family></param>
-/// <param name=socketType></param>
-/// <param name=protocolType></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Create a socket
 SocketClient::Empty SocketClient::CreateSocket(AddressFamily family, SocketType socketType, ProtocolType protocolType)
 {
-	this->SetServerSocket(new Socket(family, socketType, protocolType));
+	SetServerSocket(new Socket(family, socketType, protocolType));
 }
 
-
-///************************************************************************
-/// <summary>
-/// Destory the socket
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Destory the socket
 SocketClient::Empty SocketClient::DestorySocket()
 {
-	if (this->GetServerSocket())
+	if (GetServerSocket())
 	{
-		delete this->GetServerSocket();
-		this->SetServerSocket(NULL);
+		delete GetServerSocket();
+
+		SetServerSocket(NULL);
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Open a server socket
-/// </summary>
-/// <param name=portNo></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Open a server socket
 SocketClient::Empty SocketClient::Open()
 {
-	if (this->GetServerSocket())
+	if (GetServerSocket())
 	{
-		this->GetServerSocket()->Open();
+		GetServerSocket()->Open();
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Close the server socket
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Close the server socket
 SocketClient::Empty SocketClient::Close()
 {
-	if (this->GetServerSocket())
+	if (GetServerSocket())
 	{
-		this->GetServerSocket()->Close();
+		GetServerSocket()->Close();
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Connect to the server
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Connect to the server
 SocketClient::BOOL SocketClient::Connect()
 {
-	BOOL bSuccess = false;
-
-	if (this->GetServerSocket())
+	if (GetServerSocket())
 	{
-		bSuccess = this->GetServerSocket()->Connect(this->GetServerIP(), this->GetServerPort());
+		return GetServerSocket()->Connect(GetServerIP(), GetServerPort());
 	}
 
-	return bSuccess;
+	return false;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Start the server
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Start the server
 SocketClient::BOOL SocketClient::Start()
 {
-	BOOL bSuccess = false;
-
 	// Open the server
-	this->Open();
+	Open();
 
 	// Connect to the server
-	bSuccess = this->Connect();
-
-	return bSuccess;
+	return Connect();
 }
 
 
@@ -203,7 +105,7 @@ SocketClient::BOOL SocketClient::Start()
 ///***********************************************************************
 SocketClient::Empty SocketClient::Stop()
 {
-	this->Close();
+	Close();
 }
 
 ///************************************************************************
@@ -222,9 +124,9 @@ SocketClient::BOOL SocketClient::Receive(SByteArray pReadBuffer, Length iOffset,
 {
 	BOOL bSuccess = false;
 
-	if (this->GetServerSocket())
+	if (GetServerSocket())
 	{
-		bSuccess = this->GetServerSocket()->Receive(pReadBuffer, iOffset, iReadSize);
+		bSuccess = GetServerSocket()->Receive(pReadBuffer, iOffset, iReadSize);
 	}
 
 	return bSuccess;
@@ -247,9 +149,9 @@ SocketClient::BOOL SocketClient::Send(SByteArray pWriteBuffer, Length iOffset, L
 {
 	BOOL bSuccess = false;
 
-	if (this->GetServerSocket())
+	if (GetServerSocket())
 	{
-		bSuccess = this->GetServerSocket()->Send(pWriteBuffer, iOffset, iWriteSize);
+		bSuccess = GetServerSocket()->Send(pWriteBuffer, iOffset, iWriteSize);
 	}
 
 	return bSuccess;

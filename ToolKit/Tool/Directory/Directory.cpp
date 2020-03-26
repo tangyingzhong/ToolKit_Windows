@@ -1,166 +1,683 @@
-#include "Application\PreCompile.h"
+#include "PreCompile.h"
+#include "File/File.h"
 #include "Directory.h"
 
 using namespace System::IO;
 
-///************************************************************************
-/// <summary>
-/// Create a directory
-/// </summary>
-/// <param name=strDirPath>target directory path</param>
-/// <returns>false£ºcreate failed true£ºcreate ok</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Create a directory( It just can create a directory without subdirectory)
 Directory::BOOL Directory::Create(String strDirPath)
 {
-	BOOL bSuccess = false;
-
-	int iRet = ::CreateDirectory(strDirPath.CStr(), NULL);
-	if (iRet == TRUE)
+	if (strDirPath.IsEmpty())
 	{
-		bSuccess = true;
+		return false;
 	}
 
-	return bSuccess;
+	if (::CreateDirectory(TrimEnding(strDirPath).CStr(), NULL) == TRUE)
+	{
+		return true;
+	}
+
+	return false;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Delete an empty directory
-/// </summary>
-/// <param name=strDirPath>target directory path</param>
-/// <returns>false£ºdelete failed true£ºdelete ok</returns>
-/// <remarks>
-/// the directory must be empty 
-/// </remarks>
-///***********************************************************************
-Directory::BOOL Directory::Delete(String strDirPath)
+// Create new directory recursively
+Directory::BOOL Directory::Create(String strDirPath, BOOL bRecursive)
 {
-	BOOL bSuccess = false;
-
-	int iRet = ::RemoveDirectory(strDirPath.CStr());
-	if (iRet == TRUE)
+	if (strDirPath.IsEmpty() || (!strDirPath.IsContain(_T("\\")) && !strDirPath.IsContain(_T(":"))))
 	{
-		bSuccess = true;
+		return false;
 	}
 
-	return bSuccess;
+	// Not recursive mode
+	if (!bRecursive)
+	{
+		return Create(strDirPath);
+	}
+
+	// It is the recuresive ending
+	if (IsExisted(strDirPath))
+	{
+		return true;
+	}
+
+	// Extract the path
+	String strDir = Extract(strDirPath);
+
+	// Create the path recursively
+	if (!Create(strDir,bRecursive))
+	{
+		return false;
+	}
+
+	return Create(strDirPath);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Judge that whether the directory is exist or not
-/// </summary>
-/// <param name=strDirPath>directory full path</param>
-/// <returns>false£ºnot exist true£ºexist</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Directory::BOOL Directory::Exists(String strDirPath)
+// Extract the directory
+String Directory::Extract(String strDirPath)
 {
-	BOOL bOK = false;
-
-	// Remove the '\\' of the path
-	String strFullPath = _T("");
-	int iFindPos = strDirPath.FindLast(_T("\\"));
-	if (iFindPos != -1)
+	if (strDirPath.IsEmpty())
 	{
-		strFullPath = strDirPath.SubString(0, iFindPos);
-	}
-	
-	FileData data;
-	DirectoryHandle hDirectory = ::FindFirstFile(strFullPath.CStr(), &data);
-	if (hDirectory != INVALID_HANDLE_VALUE && (data.dwFileAttributes & FileAttrEnum::DIRECTORY))
-	{
-		bOK = true;
+		return _T("");
 	}
 
-	::FindClose(hDirectory);
+	// Standard the directory
+	String strStandardPath = TrimEnding(strDirPath);
 
-	return bOK;
+	Int32 iPos = strStandardPath.FindLast(_T("\\"));
+	if (iPos != -1)
+	{
+		return strStandardPath.Left(iPos);
+	}
+
+	return _T("");
 }
 
-
-///************************************************************************
-/// <summary>
-/// judge that wether the directory is empty or not
-/// </summary>
-/// <param name=strstrRootDirPathPath>directory full path</param>
-/// <returns>false£ºnot empty true£ºempty</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Directory::BOOL Directory::IsEmpty(String strRootDirPathPath)
+// Trim path ending without "\\"
+String Directory::TrimEnding(String strPath)
 {
-	BOOL bOK = false;
+	String strStandardPath = _T("");
 
-	// Build the full path of directory
-	String strFullPath = _T("");
-	int iFindPos = strRootDirPathPath.FindLast(_T("\\"));
-	if (iFindPos == -1)
+	if (strPath.IsEmpty())
 	{
-		strFullPath = strRootDirPathPath + _T("\\*");
+		return strStandardPath;
+	}
+
+	Int32 iPos = strPath.FindLast(_T("\\"));
+	if ((iPos + 1) == strPath.GetLength())
+	{
+		strStandardPath = strPath.Left(iPos);
 	}
 	else
 	{
-		strFullPath = strRootDirPathPath + _T("*");
+		strStandardPath = strPath;
 	}
 
-	// Find the file with its attributes
+	return strStandardPath;
+}
+
+// Add path ending with "\\"
+String Directory::AddEnding(String strPath)
+{
+	String strStandardPath = _T("");
+
+	if (strPath.IsEmpty())
+	{
+		return strStandardPath;
+	}
+
+	Int32 iPos = strPath.FindLast(_T("\\"));
+	if ((iPos + 1) == strPath.GetLength())
+	{
+		strStandardPath = strPath;
+	}
+	else
+	{
+		strStandardPath = strPath+_T("\\");
+	}
+
+	return strStandardPath;
+}
+
+// Is dest diretory name equal the src one
+Directory::BOOL Directory::IsEqual(String strSrcDirPath, String strDestDirPath)
+{
+	if (strSrcDirPath.IsEmpty() || (!strSrcDirPath.IsContain(_T("\\")) && !strSrcDirPath.IsContain(_T(":"))))
+	{
+		return false;
+	}
+
+	if (strDestDirPath.IsEmpty() || (!strDestDirPath.IsContain(_T("\\")) && !strDestDirPath.IsContain(_T(":"))))
+	{
+		return false;
+	}
+
+	// Get the src directory name
+	Int32 iPos = strSrcDirPath.FindLast(_T("\\"));
+
+	String strSrcDirName = strSrcDirPath.Right(strSrcDirPath.GetLength()-iPos-1);
+
+	// Get the dest directory name D:\\34.json
+	Int32 iDestPos = strDestDirPath.FindLast(_T("\\"));
+
+	String strDestDirName = strDestDirPath.Right(strDestDirPath.GetLength() - iDestPos-1);
+
+	return strSrcDirName == strDestDirName;
+}
+
+// Build new directory or file path
+String Directory::Build(String strSrcPath, String strDestPath)
+{
+	if (strSrcPath.IsEmpty() || (!strSrcPath.IsContain(_T("\\")) && !strSrcPath.IsContain(_T(":"))))
+	{
+		return _T("");
+	}
+
+	if (strDestPath.IsEmpty() || (!strDestPath.IsContain(_T("\\")) && !strDestPath.IsContain(_T(":"))))
+	{
+		return _T("");
+	}
+
+	// Get dest directory name
+	Int32 iDstPos = strDestPath.FindLast(_T("\\"));
+
+	String strDstShortName = strDestPath.Right(strDestPath.GetLength() - iDstPos - 1);
+
+	// Get the src short name
+	Int32 iSrcPos = strSrcPath.Find(strDstShortName,0);
+
+	String strSrcShortName = strSrcPath.Right(strSrcPath.GetLength() - iSrcPos -1- strDstShortName.GetLength());
+	
+	String strFinalPath = Directory::AddEnding(strDestPath) + strSrcShortName;
+
+	return strFinalPath;
+}
+
+// Create the whole directory on the dest directory
+Directory::BOOL Directory::CreateSrcDirOnDest(String strSrcDirPath, String strNewDestDirPath)
+{
+	if (strSrcDirPath.IsEmpty() || (!strSrcDirPath.IsContain(_T("\\")) && !strSrcDirPath.IsContain(_T(":"))))
+	{
+		return false;
+	}
+
+	if (strNewDestDirPath.IsEmpty() || (!strNewDestDirPath.IsContain(_T("\\")) && !strNewDestDirPath.IsContain(_T(":"))))
+	{
+		return false;
+	}
+
+	// Get all sub directories
+	DirectoryTable DirTable;
+	Directory::GetAllSubDir(strSrcDirPath, DirTable);
+
+	// Create all sub directories
+	for (Int32 iIndex = 0; iIndex < (Int32)DirTable.size(); ++iIndex)
+	{
+		// Build new dest sub dir path
+		String strNewSubDirPath = Build(DirTable[iIndex], strNewDestDirPath);
+
+		if (!Directory::Create(strNewSubDirPath, true))
+		{
+			return false;
+		}
+	}
+
+	if (DirTable.empty())
+	{
+		// Create src directory at dest path
+		if (!Directory::Create(strNewDestDirPath, true))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+// Copy source directory files to dest one
+Directory::BOOL Directory::CopySrcFilesToDest(String strSrcDirPath, String strNewDestDirPath)
+{
+	if (strSrcDirPath.IsEmpty() || (!strSrcDirPath.IsContain(_T("\\")) && !strSrcDirPath.IsContain(_T(":"))))
+	{
+		return false;
+	}
+
+	if (strNewDestDirPath.IsEmpty() || (!strNewDestDirPath.IsContain(_T("\\")) && !strNewDestDirPath.IsContain(_T(":"))))
+	{
+		return false;
+	}
+
+	// Get all src files
+	FileTable FileList;
+	GetAllFiles(strSrcDirPath, FileList);
+
+	// Copy src files to the dest directory
+	for (Int32 iIndex = 0; iIndex < (Int32)FileList.size(); ++iIndex)
+	{
+		// Build new dest file path
+		String strNewFilePath = Build(FileList[iIndex], strNewDestDirPath);
+
+		if (!File::Copy(FileList[iIndex], strNewFilePath))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+// Copy source directory files to dest one when no cover
+Directory::BOOL Directory::CopySrcFilesToDest_NotCover(String strSrcDirPath, String strNewDestDirPath)
+{
+	if (strSrcDirPath.IsEmpty() || (!strSrcDirPath.IsContain(_T("\\")) && !strSrcDirPath.IsContain(_T(":"))))
+	{
+		return false;
+	}
+
+	if (strNewDestDirPath.IsEmpty() || (!strNewDestDirPath.IsContain(_T("\\")) && !strNewDestDirPath.IsContain(_T(":"))))
+	{
+		return false;
+	}
+
+	// Get all src files
+	FileTable FileList;
+	GetAllFiles(strSrcDirPath, FileList);
+
+	// Get all src files
+	FileTable DstFileList;
+	GetAllFiles(strNewDestDirPath, DstFileList);
+
+	// Get the new file table
+	FileTable FinalFileTable;
+
+	for (Int32 iIndex = 0; iIndex < (Int32)FileList.size(); ++iIndex)
+	{
+		String strNewFilePath = Build(FileList[iIndex], strNewDestDirPath);
+
+		Int32 iDstIndex = 0;
+		for (iDstIndex = 0; iDstIndex < (Int32)DstFileList.size(); ++iDstIndex)
+		{
+			if (strNewFilePath == DstFileList[iDstIndex])
+			{
+				break;
+			}
+		}
+
+		if (iDstIndex == (Int32)DstFileList.size())
+		{
+			FinalFileTable.push_back(FileList[iIndex]);
+		}
+	}
+
+	// Copy src files to the dest directory 
+	for (Int32 iIndex = 0; iIndex < (Int32)FinalFileTable.size(); ++iIndex)
+	{
+		// Build new dest file path
+		String strNewFilePath = Build(FinalFileTable[iIndex], strNewDestDirPath);
+
+		if (!File::Copy(FinalFileTable[iIndex], strNewFilePath))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+// Build the new root directory
+String Directory::BuildNewRoot(String strSrcPath, String strDestPath, String strCurPath)
+{
+	if (strSrcPath.IsEmpty() || (!strSrcPath.IsContain(_T("\\")) && !strSrcPath.IsContain(_T(":"))))
+	{
+		return _T("");
+	}
+
+	if (strDestPath.IsEmpty() || (!strDestPath.IsContain(_T("\\")) && !strDestPath.IsContain(_T(":"))))
+	{
+		return _T("");
+	}
+
+	if (strCurPath.IsEmpty() || (!strCurPath.IsContain(_T("\\")) && !strCurPath.IsContain(_T(":"))))
+	{
+		return _T("");
+	}
+
+	// Get the src short name
+	Int32 iSrcPos = strSrcPath.FindLast(_T("\\"));
+
+	String strSrcShortName = strSrcPath.Right(strSrcPath.GetLength() - iSrcPos - 1);
+
+	String strFinalPath = Directory::AddEnding(strDestPath) + strSrcShortName;
+
+	return strFinalPath;
+}
+
+// Copy the directory(No sub directory)
+Directory::BOOL Directory::Copy(String strSrcDirPath, String strDestDirPath, BOOL bCover)
+{
+	if (strSrcDirPath.IsEmpty() || (!strSrcDirPath.IsContain(_T("\\")) && !strSrcDirPath.IsContain(_T(":"))))
+	{
+		return false;
+	}
+
+	if (strDestDirPath.IsEmpty() || (!strDestDirPath.IsContain(_T("\\")) && !strDestDirPath.IsContain(_T(":"))))
+	{
+		return false;
+	}
+
+	// Build new dest directory
+	String strNewDestDirPath = BuildNewRoot(strSrcDirPath, strDestDirPath, strSrcDirPath);
+
+	// Is dest directry existed 
+	if (!IsExisted(strNewDestDirPath))
+	{
+		// Create the whole directory on the dest directory
+		if (!CreateSrcDirOnDest(strSrcDirPath, strNewDestDirPath))
+		{
+			return false;
+		}
+
+		// Copy source directory files to dest one
+		if (!CopySrcFilesToDest(strSrcDirPath, strNewDestDirPath))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	if (bCover)
+	{
+		// Delete the directory
+		if (!Directory::Delete(strNewDestDirPath, true))
+		{
+			return false;
+		}
+
+		// Create the whole directory on the dest directory
+		if (!CreateSrcDirOnDest(strSrcDirPath, strNewDestDirPath))
+		{
+			return false;
+		}
+
+		// Copy source directory files to dest one
+		if (!CopySrcFilesToDest(strSrcDirPath, strNewDestDirPath))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	// Create the whole directory on the dest directory
+	if (!CreateSrcDirOnDest(strSrcDirPath, strNewDestDirPath))
+	{
+		return false;
+	}
+
+	// Copy source directory files to dest one
+	if (!CopySrcFilesToDest_NotCover(strSrcDirPath, strNewDestDirPath))
+	{
+		return false;
+	}
+
+	return true;
+}
+
+// Delete an empty directory(The dir has no sub-directory)
+Directory::BOOL Directory::Delete(String strDirPath)
+{
+	if (strDirPath.IsEmpty())
+	{
+		return false;
+	}
+
+	if (::RemoveDirectory(TrimEnding(strDirPath).CStr()) == TRUE)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+// Delete the directory recursively
+Directory::BOOL Directory::Delete(String strDirPath, BOOL bRecursive)
+{
+	if (strDirPath.IsEmpty() || (!strDirPath.IsContain(_T("\\")) && !strDirPath.IsContain(_T(":"))))
+	{
+		return false;
+	}
+
+	if (!bRecursive)
+	{
+		return Delete(strDirPath);
+	}
+
+	// Trim the ending 
+	String strDir = TrimEnding(strDirPath);
+	
+	// Is the directory
+	if (!IsDirectory(strDir))
+	{
+		return false;
+	}
+
+	// Search the directoy
+	String strBackup = strDir;
+
+	strDir = strDir + _T("\\*");
+
 	FileData data;
-	DirectoryHandle hDirectory = ::FindFirstFile(strFullPath.CStr(), &data);
+	DirectoryHandle hDirectory = ::FindFirstFile(strDir.CStr(), &data);
 	if (hDirectory == INVALID_HANDLE_VALUE)
 	{
-		return bOK;
+		return false;
 	}
 
 	while (1)
 	{
-		if (String(data.cFileName) != _T("..") || String(data.cFileName) != _T("."))
-		{
-			return bOK;
-		}
-		if (::FindNextFile(hDirectory, &data) == 0)
+		// Find the next file or directory
+		if (!FindNextFile(hDirectory, &data))
 		{
 			break;
 		}
-	}
 
-	// The directory is empty
-	bOK = true;
+		// Judge the next one is directory or not
+		if ((data.dwFileAttributes & FileAttrEnum::DIRECTORY))
+		{
+			if (String(data.cFileName) == _T("..") || String(data.cFileName) == _T("."))
+			{
+				continue;
+			}
+
+			// Wipe out the last character '*'
+			String strRootDir = strDir.SubString(0, strDir.GetLength() - 1);
+
+			// Rebuild the directory path
+			String strNextDir = strRootDir + data.cFileName;
+
+			// Delete the directory recursively
+			if (!Delete(strNextDir, bRecursive))
+			{
+				return false;
+			}
+		}
+		else
+		{
+			// If the next one found is file and record it 
+			String strFileName = AddEnding(strBackup) + data.cFileName;
+
+			// Delete the file
+			if (!File().Delete(strFileName))
+			{
+				return false;
+			}			
+		}
+	}
 
 	// Close the finding
 	::FindClose(hDirectory);
 
-	return bOK;
+	// Delete the directory
+	return Delete(strBackup);
 }
 
+// Is valid drive root directory
+Directory::BOOL Directory::IsValidRootDriveDirectory(String strDirPath)
+{
+	if (strDirPath.IsEmpty())
+	{
+		return false;
+	}
 
-///************************************************************************
-/// <summary>
-/// get the attribute of directory
-/// </summary>
-/// <param name=strDirPath>target directory full path</param>
-/// <returns>the attribute</returns>
-/// <remarks>
-/// the directory attribute is the same as file's
-/// </remarks>
-///***********************************************************************
+	if (!strDirPath.IsContain(_T(":")))
+	{
+		return false;
+	}
+
+	String DriveTable[] = {
+		_T("A:"),
+		_T("B:"),
+		_T("C:"),
+		_T("D:"),
+		_T("E:"),
+		_T("F:"),
+		_T("G:"),
+		_T("H:"),
+		_T("I:"),
+		_T("J:"),
+		_T("K:"),
+		_T("L:"),
+		_T("M:"),
+		_T("N:")
+	};
+
+	for (Int32 iDriveNo = 0; iDriveNo<sizeof(DriveTable) / sizeof(String); ++iDriveNo)
+	{
+		if (DriveTable[iDriveNo] == strDirPath)
+		{
+			if (RealDriveType(iDriveNo, 0) != DRIVE_FIXED)
+			{
+				return false;
+			}
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+// Judge that whether the directory is exist or not
+Directory::BOOL Directory::IsExisted(String strDirPath)
+{
+	if (strDirPath.IsEmpty())
+	{
+		return false;
+	}
+
+	FileData data;
+
+	String strDirectory = TrimEnding(strDirPath);
+
+	if (strDirectory.GetLength()==2)
+	{
+		// Is valid dirve root directory
+		if (!IsValidRootDriveDirectory(strDirectory))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	DirectoryHandle hDirectory = ::FindFirstFile(strDirectory.CStr(), &data);
+
+	if (hDirectory != INVALID_HANDLE_VALUE && (data.dwFileAttributes & FileAttrEnum::DIRECTORY))
+	{
+		::FindClose(hDirectory);
+
+		return true;
+	}
+
+	::FindClose(hDirectory);
+
+	return false;
+}
+
+// judge that wether the directory is empty or not
+Directory::BOOL Directory::IsEmpty(String strRootDirPathPath)
+{
+	if (strRootDirPathPath.IsEmpty())
+	{
+		return true;
+	}
+
+	// Build the full path of directory
+	String strFullPath = _T("");
+
+	int iFindPos = strRootDirPathPath.FindLast(_T("\\"));
+	if (iFindPos == -1)
+	{
+		return true;
+	}
+	else if (iFindPos == strRootDirPathPath.GetLength() - 1)
+	{
+		strFullPath = strRootDirPathPath + _T("*");
+	}
+	else
+	{
+		strFullPath = strRootDirPathPath + _T("\\*");
+	}
+
+	// Find the file with its attributes
+	FileData data;
+
+	DirectoryHandle hDirectory = ::FindFirstFile(strFullPath.CStr(), &data);
+	if (hDirectory == INVALID_HANDLE_VALUE)
+	{
+		return true;
+	}
+
+	Int32 bFind = 1;
+
+	BOOL bEmpty = true;
+
+	while (bFind)
+	{
+		if (String(data.cFileName) == _T("..") || String(data.cFileName) == _T("."))
+		{
+			bFind = ::FindNextFile(hDirectory, &data);
+		}
+		else
+		{
+			bEmpty = false;
+
+			break;
+		}
+	}
+
+	// Close the finding
+	::FindClose(hDirectory);
+
+	if (bEmpty)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+// Is directory
+Directory::BOOL Directory::IsDirectory(String strPath)
+{
+	if (strPath.IsEmpty() || (!strPath.IsContain(_T("\\")) && !strPath.IsContain(_T(":"))))
+	{
+		return false;
+	}
+
+	// Check wether it is directory 
+	FileAttribute Attr = GetDirAttribute(strPath);
+	if (Attr.dwDirectory ==0)
+	{
+		return false;
+	}
+	
+	return true;
+}
+
+// Get the attribute of directory
 Directory::FileAttribute Directory::GetDirAttribute(String strDirPath)
 {
-	assert(strDirPath != _T(""));
+	if (strDirPath.IsEmpty())
+	{
+		return FileAttribute();
+	}
 
 	// Initialize the WinFileAttribute
 	FileAttribute sFileAttr = { 0 };
-	
+
 	// Get the Attribute
-	System::UInt64 dAttribute = ::GetFileAttributes(strDirPath.CStr());
+	System::UInt64 dAttribute = ::GetFileAttributes(TrimEnding(strDirPath).CStr());
 	if (dAttribute == INVALID_FILE_ATTRIBUTES)
 	{
 		return sFileAttr;
@@ -173,9 +690,7 @@ Directory::FileAttribute Directory::GetDirAttribute(String strDirPath)
 	sFileAttr.dwDirectory = dAttribute&(FileAttrEnum::DIRECTORY);
 	sFileAttr.dwEncrypted = dAttribute&(FileAttrEnum::ENCRYPTED);
 	sFileAttr.dwHidden = dAttribute&(FileAttrEnum::HIDDEN);
-	sFileAttr.dwIntegrityStream = dAttribute&(FileAttrEnum::INTEGRITYSTREAM);
 	sFileAttr.dwNormal = dAttribute&(FileAttrEnum::NORMAL);
-	sFileAttr.dwNoScrubData = dAttribute&(FileAttrEnum::NOSCRUBDATA);
 	sFileAttr.dwNotContentIndexed = dAttribute&(FileAttrEnum::NOTCONTENTINDEXED);
 	sFileAttr.dwOffline = dAttribute&(FileAttrEnum::OFFLINE);
 	sFileAttr.dwReadOnly = dAttribute&(FileAttrEnum::READONLY);
@@ -183,66 +698,39 @@ Directory::FileAttribute Directory::GetDirAttribute(String strDirPath)
 	sFileAttr.dwSparseFile = dAttribute&(FileAttrEnum::SPARSEFILE);
 	sFileAttr.dwSystem = dAttribute&(FileAttrEnum::SYSTEM);
 	sFileAttr.dwTemporary = dAttribute&(FileAttrEnum::TEMPORARY);
+	sFileAttr.dwVirtual = dAttribute&(FileAttrEnum::VIRTUAL);
 
 	return sFileAttr;
 }
 
-
-///************************************************************************
-/// <summary>
-/// set the attribute of directory
-/// </summary>
-/// <param name=strDirPath>directory path</param>
-/// <param name=attr>the attribute struct</param>
-/// <returns></returns>
-/// <remarks>
-/// if there is several attribute ,you can use | to connect them
-/// </remarks>
-///***********************************************************************
+// Set the attribute of directory
 Directory::Empty Directory::SetDirAttribute(String strDirPath, FileAttrEnum eFileAttribute)
 {
-	DWORD dAttribute = ::GetFileAttributes(strDirPath.CStr());
+	String strDirectory = TrimEnding(strDirPath);
 
-	::SetFileAttributes(strDirPath.CStr(), dAttribute | eFileAttribute);
+	DWORD dAttribute = ::GetFileAttributes(strDirectory.CStr());
+
+	::SetFileAttributes(strDirectory.CStr(), dAttribute | eFileAttribute);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Remove the attribute of the directory
-/// </summary>
-/// <param name=strDirPath>directory path</param>
-/// <param name=attr>the attribute struct</param>
-/// <returns></returns>
-/// <remarks>
-/// if there is several attribute ,you can use | to connect them
-/// </remarks>
-///***********************************************************************
+// Remove the attribute of the directory
 Directory::Empty Directory::RemoveDirAttribute(String strDirPath, FileAttrEnum eFileAttribute)
 {
-	DWORD dAttribute = ::GetFileAttributes(strDirPath.CStr());
+	String strDirectory = TrimEnding(strDirPath);
 
-	::SetFileAttributes(strDirPath.CStr(), dAttribute & (~eFileAttribute));
+	DWORD dAttribute = ::GetFileAttributes(strDirectory.CStr());
+
+	::SetFileAttributes(strDirectory.CStr(), dAttribute & (~eFileAttribute));
 }
 
-
-///************************************************************************
-/// <summary>
-/// get current process's run path
-/// </summary>
-/// <returns>the path of current process</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Get current directory of main project
 String Directory::GetCurDirectory()
 {
 	const int MAX_PATH_LEN = 256;
 
 	TCHAR DirArray[MAX_PATH_LEN] = { 0 };
 
-	int iRes = ::GetCurrentDirectory(MAX_PATH_LEN, DirArray);
-	if (iRes == TRUE)
+	if (::GetCurrentDirectory(MAX_PATH_LEN, DirArray) != FALSE)
 	{
 		return String(DirArray);
 	}
@@ -250,40 +738,69 @@ String Directory::GetCurDirectory()
 	return _T("");
 }
 
+// Get exe file path
+String Directory::GetExcutableDirectory()
+{
+	const int MAX_PATH_LEN = 256;
 
-///************************************************************************
-/// <summary>
-/// judge that wether the directory has the specail file in
-/// </summary>
-/// <param name=strRootDirPath>directory path</param>
-/// <param name=fileName>specail file name</param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+	TCHAR DirArray[MAX_PATH_LEN] = { 0 };
+
+	if (::GetModuleFileName(NULL, DirArray, MAX_PATH_LEN) != FALSE)
+	{
+		String strFullPath = DirArray;
+
+		Int32 iPos = strFullPath.FindLast(_T("\\"));
+
+		String strExeDir = strFullPath.Left(iPos);
+
+		return strExeDir;
+	}
+
+	return _T("");
+}
+
+// Judge that wether the directory has the specail file in
 Directory::BOOL Directory::Contains(String strRootDirPath, String strFileName)
 {
-	BOOL bOK = false;
+	if (strRootDirPath.IsEmpty())
+	{
+		return false;
+	}
+
+	if (strFileName.IsEmpty())
+	{
+		return false;
+	}
+
+	// Get the file short name
+	Int32 iPos = strFileName.FindLast(_T("\\"));
+
+	String strShortFileName = strFileName.Right(strFileName.GetLength() - iPos - 1);
 
 	// Build the full path of directory
 	String strFullPath = _T("");
+
 	int iFindPos = strRootDirPath.FindLast(_T("\\"));
 	if (iFindPos == -1)
 	{
-		strFullPath = strRootDirPath + _T("\\*");
+		return false;
+	}
+	else if (iFindPos== strRootDirPath.GetLength()-1)
+	{
+		strFullPath = strRootDirPath + _T("*");
 	}
 	else
 	{
-		strFullPath = strRootDirPath + _T("*");
+		strFullPath = strRootDirPath + _T("\\*");
 	}
 
 	// Find the file with its attributes
 	FileData data;
+
 	DirectoryHandle hDirectory = ::FindFirstFile(strFullPath.CStr(), &data);
 	if (hDirectory == INVALID_HANDLE_VALUE)
 	{
-		return bOK;
+		return false;
 	}
 
 	while (1)
@@ -292,14 +809,16 @@ Directory::BOOL Directory::Contains(String strRootDirPath, String strFileName)
 		{
 			break;
 		}
+
 		// Find the file
 		if (!(data.dwFileAttributes & FileAttrEnum::DIRECTORY))
 		{
-			if (strFileName == data.cFileName)
+			if (strShortFileName == data.cFileName)
 			{
-				bOK = true;
+				// Close the finding
+				::FindClose(hDirectory);
 
-				break;
+				return true;
 			}
 		}
 	}
@@ -307,77 +826,50 @@ Directory::BOOL Directory::Contains(String strRootDirPath, String strFileName)
 	// Close the finding
 	::FindClose(hDirectory);
 
-	return bOK;
+	return false;
 }
 
-
-///************************************************************************
-/// <summary>
-/// get all subdirectories under the directory
-/// </summary>
-/// <param name=strRootDirPath>root directory path</param>
-/// <returns>the array of subdirectory path</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Get all subdirectories under the directory
 Directory::BOOL Directory::GetAllSubDir(String strRootDir, DirectoryTable& vDirectoryTable)
 {
 	return LookUpSubDirectory(strRootDir, vDirectoryTable);
 }
 
-
-///************************************************************************
-/// <summary>
-/// get all files under the directory
-/// </summary>
-/// <param name=curDir>root directory path</param>
-/// <returns>the array of files' path</returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Get all files under the directory
 Directory::BOOL Directory::GetAllFiles(String strCurrentDir, FileTable& vFileTable)
 {
 	return LookUpSubFiles(strCurrentDir, vFileTable);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Look up all the subdirectory 
-/// </summary>
-/// <param name=String strDirPath>Root directory</param>
-/// <param name=DirectoryTable & vDirectoryTable>Directory table</param>
-/// <returns></returns>
-/// <remarks>
-/// None
-/// </remarks>
-///***********************************************************************
+// Look up all the subdirectory 
 Directory::BOOL Directory::LookUpSubDirectory(String strDirPath, DirectoryTable& vDirectoryTable)
 {
-	BOOL bFind = false;
-
-	String strFullPath = _T("");
+	if (strDirPath.IsEmpty())
+	{
+		return false;
+	}
 
 	int iFindPos = strDirPath.FindLast(_T("\\"));
 	if (iFindPos == -1)
 	{
-		// Build the full path of directory
-		strFullPath = strDirPath + _T("\\*");
+		return false;
+	}
+	else if (iFindPos==strDirPath.GetLength()-1)
+	{
+		strDirPath = strDirPath + _T("*");
 	}
 	else
-	{
-		// Build the full path of directory
-		strFullPath = strDirPath + _T("*");
+	{		
+		strDirPath = strDirPath + _T("\\*");
 	}
 
 	// Find the file with its attributes
 	FileData data;
-	DirectoryHandle hDirectory = ::FindFirstFile(strFullPath.CStr(), &data);
+
+	DirectoryHandle hDirectory = ::FindFirstFile(strDirPath.CStr(), &data);
 	if (hDirectory == INVALID_HANDLE_VALUE)
 	{
-		return bFind;
+		return false;
 	}
 
 	while (1)
@@ -391,67 +883,62 @@ Directory::BOOL Directory::LookUpSubDirectory(String strDirPath, DirectoryTable&
 		// Judge the found one is directory or not
 		if (data.dwFileAttributes&FileAttrEnum::DIRECTORY)
 		{
-			if ((String(data.cFileName) != _T("..")) && (String(data.cFileName) != _T(".")))
+			if (String(data.cFileName) == _T("..") || String(data.cFileName) == _T("."))
 			{
-				// Record the directory
-				vDirectoryTable.push_back(String(data.cFileName));
-
-				// Wipe out the last character '*'
-				String strRoot = strDirPath.SubString(0, strDirPath.GetLength() - 1);
-
-				// Rebuild the directory path
-				String strNextDir = strRoot + data.cFileName;
-
-				// Loop again
-				LookUpSubDirectory(strNextDir, vDirectoryTable);
+				continue;
 			}
+
+			// Wipe out the last character '*'
+			String strRoot = strDirPath.SubString(0, strDirPath.GetLength() - 1);
+
+			// Rebuild the directory path
+			String strNextDir = strRoot + data.cFileName;
+
+			// Record the directory
+			vDirectoryTable.push_back(strNextDir);
+
+			// Loop again
+			LookUpSubDirectory(strNextDir, vDirectoryTable);
 		}
 	}
 
 	// Close the finding
 	::FindClose(hDirectory);
 
-	bFind = true;
-
-	return bFind;
+	return true;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Look up all files under the directory
-/// </summary>
-/// <param name=String strCurrentDir>Directory</param>
-/// <param name=FileTable & vFileTable>File table</param>
-/// <returns></returns>
-/// <remarks>
-/// None
-/// </remarks>
-///***********************************************************************
+// Look up all files under the directory
 Directory::BOOL Directory::LookUpSubFiles(String strCurrentDir, FileTable& vFileTable)
 {
-	BOOL bFind = false;
+	if (strCurrentDir.IsEmpty())
+	{
+		return false;
+	}
 
-	String strFullPath = _T("");
+	String strBackup = strCurrentDir;
 
 	int iFindPos = strCurrentDir.FindLast(_T("\\"));
 	if (iFindPos == -1)
 	{
-		// Build the full path of directory
-		strFullPath = strCurrentDir + _T("\\*");
+		return false;
+	}
+	else if (iFindPos== strCurrentDir.GetLength()-1)
+	{
+		strCurrentDir = strCurrentDir + _T("*");
 	}
 	else
 	{
-		// Build the full path of directory
-		strFullPath = strCurrentDir + _T("*");
+		strCurrentDir = strCurrentDir + _T("\\*");
 	}
 
 	// Find the file with its attributes
 	FileData data;
-	DirectoryHandle hDirectory = ::FindFirstFile(strFullPath.CStr(), &data);
+
+	DirectoryHandle hDirectory = ::FindFirstFile(strCurrentDir.CStr(), &data);
 	if (hDirectory == INVALID_HANDLE_VALUE)
 	{
-		return bFind;
+		return false;
 	}
 
 	while (1)
@@ -464,27 +951,24 @@ Directory::BOOL Directory::LookUpSubFiles(String strCurrentDir, FileTable& vFile
 		// Judge the next one is directory or not
 		if ((data.dwFileAttributes & FileAttrEnum::DIRECTORY))
 		{
-			if ((String(data.cFileName) != _T("..")) && (String(data.cFileName) != _T(".")))
+			if (String(data.cFileName) == _T("..") || String(data.cFileName) == _T("."))
 			{
-				// Wipe out the last character '*'
-				String strRootDir = strCurrentDir.SubString(0, strCurrentDir.GetLength() - 1);
-
-				// Rebuild the directory path
-				String strNextDir = strRootDir + data.cFileName;
-
-				// Loop again
-				LookUpSubFiles(strNextDir, vFileTable);
-			}
-			else
-			{
-				// it is ".." directory that we discarding.
 				continue;
 			}
+
+			// Wipe out the last character '*'
+			String strRootDir = strCurrentDir.SubString(0, strCurrentDir.GetLength() - 1);
+
+			// Rebuild the directory path
+			String strNextDir = strRootDir + data.cFileName;
+
+			// Loop again
+			LookUpSubFiles(strNextDir, vFileTable);
 		}
 		else
 		{
 			// If the next one found is file and record it 
-			String strFileName = strCurrentDir + data.cFileName;
+			String strFileName = AddEnding(strBackup) + data.cFileName;
 
 			vFileTable.push_back(strFileName);
 		}
@@ -492,7 +976,5 @@ Directory::BOOL Directory::LookUpSubFiles(String strCurrentDir, FileTable& vFile
 	// Close the finding
 	::FindClose(hDirectory);
 
-	bFind = true;
-
-	return bFind;
+	return true;
 }

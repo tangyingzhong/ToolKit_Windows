@@ -1,21 +1,19 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// Timer on the window that can used for counting
 /// Calling back function template is below:
-/// void CALLBACK (TIMECALLBACK)(UINT uTimerID, UINT uMsg, DWORD_PTR dwUser, DWORD_PTR dw1, DWORD_PTR dw2);
+/// Such as [void (CALLBACK *LPTIMECALLBACK)(UINT uTimerID,UINT uMsg,DWORD_PTR dwUser,DWORD_PTR dw1,DWORD_PTR dw2)]
 ///</describe>
-/// <date>2019/3/6</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef TIMER_H
 #define TIMER_H
 
-#include <mmsystem.h>
-
-#pragma comment(lib,"Winmm.lib")
+#include "Common/SystemType.h"
 
 namespace System
 {
@@ -32,7 +30,7 @@ namespace System
 			typedef LPTIMECALLBACK CallBackFunc;
 
 		public:
-			// Construct the Timer 		
+			// Construct the Timer. 
 			Timer(DelayMs DelayTime, CallBackFunc Func, Object Paramenter);
 
 			// Detructe the Timer
@@ -62,7 +60,7 @@ namespace System
 			// Set timer ID
 			inline Empty SetTimerId(TimerID iTimerId)
 			{
-				this->m_TimerId = iTimerId;
+				m_TimerId = iTimerId;
 			}
 
 			// Get timer delay time
@@ -74,7 +72,7 @@ namespace System
 			// Set timer delay time
 			inline Empty SetTimerDelayTime(DelayMs iTimerDelayTime)
 			{
-				this->m_TimerDelayTime = iTimerDelayTime;
+				m_TimerDelayTime = iTimerDelayTime;
 			}
 
 			// Get callback func
@@ -86,7 +84,7 @@ namespace System
 			// Set callback func
 			inline Empty SetCallbackFunc(CallBackFunc pCallbackFunc)
 			{
-				this->m_CallbackFunc = pCallbackFunc;
+				m_CallbackFunc = pCallbackFunc;
 			}
 
 			// Get time para
@@ -98,7 +96,7 @@ namespace System
 			// Set time para
 			inline Empty SetTimerPara(Object pTimerPara)
 			{
-				this->m_TimerPara = pTimerPara;
+				m_TimerPara = pTimerPara;
 			}
 
 			// Get the timer closed status
@@ -110,7 +108,7 @@ namespace System
 			// Set the timer closed status
 			inline Empty SetClosed(BOOL bClosed)
 			{
-				this->m_Closed = bClosed;
+				m_Closed = bClosed;
 			}
 
 			// Get the disposed status
@@ -122,7 +120,7 @@ namespace System
 			// Set the disposed status	
 			inline Empty SetDisposed(BOOL bDisposed)
 			{
-				this->m_Disposed = bDisposed;
+				m_Disposed = bDisposed;
 			}
 
 		private:

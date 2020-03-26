@@ -1,12 +1,12 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// Client using socket
 ///</describe>
-/// <date>2019/3/6</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef SOCKETCLIENT_H
 #define SOCKETCLIENT_H
@@ -30,6 +30,10 @@ namespace System
 			typedef System::Int32 Length;
 			typedef System::Int32 ListenCapacity;
 			typedef System::Int32 NetPort;
+			typedef System::Encoding::ENCODE_TYPE_ENUM EncodeType;
+			typedef ADDRESS_FAMILY_ENUM AddressFamily;
+			typedef SOCKET_TYPE_ENUM SocketType;
+			typedef PROTOCOL_ENUM ProtocolType;
 			typedef String IPAddress;
 			typedef Socket* NetSocket;
 
@@ -92,7 +96,7 @@ namespace System
 			// Set the ServerSocket
 			inline Empty SetServerSocket(NetSocket pServerSocket)
 			{
-				this->m_ServerSocket = pServerSocket;
+				m_ServerSocket = pServerSocket;
 			}
 
 			// Get the server ip
@@ -104,7 +108,7 @@ namespace System
 			// Set the server ip
 			inline Empty SetServerIP(IPAddress strServerIP)
 			{
-				this->m_ServerIP = strServerIP;
+				m_ServerIP = strServerIP;
 			}
 
 			// Get the Server Port
@@ -116,7 +120,7 @@ namespace System
 			// Set the Server Port
 			inline Empty SetServerPort(NetPort iServerPort)
 			{
-				this->m_ServerPort = iServerPort;
+				m_ServerPort = iServerPort;
 			}
 
 			// Get the disposed status
@@ -128,7 +132,7 @@ namespace System
 			// Set the disposed	status
 			inline Empty SetDisposed(BOOL bDisposed)
 			{
-				this->m_Disposed = bDisposed;
+				m_Disposed = bDisposed;
 			}
 
 		private:

@@ -1,26 +1,48 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// Basic type of the system on windows
 ///</describe>
-/// <date>2019/3/2</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef SYSTEMTYPE_H
 #define SYSTEMTYPE_H
 
-#include <assert.h>
-#include <Windows.h>
+// Exclude rarely-used stuff from Windows headers
+#define WIN32_LEAN_AND_MEAN           
+
+// Windows Header Files:
+#include <windows.h>
+#include <Shlobj.h>
 #include <tchar.h>
+#include <wchar.h>
 #include <cstring>
+#include <queue>
+#include <shellapi.h>
 #include <string>
 #include <sstream>
 #include <vector>
-#include <queue>
+#include <list>
+#include <map>
+#include <time.h>
+#include <sys/timeb.h>
+#include <SetupAPI.h>
+#include <comdef.h>
+#include <COMUTIL.H>
+#include <WinSock2.h>
+#include <ws2tcpip.h>
+#include <mmsystem.h>
+#include <objbase.h>
 
 using namespace std;
+
+#define ERROR_MESSAGEBOX(Title,Content) MessageBox(NULL, Content, Title, MB_ICONERROR)
+#define WARN_MESSAGEBOX(Title,Content) MessageBox(NULL, Content, Title, MB_ICONWARNING)
+#define QUESTION_MESSAGEBOX(Title,Content) MessageBox(NULL, Content, Title, MB_ICONQUESTION)
+#define INFORMATION_MESSAGEBOX(Title,Content) MessageBox(NULL, Content, Title, MB_ICONINFORMATION)
 
 namespace System
 {
@@ -37,7 +59,7 @@ namespace System
 	typedef unsigned char Byte;		
 
 	// Byte pointer : 4 bytes in memory	
-	typedef Byte* ByteArray;	
+	typedef unsigned char* ByteArray;
 
 	// Signed byte with the range from -127-128
 	typedef char SByte;					
@@ -87,23 +109,29 @@ namespace System
 	// Integer : 0 - 2 ^ 32 - 1
 	typedef unsigned int UInt32;					
 
+	// Long integer :  -2 ^ 32 / 2 - 2 ^ 32 / 2 - 1
+	typedef long FixedInt32;
+
+	// Long integer :0 - 2 ^ 32 - 1
+	typedef unsigned long FixedUInt32;
+
 	// Long integer : -2 ^ 64 / 2 - 2 ^ 64 / 2 - 1
-	typedef long Int64;						
+	typedef long long Int64;						
 
 	// Long integer : 0 - 2 ^ 64 - 1
-	typedef unsigned long UInt64;	
+	typedef unsigned long long UInt64;	
 
 	// Single real: 4 bytes in memory
 	typedef float Single;				
 
 	// Double real: 8 bytes in memory
-	typedef double Double;	
+	typedef double Real;	
 
 	// Function that called back by a thread	
-	typedef UInt64(WINAPI *ThreadRountine)(Object obj);							
+	typedef FixedUInt32(__stdcall *ThreadRountine)(Object obj);
 
 	// The way to open the file
-	typedef enum _Filemode
+	enum FILE_MODE_ENUM
 	{
 		// File exist and open it or create it and write at the end
 		APPEND = OPEN_ALWAYS,						
@@ -122,10 +150,10 @@ namespace System
 
 		// Make current file's length to be 0
 		TRUNC = TRUNCATE_EXISTING,											
-	}FileMode;
+	};
 
 	// The way to operate the file
-	typedef enum _FileAccess
+	enum FILE_ACCESS_ENUM
 	{
 		// Read allowed only
 		READ = GENERIC_READ,			
@@ -135,10 +163,10 @@ namespace System
 
 		// Read and Write allowed
 		READWRITE = GENERIC_READ | GENERIC_WRITE						
-	}FileAccess;
+	};
 
 	// The way of allowing the file to be shared with others
-	typedef enum _FileShare
+	enum FILE_SHARE_ENUM
 	{
 		// Sharing reading the same file with other thread or process 
 		SREAD = FILE_SHARE_READ,				
@@ -148,10 +176,10 @@ namespace System
 
 		// Sharing reading and writing the same file with other thread or process 
 		SREADWRITE = FILE_SHARE_READ | FILE_SHARE_WRITE				
-	}FileShare;
+	};
 
 	// Operate the file's data in which position
-	typedef enum _SeekOrigin
+	enum SEEK_ORIGIN_ENUM
 	{
 		// Seek from the beginning 
 		BEGIN = 0,			
@@ -161,10 +189,10 @@ namespace System
 
 		// Seek from the end position
 		END = 2																				
-	}SeekOrigin;
+	};
 
 	// File's attributes enum
-	typedef enum _FileAttribute
+	enum FILE_ATTRIBUTE_ENUM
 	{
 		// This file is a backup or delete one
 		ARCHIVE = FILE_ATTRIBUTE_ARCHIVE,			
@@ -184,14 +212,8 @@ namespace System
 		// This file is not seen
 		HIDDEN = FILE_ATTRIBUTE_HIDDEN,			
 
-		// Integrity Support(sacnner)
-		INTEGRITYSTREAM = FILE_ATTRIBUTE_INTEGRITY_STREAM,		
-
 		// This is a standard file
 		NORMAL = FILE_ATTRIBUTE_NORMAL,							
-
-		// This file's data cannot be scanned by the background
-		NOSCRUBDATA = FILE_ATTRIBUTE_NO_SCRUB_DATA,				
 
 		// This is file cannot be indexed
 		NOTCONTENTINDEXED = FILE_ATTRIBUTE_NOT_CONTENT_INDEXED,			 
@@ -212,11 +234,14 @@ namespace System
 		SYSTEM = FILE_ATTRIBUTE_SYSTEM,											
 
 		// This is a temporary file when used.
-		TEMPORARY = FILE_ATTRIBUTE_TEMPORARY							
-	}FileAttrEnum;
+		TEMPORARY = FILE_ATTRIBUTE_TEMPORARY,
+
+		// This is a system file
+		VIRTUAL = FILE_ATTRIBUTE_VIRTUAL
+	};
 
 	// File's flag
-	typedef enum _FileFlag
+	enum FILE_FLAG_ENUM
 	{
 		// This file is opened or created for a backup or restore operation
 		BackupSemantics = FILE_FLAG_BACKUP_SEMANTICS,			
@@ -242,125 +267,15 @@ namespace System
 		// Access is intended to be random
 		RandomAccess = FILE_FLAG_RANDOM_ACCESS,			
 
-		// The file or device is being opened with session awareness
-		SessionAware = FILE_FLAG_SESSION_AWARE,							
-
 		// Access is intended to be sequential from beginning to end
 		SequentialScan = FILE_FLAG_SEQUENTIAL_SCAN,		
 
 		// Write operations will not go through any intermediate cache, they will go directly to disk.
 		DirectWrite = FILE_FLAG_WRITE_THROUGH								
-	}FileFlag;
-
-	// Encode type of the string
-	typedef enum _EncodeType
-	{
-		// ASCII type string
-		E_ASCII = 0,						
-
-		// UTF8 type string
-		E_UTF8,					
-
-		// UNICODE type string
-		E_UNICODE																				
-	}EncodeType;
-
-	// The baund rate of the port
-	typedef enum _BoundRate
-	{
-		// Port's transferring speed: Low
-		PORT_LOW_SPEED = 9600,							
-
-		// Port's transferring speed: High
-		PORT_HIGH_SPEED = 14400,												
-
-		// Port's transferring speed: Super
-		PORT_SUPER_SPEED = 115200													
-	}BoundRate;
-
-	// Bits of one data of the port 
-	typedef enum _DataBits
-	{
-		// Port's transferring length of one character: 8
-		PORT_EIGHT = 8,						
-
-		// Port's transferring length of one character: 16
-		PORT_SIXTEEN = 16																	
-	}DataBits;
-
-	// Check bits of the port
-	typedef enum _Parity
-	{
-		// Port's parity checking,No
-		PORT_NO = 0,							
-
-		// Port's odd parity checking
-		PORT_ODD = 1,							
-
-		// Port's even parity checking		
-		PORT_EVEN = 2																		
-	}Parity;
-
-	// Stop bits of the port
-	typedef enum _StopBits
-	{
-		// Port's transferring ending bits width:0
-		PORT_ONE = 0,					
-
-		// Port's transferring ending bits width:1
-		PORT_HALF = 1,						
-
-		// Port's transferring ending bits width:2
-		PORT_TWO = 2																			
-	}StopBits;
-
-	// Timeout of the port
-	typedef enum _PortTimeOut
-	{
-		// Reading interval between two characters
-		PORT_READ_INTERVAL = 1000,									
-
-		// Scal factor number
-		PORT_READ_MULTIPLE = 1000,					
-
-		// Constant read time
-		PORT_READ_CONSTANT = 1000,								
-
-		// Scal factor number
-		PORT_WRITE_MULTIPLE = 1000,									
-
-		// Constant write time
-		PORT_WRITE_CONSTANT = 1000												
-	}PortTimeOut;
-
-	// Cache for the port transferring
-	typedef enum _PortCache
-	{
-		// Input cache for the port
-		PORT_INPUT_CACHE_SIZE = 1024,									
-
-		// Output cache for the port
-		PORT_OUTPUT_CACHE_SIZE = 1024											
-	}PortCache;
-
-	// Port's cache status
-	typedef enum
-	{
-		// Abort the tx
-		ABORTTX = PURGE_TXABORT,					
-
-		// Abort the rx
-		ABORTRX = PURGE_RXABORT,				
-
-		// Clear the tx cache
-		CLEARTX = PURGE_TXCLEAR,						
-
-		// Clear the rx cache
-		CLEARRX = PURGE_RXCLEAR													
-	}CacheStatus;
+	};
 
 	// File's attributes structure
-	typedef struct
+	struct FileAttribute
 	{
 		// This file is a backup or delete one
 		UInt64 dwArchive;										
@@ -380,14 +295,8 @@ namespace System
 		// This file is not seen
 		UInt64 dwHidden;					
 
-		// Integrity Support(sacnner)
-		UInt64 dwIntegrityStream;	
-
 		// This is a standard file
 		UInt64 dwNormal;				
-
-		// This file's data cannot be scanned by the background
-		UInt64 dwNoScrubData;											
 
 		// This is file cannot be indexed
 		UInt64 dwNotContentIndexed;		
@@ -410,6 +319,9 @@ namespace System
 		// This is a temporary file when used.
 		UInt64 dwTemporary;															
 
+		// This is a system file
+		UInt64 dwVirtual;
+
 		// Is empty or not
 		Boolean IsEmpty()
 		{
@@ -419,19 +331,17 @@ namespace System
 				&& dwDirectory == 0
 				&& dwEncrypted == 0
 				&& dwHidden == 0
-				&& dwIntegrityStream == 0
 				&& dwNormal == 0
-				&& dwNoScrubData == 0
 				&& dwNotContentIndexed == 0
 				&& dwOffline == 0
 				&& dwReadOnly == 0
 				&& dwReparsePoint == 0
 				&& dwSparseFile == 0
 				&& dwSystem == 0
-				&& dwTemporary == 0);
+				&& dwTemporary == 0
+				&& dwVirtual==0);
 		}
-
-	}FileAttribute;
+	};
 }
 
 #endif // SYSTEMTYPE_H

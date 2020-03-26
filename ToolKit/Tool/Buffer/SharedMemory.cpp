@@ -1,20 +1,10 @@
-#include "Application\PreCompile.h"
+#include "PreCompile.h"
 #include "Array.h"
 #include "SharedMemory.h"
 
 using namespace System::Buffer;
 
-///************************************************************************
-/// <summary>
-/// Construct the shared memory with a fixed size and name
-/// </summary>
-/// <param name=name>Share momery name</param>
-/// <param name=size>Share momery size</param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Construct the shared memory with a fixed size and name
 SharedMemory::SharedMemory(const MapFileName strMapFileName, const MapFileSize iMapFileSize) :m_MapfileHandle(NULL),
 m_MapFileName(strMapFileName),
 m_SharedSize(iMapFileSize),
@@ -23,70 +13,33 @@ m_Disposed(false)
 	Initialize();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Detructe the SharedMemory
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Detructe the SharedMemory
 SharedMemory::~SharedMemory()
 {
 	Destory();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Initialize the shared memory
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Initialize the shared memory
 SharedMemory::Empty SharedMemory::Initialize()
 {
 
 }
 
-
-///************************************************************************
-/// <summary>
-/// Dispose the shared memory
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Dispose the shared memory
 SharedMemory::Empty SharedMemory::Destory()
 {
 	if (!GetDisposed())
 	{
 		SetDisposed(true);
 
-		// Close the shared memory
-		this->Close();
+		Close();
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Is the shared memory opened or not
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///************************************************************************
+// Is the shared memory opened or not
 SharedMemory::BOOL SharedMemory::IsOpen()
 {
-	if (this->GetMapfileHandle() == NULL)
+	if (GetMapfileHandle() == NULL)
 	{
 		return false;
 	}
@@ -94,63 +47,46 @@ SharedMemory::BOOL SharedMemory::IsOpen()
 	return true;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Open the map file
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Open the map file
 SharedMemory::Empty SharedMemory::Open()
 {
-	MapFileHandle hMapFileHandle = ::OpenFileMapping(FILE_MAP_ALL_ACCESS, NULL, this->GetMapFileName().CStr());
+	MapFileHandle hMapFileHandle = ::OpenFileMapping(FILE_MAP_ALL_ACCESS, 
+		NULL, 
+		GetMapFileName().CStr());
 	if (hMapFileHandle == NULL)
 	{
-		this->SetMapfileHandle(::CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, this->GetSharedSize(), this->GetMapFileName().CStr()));
+		SetMapfileHandle(::CreateFileMapping(INVALID_HANDLE_VALUE, 
+			NULL, 
+			PAGE_READWRITE, 
+			0, 
+			GetSharedSize(), 
+			GetMapFileName().CStr()));
 	}
 	else
 	{
-		this->SetMapfileHandle(hMapFileHandle);
+		SetMapfileHandle(hMapFileHandle);
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Read the common memory.  
-/// </summary>
-/// <param name=buffer></param>
-/// <param name=offset></param>
-/// <param name=len></param>
-/// <returns></returns>
-/// <remarks>
-/// Notice: len must be one of 64K ,2*64K,4*64KIt can be called one-level cache,two-level cache and four -level cache
-/// </remarks>
-///***********************************************************************
+// Read the common memory.(Len must be one of 64K ,2*64K,4*64KIt can be called one-level cache,two-level cache and four -level cache)
 SharedMemory::BOOL SharedMemory::Read(ByteArray buffer, Length offset, Length len)
 {
 	BOOL bSuccess = false;
 
 	// Check the legal of the input paras
-	assert(buffer != NULL);
-	assert(len <= GetSharedSize());
-
-	if (buffer == NULL || len > this->GetSharedSize())
+	if (buffer == NULL || len > GetSharedSize())
 	{
 		return bSuccess;
 	}
 
 	// Check the share is opend or not
-	if (this->IsOpen() == false)
+	if (IsOpen() == false)
 	{
-		this->Open();
+		Open();
 	}
 
 	// Get the view of the share memory
-	Object pShared = ::MapViewOfFile(this->GetMapfileHandle(), FILE_MAP_ALL_ACCESS, 0, 0, 0);
+	Object pShared = ::MapViewOfFile(GetMapfileHandle(), FILE_MAP_ALL_ACCESS, 0, 0, 0);
 	if (pShared == NULL)
 	{
 		return bSuccess;
@@ -167,40 +103,25 @@ SharedMemory::BOOL SharedMemory::Read(ByteArray buffer, Length offset, Length le
 	return bSuccess;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Write the map file
-/// </summary>
-/// <param name=buffer></param>
-/// <param name=offset></param>
-/// <param name=len></param>
-/// <returns></returns>
-/// <remarks>
-/// Notice: len must be one of 64K ,2*64K,4*64K It can be called one-level cache,two-level cache and four -level cache
-/// </remarks>
-///***********************************************************************
+// Write the map file
 SharedMemory::BOOL SharedMemory::Write(ByteArray buffer, Length offset, Length len)
 {
 	BOOL bSuccess = false;
 
 	// Check the legal of the input paras
-	assert(buffer != NULL);
-	assert(len <= GetSharedSize());
-
-	if (buffer == NULL || len > this->GetSharedSize())
+	if (buffer == NULL || len > GetSharedSize())
 	{
 		return bSuccess;
 	}
 
 	// Check the share is opend or not
-	if (this->IsOpen() == false)
+	if (IsOpen() == false)
 	{
-		this->Open();
+		Open();
 	}
 
 	// Map to a view
-	Object pShared = ::MapViewOfFile(this->GetMapfileHandle(), FILE_MAP_ALL_ACCESS, 0, 0, 0);
+	Object pShared = ::MapViewOfFile(GetMapfileHandle(), FILE_MAP_ALL_ACCESS, 0, 0, 0);
 	if (pShared == NULL)
 	{
 		return bSuccess;
@@ -216,21 +137,13 @@ SharedMemory::BOOL SharedMemory::Write(ByteArray buffer, Length offset, Length l
 	return bSuccess;
 }
 
-
-///************************************************************************
-/// <summary>
-/// Close the map file
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Close the map file
 SharedMemory::Empty SharedMemory::Close()
 {
-	if (this->GetMapfileHandle())
+	if (GetMapfileHandle())
 	{
 		::CloseHandle(GetMapfileHandle());
-		this->SetMapfileHandle(NULL);
+
+		SetMapfileHandle(NULL);
 	}
 }

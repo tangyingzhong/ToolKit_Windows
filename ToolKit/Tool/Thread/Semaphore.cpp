@@ -1,18 +1,12 @@
-#include "Application\PreCompile.h"
+#include "PreCompile.h"
 #include "Semaphore.h"
 
 using namespace System::Thread;
 
-///************************************************************************
-/// <summary>
-/// Construct a Semaphore with name
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
-Semaphore::Semaphore(SemaphoreName strSignalName, ResourceCount iMinCount, ResourceCount iMaxCount) :m_SignalHandle(NULL),
+// Construct a Semaphore with name
+Semaphore::Semaphore(SemaphoreName strSignalName, 
+	ResourceCount iMinCount, 
+	ResourceCount iMaxCount) :m_SignalHandle(NULL),
 m_SignalName(strSignalName),
 m_MinCount(iMinCount),
 m_MaxCount(iMaxCount),
@@ -21,171 +15,97 @@ m_Disposed(false)
 	Initialize();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Copy construct Semaphore
-/// </summary>
-/// <param name=other></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Copy construct Semaphore
 Semaphore::Semaphore(const Semaphore& other)
 {
-	this->SetSignalHandle(other.GetSignalHandle());
-	this->SetSignalName(other.GetSignalName());
-	this->SetMinResourceCount(other.GetMinResourceCount());
-	this->SetMaxResourceCount(other.GetMaxResourceCount());
-	this->SetDisposed(other.GetDisposed());
+	SetSignalHandle(other.GetSignalHandle());
+
+	SetSignalName(other.GetSignalName());
+
+	SetMinResourceCount(other.GetMinResourceCount());
+
+	SetMaxResourceCount(other.GetMaxResourceCount());
+
+	SetDisposed(other.GetDisposed());
 }
 
-
-///************************************************************************
-/// <summary>
-/// Assignment
-/// </summary>
-/// <param name=other></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Assignment
 Semaphore& Semaphore::operator=(const Semaphore& other)
 {
 	if (this != &other)
 	{
-		this->SetSignalHandle(other.GetSignalHandle());
-		this->SetSignalName(other.GetSignalName());
-		this->SetMinResourceCount(other.GetMinResourceCount());
-		this->SetMaxResourceCount(other.GetMaxResourceCount());
-		this->SetDisposed(other.GetDisposed());
+		SetSignalHandle(other.GetSignalHandle());
+
+		SetSignalName(other.GetSignalName());
+
+		SetMinResourceCount(other.GetMinResourceCount());
+
+		SetMaxResourceCount(other.GetMaxResourceCount());
+
+		SetDisposed(other.GetDisposed());
 	}
 
 	return *this;
 }
 
-
-///************************************************************************
-/// <summary>
-/// destory the Semaphore
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Destory the Semaphore
 Semaphore::~Semaphore()
 {
 	Destory();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Initialize the semaphore
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Initialize the semaphore
 Semaphore::Empty Semaphore::Initialize()
 {
-	// Open the semaphore
-	this->Open();
+	Open();
 }
 
-
-///************************************************************************
-/// <summary>
-/// Dispose the semaphore
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Dispose the semaphore
 Semaphore::Empty Semaphore::Destory()
 {
 	if (!GetDisposed())
 	{
 		SetDisposed(true);
 
-		// Close the semaphore
-		this->Close();
+		Close();
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Open the semaphore
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Open the semaphore
 Semaphore::Empty Semaphore::Open()
 {
-	this->SetSignalHandle(::OpenSemaphore(SEMAPHORE_ALL_ACCESS, false, this->GetSignalName().CStr()));
-	if (this->GetSignalHandle() == NULL)
+	SetSignalHandle(::OpenSemaphore(SEMAPHORE_ALL_ACCESS, 
+		false, 
+		GetSignalName().CStr()));
+
+	if (GetSignalHandle() == NULL)
 	{
-		this->SetSignalHandle(::CreateSemaphore(NULL, this->GetMinResourceCount(), this->GetMaxResourceCount(), this->GetSignalName().CStr()));
+		SetSignalHandle(::CreateSemaphore(NULL, 
+			GetMinResourceCount(), 
+			GetMaxResourceCount(), 
+			GetSignalName().CStr()));
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Close the semaphore
-/// </summary>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Close the semaphore
 Semaphore::Empty Semaphore::Close()
 {
-	if (this->GetSignalHandle())
+	if (GetSignalHandle())
 	{
-		::CloseHandle(this->GetSignalHandle());
+		::CloseHandle(GetSignalHandle());
 
-		this->SetSignalHandle(NULL);
+		SetSignalHandle(NULL);
 	}
 }
 
-
-///************************************************************************
-/// <summary>
-/// Wait for a semaphore
-/// </summary>
-/// <param name=sem></param>
-/// <param name=time></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Wait for a semaphore
 Semaphore::Empty Semaphore::Acquire(MsTimeout iMsTimeout)
 {
-	::WaitForSingleObject(this->GetSignalHandle(), iMsTimeout);
+	::WaitForSingleObject(GetSignalHandle(), iMsTimeout);
 }
 
-
-///************************************************************************
-/// <summary>
-/// Make the sema to be signaled
-/// </summary>
-/// <param name=sem></param>
-/// <returns></returns>
-/// <remarks>
-/// none
-/// </remarks>
-///***********************************************************************
+// Make the sema to be signaled
 Semaphore::Empty Semaphore::Release()
 {
-	::ReleaseSemaphore(this->GetSignalHandle(), 1, NULL);
+	::ReleaseSemaphore(GetSignalHandle(), 1, NULL);
 }

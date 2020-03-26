@@ -1,21 +1,19 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// Sql paras for sql command
 ///</describe>
-/// <date>2019/3/6</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef SQLPARAMENTER_H
 #define SQLPARAMENTER_H
 
-#include<comdef.h>
-#include<COMUTIL.H>
-#include "Tool\BaseType\String.h"
+#include "BaseType/String.h"
 
-#import "msado15.dll" no_namespace rename("EOF", "EndOfFile")
+#import "../../ShareLib/ADO/msado15.dll" no_namespace rename("EOF", "EndOfFile")
 
 using namespace System::BasicType;
 
@@ -58,7 +56,7 @@ namespace System
 			// Set paramenter name
 			inline Empty SetParaName(String strParaName)
 			{
-				this->m_ParaName = strParaName;
+				m_ParaName = strParaName;
 			}
 
 			// Get the data type
@@ -70,7 +68,7 @@ namespace System
 			// Set the data type
 			inline Empty SetDataType(DataTypeEnum eDataType)
 			{
-				this->m_DataType = eDataType;
+				m_DataType = eDataType;
 			}
 
 			// Get the Direction
@@ -82,7 +80,7 @@ namespace System
 			// Set the Direction
 			inline Empty SetDirection(ParameterDirectionEnum eDirection)
 			{
-				this->m_Direction = eDirection;
+				m_Direction = eDirection;
 			}
 
 			// Get the ParamenterSize
@@ -94,7 +92,7 @@ namespace System
 			// Set the ParamenterSize
 			inline Empty SetParamenterSize(ParamenterSize iParaSize)
 			{
-				this->m_ParaSize = iParaSize;
+				m_ParaSize = iParaSize;
 			}
 
 			// Get the Value
@@ -106,7 +104,7 @@ namespace System
 			// Set the Value
 			inline Empty SetParaValue(ParamenterType ParaValue)
 			{
-				this->m_ParaValue = ParaValue;
+				m_ParaValue = ParaValue;
 			}
 
 		private:
@@ -126,7 +124,7 @@ namespace System
 			// Set the disposed status
 			inline Empty SetDisposed(BOOL bDisposed)
 			{
-				this->m_Disposed = bDisposed;
+				m_Disposed = bDisposed;
 			}
 
 		private:

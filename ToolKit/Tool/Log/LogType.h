@@ -1,42 +1,75 @@
 ///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
+/// <contact>yingzhong@voiceaitech.com</contact>
+/// <version>v1.0.0</version>
 /// <describe>
 /// Log type you can configure here
 ///</describe>
-/// <date>2019/3/6</date>
+/// <date>2019/7/16</date>
 ///***********************************************************************
 #ifndef LOGTYPE_H
 #define LOGTYPE_H
 
+#include "BaseType/String.h"
+#include "Common/SystemType.h"
+#include "Encoding/Unicode.h"
+
+using namespace System;
+using namespace System::BasicType;
+
 namespace System
 {
-	typedef enum
+	namespace IO
 	{
-		DB_OPEN_FAILED,
-		DB_READ_FAILED,
-		DB_WRITE_FAILED,
-		COM_OPEN_FAILED,
-		COM_READ_FAILED,
-		COM_WRITE_FAILED,
-		USB_OPEN_FAILED,
-		USB_READ_FAILED,
-		USB_WRITE_FAILED
-	}LogErrorType;
+		enum LOG_TYPE_ENUM
+		{
+			// Log the common information
+			LOGGING_INFORMATION=0,
 
-	typedef enum
-	{
-		// The log file's max size
-		MAX_FILE_SIZE = 10 * 1024 * 1024,					
+			// Log the debug message
+			LOGGING_DEBUG,
 
-		// The container of log's max contains
-		MAX_MSG_NUM = 3,						
+			// Log the error message
+			LOGGING_ERROR,
+		};
 
-		// The number of error type
-		ERROR_TYPE_NUM = 9											
-	}LogConfig;
+		enum LOG_CONFIG_ENUM
+		{
+			// The log file's max size
+			MAX_FILE_SIZE = 800 * 1024 * 1024,
+
+			// The container of log's max contains
+			MAX_MSG_NUM = 1,
+
+			// The number of log type
+			LOG_TYPE_NUM = 3
+		};
+	}
 }
+
+static String GetFileName(SByteArray pFileName)
+{
+	std::string strFilePath = pFileName;
+
+	String strFileName = strFilePath;
+
+	Int32 iPos = strFileName.FindLast(_T("\\"));
+
+	String strFinalFileName = strFileName.Right(strFileName.GetLength() - iPos - 1);
+
+	return strFinalFileName;
+}
+
+static String GetFunctionName(SByteArray pFuncName)
+{
+	String strFunctionName = pFuncName;
+
+	return strFunctionName;
+}
+
+#define _FILE_  GetFileName(__FILE__)
+
+#define _FUNCNAME_ GetFunctionName(__FUNCTION__)
 
 #endif // LOGTYPE_H
