@@ -39,15 +39,21 @@
     <ClCompile Include="Tool\Encoding\UTF8.cpp" />
     <ClCompile Include="Tool\EventHandler\EventHandler.cpp" />
     <ClCompile Include="Tool\File\File.cpp" />
+    <ClCompile Include="Tool\Json\JsonDoc.cpp" />
+    <ClCompile Include="Tool\Json\json_reader.cpp" />
+    <ClCompile Include="Tool\Json\json_value.cpp" />
+    <ClCompile Include="Tool\Json\json_writer.cpp" />
     <ClCompile Include="Tool\Log\Log.cpp" />
     <ClCompile Include="Tool\Log\SystemLog.cpp" />
     <ClCompile Include="Tool\Player\DirectShow\GeneralPlayer.cpp" />
     <ClCompile Include="Tool\Player\Wav\AudioPlayer.cpp" />
     <ClCompile Include="Tool\Player\Wav\BlockPlayer.cpp" />
+    <ClCompile Include="Tool\Reflect\Reflect.cpp" />
     <ClCompile Include="Tool\SerialPort\SerialPort.cpp" />
     <ClCompile Include="Tool\Socket\Socket.cpp" />
     <ClCompile Include="Tool\Socket\SocketClient.cpp" />
     <ClCompile Include="Tool\Socket\SocketServer.cpp" />
+    <ClCompile Include="Tool\Sqlite\SqliteDB.cpp" />
     <ClCompile Include="Tool\Sql\SqlCommand.cpp" />
     <ClCompile Include="Tool\Sql\SqlConnection.cpp" />
     <ClCompile Include="Tool\Sql\SqlParamenter.cpp" />
@@ -91,6 +97,16 @@
     <ClInclude Include="Tool\Eventor\EventBase.h" />
     <ClInclude Include="Tool\Eventor\IEvent.h" />
     <ClInclude Include="Tool\File\File.h" />
+    <ClInclude Include="Tool\Json\autolink.h" />
+    <ClInclude Include="Tool\Json\config.h" />
+    <ClInclude Include="Tool\Json\features.h" />
+    <ClInclude Include="Tool\Json\forwards.h" />
+    <ClInclude Include="Tool\Json\json.h" />
+    <ClInclude Include="Tool\Json\JsonDoc.h" />
+    <ClInclude Include="Tool\Json\json_batchallocator.h" />
+    <ClInclude Include="Tool\Json\reader.h" />
+    <ClInclude Include="Tool\Json\value.h" />
+    <ClInclude Include="Tool\Json\writer.h" />
     <ClInclude Include="Tool\Log\Log.h" />
     <ClInclude Include="Tool\Log\LogType.h" />
     <ClInclude Include="Tool\Log\SystemLog.h" />
@@ -101,6 +117,7 @@
     <ClInclude Include="Tool\Player\Wav\BlockPlayer.h" />
     <ClInclude Include="Tool\Player\Wav\IAudioPlayer.h" />
     <ClInclude Include="Tool\Player\Wav\IBlockPlayer.h" />
+    <ClInclude Include="Tool\Reflect\Reflect.h" />
     <ClInclude Include="Tool\Register\ExportConfig.h" />
     <ClInclude Include="Tool\Register\Register.h" />
     <ClInclude Include="Tool\SerialPort\PortType.h" />
@@ -109,6 +126,8 @@
     <ClInclude Include="Tool\Socket\SocketClient.h" />
     <ClInclude Include="Tool\Socket\SocketServer.h" />
     <ClInclude Include="Tool\Socket\SocketType.h" />
+    <ClInclude Include="Tool\Sqlite\sqlite3.h" />
+    <ClInclude Include="Tool\Sqlite\SqliteDB.h" />
     <ClInclude Include="Tool\Sql\SqlCommand.h" />
     <ClInclude Include="Tool\Sql\SqlConnection.h" />
     <ClInclude Include="Tool\Sql\SqlParamenter.h" />
@@ -128,7 +147,14 @@
     <ClInclude Include="Tool\USB\USBType.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Tool\Json\json_internalarray.inl" />
+    <None Include="Tool\Json\json_internalmap.inl" />
+    <None Include="Tool\Json\json_valueiterator.inl" />
+    <None Include="Tool\Sqlite\sqlite3.dll" />
     <None Include="Tool\Sql\msado15.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Tool\Sqlite\sqlite3.lib" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B60AE1CD-ADD8-40CC-8B04-4D69B9F2E270}</ProjectGuid>

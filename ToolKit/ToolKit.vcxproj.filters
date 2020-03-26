@@ -72,6 +72,15 @@
     <Filter Include="Tool\Register">
       <UniqueIdentifier>{ee39b68b-a2bd-4b2f-a333-9a7bfd9cf83f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tool\Json">
+      <UniqueIdentifier>{7db47384-caa9-4e4b-83f3-46570dd22602}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Reflect">
+      <UniqueIdentifier>{8523b97c-7a35-4de9-a7da-5be37b00bb8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Sqlite">
+      <UniqueIdentifier>{85e91cdc-8e4b-4dda-b0da-d7f1dfbb142e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application\PreCompile.cpp">
@@ -184,6 +193,24 @@
     </ClCompile>
     <ClCompile Include="Tool\EventHandler\EventHandler.cpp">
       <Filter>Tool\EventHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Json\json_reader.cpp">
+      <Filter>Tool\Json</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Json\json_value.cpp">
+      <Filter>Tool\Json</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Json\json_writer.cpp">
+      <Filter>Tool\Json</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Json\JsonDoc.cpp">
+      <Filter>Tool\Json</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Reflect\Reflect.cpp">
+      <Filter>Tool\Reflect</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Sqlite\SqliteDB.cpp">
+      <Filter>Tool\Sqlite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -376,10 +403,66 @@
     <ClInclude Include="Tool\SerialPort\PortType.h">
       <Filter>Tool\SerialPort</Filter>
     </ClInclude>
+    <ClInclude Include="Tool\Json\autolink.h">
+      <Filter>Tool\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Json\config.h">
+      <Filter>Tool\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Json\features.h">
+      <Filter>Tool\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Json\forwards.h">
+      <Filter>Tool\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Json\json.h">
+      <Filter>Tool\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Json\json_batchallocator.h">
+      <Filter>Tool\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Json\JsonDoc.h">
+      <Filter>Tool\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Json\reader.h">
+      <Filter>Tool\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Json\value.h">
+      <Filter>Tool\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Json\writer.h">
+      <Filter>Tool\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Reflect\Reflect.h">
+      <Filter>Tool\Reflect</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Sqlite\sqlite3.h">
+      <Filter>Tool\Sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Sqlite\SqliteDB.h">
+      <Filter>Tool\Sqlite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Tool\Sql\msado15.dll">
       <Filter>Tool\Sql</Filter>
     </None>
+    <None Include="Tool\Json\json_internalarray.inl">
+      <Filter>Tool\Json</Filter>
+    </None>
+    <None Include="Tool\Json\json_internalmap.inl">
+      <Filter>Tool\Json</Filter>
+    </None>
+    <None Include="Tool\Json\json_valueiterator.inl">
+      <Filter>Tool\Json</Filter>
+    </None>
+    <None Include="Tool\Sqlite\sqlite3.dll">
+      <Filter>Tool\Sqlite</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Tool\Sqlite\sqlite3.lib">
+      <Filter>Tool\Sqlite</Filter>
+    </Library>
   </ItemGroup>
 </Project>

@@ -1,10 +1,9 @@
-#include "PreCompile.h"
 #include <fstream>
-#include "Encoding/ANSI.h"
-#include "Encoding/Unicode.h"
-#include "Encoding/UTF8.h"
-#include "BaseType/Int.h"
-#include "BaseType/Double.h"
+#include "Tool/Encoding/ANSI.h"
+#include "Tool/Encoding/Unicode.h"
+#include "Tool/Encoding/UTF8.h"
+#include "Tool/BaseType/Int.h"
+#include "Tool/BaseType/Double.h"
 #include "JsonDoc.h"
 
 using namespace System;

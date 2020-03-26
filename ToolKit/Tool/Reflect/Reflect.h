@@ -11,10 +11,11 @@
 #ifndef REFLECT_H
 #define REFLECT_H
 
-#include "Common/SystemType.h"
-#include "Thread/Mutex.h"
-#include "Thread/MutexLocker.h"
-#include "BaseType/String.h"
+#include <map>
+#include "Tool/Common/SystemType.h"
+#include "Tool/Thread/Mutex.h"
+#include "Tool/Thread/MutexLocker.h"
+#include "Tool/BaseType/String.h"
 
 using namespace std;
 using namespace System::BasicType;

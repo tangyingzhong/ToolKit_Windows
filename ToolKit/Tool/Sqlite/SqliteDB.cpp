@@ -1,7 +1,6 @@
-#include "PreCompile.h"
-#include "Encoding/Unicode.h"
-#include "Encoding/ANSI.h"
-#include "Encoding/UTF8.h"
+#include "Tool/Encoding/Unicode.h"
+#include "Tool/Encoding/ANSI.h"
+#include "Tool/Encoding/UTF8.h"
 #include "SqliteDB.h"
 
 #pragma comment(lib, "sqlite3.lib")

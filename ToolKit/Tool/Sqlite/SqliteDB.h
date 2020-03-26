@@ -11,9 +11,9 @@
 #ifndef SQLITEDB_H
 #define SQLITEDB_H
 
-#include "BaseType/String.h"
-#include "Common/SystemType.h"
-#include "../../ShareLib/Sqlite_3.0/include/sqlite3.h"
+#include "Tool/BaseType/String.h"
+#include "Tool/Common/SystemType.h"
+#include "sqlite3.h"
 
 using namespace std;
 using namespace System::BasicType;

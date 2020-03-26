@@ -11,10 +11,10 @@
 #ifndef JsonDocument_H
 #define JsonDocument_H
 
-#include "Common/SystemType.h"
-#include "BaseType/String.h"
-#include "Encoding/EncodeType.h"
-#include "Json/json.h"
+#include "Tool/Common/SystemType.h"
+#include "Tool/BaseType/String.h"
+#include "Tool/Encoding/EncodeType.h"
+#include "Tool/Json/json.h"
 
 using namespace System::BasicType;
 using namespace System::Encoding;
