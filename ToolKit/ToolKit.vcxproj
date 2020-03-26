@@ -34,7 +34,8 @@
     <ClCompile Include="Tool\Buffer\SharedMemory.cpp" />
     <ClCompile Include="Tool\DateTime\DateTime.cpp" />
     <ClCompile Include="Tool\Directory\Directory.cpp" />
-    <ClCompile Include="Tool\Encoding\ASCII.cpp" />
+    <ClCompile Include="Tool\DllLoader\DllLoader.cpp" />
+    <ClCompile Include="Tool\Encoding\ANSI.cpp" />
     <ClCompile Include="Tool\Encoding\Unicode.cpp" />
     <ClCompile Include="Tool\Encoding\UTF8.cpp" />
     <ClCompile Include="Tool\EventHandler\EventHandler.cpp" />
@@ -87,7 +88,8 @@
     <ClInclude Include="Tool\Common\SystemType.h" />
     <ClInclude Include="Tool\DateTime\DateTime.h" />
     <ClInclude Include="Tool\Directory\Directory.h" />
-    <ClInclude Include="Tool\Encoding\ASCII.h" />
+    <ClInclude Include="Tool\DllLoader\DllLoader.h" />
+    <ClInclude Include="Tool\Encoding\ANSI.h" />
     <ClInclude Include="Tool\Encoding\EncodeType.h" />
     <ClInclude Include="Tool\Encoding\Unicode.h" />
     <ClInclude Include="Tool\Encoding\UTF8.h" />

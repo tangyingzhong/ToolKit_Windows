@@ -501,6 +501,24 @@ Directory::BOOL Directory::Delete(String strDirPath, BOOL bRecursive)
 	return Delete(strBackup);
 }
 
+// Is the drive letter valid
+Directory::BOOL Directory::IsDriveLetterValid(String strDriveLetter)
+{
+	if (strDriveLetter.IsEmpty())
+	{
+		return false;
+	}
+
+	if (!strDriveLetter.IsContain(_T(":")))
+	{
+		strDriveLetter = strDriveLetter + _T(":");
+	}
+
+	String strFilePath = strDriveLetter + _T("\\");
+
+	return IsValidRootDriveDirectory(strFilePath);
+}
+
 // Is valid drive root directory
 Directory::BOOL Directory::IsValidRootDriveDirectory(String strDirPath)
 {

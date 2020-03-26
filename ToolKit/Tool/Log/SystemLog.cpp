@@ -16,6 +16,8 @@ struct LoggerInitialize
 
 	~LoggerInitialize()
 	{
+		pSystemLogger->Flush();
+
 		System::IO::Log::DestoryInstance();
 	}
 };

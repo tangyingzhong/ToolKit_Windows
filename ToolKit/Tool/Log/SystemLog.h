@@ -11,6 +11,7 @@
 #ifndef SYSTEMLOG_H
 #define SYSTEMLOG_H
 
+#include <iostream>
 #include "Log.h"
 
 extern System::IO::Log* pSystemLogger;
@@ -35,39 +36,58 @@ FunctionName, \
 Message,\
 Remark); 
 
+#define LOG_STD(Message) \
+{\
+	String strMsg = Message;\
+\
+	std::cout << strMsg.ToAnsiData().c_str() << std::endl;\
+}
+
 #define SET_MAX_LOG_SIZE(iSize) pSystemLogger->SetMaxLoggerSize(iSize);
 
 #define LOG_FLUSH() pSystemLogger->Flush();
 
 #define LOG_DEBUG(Message,Remark) \
 LOG(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,Message,Remark) \
-LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,Message,Remark)
+LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,Message,Remark) \
+LOG_STD(Message)
 
 #define LOG_ERROR(Message,Remark) \
 LOG(System::IO::LOG_TYPE_ENUM::LOGGING_ERROR,_FILE_,__LINE__,_FUNCNAME_,Message,Remark) \
-LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,Message,Remark)
+LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,Message,Remark) \
+LOG_STD(Message)
 
 #define LOG_INFORMATION(Message,Remark) \
 LOG(System::IO::LOG_TYPE_ENUM::LOGGING_INFORMATION,_FILE_,__LINE__,_FUNCNAME_,Message,Remark) \
-LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,Message,Remark)
+LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,Message,Remark) \
+LOG_STD(Message)
 
 #define LOG_DEBUG_EX(Message) \
+{ \
 String strMesg=Message; \
 String strRemark = _T("");\
 LOG(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG, _FILE_, __LINE__, _FUNCNAME_, strMesg, strRemark) \
-LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG, _FILE_, __LINE__, _FUNCNAME_, strMesg, strRemark)
+LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG, _FILE_, __LINE__, _FUNCNAME_, strMesg, strRemark) \
+LOG_STD(Message) \
+}
 
 #define LOG_ERROR_EX(Message) \
+{ \
 String strMesg=Message; \
 String strRemark = _T("");\
 LOG(System::IO::LOG_TYPE_ENUM::LOGGING_ERROR,_FILE_,__LINE__,_FUNCNAME_,strMesg,strRemark) \
-LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,strMesg,strRemark)
+LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,strMesg,strRemark) \
+LOG_STD(Message) \
+}
 
 #define LOG_INFORMATION_EX(Message) \
+{ \
 String strMesg=Message; \
 String strRemark = _T(""); \
 LOG(System::IO::LOG_TYPE_ENUM::LOGGING_INFORMATION,_FILE_,__LINE__,_FUNCNAME_,strMesg,strRemark) \
-LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,strMesg,strRemark)
+LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,strMesg,strRemark) \
+LOG_STD(Message) \
+}
 
 class AutoLogger
 {

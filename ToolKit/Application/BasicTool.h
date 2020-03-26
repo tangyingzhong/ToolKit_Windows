@@ -24,7 +24,7 @@
 #include "Tool\Common\SystemType.h"
 #include "Tool\DateTime\DateTime.h"
 #include "Tool\Directory\Directory.h"
-#include "Tool\Encoding\ASCII.h"
+#include "Tool\Encoding\ANSI.h"
 #include "Tool\Encoding\Unicode.h"
 #include "Tool\Encoding\UTF8.h"
 #include "Tool\EventHandler\EventArgs.h"

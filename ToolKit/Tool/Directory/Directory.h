@@ -70,6 +70,9 @@ namespace System
 			// Is directory
 			static BOOL IsDirectory(String strPath);
 
+			// Is the drive letter valid
+			static BOOL IsDriveLetterValid(String strDriveLetter);
+
 			// Get the directory attribute
 			static FileAttribute GetDirAttribute(String strDirPath);
 

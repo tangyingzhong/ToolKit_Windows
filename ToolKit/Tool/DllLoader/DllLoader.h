@@ -11,8 +11,8 @@
 #ifndef DLLLOADER_H
 #define DLLLOADER_H
 
-#include "Common/SystemType.h"
-#include "BaseType/String.h"
+#include "Tool/Common/SystemType.h"
+#include "Tool/BaseType/String.h"
 
 using namespace System::BasicType;
 

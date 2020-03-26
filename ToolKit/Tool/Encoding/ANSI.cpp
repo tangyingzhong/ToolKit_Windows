@@ -1,5 +1,4 @@
-#include "PreCompile.h"
-#include "Buffer/Array.h"
+#include "Tool/Buffer/Array.h"
 #include "ANSI.h"
 #include "UTF8.h"
 #include "Unicode.h"
