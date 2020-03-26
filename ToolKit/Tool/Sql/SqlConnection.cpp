@@ -1,6 +1,6 @@
 #include "SqlConnection.h"
 
-using namespace System::ADO;
+using namespace System::DataBase;
 
 // Construct the SqlConnection
 SqlConnection::SqlConnection(String strConnectCmd) :m_ConnectCmd(strConnectCmd),

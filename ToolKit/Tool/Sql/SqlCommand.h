@@ -16,7 +16,7 @@
 
 namespace System
 {
-	namespace ADO
+	namespace DataBase
 	{
 		class SqlCommand
 		{

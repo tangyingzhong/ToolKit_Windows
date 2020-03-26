@@ -1,6 +1,6 @@
 #include "SqlParamenter.h"
 
-using namespace System::ADO;
+using namespace System::DataBase;
 
 // Construct the SqlParamenter
 SqlParamenter::SqlParamenter(String strParaName,

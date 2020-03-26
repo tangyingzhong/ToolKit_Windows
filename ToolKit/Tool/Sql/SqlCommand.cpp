@@ -1,6 +1,6 @@
 #include "SqlCommand.h"
 
-using namespace System::ADO;
+using namespace System::DataBase;
 
 // Construct the SqlCommand
 SqlCommand::SqlCommand(String strSqlText, Connection pConnection) :m_Connection(pConnection),

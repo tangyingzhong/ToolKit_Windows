@@ -19,7 +19,7 @@ using namespace System::BasicType;
 
 namespace System
 {
-	namespace ADO
+	namespace DataBase
 	{
 		class SqlParamenter
 		{
