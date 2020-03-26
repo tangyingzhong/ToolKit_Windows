@@ -11,7 +11,7 @@
 #ifndef PORT_TYPE_H
 #define PORT_TYPE_H
 
-#include "Common/SystemType.h"
+#include "Tool/Common/SystemType.h"
 
 namespace System
 {

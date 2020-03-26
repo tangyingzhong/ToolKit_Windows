@@ -1,7 +1,7 @@
 ///************************************************************************
-/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
+/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>yingzhong@voiceaitech.com</contact>
+/// <contact>tangyz114987@outlook.com</contact>
 /// <version>v1.0.0</version>
 /// <describe>
 /// You can get the local time from the class
@@ -11,9 +11,9 @@
 #ifndef DATETIME_H
 #define DATETIME_H
 
-#include "Common/SystemType.h"
-#include "BaseType/Int.h"
-#include "BaseType/String.h"
+#include "Tool/Common/SystemType.h"
+#include "Tool/BaseType/Int.h"
+#include "Tool/BaseType/String.h"
 
 using namespace std;
 using namespace System::BasicType;
@@ -52,7 +52,7 @@ namespace System
 			enum  TIME_TYPE_ENUM
 			{
 				// UTC time
-				TIME_UTC=0,
+				TIME_UTC_=0,
 
 				// BeiJing time
 				TIME_LOCAL

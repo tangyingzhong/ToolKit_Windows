@@ -1,11 +1,9 @@
-#include "PreCompile.h"
-#include "Encoding/ANSI.h"
-#include "Encoding/Unicode.h"
-#include "Encoding/UTF8.h"
-#include "BaseType/Int.h"
-#include "BaseType/Bool.h"
-#include "BaseType/Float.h"
-#include "BaseType/Double.h"
+#include <Shlobj.h>
+#include <algorithm>
+#include <string>
+#include "Tool/Encoding/ANSI.h"
+#include "Tool/Encoding/Unicode.h"
+#include "Tool/Encoding/UTF8.h"
 #include "String.h"
 
 using namespace System::Encoding;
@@ -358,25 +356,25 @@ String& String::Arg(String strPlaceholderValue)
 // Fill the string with int placeholder(%d)
 String& String::Arg(Integer iPlaceholderValue)
 {
-	System::BasicType::Int iValue = iPlaceholderValue;
+	String strValue = String::ToString<Integer>(iPlaceholderValue);
 
-	return FillPlaceholder(_T("%d"), iValue.ToString());
+	return FillPlaceholder(_T("%d"), strValue);
 }
 
 // Fill the string with int placeholder(%f)
 String& String::Arg(Single fPlaceholderValue)
 {
-	System::BasicType::Float fValue = fPlaceholderValue;
+	String strValue = String::ToString<Single>(fPlaceholderValue);
 
-	return FillPlaceholder(_T("%f"), fValue.ToString());
+	return FillPlaceholder(_T("%f"), strValue);
 }
 
 // Fill the string with int placeholder(%lf)
 String& String::Arg(Real dPlaceholderValue)
 {
-	System::BasicType::Double dValue = dPlaceholderValue;
+	String strValue = String::ToString<Real>(dPlaceholderValue);
 
-	return FillPlaceholder(_T("%lf"), dValue.ToString());
+	return FillPlaceholder(_T("%lf"), strValue);
 }
 
 // Contain a sub string or not
@@ -400,7 +398,7 @@ String::Integer String::Contains(SByte ch)
 
 	std::string strData = ToAnsiData();
 
-	return count(strData.begin(), strData.end(), ch);
+	return static_cast<Integer>(count(strData.begin(), strData.end(), ch));
 }
 
 // Get the wide string when you are in ANSI environment to program

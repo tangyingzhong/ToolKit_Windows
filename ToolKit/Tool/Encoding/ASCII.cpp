@@ -1,4 +1,4 @@
-#include "Application\PreCompile.h"
+#include <assert.h>
 #include "Tool\Buffer\Array.h"
 #include "ASCII.h"
 #include "Unicode.h"
@@ -96,7 +96,7 @@ ASCII::StdString ASCII::GetString(StdString UTF8String)
 ///***********************************************************************
 ASCII::StdString ASCII::UTF8ToASCII(StdString UTF8String)
 {
-	return UnicodeToASCII(Unicode::GetString(UTF8String, EncodeType::E_UTF8));
+	return UnicodeToASCII(Unicode::GetString(UTF8String, ENCODE_TYPE_ENUM::ENCODE_UTF8));
 }
 
 

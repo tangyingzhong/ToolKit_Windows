@@ -1,5 +1,4 @@
-#include "PreCompile.h"
-#include "Directory/Directory.h"
+#include "Tool/Directory/Directory.h"
 #include "File.h"
 
 using namespace System::IO;

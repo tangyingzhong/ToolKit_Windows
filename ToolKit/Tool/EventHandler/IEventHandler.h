@@ -1,8 +1,18 @@
-﻿#ifndef IEVENTHANDLER_H
+﻿///************************************************************************
+/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <author>tangyingzhong</author>
+/// <contact>tangyz114987@outlook.com</contact>
+/// <version>v1.0.0</version>
+/// <describe>
+/// Interface of event container 
+///</describe>
+/// <date>2019/7/16</date>
+///***********************************************************************
+#ifndef IEVENTHANDLER_H
 #define IEVENTHANDLER_H
 
-#include "Common/SystemType.h"
-#include "EventHandler/EventArgs.h"
+#include "Tool/Common/SystemType.h"
+#include "Tool/EventHandler/EventArgs.h"
 
 using namespace std;
 using namespace System;

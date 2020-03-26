@@ -11,7 +11,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "Tool\Common\SystemType.h"
+#include "Tool/Common/SystemType.h"
 
 namespace System
 {

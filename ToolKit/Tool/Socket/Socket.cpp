@@ -1,8 +1,12 @@
-#include "PreCompile.h"
+#define WIN32_LEAN_AND_MEAN 
+#include <Windows.h>
+#include <WinSock2.h>
+#include <ws2tcpip.h>
 #include <Iphlpapi.h>
-#include "Buffer/Array.h"
-#include "Thread/Mutex.h"
-#include "Encoding/Unicode.h"
+#include "Tool/Buffer/Array.h"
+#include "Tool/Thread/Mutex.h"
+#include "Tool/Encoding/Unicode.h"
+#include "Tool/BaseType/String.h"
 #include "Socket.h"
 
 #pragma comment(lib,"Ws2_32.lib")
@@ -119,7 +123,7 @@ Socket::Empty Socket::DestorySocket()
 // Configure the socket
 Socket::Empty Socket::Configure(IPAddress strIPAddress, NetPort iPortNo)
 {
-	m_SocketAddr.sin_addr.S_un.S_addr = inet_addr(strIPAddress.ToAnsiData().c_str());
+	inet_pton(AF_INET, strIPAddress.ToAnsiData().c_str(), &m_SocketAddr.sin_addr);
 
 	m_SocketAddr.sin_family = GetAddrFamily();
 
@@ -293,7 +297,7 @@ Socket::BOOL Socket::GetLoaclIP(IPAddress& IpAdddr)
 		strCurIpAddr = IpAddr;
 	}
 
-	IpAdddr = strCurIpAddr;
+	IpAdddr = String(strCurIpAddr);
 
 	freeaddrinfo(ailist);
 
@@ -360,7 +364,7 @@ Socket::BOOL Socket::GetLoaclIP(vector<IPAddress>& vIPAddrTable)
 		
 		std::string strCurIpAddr = IpAddr;
 
-		vIPAddrTable.push_back(strCurIpAddr);
+		vIPAddrTable.push_back(String(strCurIpAddr));
 	}
 
 	freeaddrinfo(ailist);
@@ -469,7 +473,7 @@ Socket::BOOL Socket::GetMacByIp(String strIpAddr, String& strMacAddr)
 			{
 				std::string strCurMac = Iter->first;
 
-				strMacAddr = strCurMac;
+				strMacAddr = String(strCurMac);
 
 				return true;
 			}

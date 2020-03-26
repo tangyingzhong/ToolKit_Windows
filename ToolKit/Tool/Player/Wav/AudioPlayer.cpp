@@ -1,7 +1,6 @@
-#include "PreCompile.h"
 #include "AudioPlayer.h"
 #include "BlockPlayer.h"
-#include "File/File.h"
+#include "Tool/File/File.h"
 
 using namespace System::IO;
 using namespace System::MultiMedia;

@@ -1,7 +1,7 @@
 ///************************************************************************
-/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
+/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>yingzhong@voiceaitech.com</contact>
+/// <contact>tangyz114987@outlook.com</contact>
 /// <version>v1.0.0</version>
 /// <describe>
 /// Log the message to the file
@@ -11,10 +11,11 @@
 #ifndef LOG_H
 #define LOG_H
 
-#include "File/File.h"
-#include "Thread/MutexLocker.h"
-#include "DateTime/DateTime.h"
-#include "BaseType/String.h"
+#include <queue>
+#include "Tool/File/File.h"
+#include "Tool/Thread/MutexLocker.h"
+#include "Tool/DateTime/DateTime.h"
+#include "Tool/BaseType/String.h"
 #include "LogType.h"
 
 using namespace System;

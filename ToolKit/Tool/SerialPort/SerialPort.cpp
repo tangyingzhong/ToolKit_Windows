@@ -1,4 +1,3 @@
-#include "PreCompile.h"
 #include "SerialPort.h"
 
 using namespace System::IO;

@@ -1,4 +1,3 @@
-#include "PreCompile.h"
 #include "MutexLocker.h"
 
 using namespace System::Thread;

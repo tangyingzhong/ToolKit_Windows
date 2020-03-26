@@ -1,4 +1,5 @@
-#include "PreCompile.h"
+#include <Windows.h>
+#include <mmsystem.h>
 #include "Timer.h"
 
 #pragma comment(lib,"Winmm.lib")

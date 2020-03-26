@@ -37,12 +37,13 @@
     <ClCompile Include="Tool\Encoding\ASCII.cpp" />
     <ClCompile Include="Tool\Encoding\Unicode.cpp" />
     <ClCompile Include="Tool\Encoding\UTF8.cpp" />
+    <ClCompile Include="Tool\EventHandler\EventHandler.cpp" />
     <ClCompile Include="Tool\File\File.cpp" />
     <ClCompile Include="Tool\Log\Log.cpp" />
-    <ClCompile Include="Tool\Player\AudioPlayer.cpp" />
-    <ClCompile Include="Tool\Player\BlockPlayer.cpp" />
-    <ClCompile Include="Tool\Printer\Local\LocalPrinter.cpp" />
-    <ClCompile Include="Tool\Printer\Network\NetPrinter.cpp" />
+    <ClCompile Include="Tool\Log\SystemLog.cpp" />
+    <ClCompile Include="Tool\Player\DirectShow\GeneralPlayer.cpp" />
+    <ClCompile Include="Tool\Player\Wav\AudioPlayer.cpp" />
+    <ClCompile Include="Tool\Player\Wav\BlockPlayer.cpp" />
     <ClCompile Include="Tool\SerialPort\SerialPort.cpp" />
     <ClCompile Include="Tool\Socket\Socket.cpp" />
     <ClCompile Include="Tool\Socket\SocketClient.cpp" />
@@ -81,20 +82,28 @@
     <ClInclude Include="Tool\DateTime\DateTime.h" />
     <ClInclude Include="Tool\Directory\Directory.h" />
     <ClInclude Include="Tool\Encoding\ASCII.h" />
+    <ClInclude Include="Tool\Encoding\EncodeType.h" />
     <ClInclude Include="Tool\Encoding\Unicode.h" />
     <ClInclude Include="Tool\Encoding\UTF8.h" />
     <ClInclude Include="Tool\EventHandler\EventArgs.h" />
     <ClInclude Include="Tool\EventHandler\EventHandler.h" />
+    <ClInclude Include="Tool\EventHandler\IEventHandler.h" />
+    <ClInclude Include="Tool\Eventor\EventBase.h" />
+    <ClInclude Include="Tool\Eventor\IEvent.h" />
     <ClInclude Include="Tool\File\File.h" />
     <ClInclude Include="Tool\Log\Log.h" />
     <ClInclude Include="Tool\Log\LogType.h" />
-    <ClInclude Include="Tool\Player\AudioPlayer.h" />
-    <ClInclude Include="Tool\Player\AudioType.h" />
-    <ClInclude Include="Tool\Player\BlockPlayer.h" />
-    <ClInclude Include="Tool\Printer\IPrinter.h" />
-    <ClInclude Include="Tool\Printer\Local\LocalPrinter.h" />
-    <ClInclude Include="Tool\Printer\Network\NetPrinter.h" />
-    <ClInclude Include="Tool\Printer\PrinterCmd.h" />
+    <ClInclude Include="Tool\Log\SystemLog.h" />
+    <ClInclude Include="Tool\ModuleLoader\ModuleLoader.h" />
+    <ClInclude Include="Tool\Player\DirectShow\GeneralPlayer.h" />
+    <ClInclude Include="Tool\Player\Wav\AudioPlayer.h" />
+    <ClInclude Include="Tool\Player\Wav\AudioType.h" />
+    <ClInclude Include="Tool\Player\Wav\BlockPlayer.h" />
+    <ClInclude Include="Tool\Player\Wav\IAudioPlayer.h" />
+    <ClInclude Include="Tool\Player\Wav\IBlockPlayer.h" />
+    <ClInclude Include="Tool\Register\ExportConfig.h" />
+    <ClInclude Include="Tool\Register\Register.h" />
+    <ClInclude Include="Tool\SerialPort\PortType.h" />
     <ClInclude Include="Tool\SerialPort\SerialPort.h" />
     <ClInclude Include="Tool\Socket\Socket.h" />
     <ClInclude Include="Tool\Socket\SocketClient.h" />
@@ -117,6 +126,9 @@
     <ClInclude Include="Tool\USB\usb100.h" />
     <ClInclude Include="Tool\USB\usb200.h" />
     <ClInclude Include="Tool\USB\USBType.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tool\Sql\msado15.dll" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B60AE1CD-ADD8-40CC-8B04-4D69B9F2E270}</ProjectGuid>
@@ -201,10 +213,10 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>

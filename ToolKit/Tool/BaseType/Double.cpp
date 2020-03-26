@@ -1,4 +1,3 @@
-#include "PreCompile.h"
 #include "Double.h"
 
 using namespace System::BasicType;

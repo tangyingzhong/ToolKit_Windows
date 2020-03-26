@@ -13,8 +13,8 @@
 
 #include "IAudioPlayer.h"
 #include "IBlockPlayer.h"
-#include "Buffer/Array.h"
-#include "Thread/MutexLocker.h"
+#include "Tool/Buffer/Array.h"
+#include "Tool/Thread/MutexLocker.h"
 
 using namespace System::Buffer;
 using namespace System::Thread;

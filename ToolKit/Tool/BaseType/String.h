@@ -1,7 +1,7 @@
 ///************************************************************************
-/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
+/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>yingzhong@voiceaitech.com</contact>
+/// <contact>tangyz114987@outlook.com</contact>
 /// <version>v1.0.0</version>
 /// <describe>
 /// It can accept any type characters and it is easily to be used
@@ -11,7 +11,9 @@
 #ifndef STRING_H
 #define STRING_H
 
-#include "Buffer/Array.h"
+#include <vector>
+#include "Tool/Common/SystemType.h"
+#include "Tool/Buffer/Array.h"
 
 using namespace std;
 using namespace System;
@@ -33,7 +35,7 @@ namespace System
 			typedef CharArray CharArray;
 			typedef StdString StdString;
 			typedef StringStream StringStream;
-			typedef vector<String> StringTable;
+			typedef std::vector<String> StringTable;
 
 		public:
 			// Contruct an empty string

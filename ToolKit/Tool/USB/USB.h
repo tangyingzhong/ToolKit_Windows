@@ -1,7 +1,7 @@
 ///************************************************************************
-/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
+/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>yingzhong@voiceaitech.com</contact>
+/// <contact>tangyz114987@outlook.com</contact>
 /// <version>v1.0.0</version>
 /// <describe>
 /// Window USB operation supported here
@@ -11,8 +11,9 @@
 #ifndef USB_H
 #define USB_H
 
+#include <SetupAPI.h>
 #include "USBType.h"
-#include "BaseType/String.h"
+#include "Tool/BaseType/String.h"
 
 using namespace System::BasicType;
 

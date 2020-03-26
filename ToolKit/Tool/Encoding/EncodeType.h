@@ -11,7 +11,8 @@
 #ifndef ENCODE_TYPE_H
 #define ENCODE_TYPE_H
 
-#include "Common/SystemType.h"
+#include <string>
+#include "Tool/Common/SystemType.h"
 
 namespace System
 {

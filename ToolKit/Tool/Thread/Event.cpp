@@ -1,4 +1,3 @@
-#include "PreCompile.h"
 #include "Event.h"
 
 using namespace System::Thread;

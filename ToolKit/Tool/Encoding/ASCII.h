@@ -11,7 +11,7 @@
 #ifndef ASCII_H
 #define ASCII_H
 
-#include "Tool\Common\SystemType.h"
+#include "EncodeType.h"
 
 namespace System
 {

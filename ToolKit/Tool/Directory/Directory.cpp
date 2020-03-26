@@ -1,6 +1,6 @@
-#include "PreCompile.h"
-#include "File/File.h"
+#include "Tool/File/File.h"
 #include "Directory.h"
+#include <WinBase.h>
 
 using namespace System::IO;
 
@@ -514,37 +514,12 @@ Directory::BOOL Directory::IsValidRootDriveDirectory(String strDirPath)
 		return false;
 	}
 
-	String DriveTable[] = {
-		_T("A:"),
-		_T("B:"),
-		_T("C:"),
-		_T("D:"),
-		_T("E:"),
-		_T("F:"),
-		_T("G:"),
-		_T("H:"),
-		_T("I:"),
-		_T("J:"),
-		_T("K:"),
-		_T("L:"),
-		_T("M:"),
-		_T("N:")
-	};
-
-	for (Int32 iDriveNo = 0; iDriveNo<sizeof(DriveTable) / sizeof(String); ++iDriveNo)
+	if (GetDriveType(strDirPath.CStr()) != DRIVE_FIXED)
 	{
-		if (DriveTable[iDriveNo] == strDirPath)
-		{
-			if (RealDriveType(iDriveNo, 0) != DRIVE_FIXED)
-			{
-				return false;
-			}
-
-			return true;
-		}
+		return false;
 	}
 
-	return false;
+	return true;
 }
 
 // Judge that whether the directory is exist or not

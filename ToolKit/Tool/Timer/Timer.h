@@ -1,7 +1,7 @@
 ///************************************************************************
-/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
+/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>yingzhong@voiceaitech.com</contact>
+/// <contact>tangyz114987@outlook.com</contact>
 /// <version>v1.0.0</version>
 /// <describe>
 /// Timer on the window that can used for counting
@@ -13,7 +13,8 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#include "Common/SystemType.h"
+#include <mmsystem.h>
+#include "Tool/Common/SystemType.h"
 
 namespace System
 {

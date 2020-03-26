@@ -1,4 +1,3 @@
-#include "PreCompile.h"
 #include "SocketClient.h"
 
 #pragma comment(lib, "wsock32.lib")

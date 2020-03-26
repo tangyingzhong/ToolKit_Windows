@@ -1,4 +1,3 @@
-#include "PreCompile.h"
 #include "SqlCommand.h"
 
 using namespace System::ADO;

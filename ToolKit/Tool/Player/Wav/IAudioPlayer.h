@@ -12,8 +12,7 @@
 #define IAUDIOPLAYER_H
 
 #include "AudioType.h"
-#include "Common/SystemType.h"
-#include "BaseType/String.h"
+#include "Tool/BaseType/String.h"
 
 using namespace System;
 using namespace System::BasicType;

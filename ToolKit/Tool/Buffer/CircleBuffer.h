@@ -1,7 +1,7 @@
 ///************************************************************************
-/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
+/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>yingzhong@voiceaitech.com</contact>
+/// <contact>tangyz114987@outlook.com</contact>
 /// <version>v1.0.0</version>
 /// <describe>
 /// It can be used betwwen producer and customer as a common cache
@@ -11,7 +11,7 @@
 #ifndef CIRCLEBUFFER_H
 #define CIRCLEBUFFER_H
 
-#include "Common/SystemType.h"
+#include "Tool/Common/SystemType.h"
 #include "Array.h"
 
 namespace System

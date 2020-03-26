@@ -1,4 +1,3 @@
-#include "PreCompile.h"
 #include "Delay.h"
 
 using namespace System::Clock;

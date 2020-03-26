@@ -11,7 +11,7 @@
 #ifndef ANSI_H
 #define ANSI_H
 
-#include "Common/SystemType.h"
+#include "Tool/Common/SystemType.h"
 #include "EncodeType.h"
 
 namespace System

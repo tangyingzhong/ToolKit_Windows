@@ -1,4 +1,3 @@
-#include "PreCompile.h"
 #include "Bool.h"
 
 using namespace System::BasicType;

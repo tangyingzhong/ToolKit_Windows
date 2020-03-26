@@ -1,6 +1,18 @@
-﻿#ifndef EVENTHANDLER_H
+﻿///************************************************************************
+/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <author>tangyingzhong</author>
+/// <contact>tangyz114987@outlook.com</contact>
+/// <version>v1.0.0</version>
+/// <describe>
+/// Event container which used to be a center of sub-pub 
+///</describe>
+/// <date>2019/7/16</date>
+///***********************************************************************
+#ifndef EVENTHANDLER_H
 #define EVENTHANDLER_H
 
+#include <vector>
+#include <map>
 #include "IEventHandler.h"
 
 using namespace std;

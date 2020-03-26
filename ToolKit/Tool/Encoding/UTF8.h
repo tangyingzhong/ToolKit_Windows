@@ -1,17 +1,16 @@
 ///************************************************************************
-/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
+/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>yingzhong@voiceaitech.com</contact>
+/// <contact>tangyz114987@outlook.com</contact>
 /// <version>v1.0.0</version>
 /// <describe>
 /// Convert other encoding string to be UTF8 string
 ///</describe>
 /// <date>2019/7/16</date>
 ///***********************************************************************
-#ifndef	UTF8_H
-#define	UTF8_H
+#ifndef	 UTF8_H
+#define UTF8_H
 
-#include "Common/SystemType.h"
 #include "EncodeType.h"
 
 namespace System

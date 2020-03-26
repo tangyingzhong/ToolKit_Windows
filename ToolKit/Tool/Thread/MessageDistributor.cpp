@@ -1,4 +1,3 @@
-#include "PreCompile.h"
 #include "MessageDistributor.h"
 
 using namespace System::Thread;

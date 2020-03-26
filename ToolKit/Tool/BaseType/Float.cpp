@@ -1,4 +1,3 @@
-#include "PreCompile.h"
 #include "Float.h"
 
 using namespace System::BasicType;

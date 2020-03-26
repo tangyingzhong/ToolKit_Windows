@@ -1,7 +1,7 @@
 ///************************************************************************
-/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
+/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>yingzhong@voiceaitech.com</contact>
+/// <contact>tangyz114987@outlook.com</contact>
 /// <version>v1.0.0</version>
 /// <describe>
 /// Process control
@@ -11,8 +11,9 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-#include "Common/SystemType.h"
-#include "BaseType/String.h"
+#include <map>
+#include "Tool/Common/SystemType.h"
+#include "Tool/BaseType/String.h"
 
 using namespace System::BasicType;
 

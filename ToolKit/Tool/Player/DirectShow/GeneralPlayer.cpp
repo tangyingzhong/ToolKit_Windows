@@ -1,4 +1,3 @@
-#include "PreCompile.h"
 #include "GeneralPlayer.h"
 
 #pragma comment(lib, "strmiids.lib")

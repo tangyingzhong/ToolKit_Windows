@@ -1,4 +1,3 @@
-#include "PreCompile.h"
 #include "SqlParamenter.h"
 
 using namespace System::ADO;

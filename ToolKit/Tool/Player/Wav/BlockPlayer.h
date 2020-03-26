@@ -11,15 +11,10 @@
 #ifndef BLOCKPLAYER_H
 #define BLOCKPLAYER_H
 
-// Exclude rarely-used stuff from Windows headers
-#define WIN32_LEAN_AND_MEAN           
-
-// Windows Header Files:
-#include <windows.h>
-#include <mmsystem.h>
 #include "IBlockPlayer.h"
-#include "Buffer/Array.h"
-#include "Thread/MutexLocker.h"
+#include <mmsystem.h>
+#include "Tool/Buffer/Array.h"
+#include "Tool/Thread/MutexLocker.h"
 
 using namespace System::Buffer;
 using namespace System::Thread;

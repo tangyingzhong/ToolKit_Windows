@@ -1,5 +1,4 @@
-﻿#include "PreCompile.h"
-#include "EventHandler.h"
+﻿#include "EventHandler.h"
 
 // Construct the event handler
 EventHandler::EventHandler():m_bDisposed(false)

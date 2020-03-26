@@ -1,5 +1,4 @@
-#include "PreCompile.h"
-#include "Buffer/Array.h"
+#include "Tool/Buffer/Array.h"
 #include "Unicode.h"
 
 using namespace System::Encoding;

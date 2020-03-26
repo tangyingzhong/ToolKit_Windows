@@ -1,7 +1,7 @@
 ///************************************************************************
-/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
+/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>yingzhong@voiceaitech.com</contact>
+/// <contact>tangyz114987@outlook.com</contact>
 /// <version>v1.0.0</version>
 /// <describe>
 /// It is a general player using direct show
@@ -14,8 +14,8 @@
 #include <strmif.h>
 #include <control.h>
 #include <uuids.h>
-#include "Common/SystemType.h"
-#include "BaseType/String.h"
+#include "Tool/Common/SystemType.h"
+#include "Tool/BaseType/String.h"
 
 using namespace System;
 using namespace System::BasicType;

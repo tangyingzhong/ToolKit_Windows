@@ -1,4 +1,3 @@
-#include "PreCompile.h"
 #include "Mutex.h"
 
 using namespace System::Thread;

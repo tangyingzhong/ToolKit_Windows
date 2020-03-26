@@ -1,4 +1,3 @@
-#include "PreCompile.h"
 #include "Array.h"
 #include "SharedMemory.h"
 

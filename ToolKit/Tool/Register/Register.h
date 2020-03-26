@@ -1,7 +1,7 @@
 ///************************************************************************
-/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
+/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>yingzhong@voiceaitech.com</contact>
+/// <contact>tangyz114987@outlook.com</contact>
 /// <version>v1.0.0</version>
 /// <describe>
 /// Register the module into system so that other moule can use it
@@ -11,8 +11,8 @@
 #ifndef REGISTER_H
 #define REGISTER_H
 
-#include "Common/SystemType.h"
-#include "DllLoader/DllLoader.h"
+#include "Tool/Common/SystemType.h"
+#include "Tool/DllLoader/DllLoader.h"
 #include "ExportConfig.h"
 
 using namespace System;

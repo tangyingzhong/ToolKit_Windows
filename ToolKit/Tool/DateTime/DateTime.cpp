@@ -1,6 +1,7 @@
-#include "PreCompile.h"
+#include <time.h>
+#include "Tool/BaseType/Int.h"
+#include "Tool/Encoding/Unicode.h"
 #include "DateTime.h"
-#include "Encoding/Unicode.h"
 
 using namespace System::Clock;
 using namespace System::Encoding;

@@ -1,6 +1,5 @@
-#include "PreCompile.h"
+#include "Tool/Directory/Directory.h"
 #include "SystemLog.h"
-#include "Directory/Directory.h"
 
 System::IO::Log* pSystemLogger = System::IO::Log::GetInstance();
 

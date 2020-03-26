@@ -1,8 +1,7 @@
-#include "PreCompile.h"
-#include "Encoding/ANSI.h"
-#include "Encoding/Unicode.h"
-#include "Directory/Directory.h"
-#include "DateTime/DateTime.h"
+#include "Tool/Encoding/ANSI.h"
+#include "Tool/Encoding/Unicode.h"
+#include "Tool/Directory/Directory.h"
+#include "Tool/DateTime/DateTime.h"
 #include "Log.h"
 
 using namespace System::IO;
@@ -105,7 +104,7 @@ Log::BOOL Log::AddSeperateLines(String strLogFileName)
 
 	std::string strSepData = "\r\n\r\n";
 
-	FileHelper.Write(strSepData.c_str(), 0, strSepData.length());
+	FileHelper.Write(strSepData.c_str(), 0, static_cast<FixedUInt32>(strSepData.length()));
 
 	FileHelper.Close();
 
@@ -126,7 +125,9 @@ Log::Empty Log::LogToFile(String& strLogFileName, String& strLogMessage)
 
 	FileHelper.Seek(SeekOrigin::END, 0);
 
-	FileHelper.Write((SByteArray)strLogMessage.ToUtf8Data().c_str(), 0, strLogMessage.ToUtf8Data().length());
+	FixedUInt32 uLen =static_cast<FixedUInt32>(strLogMessage.ToUtf8Data().length());
+
+	FileHelper.Write((SByteArray)strLogMessage.ToUtf8Data().c_str(), 0, uLen);
 
 	FileHelper.Close();
 }
@@ -391,7 +392,7 @@ Log::Empty Log::Record(LogType eLogType,
 		strRemark);
 
 	// Judge the current message's number
-	Int32 iLogTableSize = m_LogMesaageTable.size();
+	Int32 iLogTableSize = static_cast<Int32>(m_LogMesaageTable.size());
 	if (iLogTableSize < MAX_MSG_NUM)
 	{
 		// Log the message into buffer

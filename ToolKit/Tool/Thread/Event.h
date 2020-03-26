@@ -1,7 +1,7 @@
 ///************************************************************************
-/// <copyrigth>Voice AI Technology Of ShenZhen</copyrigth>
+/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
 /// <author>tangyingzhong</author>
-/// <contact>yingzhong@voiceaitech.com</contact>
+/// <contact>tangyz114987@outlook.com</contact>
 /// <version>v1.0.0</version>
 /// <describe>
 /// It can be used to synchronize the threads
@@ -11,7 +11,7 @@
 #ifndef	EVENT_H
 #define	EVENT_H
 
-#include "BaseType/String.h"
+#include "Tool/BaseType/String.h"
 
 using namespace System::BasicType;
 

@@ -1,4 +1,5 @@
-#include "PreCompile.h"
+#include <Windows.h>
+#include <shellapi.h>
 #include "Process.h"
 
 using namespace System::Thread;
@@ -123,12 +124,14 @@ Boolean Process::StartByShell(ExcutablePath strExcutablePath,
 	}
 
 	// Excute the exe
-	Int32 iRet = (Int32)ShellExecute(NULL,
+	HINSTANCE Ret = ShellExecute(NULL,
 		m_OpTable[eOperation].CStr(),
 		strExcutablePath.CStr(),
 		strParamenter.CStr(),
 		strExcutableDir.CStr(),
 		SW_HIDE);
+
+	Int32 iRet = static_cast<Int32>(Ret->unused);
 
 	if (iRet<32)
 	{

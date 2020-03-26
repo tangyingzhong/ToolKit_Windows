@@ -1,4 +1,3 @@
-#include "PreCompile.h"
 #include "Counter.h"
 
 using namespace System::Clock;

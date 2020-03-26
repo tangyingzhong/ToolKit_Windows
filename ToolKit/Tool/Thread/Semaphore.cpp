@@ -1,4 +1,3 @@
-#include "PreCompile.h"
 #include "Semaphore.h"
 
 using namespace System::Thread;

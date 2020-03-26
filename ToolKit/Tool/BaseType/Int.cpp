@@ -1,4 +1,4 @@
-#include "PreCompile.h"
+#include "Tool/Common/SystemType.h"
 #include "Int.h"
 
 using namespace System::BasicType;

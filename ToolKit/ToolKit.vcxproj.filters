@@ -57,14 +57,20 @@
     <Filter Include="Tool\USB">
       <UniqueIdentifier>{ea16f12d-b0bd-4621-941b-3e561d90d379}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Tool\Printer">
-      <UniqueIdentifier>{e41507f0-d116-402d-aa93-60f641899bef}</UniqueIdentifier>
+    <Filter Include="Tool\Player\DirectShow">
+      <UniqueIdentifier>{bddece5a-8ee3-44c9-831f-66121cf46999}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Tool\Printer\Local">
-      <UniqueIdentifier>{be1750a6-acfc-4f20-983e-ced849a92b83}</UniqueIdentifier>
+    <Filter Include="Tool\Player\Wav">
+      <UniqueIdentifier>{ea26169e-f907-491a-b02a-8db9ba0e2573}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Tool\Printer\Network">
-      <UniqueIdentifier>{bd31a6f5-8b48-4637-8f01-c669177bc300}</UniqueIdentifier>
+    <Filter Include="Tool\Eventor">
+      <UniqueIdentifier>{c98b63ea-71b3-4527-aa40-158e7dac4d6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\ModuleLoader">
+      <UniqueIdentifier>{f85ad7f3-64a5-4f0c-91fe-6b06e3c0276b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Register">
+      <UniqueIdentifier>{ee39b68b-a2bd-4b2f-a333-9a7bfd9cf83f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -109,12 +115,6 @@
     </ClCompile>
     <ClCompile Include="Tool\Log\Log.cpp">
       <Filter>Tool\Log</Filter>
-    </ClCompile>
-    <ClCompile Include="Tool\Player\AudioPlayer.cpp">
-      <Filter>Tool\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Tool\Player\BlockPlayer.cpp">
-      <Filter>Tool\Player</Filter>
     </ClCompile>
     <ClCompile Include="Tool\SerialPort\SerialPort.cpp">
       <Filter>Tool\SerialPort</Filter>
@@ -170,11 +170,20 @@
     <ClCompile Include="Application\BasicTool.cpp">
       <Filter>Application</Filter>
     </ClCompile>
-    <ClCompile Include="Tool\Printer\Local\LocalPrinter.cpp">
-      <Filter>Tool\Printer\Local</Filter>
+    <ClCompile Include="Tool\Log\SystemLog.cpp">
+      <Filter>Tool\Log</Filter>
     </ClCompile>
-    <ClCompile Include="Tool\Printer\Network\NetPrinter.cpp">
-      <Filter>Tool\Printer\Network</Filter>
+    <ClCompile Include="Tool\Player\DirectShow\GeneralPlayer.cpp">
+      <Filter>Tool\Player\DirectShow</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Player\Wav\AudioPlayer.cpp">
+      <Filter>Tool\Player\Wav</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Player\Wav\BlockPlayer.cpp">
+      <Filter>Tool\Player\Wav</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\EventHandler\EventHandler.cpp">
+      <Filter>Tool\EventHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -240,15 +249,6 @@
     </ClInclude>
     <ClInclude Include="Tool\Log\LogType.h">
       <Filter>Tool\Log</Filter>
-    </ClInclude>
-    <ClInclude Include="Tool\Player\AudioPlayer.h">
-      <Filter>Tool\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Tool\Player\AudioType.h">
-      <Filter>Tool\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Tool\Player\BlockPlayer.h">
-      <Filter>Tool\Player</Filter>
     </ClInclude>
     <ClInclude Include="Tool\SerialPort\SerialPort.h">
       <Filter>Tool\SerialPort</Filter>
@@ -319,18 +319,6 @@
     <ClInclude Include="Application\BasicTool.h">
       <Filter>Application</Filter>
     </ClInclude>
-    <ClInclude Include="Tool\Printer\IPrinter.h">
-      <Filter>Tool\Printer</Filter>
-    </ClInclude>
-    <ClInclude Include="Tool\Printer\PrinterCmd.h">
-      <Filter>Tool\Printer</Filter>
-    </ClInclude>
-    <ClInclude Include="Tool\Printer\Local\LocalPrinter.h">
-      <Filter>Tool\Printer\Local</Filter>
-    </ClInclude>
-    <ClInclude Include="Tool\Printer\Network\NetPrinter.h">
-      <Filter>Tool\Printer\Network</Filter>
-    </ClInclude>
     <ClInclude Include="Tool\Buffer\Queue.h">
       <Filter>Tool\Buffer</Filter>
     </ClInclude>
@@ -343,5 +331,55 @@
     <ClInclude Include="Tool\Buffer\DoubleList.h">
       <Filter>Tool\Buffer</Filter>
     </ClInclude>
+    <ClInclude Include="Tool\Log\SystemLog.h">
+      <Filter>Tool\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Player\DirectShow\GeneralPlayer.h">
+      <Filter>Tool\Player\DirectShow</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Player\Wav\AudioPlayer.h">
+      <Filter>Tool\Player\Wav</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Player\Wav\AudioType.h">
+      <Filter>Tool\Player\Wav</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Player\Wav\BlockPlayer.h">
+      <Filter>Tool\Player\Wav</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Player\Wav\IAudioPlayer.h">
+      <Filter>Tool\Player\Wav</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Player\Wav\IBlockPlayer.h">
+      <Filter>Tool\Player\Wav</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Eventor\EventBase.h">
+      <Filter>Tool\Eventor</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Eventor\IEvent.h">
+      <Filter>Tool\Eventor</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\ModuleLoader\ModuleLoader.h">
+      <Filter>Tool\ModuleLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Register\ExportConfig.h">
+      <Filter>Tool\Register</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Register\Register.h">
+      <Filter>Tool\Register</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Encoding\EncodeType.h">
+      <Filter>Tool\Encoding</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\EventHandler\IEventHandler.h">
+      <Filter>Tool\EventHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\SerialPort\PortType.h">
+      <Filter>Tool\SerialPort</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tool\Sql\msado15.dll">
+      <Filter>Tool\Sql</Filter>
+    </None>
   </ItemGroup>
 </Project>
