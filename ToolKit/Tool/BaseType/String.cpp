@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <string>
 #include "Tool/Encoding/ANSI.h"
-#include "Tool/Encoding/Unicode.h"
+#include "Tool/Encoding/UTF16.h"
 #include "Tool/Encoding/UTF8.h"
 #include "String.h"
 
@@ -13,7 +13,7 @@ using namespace System::BasicType;
 // Construct the string auto from ansi string
 String::String(const std::string strAnsiString) :m_Length(0), m_pCArray(NULL), m_Disposed(false)
 {
-	std::wstring strFinal = Unicode::GetString(strAnsiString, ENCODE_ANSI);
+	std::wstring strFinal = UTF16::GetString(strAnsiString, ENCODE_ANSI);
 
 	Initialize(strFinal);
 }
@@ -396,7 +396,7 @@ String::Integer String::Contains(SByte ch)
 		return 0;
 	}
 
-	std::string strData = ToAnsiData();
+	std::string strData = ToANSIData();
 
 	return static_cast<Integer>(count(strData.begin(), strData.end(), ch));
 }
@@ -407,7 +407,7 @@ System::WByteArray String::AllocWideString()
 	const Int32 END_CHAR_COUNT = 1;
 
 	// Get the wide string from the ANSI array
-	std::wstring strWideString = ToUnicodeData();
+	std::wstring strWideString = ToUTF16Data();
 
 	// Resize the wide array
 	m_WideArray.Resize((Length)strWideString.length() + 1);
@@ -421,11 +421,11 @@ System::WByteArray String::AllocWideString()
 	return m_WideArray.Data();
 }
 
-// Utf8 string(UNICODE->ANSI->UTF8 or ANSI->UTF8)
-std::string String::ToUtf8Data()
+// Utf8 string(UTF16->ANSI->UTF8 or ANSI->UTF8)
+std::string String::ToUTF8Data()
 {
 #ifdef UNICODE
-	std::string strAnsi = ANSI::GetString(GetStdString(), ENCODE_ANSI);
+	std::string strAnsi = ANSI::GetString(GetStdString());
 
 	std::string strUtf8 = UTF8::GetString(strAnsi, ENCODE_ANSI);
 #else
@@ -436,24 +436,24 @@ std::string String::ToUtf8Data()
 }
 
 // ANSI string(UNICODE->ANSI or ANSI)
-std::string String::ToAnsiData()
+std::string String::ToANSIData()
 {
 #ifdef UNICODE
-	std::string strAnsi = ANSI::GetString(GetStdString(), ENCODE_ANSI);
+	std::string strAnsi = ANSI::GetString(GetStdString());
 #else
-	std::string strAnsi = GetStdString();
+	std::string strAnsi = ANSI::GetString(GetStdString(),ENCODE_ANSI);
 #endif
 
 	return strAnsi;
 }
 
 // Data of the string
-std::wstring String::ToUnicodeData()
+std::wstring String::ToUTF16Data()
 {
 #ifdef UNICODE
 	std::wstring strData = GetStdString();
 #else
-	std::wstring strData = Unicode::GetString(GetStdString(), ENCODE_ANSI);
+	std::wstring strData = UTF16::GetString(GetStdString(), ENCODE_ANSI);
 #endif
 
 	return strData;

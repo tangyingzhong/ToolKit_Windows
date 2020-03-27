@@ -5,7 +5,7 @@
 #include <Iphlpapi.h>
 #include "Tool/Buffer/Array.h"
 #include "Tool/Thread/Mutex.h"
-#include "Tool/Encoding/Unicode.h"
+#include "Tool/Encoding/UTF16.h"
 #include "Tool/BaseType/String.h"
 #include "Socket.h"
 
@@ -123,7 +123,7 @@ Socket::Empty Socket::DestorySocket()
 // Configure the socket
 Socket::Empty Socket::Configure(IPAddress strIPAddress, NetPort iPortNo)
 {
-	inet_pton(AF_INET, strIPAddress.ToAnsiData().c_str(), &m_SocketAddr.sin_addr);
+	inet_pton(AF_INET, strIPAddress.ToANSIData().c_str(), &m_SocketAddr.sin_addr);
 
 	m_SocketAddr.sin_family = GetAddrFamily();
 
@@ -273,7 +273,7 @@ Socket::BOOL Socket::GetLoaclIP(IPAddress& IpAdddr)
 	hint.ai_socktype = SOCK_STREAM;
 
 	ADDRINFO* ailist;
-	if (GetAddrInfoA(strFinalHostName.ToAnsiData().c_str(), NULL, &hint, &ailist) != S_SUCCESS)
+	if (GetAddrInfoA(strFinalHostName.ToANSIData().c_str(), NULL, &hint, &ailist) != S_SUCCESS)
 	{
 		return false;
 	}
@@ -343,7 +343,7 @@ Socket::BOOL Socket::GetLoaclIP(vector<IPAddress>& vIPAddrTable)
 	hint.ai_socktype = SOCK_STREAM;
 
 	ADDRINFO* ailist;
-	if (GetAddrInfoA(strFinalHostName.ToAnsiData().c_str(), NULL, &hint, &ailist) != S_SUCCESS)
+	if (GetAddrInfoA(strFinalHostName.ToANSIData().c_str(), NULL, &hint, &ailist) != S_SUCCESS)
 	{
 		return false;
 	}
@@ -417,7 +417,7 @@ Socket::Empty Socket::GetLocalIpMAc(MacIpTable& IpMacTable)
 
 			String strFinalMac = strShortMac;
 
-			std::string strCurMac = strFinalMac.Left(strFinalMac.GetLength()-1).ToAnsiData();
+			std::string strCurMac = strFinalMac.Left(strFinalMac.GetLength()-1).ToANSIData();
 
 			// Get Mac's IP
 			IP_ADDR_STRING *pIpAddrString = &(pIpAdapterInfo->IpAddressList);
@@ -469,7 +469,7 @@ Socket::BOOL Socket::GetMacByIp(String strIpAddr, String& strMacAddr)
 
 		for (Int32 iIndex = 0; iIndex < (Int32)IpAddrTable.size(); ++iIndex)
 		{
-			if (strIpAddr.ToAnsiData() == IpAddrTable[iIndex])
+			if (strIpAddr.ToANSIData() == IpAddrTable[iIndex])
 			{
 				std::string strCurMac = Iter->first;
 

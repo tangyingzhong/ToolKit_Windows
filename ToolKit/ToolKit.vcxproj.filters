@@ -113,9 +113,6 @@
     <ClCompile Include="Tool\Directory\Directory.cpp">
       <Filter>Tool\Directory</Filter>
     </ClCompile>
-    <ClCompile Include="Tool\Encoding\Unicode.cpp">
-      <Filter>Tool\Encoding</Filter>
-    </ClCompile>
     <ClCompile Include="Tool\Encoding\UTF8.cpp">
       <Filter>Tool\Encoding</Filter>
     </ClCompile>
@@ -218,6 +215,9 @@
     <ClCompile Include="Tool\Encoding\ANSI.cpp">
       <Filter>Tool\Encoding</Filter>
     </ClCompile>
+    <ClCompile Include="Tool\Encoding\UTF16.cpp">
+      <Filter>Tool\Encoding</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\PreCompile.h">
@@ -258,9 +258,6 @@
     </ClInclude>
     <ClInclude Include="Tool\Directory\Directory.h">
       <Filter>Tool\Directory</Filter>
-    </ClInclude>
-    <ClInclude Include="Tool\Encoding\Unicode.h">
-      <Filter>Tool\Encoding</Filter>
     </ClInclude>
     <ClInclude Include="Tool\Encoding\UTF8.h">
       <Filter>Tool\Encoding</Filter>
@@ -449,6 +446,9 @@
       <Filter>Tool\DllLoader</Filter>
     </ClInclude>
     <ClInclude Include="Tool\Encoding\ANSI.h">
+      <Filter>Tool\Encoding</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Encoding\UTF16.h">
       <Filter>Tool\Encoding</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,6 @@
 #include <time.h>
 #include "Tool/BaseType/Int.h"
-#include "Tool/Encoding/Unicode.h"
+#include "Tool/Encoding/UTF16.h"
 #include "DateTime.h"
 
 using namespace System::Clock;
@@ -143,8 +143,8 @@ DateTime DateTime::FromString(String strTime, String strTimeFormat)
 		.Arg(Table[2])
 		.Arg(Table[2]);
 
-	sscanf(strTime.ToAnsiData().c_str(),
-		strNewFormat.ToAnsiData().c_str(),
+	sscanf(strTime.ToANSIData().c_str(),
+		strNewFormat.ToANSIData().c_str(),
 		&CurTime.m_Year,
 		&CurTime.m_Month,
 		&CurTime.m_Day,

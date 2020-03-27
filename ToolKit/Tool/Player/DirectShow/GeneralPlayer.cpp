@@ -110,7 +110,7 @@ Boolean GeneralPlayer::Load(String strAudioFilePath)
 	m_pGraphBuilder->QueryInterface(IID_IBasicAudio, (void**)&m_pBasicAudio);
 	m_pGraphBuilder->QueryInterface(IID_IMediaSeeking, (void**)&m_pMediaSeeking);
 
-	hResult = m_pGraphBuilder->RenderFile(strAudioFilePath.ToUnicodeData().c_str(), NULL);
+	hResult = m_pGraphBuilder->RenderFile(strAudioFilePath.ToUTF16Data().c_str(), NULL);
 	if (FAILED(hResult))
 	{
 		::SetLastError(hResult);

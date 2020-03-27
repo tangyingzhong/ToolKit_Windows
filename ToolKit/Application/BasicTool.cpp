@@ -1,4 +1,4 @@
-#include "BasicTool.h"
+﻿#include "BasicTool.h"
 
 using namespace System;
 using namespace System::BasicType;

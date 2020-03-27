@@ -62,7 +62,7 @@ Object Reflect::GetClassObject(String strClassName)
 		return NULL;
 	}
 
-	ClassTypeTable::iterator Iter = m_ClassTypeTable.find(strClassName.ToUtf8Data());
+	ClassTypeTable::iterator Iter = m_ClassTypeTable.find(strClassName.ToUTF8Data());
 	if (Iter!= m_ClassTypeTable.end())
 	{
 		return (Iter->second)();
@@ -84,7 +84,7 @@ Boolean Reflect::RegisterClassType(String strClassName, CreateObject pCreateObje
 		return false;
 	}
 
-	m_ClassTypeTable.insert(make_pair(strClassName.ToUtf8Data(), pCreateObject));
+	m_ClassTypeTable.insert(make_pair(strClassName.ToUTF8Data(), pCreateObject));
 
 	return true;
 }

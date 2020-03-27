@@ -112,14 +112,14 @@ namespace System
 			// Get the wide string when you are in ANSI environment to program
 			WByteArray AllocWideString();
 
-			// Utf8 string ((UNICODE->ANSI->UTF8 or only ANSI->UTF8))
-			std::string ToUtf8Data();
+			// Utf8 string ((UTF16->ANSI->UTF8 or only ANSI->UTF8))
+			std::string ToUTF8Data();
 
-			// ANSI string ((UNICODE->ANSI or only ANSI))
-			std::string ToAnsiData();
+			// ANSI string ((UTF16->ANSI or only ANSI))
+			std::string ToANSIData();
 
-			// Unicode string
-			std::wstring ToUnicodeData();
+			// UTF16 string
+			std::wstring ToUTF16Data();
 
 			// Make string upper
 			String& MakeUpper();

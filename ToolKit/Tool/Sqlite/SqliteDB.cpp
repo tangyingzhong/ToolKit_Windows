@@ -1,4 +1,4 @@
-#include "Tool/Encoding/Unicode.h"
+#include "Tool/Encoding/UTF16.h"
 #include "Tool/Encoding/ANSI.h"
 #include "Tool/Encoding/UTF8.h"
 #include "SqliteDB.h"
@@ -48,7 +48,7 @@ Boolean SqliteDB::Open(String strDbFilePath)
 		return false;
 	}
 
-	if (sqlite3_open_v2(strDbFilePath.ToUtf8Data().c_str(),
+	if (sqlite3_open_v2(strDbFilePath.ToUTF8Data().c_str(),
 		&m_pDB,
 		SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE,
 		NULL)!=SQLITE_OK)
@@ -57,7 +57,7 @@ Boolean SqliteDB::Open(String strDbFilePath)
 
 		std::string strAnsi = ANSI::GetString(strErrorMsg, ENCODE_UTF8);
 
-		String strError = Unicode::GetString(strAnsi, ENCODE_ANSI);
+		String strError = strAnsi;
 
 		SetErrorMessage(strError);
 
@@ -104,13 +104,13 @@ Boolean SqliteDB::Excute(String strSql,Int32 iRetCode)
 	// Prepare the sql, check sql legal
 	sqlite3_stmt* pStmt = NULL;
 
-	if (sqlite3_prepare_v2(GetDB(), strSql.ToUtf8Data().c_str(), -1, &pStmt, NULL) != SQLITE_OK)
+	if (sqlite3_prepare_v2(GetDB(), strSql.ToUTF8Data().c_str(), -1, &pStmt, NULL) != SQLITE_OK)
 	{
 		std::string strErrorMsg = sqlite3_errmsg(GetDB());
 
 		std::string strAnsi = ANSI::GetString(strErrorMsg, ENCODE_UTF8);
 
-		String strError = Unicode::GetString(strAnsi, ENCODE_ANSI);
+		String strError = strAnsi;
 
 		SetErrorMessage(strError);
 
@@ -127,7 +127,7 @@ Boolean SqliteDB::Excute(String strSql,Int32 iRetCode)
 
 		std::string strAnsi = ANSI::GetString(strErrorMsg, ENCODE_UTF8);
 
-		String strError = Unicode::GetString(strAnsi, ENCODE_ANSI);
+		String strError = strAnsi;
 
 		SetErrorMessage(strError);
 
@@ -156,13 +156,13 @@ Boolean SqliteDB::ExecuteNonQuery(String strSql, RecordTable& Table)
 	// Prepare the sql, check sql legal
 	sqlite3_stmt* pStmt = NULL;
 
-	if (sqlite3_prepare_v2(GetDB(), strSql.ToUtf8Data().c_str(), -1, &pStmt, NULL) != SQLITE_OK)
+	if (sqlite3_prepare_v2(GetDB(), strSql.ToUTF8Data().c_str(), -1, &pStmt, NULL) != SQLITE_OK)
 	{
 		std::string strErrorMsg = sqlite3_errmsg(GetDB());
 
 		std::string strAnsi = ANSI::GetString(strErrorMsg, ENCODE_UTF8);
 
-		String strError = Unicode::GetString(strAnsi, ENCODE_ANSI);
+		String strError = strAnsi;
 
 		SetErrorMessage(strError);
 

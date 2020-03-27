@@ -54,20 +54,19 @@ namespace System
 			static StdString GetString(StdString strMultiString,EncodeType eEncodeType);
 
 			// Get the UTF8 string from the width char array Notice: count must contain '\0'
-			static StdString GetString(WCharArray UnicodeBuffer, 
+			static StdString GetString(WCharArray UTF16Buffer, 
 				Index iPos, 
-				Length iCount,
-				EncodeType eEncodeType);
+				Length iCount);
 
-			// Get the UTF8 string from the unicode string
-			static StdString GetString(WStdString UnicodeString, EncodeType eEncodeType);
+			// Get the UTF8 string from the UTF16 string
+			static StdString GetString(WStdString UTF16String);
 
 		private:
 			// Convert ANSI string to UTF8 string
 			static StdString ANSIToUTF8(StdString ANSIString);
 
-			// Convert Unicode string to UTF8 string
-			static StdString UnicodeToUTF8(WStdString UnicodeString);
+			// Convert UTF16 string to UTF8 string
+			static StdString UTF16ToUTF8(WStdString UTF16String);
 		};
 	}
 }

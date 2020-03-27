@@ -1,6 +1,6 @@
 #include <fstream>
 #include "Tool/Encoding/ANSI.h"
-#include "Tool/Encoding/Unicode.h"
+#include "Tool/Encoding/UTF16.h"
 #include "Tool/Encoding/UTF8.h"
 #include "Tool/BaseType/Int.h"
 #include "Tool/BaseType/Double.h"
@@ -73,7 +73,7 @@ Boolean JsonDocument::ParseFromFile(JsonString strJsonFilePath)
 
 	std::ifstream FileStream;
 
-	FileStream.open(strJsonFilePath.ToAnsiData(), std::ios::binary);
+	FileStream.open(strJsonFilePath.ToANSIData(), std::ios::binary);
 
 	if (!JsonReader().parse(FileStream, GetJsonObject()))
 	{
@@ -139,7 +139,7 @@ Boolean JsonDocument::WriteToFile(JsonString strFileName)
 
 	std::ofstream Streamer;
 
-	Streamer.open(strFileName.ToAnsiData(), std::ios::out | std::ios::trunc);
+	Streamer.open(strFileName.ToANSIData(), std::ios::out | std::ios::trunc);
 
 	if (!Streamer.is_open())
 	{
@@ -189,7 +189,7 @@ JsonDocument JsonDocument::FromJson(JsonString& strJson)
 
 	JsonDocument JsonDoc;
 
-	if (!Read.parse(strJson.ToUtf8Data(), JsonDoc.GetJsonObject()))
+	if (!Read.parse(strJson.ToUTF8Data(), JsonDoc.GetJsonObject()))
 	{
 		return JsonDocument();
 	}
@@ -238,7 +238,7 @@ Boolean JsonDocument::GetKeys(KeyTable& FinalKeyTable)
 	{
 		std::string strAnsi = ANSI::GetString(KeyList[iIndex], ENCODE_UTF8);
 
-		String strFinalKey = Unicode::GetString(strAnsi, ENCODE_ANSI);
+		String strFinalKey = strAnsi;
 
 		FinalKeyTable.push_back(strFinalKey);
 	}
@@ -269,7 +269,7 @@ Empty JsonDocument::ToMap(std::map<std::string, std::string>& MapTable)
 		{
 			Int iValue = m_JsonObject[*Iter].asInt();
 
-			MapTable.insert(pair<std::string, std::string>(*Iter, iValue.ToString().ToAnsiData()));
+			MapTable.insert(pair<std::string, std::string>(*Iter, iValue.ToString().ToANSIData()));
 		}
 			break;
 
@@ -277,7 +277,7 @@ Empty JsonDocument::ToMap(std::map<std::string, std::string>& MapTable)
 		{
 			Double dValue = m_JsonObject[*Iter].asDouble();
 
-			MapTable.insert(pair<std::string, std::string>(*Iter, dValue.ToString().ToAnsiData()));
+			MapTable.insert(pair<std::string, std::string>(*Iter, dValue.ToString().ToANSIData()));
 		}
 			break;
 
@@ -328,7 +328,9 @@ JsonDocument::JsonString JsonDocument::ToJson()
 
 	std::string strUtf8Json = GetJsonObject().toStyledString();
 
-	String strJson = Unicode::GetString(strUtf8Json, ENCODE_UTF8);
+	std::string strAnsiJson = ANSI::GetString(strUtf8Json, ENCODE_UTF8);
+
+	String strJson = strAnsiJson;
 
 	return strJson;
 }
@@ -363,7 +365,7 @@ JsonDocument& JsonDocument::Append(JsonDocument JsonObject)
 // Append the data
 JsonDocument& JsonDocument::Append(JsonString strValue)
 {
-	m_JsonObject.append(strValue.ToUtf8Data());
+	m_JsonObject.append(strValue.ToANSIData());
 
 	return *this;
 }
@@ -400,7 +402,7 @@ JsonDocument& JsonDocument::RemoveAt(Int32 iIndex)
 // Get key's value
 JsonDocument::JsonObject& JsonDocument::Get(JsonString strKey)
 {
-	return m_JsonObject[strKey.ToUtf8Data()];
+	return m_JsonObject[strKey.ToUTF8Data()];
 }
 
 // Set the key's value
@@ -411,7 +413,7 @@ Empty JsonDocument::Set(JsonString strKey, JsonObject Value)
 		return;
 	}
 
-	m_JsonObject[strKey.ToUtf8Data()] = Value;
+	m_JsonObject[strKey.ToUTF8Data()] = Value;
 }
 
 // Get the value of key
@@ -433,7 +435,7 @@ Empty JsonDocument::SetKeyValue(JsonString strKey, JsonString strValue)
 		return;
 	}
 
-	Set(strKey, strValue.ToUtf8Data());
+	Set(strKey, strValue.ToUTF8Data());
 }
 
 // Is Obejct IsEmpty
@@ -536,7 +538,7 @@ JsonDocument::JsonString JsonDocument::ToString()
 
 	std::string strAnsi = ANSI::GetString(strUtf8Data, ENCODE_UTF8);
 
-	String strFinalData = Unicode::GetString(strAnsi, ENCODE_ANSI);
+	String strFinalData = strAnsi;
 
 	return strFinalData;
 }

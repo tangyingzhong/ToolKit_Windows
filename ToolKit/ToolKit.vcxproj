@@ -36,7 +36,7 @@
     <ClCompile Include="Tool\Directory\Directory.cpp" />
     <ClCompile Include="Tool\DllLoader\DllLoader.cpp" />
     <ClCompile Include="Tool\Encoding\ANSI.cpp" />
-    <ClCompile Include="Tool\Encoding\Unicode.cpp" />
+    <ClCompile Include="Tool\Encoding\UTF16.cpp" />
     <ClCompile Include="Tool\Encoding\UTF8.cpp" />
     <ClCompile Include="Tool\EventHandler\EventHandler.cpp" />
     <ClCompile Include="Tool\File\File.cpp" />
@@ -91,7 +91,7 @@
     <ClInclude Include="Tool\DllLoader\DllLoader.h" />
     <ClInclude Include="Tool\Encoding\ANSI.h" />
     <ClInclude Include="Tool\Encoding\EncodeType.h" />
-    <ClInclude Include="Tool\Encoding\Unicode.h" />
+    <ClInclude Include="Tool\Encoding\UTF16.h" />
     <ClInclude Include="Tool\Encoding\UTF8.h" />
     <ClInclude Include="Tool\EventHandler\EventArgs.h" />
     <ClInclude Include="Tool\EventHandler\EventHandler.h" />

@@ -1,5 +1,5 @@
 #include "Tool/Encoding/ANSI.h"
-#include "Tool/Encoding/Unicode.h"
+#include "Tool/Encoding/UTF16.h"
 #include "Tool/Directory/Directory.h"
 #include "Tool/DateTime/DateTime.h"
 #include "Log.h"
@@ -125,9 +125,9 @@ Log::Empty Log::LogToFile(String& strLogFileName, String& strLogMessage)
 
 	FileHelper.Seek(SeekOrigin::END, 0);
 
-	FixedUInt32 uLen =static_cast<FixedUInt32>(strLogMessage.ToUtf8Data().length());
+	FixedUInt32 uLen =static_cast<FixedUInt32>(strLogMessage.ToANSIData().length());
 
-	FileHelper.Write((SByteArray)strLogMessage.ToUtf8Data().c_str(), 0, uLen);
+	FileHelper.Write((SByteArray)strLogMessage.ToANSIData().c_str(), 0, uLen);
 
 	FileHelper.Close();
 }
