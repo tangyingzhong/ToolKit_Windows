@@ -25,10 +25,7 @@ namespace System
 			ENCODE_ANSI = 0,
 
 			// UTF8 type string
-			ENCODE_UTF8,
-
-			// UNICODE type string
-			ENCODE_UNICODE
+			ENCODE_UTF8
 		};
 	}
 }
