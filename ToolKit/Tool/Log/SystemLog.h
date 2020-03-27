@@ -40,7 +40,7 @@ Remark);
 {\
 	String strMsg = Message;\
 \
-	std::cout << strMsg.ToAnsiData().c_str() << std::endl;\
+	std::cout << strMsg.ToANSIData().c_str() << std::endl;\
 }
 
 #define SET_MAX_LOG_SIZE(iSize) pSystemLogger->SetMaxLoggerSize(iSize);
