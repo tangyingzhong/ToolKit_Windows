@@ -1,8 +1,13 @@
-// 版权所有：(C)2019, 深圳市安健科技股份有限公司
-// 文件名称：ToolUnitTest.cpp
-// 编码作者：唐应忠
-// 完成日期：2019-04-18
-// 内容摘要：ToolUnitTest 模块单元测试初始化和清理的实现文件
+///************************************************************************
+/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
+/// <author>tangyingzhong</author>
+/// <contact>tangyz114987@outlook.com</contact>
+/// <version>V1.0.0</version>
+/// <describe>
+/// Test tool 
+///</describe>
+/// <date>2019/4/18</date>
+///***********************************************************************
 
 #include "StdAfx.h"
 #include <CppUnitTest.h>
