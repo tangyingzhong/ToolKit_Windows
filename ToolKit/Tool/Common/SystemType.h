@@ -11,6 +11,12 @@
 #ifndef SYSTEMTYPE_H
 #define SYSTEMTYPE_H
 
+// Close the warning of c4312 which is a smaller size changed to be a bigger one
+#pragma warning(disable:4312)
+
+// Close the c4996 warning which is tip you that you should use a safe function not an old one
+#pragma warning(disable:4996)
+
 // Exclude rarely-used stuff from Windows headers
 #define WIN32_LEAN_AND_MEAN 
 #include <windows.h>

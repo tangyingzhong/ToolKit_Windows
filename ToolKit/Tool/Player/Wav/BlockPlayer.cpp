@@ -243,7 +243,7 @@ Boolean BlockPlayer::Play(SByteArray pBlock, Int32 iBlockSize)
 		// If the block size is larger than the default one
 		{
 			// We need to prepared the current block with the enough data
-			Int32 blockLeftSize = BLOCK_SIZE - currentBlock->dwUser;
+			Int32 blockLeftSize = BLOCK_SIZE - static_cast<Int32>(currentBlock->dwUser);
 
 			// Copy the user data to the current block's left space
 			Array<SByte>::Copy(pBlock,

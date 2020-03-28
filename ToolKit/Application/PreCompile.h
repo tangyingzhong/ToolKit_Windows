@@ -13,9 +13,6 @@
 
 #include "targetver.h"
 
-// Filter some paramenters not use again
-#define WIN32_LEAN_AND_MEAN             
-
 #include "Tool\Common\SystemType.h"
 
 #endif //!PRECOMPILE_H_
