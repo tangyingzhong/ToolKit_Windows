@@ -65,7 +65,7 @@ namespace System
 			ArraySize Read(char* pReadArray, Offset iOffset, ArraySize iArraySize);
 
 			// Write to the File with the array started with offset position
-			ArraySize Write(CONST char* pWriteArray, Offset iOffset, ArraySize iArraySize);
+			ArraySize Write(const char* pWriteArray, Offset iOffset, ArraySize iArraySize);
 
 			// Close the File
 			None Close();

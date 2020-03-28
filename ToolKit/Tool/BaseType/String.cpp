@@ -138,7 +138,7 @@ LPCTSTR String::CStr()
 }
 
 // Append a new std String to the String
-String& String::Append(StdString& OtherStdString)
+String& String::Append(StdString OtherStdString)
 {
 	StdString strString = GetStdString();
 

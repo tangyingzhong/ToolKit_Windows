@@ -107,7 +107,7 @@ namespace System
 			Integer Contains(SByte ch);
 
 			// Append a new std string to the string
-			String& Append(StdString& OtherStdString);
+			String& Append(StdString OtherStdString);
 
 			// Get the wide string when you are in ANSI environment to program
 			WByteArray AllocWideString();
