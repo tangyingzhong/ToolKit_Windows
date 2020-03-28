@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Tool/Directory/Directory.h"
 #include "File.h"
 
@@ -63,7 +64,7 @@ File::BOOL File::_CreateFile(String strFilePath,
 	{
 		if (GetLastError()==32)
 		{
-			//ERROR_MESSAGEBOX(_T("File Error"), _T("File is used by another process, please close it at first"));
+			std::cerr<< "File is used by another process, please close it at first" << std::endl;
 		}
 
 		return false;

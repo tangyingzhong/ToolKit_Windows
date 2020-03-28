@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Tool/Encoding/ANSI.h"
 #include "Tool/Encoding/UTF16.h"
 #include "Tool/Directory/Directory.h"
@@ -143,8 +144,7 @@ Log::BOOL Log::CreateLogDirectory()
 {
 	if (GetLogDirectory().IsEmpty())
 	{
-		ERROR_MESSAGEBOX(_T("Log Configure Error"),
-			_T("Please configure the log environment at first with interface: ConfigureEnvironment"));
+		std::cerr << "Please configure the log environment at first with interface: ConfigureEnvironment" << std::endl;
 
 		return false;
 	}
@@ -223,7 +223,7 @@ Log::Empty Log::WriteLog()
 	// Create a log file
 	if (!CreateLogFile())
 	{
-		ERROR_MESSAGEBOX(_T("Create Error"), _T("Create a log file failed!"));
+		std::cerr << "Create a log file failed!" << std::endl;
 
 		return;
 	}
@@ -360,8 +360,7 @@ Log::Empty Log::ConfigureEnvironment(String strLogDirectory)
 {
 	if (strLogDirectory.IsEmpty())
 	{
-		ERROR_MESSAGEBOX(_T("Configure log error"),
-			_T("Please give me a correct directory for the log"));
+		std::cerr << "Please give me a correct directory for the log" << std::endl;
 
 		return;
 	}

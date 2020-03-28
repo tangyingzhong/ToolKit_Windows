@@ -1,3 +1,4 @@
+#include <iostream>
 #include "SqlConnection.h"
 
 using namespace System::DataBase;
@@ -42,6 +43,16 @@ SqlConnection::Empty SqlConnection::Destory()
 	}
 }
 
+// Output error string
+Empty SqlConnection::OutputError(String strMsg)
+{
+#ifdef UNICODE
+	std::cerr << strMsg.CStr() << std::endl;
+#else
+	std::cerr << strMsg.CStr() << std::endl;
+#endif
+}
+
 // Create a connection
 SqlConnection::Empty SqlConnection::CreateConn()
 {
@@ -51,7 +62,7 @@ SqlConnection::Empty SqlConnection::CreateConn()
 	}
 	catch (_com_error e)
 	{
-		ERROR_MESSAGEBOX(_T("Database Error"), e.ErrorMessage());
+		OutputError(const_cast<TCHAR*>(e.ErrorMessage()));
 	}
 }
 
@@ -82,7 +93,7 @@ SqlConnection::BOOL SqlConnection::Open()
 		SetConnectState(ConnectionState::ADO_BROKEN);
 
 		// Send the error outside
-		ERROR_MESSAGEBOX(_T("Database Error"), e.ErrorMessage());
+		OutputError(const_cast<TCHAR*>(e.ErrorMessage()));
 	}
 
 	return false;

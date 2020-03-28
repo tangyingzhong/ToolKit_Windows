@@ -1,3 +1,4 @@
+#include <iostream>
 #include "SqlCommand.h"
 
 using namespace System::DataBase;
@@ -42,6 +43,16 @@ SqlCommand::Empty SqlCommand::Destory()
 	}
 }
 
+// Output error string
+Empty SqlCommand::OutputError(String strMsg)
+{
+#ifdef UNICODE
+	std::cerr << strMsg.CStr() << std::endl;
+#else
+	std::cerr << strMsg.CStr() << std::endl;
+#endif
+}
+
 // Create the command ptr
 SqlCommand::Empty SqlCommand::CreateCommand()
 {
@@ -53,7 +64,7 @@ SqlCommand::Empty SqlCommand::CreateCommand()
 	}
 	catch (_com_error e)
 	{
-		ERROR_MESSAGEBOX(_T("DB Error"), e.ErrorMessage());
+		OutputError(const_cast<TCHAR*>(e.ErrorMessage()));
 	}
 }
 
@@ -83,7 +94,7 @@ SqlCommand::AffectedRows SqlCommand::ExecuteNonQuery()
 	}
 	catch (_com_error e)
 	{
-		ERROR_MESSAGEBOX(_T("DB Error"), e.ErrorMessage());
+		OutputError(const_cast<TCHAR*>(e.ErrorMessage()));
 	}
 
 	return (AffectedRows)AffectedCount;
@@ -107,7 +118,7 @@ SqlCommand::pRecordSet SqlCommand::ExecuteNonQuery(AffectedRows& iAffectRows)
 	}
 	catch (_com_error e)
 	{
-		ERROR_MESSAGEBOX(_T("DB Error"), e.ErrorMessage());
+		OutputError(const_cast<TCHAR*>(e.ErrorMessage()));
 	}
 
 	return Records;
@@ -164,7 +175,7 @@ SqlCommand::Empty SqlCommand::Excute(String strStoreProcName)
 		}
 		catch (_com_error e)
 		{
-			ERROR_MESSAGEBOX(_T("Stored Procedure Run Error"), e.ErrorMessage());
+			OutputError(const_cast<TCHAR*>(e.ErrorMessage()));
 		}
 	}
 }

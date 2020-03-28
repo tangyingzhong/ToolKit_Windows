@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Tool/Common/SystemType.h"
 #include "Int.h"
 
@@ -103,7 +104,7 @@ Int Int::operator/(Int& Another)
 {
 	if (Another.GetValue() == 0)
 	{
-		ERROR_MESSAGEBOX(_T("Int Error"), _T("Divider can't be 0"));
+		std::cerr << "Divider can't be 0" << std::endl;
 	
 		return -1;
 	}
@@ -116,7 +117,7 @@ Int Int::operator/(int iValue)
 {
 	if (iValue == 0)
 	{
-		ERROR_MESSAGEBOX(_T("Int Error"), _T("Divider can't be 0"));
+		std::cerr << "Divider can't be 0" << std::endl;
 
 		return -1;
 	}

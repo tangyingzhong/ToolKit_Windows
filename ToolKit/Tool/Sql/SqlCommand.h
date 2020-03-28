@@ -78,6 +78,9 @@ namespace System
 			// Destory the command ptr
 			Empty DestoryCommand();
 
+			// Output error string
+			Empty OutputError(String strMsg);
+
 		private:
 			// Get the Connection
 			inline Connection GetConnection() const

@@ -11,6 +11,7 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
+#include <iostream>
 #include "Tool/Common/SystemType.h"
 
 using namespace System;
@@ -98,7 +99,7 @@ namespace System
 			{
 				if (iNewSize < 0)
 				{
-					ERROR_MESSAGEBOX(_T("Array Error"), _T("Irlegal new size < 0"));
+					std::cerr << "Irlegal new size < 0" << std::endl;
 
 					return;
 				}
@@ -118,7 +119,7 @@ namespace System
 			{
 				if (iIndex < 0 || iIndex >= GetArraySize())
 				{
-					ERROR_MESSAGEBOX(_T("Array Error"),_T("Irlegal input index,you must input a correct index in array's size range."));
+					std::cerr << "Irlegal input index,you must input a correct index in array's size range." << std::endl;
 
 					return *this;
 				}
@@ -168,7 +169,7 @@ namespace System
 			{
 				if (pSourceArray == NULL || pDestArray == NULL || iDestSize < iSourceSize)
 				{
-					ERROR_MESSAGEBOX(_T("Array error"), _T("Input or Dest array pointer is null or dest size < source size"));
+					std::cerr << "Input or Dest array pointer is null or dest size < source size" << std::endl;
 
 					return;
 				}
@@ -181,7 +182,7 @@ namespace System
 			{
 				if (iStartIndex < 0 || iCount < 0 || pArray == NULL)
 				{
-					ERROR_MESSAGEBOX(_T("Array error"), _T("Input or Dest array pointer is null or clear count <0"));
+					std::cerr << "Input or Dest array pointer is null or clear count <0" << std::endl;
 
 					return;
 				}
@@ -229,7 +230,7 @@ namespace System
 
 				if (GetElementPointer() == NULL)
 				{
-					ERROR_MESSAGEBOX(_T("Array Error"), _T("Failed to create buffer in the array!"));
+					std::cerr << "Failed to create buffer in the array!" << std::endl;
 
 					return;
 				} 
@@ -282,7 +283,7 @@ namespace System
 			{
 				if (iIndex < 0 || iIndex >= GetArraySize() || GetElementPointer() == NULL)
 				{
-					ERROR_MESSAGEBOX(_T("Array Error"), _T("Irlegal input index,you must input a correct index in array's size range."));
+					std::cerr << "Irlegal input index,you must input a correct index in array's size range." << std::endl;
 
 					return m_EmptyElement;
 				}

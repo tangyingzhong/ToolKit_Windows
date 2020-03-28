@@ -86,6 +86,9 @@ namespace System
 			// Destory the Connection
 			Empty DestoryConn();
 
+			// Output error string
+			Empty OutputError(String strMsg);
+
 		private:
 			// Get the ConnectStr
 			inline String GetConnectStr() const

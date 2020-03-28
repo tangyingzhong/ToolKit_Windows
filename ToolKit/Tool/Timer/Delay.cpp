@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Delay.h"
 
 using namespace System::Clock;
@@ -40,7 +41,7 @@ Delay::Empty Delay::DelayUs(TimeUs iTimeUs)
 	// Check the current OS is supporting such delay or not
 	if (!QueryPerformanceFrequency(&dwFreq))
 	{
-		ERROR_MESSAGEBOX(_T("Delay Error"), _T("OS do not support such delay"));
+		std::cerr << "OS do not support such delay" << std::endl;
 
 		return;
 	}

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Bool.h"
 
 using namespace System::BasicType;
@@ -101,7 +102,7 @@ Bool Bool::Parse(String& BoolString)
 	}
 	else
 	{
-		ERROR_MESSAGEBOX(_T("Bool Error"), _T("You should input the correct bool string like: true,True,TRUE or false,False,FALSE"));
+		std::cerr << "You should input the correct bool string like: true,True,TRUE or false,False,FALSE" << std::endl;
 	}
 
 	return bResult;
