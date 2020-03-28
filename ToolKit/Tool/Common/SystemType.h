@@ -112,9 +112,6 @@ namespace System
 	// Double real: 8 bytes in memory
 	typedef double Real;	
 
-	// Function that called back by a thread	
-	typedef FixedUInt32(__stdcall *ThreadRountine)(Object obj);
-
 	// The way to open the file
 	enum FILE_MODE_ENUM
 	{

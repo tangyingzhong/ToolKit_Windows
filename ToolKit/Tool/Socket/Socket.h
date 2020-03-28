@@ -36,7 +36,7 @@ namespace System
 			typedef System::Int32 Length;
 			typedef System::FixedUInt32 Size;
 			typedef System::Int32 ListenCapacity;
-			typedef System::ThreadRountine ThreadRountine;
+			typedef FixedUInt32(__stdcall *ThreadRountine)(Object obj);
 			typedef System::Encoding::ENCODE_TYPE_ENUM EncodeType;
 			typedef ADDRESS_FAMILY_ENUM AddressFamily;
 			typedef SOCKET_TYPE_ENUM SocketType;
