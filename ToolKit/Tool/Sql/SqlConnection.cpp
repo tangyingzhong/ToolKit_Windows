@@ -19,7 +19,7 @@ SqlConnection::~SqlConnection()
 }
 
 // Init the connection
-SqlConnection::Empty SqlConnection::Initialize()
+SqlConnection::None SqlConnection::Initialize()
 {
 	// Init the com
 	::CoInitialize(NULL);
@@ -29,7 +29,7 @@ SqlConnection::Empty SqlConnection::Initialize()
 }
 
 // Destory the connection
-SqlConnection::Empty SqlConnection::Destory()
+SqlConnection::None SqlConnection::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -44,7 +44,7 @@ SqlConnection::Empty SqlConnection::Destory()
 }
 
 // Output error string
-Empty SqlConnection::OutputError(String strMsg)
+None SqlConnection::OutputError(String strMsg)
 {
 #ifdef UNICODE
 	std::cerr << strMsg.CStr() << std::endl;
@@ -54,7 +54,7 @@ Empty SqlConnection::OutputError(String strMsg)
 }
 
 // Create a connection
-SqlConnection::Empty SqlConnection::CreateConn()
+SqlConnection::None SqlConnection::CreateConn()
 {
 	try
 	{
@@ -67,7 +67,7 @@ SqlConnection::Empty SqlConnection::CreateConn()
 }
 
 // Destory the Connection
-SqlConnection::Empty SqlConnection::DestoryConn()
+SqlConnection::None SqlConnection::DestoryConn()
 {
 	Close();
 }
@@ -100,7 +100,7 @@ SqlConnection::BOOL SqlConnection::Open()
 }
 
 // Close the DB
-SqlConnection::Empty SqlConnection::Close()
+SqlConnection::None SqlConnection::Close()
 {
 	if (GetConnector())
 	{

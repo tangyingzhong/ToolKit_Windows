@@ -20,7 +20,7 @@ namespace System
 		class MutexLocker
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef Mutex* Lock;
 
 		public:
@@ -38,7 +38,7 @@ namespace System
 			}
 
 			// Set the Locker
-			inline Empty SetLocker(Lock pLock)
+			inline None SetLocker(Lock pLock)
 			{
 				m_Lock = pLock;
 			}

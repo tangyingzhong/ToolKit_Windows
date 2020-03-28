@@ -22,7 +22,7 @@ namespace System
 		class SharedMemory
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Object Object;
 			typedef System::Boolean BOOL;
 			typedef System::Byte Byte;
@@ -63,16 +63,16 @@ namespace System
 
 		private:
 			// Initialize the shared memory
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the shared memory
-			Empty Destory();
+			None Destory();
 
 			// Open the map file
-			Empty Open();
+			None Open();
 
 			// Close the map file
-			Empty Close();
+			None Close();
 
 			// Is the shared memory opened or not
 			BOOL IsOpen();
@@ -85,7 +85,7 @@ namespace System
 			}
 
 			// Set the Mapfile
-			inline Empty SetMapfileHandle(MapFileHandle hMapFile)
+			inline None SetMapfileHandle(MapFileHandle hMapFile)
 			{
 				m_MapfileHandle = hMapFile;
 			}
@@ -97,7 +97,7 @@ namespace System
 			}
 
 			// Set the Name
-			inline Empty SetMapFileName(MapFileName strMapFileName)
+			inline None SetMapFileName(MapFileName strMapFileName)
 			{
 				m_MapFileName = strMapFileName;
 			}
@@ -109,7 +109,7 @@ namespace System
 			}
 
 			// Set the SharedSize
-			inline Empty SetSharedSize(MapFileSize iMapSize)
+			inline None SetSharedSize(MapFileSize iMapSize)
 			{
 				m_SharedSize = iMapSize;
 			}
@@ -121,7 +121,7 @@ namespace System
 			}
 
 			// Set the disposed	
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}

@@ -52,7 +52,7 @@ struct EventPara
 class IEventHandler
 {
 public:
-    typedef Empty(*HandlerFunc)(EventPara& EventParamenter);
+    typedef None(*HandlerFunc)(EventPara& EventParamenter);
 
 public:
     // Destruct the event handler
@@ -60,7 +60,7 @@ public:
 
 public:
     // Fire event
-    virtual Empty FireEvent(Object pSender,Int32 iEventID,EventArgs* pArgs)=0;
+    virtual None FireEvent(Object pSender,Int32 iEventID,EventArgs* pArgs)=0;
 
     // Register an object's callback to the event handler
     virtual Boolean RegisterEvent(Object pReceiver, Int32 iEventID,HandlerFunc pHandlerFunc)=0;

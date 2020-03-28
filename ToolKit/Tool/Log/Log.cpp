@@ -31,7 +31,7 @@ Log* Log::GetInstance()
 }
 
 // Destory log self
-Log::Empty Log::DestoryInstance()
+Log::None Log::DestoryInstance()
 {
 	if (m_Instance)
 	{
@@ -54,7 +54,7 @@ Log::~Log()
 }
 
 // Init the log
-Log::Empty Log::Initialize()
+Log::None Log::Initialize()
 {
 	String strCurExePath = System::IO::Directory::GetExcutableDirectory();
 
@@ -66,7 +66,7 @@ Log::Empty Log::Initialize()
 }
 
 // Dispose the resource of log
-Log::Empty Log::Destory()
+Log::None Log::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -77,7 +77,7 @@ Log::Empty Log::Destory()
 }
 
 // Register the log type
-Log::Empty Log::RegisterLogType()
+Log::None Log::RegisterLogType()
 {
 	LogTypeArray[LOGGING_ERROR] = _T("LOG_ERROR");
 
@@ -113,7 +113,7 @@ Log::BOOL Log::AddSeperateLines(String strLogFileName)
 }
 
 // Log the message into file
-Log::Empty Log::LogToFile(String& strLogFileName, String& strLogMessage)
+Log::None Log::LogToFile(String& strLogFileName, String& strLogMessage)
 {
 	if (strLogFileName.IsEmpty() || strLogMessage.IsEmpty())
 	{
@@ -212,7 +212,7 @@ Log::Size Log::GetCurLogFileSize()
 }
 
 // Write the message to log
-Log::Empty Log::WriteLog()
+Log::None Log::WriteLog()
 {
 	// Create a log directory
 	if (!CreateLogDirectory())
@@ -261,7 +261,7 @@ Log::Empty Log::WriteLog()
 }
 
 // Bacckup log file
-Empty Log::BackupLog(String strLogFileName)
+None Log::BackupLog(String strLogFileName)
 {
 	// Create a new file name
 	Int32 iPos = strLogFileName.FindLast(_T("\\"));
@@ -322,7 +322,7 @@ String Log::BuildMessage(LogType eLogType,
 }
 
 // Add log message into container
-Log::Empty Log::Add(String& strMessage)
+Log::None Log::Add(String& strMessage)
 {
 	m_LogMesaageTable.push(strMessage);
 }
@@ -345,7 +345,7 @@ String Log::ConnectAllMessages()
 }
 
 // Clear the log message container
-Log::Empty Log::Clear()
+Log::None Log::Clear()
 {
 	while (!m_LogMesaageTable.empty())
 	{
@@ -356,7 +356,7 @@ Log::Empty Log::Clear()
 }
 
 // Config the log environment
-Log::Empty Log::ConfigureEnvironment(String strLogDirectory)
+Log::None Log::ConfigureEnvironment(String strLogDirectory)
 {
 	if (strLogDirectory.IsEmpty())
 	{
@@ -369,7 +369,7 @@ Log::Empty Log::ConfigureEnvironment(String strLogDirectory)
 }
 
 // Record log message
-Log::Empty Log::Record(LogType eLogType,
+Log::None Log::Record(LogType eLogType,
 	ProcessID strProcessID,
 	ThreadID strThreadID,
 	String strFileName,
@@ -408,7 +408,7 @@ Log::Empty Log::Record(LogType eLogType,
 }
 
 // Flush the log messages in container to the file
-Log::Empty Log::Flush()
+Log::None Log::Flush()
 {
 	MutexLocker locker(m_Mutex);
 
@@ -417,7 +417,7 @@ Log::Empty Log::Flush()
 }
 
 // Log the message to trace window
-Log::Empty Log::Trace(LogType eLogType,
+Log::None Log::Trace(LogType eLogType,
 	ProcessID strProcessID,
 	ThreadID strThreadID,
 	String strFileName,
@@ -442,7 +442,7 @@ Log::Empty Log::Trace(LogType eLogType,
 }
 
 // Set log size
-Log::Empty Log::SetMaxLoggerSize(Size iSize)
+Log::None Log::SetMaxLoggerSize(Size iSize)
 {
 	SetMaxLogSize(iSize);
 }

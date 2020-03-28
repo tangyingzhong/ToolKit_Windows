@@ -43,7 +43,7 @@ namespace System
 
 	public:
 		// Listen plugins
-		virtual Empty Listen(Object pListener,
+		virtual None Listen(Object pListener,
 			HandlerFunc pListenHandler,
 			Int32 iEventID)
 		{
@@ -52,17 +52,17 @@ namespace System
 
 	protected:
 		// Notidy all listeners who listening this event id
-		Empty Notify(Object pNotifier, Int32 iEventID, T2* pArgs)
+		None Notify(Object pNotifier, Int32 iEventID, T2* pArgs)
 		{
 			m_EventHandler.FireEvent(pNotifier, iEventID, pArgs);
 		}
 
 	private:
 		// Initialize the EventBase
-		Empty Initialize(){	}
+		None Initialize(){	}
 
 		// Destory the EventBase
-		Empty Destory(){	}
+		None Destory(){	}
 
 	private:
 		// Get the disposed status
@@ -72,7 +72,7 @@ namespace System
 		}
 
 		// Set the disposed status
-		inline Empty SetDisposed(Boolean bDisposed)
+		inline None SetDisposed(Boolean bDisposed)
 		{
 			m_bDisposed = bDisposed;
 		}

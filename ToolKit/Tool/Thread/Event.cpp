@@ -37,13 +37,13 @@ Event& Event::operator=(const Event& other)
 }
 
 // Initialize the Event
-Event::Empty Event::Initialize()
+Event::None Event::Initialize()
 {
 	
 }
 
 // Dispose the Event
-Event::Empty Event::Destory()
+Event::None Event::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -74,7 +74,7 @@ Event::BOOL Event::Open(String strEventName)
 }
 
 // Activate the event
-Event::Empty Event::Signaled()
+Event::None Event::Signaled()
 {
 	if (GetEventHandle())
 	{
@@ -83,7 +83,7 @@ Event::Empty Event::Signaled()
 }
 
 // Disactivate the event
-Event::Empty Event::NonSignaled()
+Event::None Event::NonSignaled()
 {
 	if (GetEventHandle())
 	{
@@ -92,13 +92,13 @@ Event::Empty Event::NonSignaled()
 }
 
 // Wait for the event
-Event::Empty Event::Wait(MsTimeout iMsTimeout)
+Event::None Event::Wait(MsTimeout iMsTimeout)
 {
 	::WaitForSingleObject(GetEventHandle(), iMsTimeout);
 }
 
 // Close the event
-Event::Empty Event::Close()
+Event::None Event::Close()
 {
 	if (GetEventHandle())
 	{

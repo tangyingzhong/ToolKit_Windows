@@ -21,7 +21,7 @@ namespace System
 		class Int
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 
 		public:
@@ -161,7 +161,7 @@ namespace System
 			}
 
 			// Set the Value
-			inline Empty SetValue(int iValue)
+			inline None SetValue(int iValue)
 			{
 				m_Value = iValue;
 			}

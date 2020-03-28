@@ -31,8 +31,8 @@ namespace System
 			// Allow the object assignment
 			EventArgs& operator=(const EventArgs& other) {	}
 
-			// Get empty object
-			static EventArgs Empty() {	}
+			// Get None object
+			static EventArgs IsEmpty() {	}
 		};
 	}
 }

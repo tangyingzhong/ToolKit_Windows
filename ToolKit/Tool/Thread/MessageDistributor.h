@@ -22,7 +22,7 @@ namespace System
 		class MessageDistributor
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef System::Int32 MessageValue;
 			typedef String TargetFormName;
@@ -44,16 +44,16 @@ namespace System
 
 		public:
 			// Send the Message to the sepcify window
-			Empty Send(TargetFormName strFormName, MessageValue iMessageValue, DataAttach& AttachData);
+			None Send(TargetFormName strFormName, MessageValue iMessageValue, DataAttach& AttachData);
 
 			// Send the Messageto the sepcify window
-			Empty Send(TargetFormName strFormName, MessageValue iMessageValue);
+			None Send(TargetFormName strFormName, MessageValue iMessageValue);
 
 			// Post the Message to the sepcify window(the message will be stored in windows message queue)
-			Empty Post(TargetFormName strFormName, MessageValue iMessageValue, DataAttach& AttachData);
+			None Post(TargetFormName strFormName, MessageValue iMessageValue, DataAttach& AttachData);
 
 			// Post the Messageto the sepcify window(the message will be stored in windows message queue)
-			Empty Post(TargetFormName strFormName, MessageValue iMessageValue);
+			None Post(TargetFormName strFormName, MessageValue iMessageValue);
 
 		private:
 			// Get the disposed
@@ -63,7 +63,7 @@ namespace System
 			}
 
 			// Set the disposed	
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}

@@ -83,13 +83,13 @@ namespace System
 
 		private:
 			// Initialize the GeneralPlayer
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the GeneralPlayer
-			Empty Destory();
+			None Destory();
 
 			// Cleanup the audio
-			Empty CleanupAudio();
+			None CleanupAudio();
 
 		private:
 			// Get the GraphBuilder
@@ -99,7 +99,7 @@ namespace System
 			}
 
 			// Set the GraphBuilder
-			inline Empty SetGraphBuilder(GraphBuilder pGraphBuilder)
+			inline None SetGraphBuilder(GraphBuilder pGraphBuilder)
 			{
 				m_pGraphBuilder = pGraphBuilder;
 			}
@@ -111,7 +111,7 @@ namespace System
 			}
 
 			// Set the MediaController
-			inline Empty SetMediaController(MediaCntrl pMediaController)
+			inline None SetMediaController(MediaCntrl pMediaController)
 			{
 				m_pMediaController = pMediaController;
 			}
@@ -123,7 +123,7 @@ namespace System
 			}
 
 			// Set the MediaEvent
-			inline Empty SetMediaEvent(MediaEvent pMediaEvent)
+			inline None SetMediaEvent(MediaEvent pMediaEvent)
 			{
 				m_pMediaEvent = pMediaEvent;
 			}
@@ -135,7 +135,7 @@ namespace System
 			}
 
 			// Set the MediaSeeking
-			inline Empty SetMediaSeeking(MediaSeeking pMediaSeeking)
+			inline None SetMediaSeeking(MediaSeeking pMediaSeeking)
 			{
 				m_pMediaSeeking = pMediaSeeking;
 			}
@@ -147,7 +147,7 @@ namespace System
 			}
 
 			// Set the BasicAudio
-			inline Empty SetBasicAudio(BasicAudio pBasicAudio)
+			inline None SetBasicAudio(BasicAudio pBasicAudio)
 			{
 				m_pBasicAudio = pBasicAudio;
 			}
@@ -159,7 +159,7 @@ namespace System
 			}
 
 			// Set the AudioDuration
-			inline Empty SetAudioDuration(Int64 iAudioDuration)
+			inline None SetAudioDuration(Int64 iAudioDuration)
 			{
 				m_iAudioDuration = iAudioDuration;
 			}
@@ -171,7 +171,7 @@ namespace System
 			}
 
 			// Set the disposed status
-			inline Empty SetDisposed(Boolean bDisposed)
+			inline None SetDisposed(Boolean bDisposed)
 			{
 				m_bDisposed = bDisposed;
 			}

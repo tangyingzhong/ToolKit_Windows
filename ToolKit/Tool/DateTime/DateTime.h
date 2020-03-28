@@ -25,7 +25,7 @@ namespace System
 		class DateTime
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef vector<String> SepratorTable;
 			
@@ -99,10 +99,10 @@ namespace System
 
 		private:
 			// Get the UTC time
-			Empty GetUTCTime();
+			None GetUTCTime();
 
 			// Get the Current local time
-			Empty GetLoclTime();
+			None GetLoclTime();
 
 			// Get time format seprators
 			Boolean GetTimeFormatSep(String strTimeFormat, TimeFormat& FormatEnum, SepratorTable& Table);
@@ -136,7 +136,7 @@ namespace System
 			}
 
 			// Set the time type
-			inline Empty SetTimeType(TIME_TYPE_ENUM Type)
+			inline None SetTimeType(TIME_TYPE_ENUM Type)
 			{
 				m_eTimeType = Type;
 			}

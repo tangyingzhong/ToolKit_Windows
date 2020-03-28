@@ -15,13 +15,13 @@ Mutex::~Mutex()
 }
 
 // Lock the resource
-Mutex::Empty Mutex::Lock()
+Mutex::None Mutex::Lock()
 {
 	EnterCriticalSection(&m_CritialSection);
 }
 
 // Unlock the resource
-Mutex::Empty Mutex::Unlock()
+Mutex::None Mutex::Unlock()
 {
 	LeaveCriticalSection(&m_CritialSection);
 }

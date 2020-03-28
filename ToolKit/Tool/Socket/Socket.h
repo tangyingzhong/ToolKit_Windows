@@ -25,7 +25,7 @@ namespace System
 		class Socket
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef System::Byte Byte;
 			typedef System::ByteArray ByteArray;
@@ -83,14 +83,14 @@ namespace System
 			BOOL GetLoaclIP(vector<IPAddress>& vIPAddrTable);
 
 			// Get Ip with Mac table
-			Empty GetLocalIpMAc(MacIpTable& IpMacTable);
+			None GetLocalIpMAc(MacIpTable& IpMacTable);
 
 			// Get Mac by ip
 			BOOL Socket::GetMacByIp(String strIpAddr, String& strMacAddr);
 
 		public:
 			// Open the socket
-			Empty Open();
+			None Open();
 
 			// Receive the data
 			BOOL Receive(SByteArray pReadBuffer, Length iOffset, Length iReadSize);
@@ -117,23 +117,23 @@ namespace System
 			Length EndSend(IAsyncResult pAsyncResult);
 
 			// Close the socket
-			Empty Close();
+			None Close();
 
 		private:
 			// Init the socket
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the socket
-			Empty Destory();
+			None Destory();
 
 			// Create a new socket
-			Empty CreateSocket();
+			None CreateSocket();
 
 			// Destory the socket
-			Empty DestorySocket();
+			None DestorySocket();
 
 			// Configure the socket
-			Empty Configure(IPAddress strIPAddress, NetPort iPortNo);
+			None Configure(IPAddress strIPAddress, NetPort iPortNo);
 
 			// Sokcet is valid or not
 			BOOL IsValid();
@@ -160,7 +160,7 @@ namespace System
 			}
 
 			// Set the family address
-			inline Empty SetAddrFamily(AddressFamily eAddrFamily)
+			inline None SetAddrFamily(AddressFamily eAddrFamily)
 			{
 				m_AddrFamily = eAddrFamily;
 			}
@@ -172,7 +172,7 @@ namespace System
 			}
 
 			// Set the socket type
-			inline Empty SetSocketType(SocketType eSocketType)
+			inline None SetSocketType(SocketType eSocketType)
 			{
 				m_SocketType = eSocketType;
 			}
@@ -184,7 +184,7 @@ namespace System
 			}
 
 			// Set the protocol type
-			inline Empty SetProtocolType(ProtocolType eProtocolType)
+			inline None SetProtocolType(ProtocolType eProtocolType)
 			{
 				m_ProtocolType = eProtocolType;
 			}
@@ -196,7 +196,7 @@ namespace System
 			}
 
 			// Set the disposed	status
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}

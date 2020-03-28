@@ -28,7 +28,7 @@ Timer::~Timer()
 }
 
 // Open the timer
-Timer::Empty Timer::Open()
+Timer::None Timer::Open()
 {
 	if (GetClosed() == true)
 	{
@@ -44,7 +44,7 @@ Timer::Empty Timer::Open()
 }
 
 // Close the timer
-Timer::Empty Timer::Close()
+Timer::None Timer::Close()
 {
 	if (GetClosed() == false)
 	{

@@ -20,7 +20,7 @@ namespace System
 		class Counter
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Real TimeS;
 			typedef System::Real TimeMs;
 			typedef System::Real TimeUs;
@@ -42,10 +42,10 @@ namespace System
 
 		public:
 			// Start the counter
-			Empty Start();
+			None Start();
 
 			// Stop the counter
-			Empty Stop();
+			None Stop();
 
 			// Get the total time (s)
 			TimeS GetCountTimeS();
@@ -58,10 +58,10 @@ namespace System
 
 		private:
 			// Init the Counter 
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the Counter
-			Empty Destory();
+			None Destory();
 
 		private:
 			// Get the disposed
@@ -71,7 +71,7 @@ namespace System
 			}
 
 			// Set the disposed	
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}

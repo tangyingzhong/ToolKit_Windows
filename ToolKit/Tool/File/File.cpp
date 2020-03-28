@@ -17,13 +17,13 @@ File::~File()
 }
 
 // Initialize the File
-File::Empty File::Initialize()
+File::None File::Initialize()
 {
 
 }
 
 // Dispose the File
-File::Empty File::Destory()
+File::None File::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -390,7 +390,7 @@ File::ArraySize File::Write(CONST char* pWriteArray, Offset iOffset, ArraySize i
 }
 
 // Close the file opened now
-File::Empty File::Close()
+File::None File::Close()
 {
 	if (GetFileHandle())
 	{

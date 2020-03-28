@@ -29,7 +29,7 @@ namespace System
 			typedef Int32 Index;
 			typedef Int32 Length;
 			typedef Boolean BOOL;
-			typedef Empty Empty;
+			typedef None None;
 			typedef Int32 Integer;
 			typedef Character Character;
 			typedef CharArray CharArray;
@@ -38,7 +38,7 @@ namespace System
 			typedef std::vector<String> StringTable;
 
 		public:
-			// Contruct an empty string
+			// Contruct an None string
 			String();
 
 			// Destruct the string
@@ -139,10 +139,10 @@ namespace System
 			// Is string not equals to the other one
 			BOOL operator!=(String OtherString);
 
-			// Set empty string
-			Empty SetEmpty();
+			// Set None string
+			None SetEmpty();
 
-			// Is empty string
+			// Is None string
 			BOOL IsEmpty();
 
 			// Get C-type string 
@@ -189,16 +189,16 @@ namespace System
 
 		private:
 			// Initialize the String
-			Empty Initialize(StdString OtherStdString);
+			None Initialize(StdString OtherStdString);
 
 			// Destory the String
-			Empty Destroy();
+			None Destroy();
 
 			// Create a c type array
-			Empty CreateCArray();
+			None CreateCArray();
 
 			// Destory the c type array
-			Empty DestoryCArray();
+			None DestoryCArray();
 
 			// Is the current string equals to the other one
 			BOOL Equal(String& OtherString);
@@ -217,13 +217,13 @@ namespace System
 			}
 
 			// Set std string
-			inline Empty SetStdString(StdString OtherStdString)
+			inline None SetStdString(StdString OtherStdString)
 			{
 				m_StdString = OtherStdString;
 			}
 
 			// Set string's length
-			inline Empty SetLength(Length iLength)
+			inline None SetLength(Length iLength)
 			{
 				m_Length = iLength;
 			}
@@ -235,7 +235,7 @@ namespace System
 			}
 
 			// Set the C type array
-			inline Empty SetCArray(Array<Character>* pCArray)
+			inline None SetCArray(Array<Character>* pCArray)
 			{
 				m_pCArray = pCArray;
 			}
@@ -247,7 +247,7 @@ namespace System
 			}
 
 			// Set the Disposed status
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}

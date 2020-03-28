@@ -15,7 +15,7 @@ Counter::~Counter()
 }
 
 // Init the Counter 
-Counter::Empty Counter::Initialize()
+Counter::None Counter::Initialize()
 {
 	// Zero the paras
 	ZeroMemory(&m_PreviousTime, sizeof(LargeTime));
@@ -29,7 +29,7 @@ Counter::Empty Counter::Initialize()
 }
 
 // Dispose the Counter
-Counter::Empty Counter::Destory()
+Counter::None Counter::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -38,13 +38,13 @@ Counter::Empty Counter::Destory()
 }
 
 // Start the counter
-Counter::Empty Counter::Start()
+Counter::None Counter::Start()
 {
 	QueryPerformanceCounter(&m_PreviousTime);
 }
 
 // Stop the counter
-Counter::Empty Counter::Stop()
+Counter::None Counter::Stop()
 {
 	QueryPerformanceCounter(&m_CurTime);
 }

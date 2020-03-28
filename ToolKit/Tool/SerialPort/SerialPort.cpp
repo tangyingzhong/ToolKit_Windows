@@ -15,13 +15,13 @@ SerialPort::~SerialPort()
 }
 
 // Init a serial port
-SerialPort::Empty SerialPort::Initialize()
+SerialPort::None SerialPort::Initialize()
 {
 
 }
 
 // Dispose the port source
-SerialPort::Empty SerialPort::Destory()
+SerialPort::None SerialPort::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -312,7 +312,7 @@ SerialPort::PortSize SerialPort::Write(ByteArray pWriteArray, Offset iOffset, Ar
 }
 
 // Close the port
-SerialPort::Empty SerialPort::Close()
+SerialPort::None SerialPort::Close()
 {
 	if (GetPortHandle())
 	{
@@ -323,7 +323,7 @@ SerialPort::Empty SerialPort::Close()
 }
 
 // Clear the resource having by the port
-SerialPort::Empty SerialPort::Clear()
+SerialPort::None SerialPort::Clear()
 {
 	ClearCache();
 }

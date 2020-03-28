@@ -22,7 +22,7 @@ namespace System
 		class CircleBuffer
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef System::Object Object;
 			typedef System::Byte Byte;
@@ -78,7 +78,7 @@ namespace System
 			{
 				BOOL bSuccess = false;
 
-				// To know wether the buffer is empty
+				// To know wether the buffer is None
 				if (IsEmpty() == true)
 				{
 					Sleep(2);
@@ -124,7 +124,7 @@ namespace System
 			}
 
 			// Resize the Buffer size
-			Empty Resize(Length iNewSize)
+			None Resize(Length iNewSize)
 			{			
 				SetReadPos(0);
 				SetWritePos(0);
@@ -134,7 +134,7 @@ namespace System
 			}
 
 			// Clear the buffer
-			Empty Clear()
+			None Clear()
 			{
 				SetReadPos(0);
 				SetWritePos(0);
@@ -144,7 +144,7 @@ namespace System
 
 		private:
 			// Initialize the CircleBuffer
-			Empty Initialize(Length iBufferSize)
+			None Initialize(Length iBufferSize)
 			{
 				// Set the buffer size
 				SetBufferSize(iBufferSize);
@@ -163,7 +163,7 @@ namespace System
 			}
 
 			// Destory the CircleBuffer
-			Empty Destory()
+			None Destory()
 			{
 				if (!GetDisposed())
 				{
@@ -183,7 +183,7 @@ namespace System
 				return false;
 			}
 
-			// Is the buffer empty
+			// Is the buffer None
 			BOOL IsEmpty()
 			{
 				if (GetReadPos() - GetWritePos() == 0)
@@ -195,19 +195,19 @@ namespace System
 			}
 
 			// Increment the position
-			Empty IncrementPos(Index& iPos)
+			None IncrementPos(Index& iPos)
 			{
 				iPos++;
 			}
 
 			// Increase the read position
-			Empty IncreaseReadPos()
+			None IncreaseReadPos()
 			{
 				IncrementPos(GetReadPos());
 			}
 
 			// Increase the write position
-			Empty IncreaseWritePos()
+			None IncreaseWritePos()
 			{
 				IncrementPos(GetWritePos());
 			}
@@ -258,7 +258,7 @@ namespace System
 			}
 
 			// Set the write position
-			inline Empty SetWritePos(Index iWritePos)
+			inline None SetWritePos(Index iWritePos)
 			{
 				m_WritePos = iWritePos;
 			}
@@ -270,13 +270,13 @@ namespace System
 			}
 
 			// Set the read position
-			inline Empty SetReadPos(Index iReadPos)
+			inline None SetReadPos(Index iReadPos)
 			{
 				m_ReadPos = iReadPos;
 			}
 
 			// Set the buffer size
-			inline Empty SetBufferSize(Length iBufferSize)
+			inline None SetBufferSize(Length iBufferSize)
 			{
 				m_BufferSize = iBufferSize;
 			}
@@ -294,7 +294,7 @@ namespace System
 			}
 
 			// Set the disposed	
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}

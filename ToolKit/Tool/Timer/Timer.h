@@ -23,7 +23,7 @@ namespace System
 		class Timer
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef System::Int32 TimerID;
 			typedef System::Int32 DelayMs;
@@ -46,10 +46,10 @@ namespace System
 
 		public:
 			// Open the timer
-			Empty Open();
+			None Open();
 
 			// Close the timer
-			Empty Close();
+			None Close();
 
 		private:
 			// Get timer ID
@@ -59,7 +59,7 @@ namespace System
 			}
 
 			// Set timer ID
-			inline Empty SetTimerId(TimerID iTimerId)
+			inline None SetTimerId(TimerID iTimerId)
 			{
 				m_TimerId = iTimerId;
 			}
@@ -71,7 +71,7 @@ namespace System
 			}
 
 			// Set timer delay time
-			inline Empty SetTimerDelayTime(DelayMs iTimerDelayTime)
+			inline None SetTimerDelayTime(DelayMs iTimerDelayTime)
 			{
 				m_TimerDelayTime = iTimerDelayTime;
 			}
@@ -83,7 +83,7 @@ namespace System
 			}
 
 			// Set callback func
-			inline Empty SetCallbackFunc(CallBackFunc pCallbackFunc)
+			inline None SetCallbackFunc(CallBackFunc pCallbackFunc)
 			{
 				m_CallbackFunc = pCallbackFunc;
 			}
@@ -95,7 +95,7 @@ namespace System
 			}
 
 			// Set time para
-			inline Empty SetTimerPara(Object pTimerPara)
+			inline None SetTimerPara(Object pTimerPara)
 			{
 				m_TimerPara = pTimerPara;
 			}
@@ -107,7 +107,7 @@ namespace System
 			}
 
 			// Set the timer closed status
-			inline Empty SetClosed(BOOL bClosed)
+			inline None SetClosed(BOOL bClosed)
 			{
 				m_Closed = bClosed;
 			}
@@ -119,7 +119,7 @@ namespace System
 			}
 
 			// Set the disposed status	
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}

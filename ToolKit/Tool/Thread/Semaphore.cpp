@@ -54,13 +54,13 @@ Semaphore::~Semaphore()
 }
 
 // Initialize the semaphore
-Semaphore::Empty Semaphore::Initialize()
+Semaphore::None Semaphore::Initialize()
 {
 	Open();
 }
 
 // Dispose the semaphore
-Semaphore::Empty Semaphore::Destory()
+Semaphore::None Semaphore::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -71,7 +71,7 @@ Semaphore::Empty Semaphore::Destory()
 }
 
 // Open the semaphore
-Semaphore::Empty Semaphore::Open()
+Semaphore::None Semaphore::Open()
 {
 	SetSignalHandle(::OpenSemaphore(SEMAPHORE_ALL_ACCESS, 
 		false, 
@@ -87,7 +87,7 @@ Semaphore::Empty Semaphore::Open()
 }
 
 // Close the semaphore
-Semaphore::Empty Semaphore::Close()
+Semaphore::None Semaphore::Close()
 {
 	if (GetSignalHandle())
 	{
@@ -98,13 +98,13 @@ Semaphore::Empty Semaphore::Close()
 }
 
 // Wait for a semaphore
-Semaphore::Empty Semaphore::Acquire(MsTimeout iMsTimeout)
+Semaphore::None Semaphore::Acquire(MsTimeout iMsTimeout)
 {
 	::WaitForSingleObject(GetSignalHandle(), iMsTimeout);
 }
 
 // Make the sema to be signaled
-Semaphore::Empty Semaphore::Release()
+Semaphore::None Semaphore::Release()
 {
 	::ReleaseSemaphore(GetSignalHandle(), 1, NULL);
 }

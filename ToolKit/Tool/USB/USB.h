@@ -27,7 +27,7 @@ namespace System
 			typedef System::Int32 Value;
 			typedef System::Int32 Index;
 			typedef System::Int32 RequestCode;
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef TARGET_ENUM Target;
 			typedef DIRECTION_ENUM Direction;
@@ -99,14 +99,14 @@ namespace System
 			virtual Size Write(ByteArray pWriteArray, Offset iOffset, ArraySize iWriteSize);
 
 			// Close the usb
-			virtual Empty Close();
+			virtual None Close();
 
 		private:
 			// Init the usb
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the usb
-			Empty Destory();
+			None Destory();
 
 			// Search for the usb device path
 			String AcquireDevicePath();
@@ -118,7 +118,7 @@ namespace System
 			ByteArray CreateOnePackage(ArraySize iPackageSize);
 
 			// Destory the package
-			Empty DestoryPakcage(ByteArray pPackage);
+			None DestoryPakcage(ByteArray pPackage);
 
 			// Setup the package head
 			PHeadPackage SetupHeadPackage(ByteArray pPackage,
@@ -128,7 +128,7 @@ namespace System
 				ArraySize iTransferSize);
 
 			// Set the package with transferring array
-			Empty SetupTransPackage(ByteArray pPackage,
+			None SetupTransPackage(ByteArray pPackage,
 				PHeadPackage pHead,
 				ByteArray pTransferBuffer,
 				ArraySize iTransferSize);
@@ -146,13 +146,13 @@ namespace System
 			PInterfaceDetailInfo CreateInterfaceDetail(USBSize iSize);
 
 			// Destory the interface detail
-			Empty DestoryInterfaceDetail(PInterfaceDetailInfo interfaceDetail);
+			None DestoryInterfaceDetail(PInterfaceDetailInfo interfaceDetail);
 
 			// Set the timeout of the device
 			BOOL SetTimeOut(USBSize iTotalTimeout);
 
 			// Rebuild the vedor ID and product ID
-			Empty CreateVidPid(String strVid, String strPid, PVIDTable& vPVIDTable);
+			None CreateVidPid(String strVid, String strPid, PVIDTable& vPVIDTable);
 
 		private:
 			// Get the UsbHandle
@@ -162,7 +162,7 @@ namespace System
 			}
 
 			// Set the UsbHandle
-			inline Empty SetUsbHandle(UsbHandle hUsbHandle)
+			inline None SetUsbHandle(UsbHandle hUsbHandle)
 			{
 				m_UsbHandle = hUsbHandle;
 			}
@@ -174,7 +174,7 @@ namespace System
 			}
 
 			// Set the Path
-			inline Empty SetDevicePath(String strDevicePath)
+			inline None SetDevicePath(String strDevicePath)
 			{
 				m_DevicePath = strDevicePath;
 			}
@@ -186,7 +186,7 @@ namespace System
 			}
 
 			// Set the DeviceID
-			inline Empty SetDeviceID(DeviceID iDeviceID)
+			inline None SetDeviceID(DeviceID iDeviceID)
 			{
 				m_DeviceID = iDeviceID;
 			}
@@ -198,7 +198,7 @@ namespace System
 			}
 
 			// Set the Vid
-			inline Empty SetVid(String strUsbVid)
+			inline None SetVid(String strUsbVid)
 			{
 				m_UsbVid = strUsbVid;
 			}
@@ -210,7 +210,7 @@ namespace System
 			}
 
 			// Set the Pid
-			inline Empty SetPid(String strUsbPid)
+			inline None SetPid(String strUsbPid)
 			{
 				m_UsbPid = strUsbPid;
 			}
@@ -222,7 +222,7 @@ namespace System
 			}
 
 			// Set the Disposed
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}

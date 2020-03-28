@@ -20,7 +20,7 @@ namespace System
 		class SocketServer
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef System::Byte Byte;
 			typedef System::ByteArray ByteArray;
@@ -70,17 +70,17 @@ namespace System
 				Length iWriteSize);
 
 			// Stop the server
-			Empty Stop();
+			None Stop();
 
 		private:
 			// Initialize the socket
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the socket
-			Empty Destory();
+			None Destory();
 
 			// Open a server socket
-			Empty Open();
+			None Open();
 
 			// Bind the server port
 			BOOL Bind(IPAddress strIPAddress, NetPort iPortNo);
@@ -89,13 +89,13 @@ namespace System
 			BOOL Listen(ListenCapacity iListenNum);
 
 			// Close the server socket
-			Empty Close();
+			None Close();
 
 			// Create a socket 
-			Empty CreateSocket();
+			None CreateSocket();
 
 			// Destory the socket
-			Empty DestorySocket();
+			None DestorySocket();
 
 		private:
 			// Get the ListenSocket
@@ -105,7 +105,7 @@ namespace System
 			}
 
 			// Set the ListenSocket
-			inline Empty SetListenSocket(NetSocket pListenSocket)
+			inline None SetListenSocket(NetSocket pListenSocket)
 			{
 				m_ListenSocket = pListenSocket;
 			}
@@ -117,7 +117,7 @@ namespace System
 			}
 
 			// Set the server port
-			inline Empty SetServerPort(NetPort iServerPort)
+			inline None SetServerPort(NetPort iServerPort)
 			{
 				m_ServerPort = iServerPort;
 			}
@@ -129,7 +129,7 @@ namespace System
 			}
 
 			// Set the listen number
-			inline Empty SetListenNum(ListenCapacity iListenNum)
+			inline None SetListenNum(ListenCapacity iListenNum)
 			{
 				m_ListenNum = iListenNum;
 			}
@@ -141,7 +141,7 @@ namespace System
 			}
 
 			// Set the disposed	
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}

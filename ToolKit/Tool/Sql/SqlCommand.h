@@ -21,7 +21,7 @@ namespace System
 		class SqlCommand
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef System::Int32 Index;
 			typedef System::Int32 AffectedRows;
@@ -54,10 +54,10 @@ namespace System
 
 		public:
 			// Add Paramenter
-			Empty Add(SqlParamenter* pSqlPara);
+			None Add(SqlParamenter* pSqlPara);
 
 			// Excute the process
-			Empty Excute(String strStoreProcName);
+			None Excute(String strStoreProcName);
 
 			// Get the values
 			Any GetParamenterValue(String strParaName);
@@ -67,19 +67,19 @@ namespace System
 
 		private:
 			// Init the command
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the command
-			Empty Destory();
+			None Destory();
 
 			// Create the command ptr
-			Empty CreateCommand();
+			None CreateCommand();
 
 			// Destory the command ptr
-			Empty DestoryCommand();
+			None DestoryCommand();
 
 			// Output error string
-			Empty OutputError(String strMsg);
+			None OutputError(String strMsg);
 
 		private:
 			// Get the Connection
@@ -89,7 +89,7 @@ namespace System
 			}
 
 			// Set the Connection
-			inline Empty SetConnection(Connection pConnection)
+			inline None SetConnection(Connection pConnection)
 			{
 				m_Connection = pConnection;
 			}
@@ -101,7 +101,7 @@ namespace System
 			}
 
 			// Set the commmnd
-			inline Empty SetComm(pCommand pComm)
+			inline None SetComm(pCommand pComm)
 			{
 				m_Commnd = pComm;
 			}
@@ -113,7 +113,7 @@ namespace System
 			}
 
 			// Set the SqlText
-			inline Empty SetSqlText(String strSqlText)
+			inline None SetSqlText(String strSqlText)
 			{
 				m_SqlText = strSqlText;
 			}
@@ -125,7 +125,7 @@ namespace System
 			}
 
 			// Set the Paramenter
-			inline Empty SetParamenter(SqlParamenter& SqlPara)
+			inline None SetParamenter(SqlParamenter& SqlPara)
 			{
 				m_SqlParamenter = SqlPara;
 			}
@@ -137,7 +137,7 @@ namespace System
 			}
 
 			// Set the disposed status
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}

@@ -488,7 +488,7 @@ Reader::readObject( Token &tokenStart )
          initialTokenOk = readToken( tokenName );
       if  ( !initialTokenOk )
          break;
-      if ( tokenName.type_ == tokenObjectEnd  &&  name.empty() )  // empty object
+      if ( tokenName.type_ == tokenObjectEnd  &&  name.empty() )  // None object
          return true;
       if ( tokenName.type_ != tokenString )
          break;
@@ -539,7 +539,7 @@ Reader::readArray( Token &tokenStart )
 {
    currentValue() = Value( arrayValue );
    skipSpaces();
-   if ( *current_ == ']' ) // empty array
+   if ( *current_ == ']' ) // None array
    {
       Token endArray;
       readToken( endArray );
@@ -667,7 +667,7 @@ Reader::decodeString( Token &token, std::string &decoded )
       else if ( c == '\\' )
       {
          if ( current == end )
-            return addError( "Empty escape sequence in string", token, current );
+            return addError( "None escape sequence in string", token, current );
          Char escape = *current++;
          switch ( escape )
          {

@@ -21,7 +21,7 @@ namespace System
 		class Queue
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef System::Int32 QueueSize;			
 			typedef T ValueType;
@@ -48,7 +48,7 @@ namespace System
 			{
 				BOOL bSuccess = false;
 
-				if (!m_DataQueue.empty())
+				if (!m_DataQueue.IsEmpty())
 				{
 					ValueType value = m_DataQueue.front();
 
@@ -65,13 +65,13 @@ namespace System
 			}
 
 			// Push the data to the Queue
-			Empty Push(ValueType data)
+			None Push(ValueType data)
 			{
 				m_DataQueue.push(data);
 			}
 
 			// Clear the Queue
-			Empty Clear()
+			None Clear()
 			{
 				DataQueue().swap(this->m_DataQueue);
 			}
@@ -83,7 +83,7 @@ namespace System
 			}
 
 			// Swap two Queues
-			Empty Swap(Queue& Queue)
+			None Swap(Queue& Queue)
 			{
 				m_DataQueue.swap(Queue.m_DataQueue);
 			}

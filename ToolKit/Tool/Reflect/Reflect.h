@@ -35,7 +35,7 @@ namespace System
 		static Reflect* GetInstance();
 
 		// Destory the instance
-		static Empty DestoryInstance();
+		static None DestoryInstance();
 
 	private:
 		// Construct the reflect
@@ -53,7 +53,7 @@ namespace System
 
 	private:
 		// Dispose all registered object
-		Empty DisposeObjects();
+		None DisposeObjects();
 
 	private:
 		// Get the Disposed

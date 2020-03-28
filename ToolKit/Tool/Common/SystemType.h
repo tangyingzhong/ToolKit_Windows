@@ -35,10 +35,10 @@ namespace System
 	typedef bool Boolean;			
 
 	// Nothing
-	typedef void Empty;
+	typedef void None;
 
 	// Universal pointer : any type pointer or NULL (4 bytes in memory)
-	typedef Empty* Object;				
+	typedef None* Object;
 
 	// One byte: 0-255
 	typedef unsigned char Byte;		
@@ -307,7 +307,7 @@ namespace System
 		// This is a system file
 		UInt64 dwVirtual;
 
-		// Is empty or not
+		// Is None or not
 		Boolean IsEmpty()
 		{
 			return (dwArchive == 0

@@ -252,7 +252,7 @@ namespace System
 
 			Int32 iBufSize;
 
-			typedef Empty(*AsyncCallBack)(struct AsyncResult*);
+			typedef None(*AsyncCallBack)(struct AsyncResult*);
 
 			AsyncCallBack pCallBackFunc;
 

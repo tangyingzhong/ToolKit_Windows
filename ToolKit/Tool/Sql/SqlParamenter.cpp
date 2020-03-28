@@ -51,13 +51,13 @@ SqlParamenter& SqlParamenter::operator=(const SqlParamenter& other)
 }
 
 // Init the paramenter
-SqlParamenter::Empty SqlParamenter::Initialize()
+SqlParamenter::None SqlParamenter::Initialize()
 {
 
 }
 
 // Destory the paramenter
-SqlParamenter::Empty SqlParamenter::Destory()
+SqlParamenter::None SqlParamenter::Destory()
 {
 	if (!GetDisposed())
 	{

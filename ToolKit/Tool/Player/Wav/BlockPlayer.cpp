@@ -31,14 +31,14 @@ BlockPlayer::~BlockPlayer()
 }
 
 // Init the audio device
-Empty BlockPlayer::Initialize()
+None BlockPlayer::Initialize()
 {
 	// Create the cache blocks
 	CreateBlocks(BLOCK_SIZE);
 }
 
 // Destory the audio device
-Empty BlockPlayer::Destory()
+None BlockPlayer::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -51,7 +51,7 @@ Empty BlockPlayer::Destory()
 }
 
 // Create the cache blocks
-Empty BlockPlayer::CreateBlocks(Int32 iSize)
+None BlockPlayer::CreateBlocks(Int32 iSize)
 {
 	Array<BlockHead> TempBlocks(BLOCK_NUM);
 
@@ -66,7 +66,7 @@ Empty BlockPlayer::CreateBlocks(Int32 iSize)
 }
 
 // Destory the cache blocks
-Empty BlockPlayer::DestoryBlocks()
+None BlockPlayer::DestoryBlocks()
 {
 	for (Int32 iIndex = 0; iIndex < BLOCK_NUM; ++iIndex)
 	{
@@ -80,7 +80,7 @@ Empty BlockPlayer::DestoryBlocks()
 }
 
 // Install the cache
-Empty BlockPlayer::InstallCache()
+None BlockPlayer::InstallCache()
 {
 	for (Int32 iIndex = 0; iIndex < BLOCK_NUM; ++iIndex)
 	{
@@ -96,7 +96,7 @@ Empty BlockPlayer::InstallCache()
 }
 
 // Uninstall the cache
-Empty BlockPlayer::UnInstallCache()
+None BlockPlayer::UnInstallCache()
 {
 	for (Int32 iIndex = 0; iIndex < BLOCK_NUM; ++iIndex)
 	{
@@ -159,7 +159,7 @@ Boolean BlockPlayer::OpenDevice(CODING_FORMAT_ENUM eCodeFormat,
 }
 
 // The call back of audio play finish
-Empty CALLBACK BlockPlayer::AudioCallBack(WaveOutHandle hHandle,
+None CALLBACK BlockPlayer::AudioCallBack(WaveOutHandle hHandle,
 	Command uMsg,
 	Caller pObjectState,
 	Paramenter dwParam1,

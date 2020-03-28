@@ -17,13 +17,13 @@ DllLoader::~DllLoader()
 }
 
 // Initialize the library
-Empty DllLoader::Initialize()
+None DllLoader::Initialize()
 {
 	
 }
 
 // Destory the library
-Empty DllLoader::Destory()
+None DllLoader::Destory()
 {
 	if (!GetDisposed())
 	{

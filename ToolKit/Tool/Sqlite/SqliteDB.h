@@ -47,7 +47,7 @@ namespace System
 			Boolean Open(String strDbFilePath);
 
 			// Close the sqlite
-			Empty Close();
+			None Close();
 
 			// Is opened or not
 			Boolean IsOpen();
@@ -66,10 +66,10 @@ namespace System
 
 		private:
 			// Initialize the sqlite
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the sqlite
-			Empty Destory();
+			None Destory();
 
 			// Excute the command 
 			Boolean Excute(String strSql, Int32 iRetCode = 0);
@@ -112,7 +112,7 @@ namespace System
 			}
 
 			// Set the IsOpen
-			inline Empty SetIsOpen(Boolean bIsOpen)
+			inline None SetIsOpen(Boolean bIsOpen)
 			{
 				m_bIsOpen = bIsOpen;
 			}

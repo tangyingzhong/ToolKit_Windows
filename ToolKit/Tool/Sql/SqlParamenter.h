@@ -24,7 +24,7 @@ namespace System
 		class SqlParamenter
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Int32 ParamenterSize;
 			typedef  _ParameterPtr Paramenter;
 			typedef _variant_t ParamenterType;
@@ -54,7 +54,7 @@ namespace System
 			}
 
 			// Set paramenter name
-			inline Empty SetParaName(String strParaName)
+			inline None SetParaName(String strParaName)
 			{
 				m_ParaName = strParaName;
 			}
@@ -66,7 +66,7 @@ namespace System
 			}
 
 			// Set the data type
-			inline Empty SetDataType(DataTypeEnum eDataType)
+			inline None SetDataType(DataTypeEnum eDataType)
 			{
 				m_DataType = eDataType;
 			}
@@ -78,7 +78,7 @@ namespace System
 			}
 
 			// Set the Direction
-			inline Empty SetDirection(ParameterDirectionEnum eDirection)
+			inline None SetDirection(ParameterDirectionEnum eDirection)
 			{
 				m_Direction = eDirection;
 			}
@@ -90,7 +90,7 @@ namespace System
 			}
 
 			// Set the ParamenterSize
-			inline Empty SetParamenterSize(ParamenterSize iParaSize)
+			inline None SetParamenterSize(ParamenterSize iParaSize)
 			{
 				m_ParaSize = iParaSize;
 			}
@@ -102,17 +102,17 @@ namespace System
 			}
 
 			// Set the Value
-			inline Empty SetParaValue(ParamenterType ParaValue)
+			inline None SetParaValue(ParamenterType ParaValue)
 			{
 				m_ParaValue = ParaValue;
 			}
 
 		private:
 			// Init the paramenter
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the paramenter
-			Empty Destory();
+			None Destory();
 
 		private:
 			// Get the disposed status
@@ -122,7 +122,7 @@ namespace System
 			}
 
 			// Set the disposed status
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}

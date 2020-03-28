@@ -35,7 +35,7 @@ namespace System
 		class SqlConnection
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef CONNECT_STATE_ENUM ConnectionState;
 			typedef _ConnectionPtr Connector;
@@ -59,7 +59,7 @@ namespace System
 			BOOL Open();
 
 			// Close the database
-			Empty Close();
+			None Close();
 
 			// Set the Connector
 			Connector GetConnector() const
@@ -75,19 +75,19 @@ namespace System
 
 		private:
 			// Init the connection
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the connection
-			Empty Destory();
+			None Destory();
 
 			// Create a connection
-			Empty CreateConn();
+			None CreateConn();
 
 			// Destory the Connection
-			Empty DestoryConn();
+			None DestoryConn();
 
 			// Output error string
-			Empty OutputError(String strMsg);
+			None OutputError(String strMsg);
 
 		private:
 			// Get the ConnectStr
@@ -97,19 +97,19 @@ namespace System
 			}
 
 			// Set the ConnectStr
-			inline Empty SetConnectStr(String strConnectCmd)
+			inline None SetConnectStr(String strConnectCmd)
 			{
 				m_ConnectCmd = strConnectCmd;
 			}
 
 			// Set the Connector
-			inline Empty SetConnector(Connector pConnector)
+			inline None SetConnector(Connector pConnector)
 			{
 				m_Connector = pConnector;
 			}
 
 			// Set connection state
-			inline Empty SetConnectState(ConnectionState eConnectState)
+			inline None SetConnectState(ConnectionState eConnectState)
 			{
 				m_ConnectState = eConnectState;
 			}
@@ -121,7 +121,7 @@ namespace System
 			}
 
 			// Set the disposed status
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}

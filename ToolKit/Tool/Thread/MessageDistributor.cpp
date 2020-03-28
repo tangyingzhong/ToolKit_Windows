@@ -18,7 +18,7 @@ MessageDistributor::~MessageDistributor()
 }
 
 // Send message to the Form and attaching the data 
-MessageDistributor::Empty MessageDistributor::Send(TargetFormName strFormName, MessageValue iMessageValue, DataAttach& AttachData)
+MessageDistributor::None MessageDistributor::Send(TargetFormName strFormName, MessageValue iMessageValue, DataAttach& AttachData)
 {
 	HWND hForm = ::FindWindow(NULL, strFormName.CStr());
 	if (hForm)
@@ -28,7 +28,7 @@ MessageDistributor::Empty MessageDistributor::Send(TargetFormName strFormName, M
 }
 
 // Send the message to the specify form
-MessageDistributor::Empty MessageDistributor::Send(TargetFormName strFormName, MessageValue iMessageValue)
+MessageDistributor::None MessageDistributor::Send(TargetFormName strFormName, MessageValue iMessageValue)
 {	
 	HWND hForm = ::FindWindow(NULL, strFormName.CStr());
 	if (hForm)
@@ -38,7 +38,7 @@ MessageDistributor::Empty MessageDistributor::Send(TargetFormName strFormName, M
 }
 
 // Post the Message to the sepcify window
-MessageDistributor::Empty MessageDistributor::Post(TargetFormName strFormName, MessageValue iMessageValue, DataAttach& AttachData)
+MessageDistributor::None MessageDistributor::Post(TargetFormName strFormName, MessageValue iMessageValue, DataAttach& AttachData)
 {
 	HWND hForm = ::FindWindow(NULL, strFormName.CStr());
 	if (hForm)
@@ -48,7 +48,7 @@ MessageDistributor::Empty MessageDistributor::Post(TargetFormName strFormName, M
 }
 
 // Post the Message to the sepcify window
-MessageDistributor::Empty MessageDistributor::Post(TargetFormName strFormName, MessageValue iMessageValue)
+MessageDistributor::None MessageDistributor::Post(TargetFormName strFormName, MessageValue iMessageValue)
 {
 	HWND hForm = ::FindWindow(NULL, strFormName.CStr());
 	if (hForm)

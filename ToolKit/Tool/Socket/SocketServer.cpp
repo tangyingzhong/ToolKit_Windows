@@ -20,14 +20,14 @@ SocketServer::~SocketServer()
 }
 
 // Initialize the socket
-SocketServer::Empty SocketServer::Initialize()
+SocketServer::None SocketServer::Initialize()
 {
 	// Create a socket
 	CreateSocket();
 }
 
 // Dispose the socket
-SocketServer::Empty SocketServer::Destory()
+SocketServer::None SocketServer::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -38,7 +38,7 @@ SocketServer::Empty SocketServer::Destory()
 }
 
 // Open a server socket
-SocketServer::Empty SocketServer::Open()
+SocketServer::None SocketServer::Open()
 {
 	if (GetListenSocket())
 	{
@@ -73,19 +73,19 @@ SocketServer::BOOL SocketServer::Listen(ListenCapacity iListenNum)
 }
 
 // Close the server socket
-SocketServer::Empty SocketServer::Close()
+SocketServer::None SocketServer::Close()
 {
 	DestorySocket();
 }
 
 // Create a socket
-SocketServer::Empty SocketServer::CreateSocket()
+SocketServer::None SocketServer::CreateSocket()
 {
 	SetListenSocket(new Socket(InterNetwork, Stream, Tcp));
 }
 
 // Destory the socket
-SocketServer::Empty SocketServer::DestorySocket()
+SocketServer::None SocketServer::DestorySocket()
 {
 	if (GetListenSocket())
 	{
@@ -124,7 +124,7 @@ SocketServer::BOOL SocketServer::Start()
 }
 
 // Stop the server
-SocketServer::Empty SocketServer::Stop()
+SocketServer::None SocketServer::Stop()
 {
 	Close();
 }

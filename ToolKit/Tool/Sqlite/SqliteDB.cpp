@@ -24,13 +24,13 @@ SqliteDB::~SqliteDB()
 }
 
 // Initialize the sqlite
-Empty SqliteDB::Initialize()
+None SqliteDB::Initialize()
 {
 	
 }
 
 // Destory the sqlite
-Empty SqliteDB::Destory()
+None SqliteDB::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -86,7 +86,7 @@ Boolean SqliteDB::IsOpen()
 }
 
 // Close the sqlite
-Empty SqliteDB::Close()
+None SqliteDB::Close()
 {
 	if (GetDB()==NULL)
 	{

@@ -386,7 +386,7 @@ int sqlite3_exec(
 #define SQLITE_FULL        13   /* Insertion failed because database is full */
 #define SQLITE_CANTOPEN    14   /* Unable to open the database file */
 #define SQLITE_PROTOCOL    15   /* NOT USED. Database lock protocol error */
-#define SQLITE_EMPTY       16   /* Database is empty */
+#define SQLITE_None       16   /* Database is None */
 #define SQLITE_SCHEMA      17   /* The database schema changed */
 #define SQLITE_TOOBIG      18   /* String or BLOB exceeds size limit */
 #define SQLITE_CONSTRAINT  19   /* Abort due to constraint violation */
@@ -1302,7 +1302,7 @@ int sqlite3_busy_timeout(sqlite3*, int ms);
 **
 ** {F12376} The [sqlite3_get_table()] function sets its *ncolumn value
 **          to the number of columns in the result set of the query in the
-**          sql parameter, or to zero if the query in sql has an empty
+**          sql parameter, or to zero if the query in sql has an None
 **          result set.
 */
 int sqlite3_get_table(
@@ -1962,7 +1962,7 @@ void sqlite3_progress_handler(sqlite3*, int, int(*)(void*), void*);
 ** ":" that you prefix the filename with a pathname like "./" to
 ** avoid ambiguity.
 **
-** If the filename is an empty string, then a private temporary
+** If the filename is an None string, then a private temporary
 ** on-disk database will be created.  This private database will be
 ** automatically deleted as soon as the database connection is closed.
 **
@@ -2031,7 +2031,7 @@ void sqlite3_progress_handler(sqlite3*, int, int(*)(void*), void*);
 **          <todo>Is SQLITE_OPEN_CREATE|SQLITE_OPEN_READWRITE required
 **          in sqlite3_open_v2()?</todo>
 **
-** {F12719} If the filename is NULL or an empty string, then a private,
+** {F12719} If the filename is NULL or an None string, then a private,
 **          ephermeral on-disk database will be created.
 **          <todo>Is SQLITE_OPEN_CREATE|SQLITE_OPEN_READWRITE required
 **          in sqlite3_open_v2()?</todo>
@@ -2159,7 +2159,7 @@ typedef struct sqlite3_stmt sqlite3_stmt;
 ** *ppStmt is left pointing to a compiled [prepared statement] that can be
 ** executed using [sqlite3_step()].  Or if there is an error, *ppStmt is
 ** set to NULL.  If the input text contains no SQL (if the input
-** is and empty string or a comment) then *ppStmt is set to NULL.
+** is and None string or a comment) then *ppStmt is set to NULL.
 ** {U13018} The calling procedure is responsible for deleting the
 ** compiled SQL statement
 ** using [sqlite3_finalize()] after it has finished with it.
@@ -3011,7 +3011,7 @@ int sqlite3_data_count(sqlite3_stmt *pStmt);
 ** bytes in the string, not the number of characters.
 **
 ** Strings returned by sqlite3_column_text() and sqlite3_column_text16(),
-** even empty strings, are always zero terminated.  The return
+** even None strings, are always zero terminated.  The return
 ** value from sqlite3_column_blob() for a zero-length blob is an arbitrary
 ** pointer, possibly even a NULL pointer.
 **
@@ -5134,7 +5134,7 @@ int sqlite3_blob_write(sqlite3_blob *, const void *z, int n, int iOffset);
 ** To make an existing VFS into the default VFS, register it again
 ** with the makeDflt flag set.  If two different VFSes with the
 ** same name are registered, the behavior is undefined.  If a
-** VFS is registered with a name that is NULL or an empty string,
+** VFS is registered with a name that is NULL or an None string,
 ** then the behavior is undefined.
 ** 
 ** Unregister a VFS with the sqlite3_vfs_unregister() interface.

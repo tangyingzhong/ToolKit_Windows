@@ -89,7 +89,7 @@ namespace System
 			}
 
 			// Set the Value
-			inline Empty SetValue(double dValue)
+			inline None SetValue(double dValue)
 			{
 				m_Value = dValue;
 			}

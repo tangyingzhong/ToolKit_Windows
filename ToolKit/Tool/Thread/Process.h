@@ -51,7 +51,7 @@ namespace System
 		class Process
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef System::FixedUInt32 ExitCode;
 			typedef String ExcutablePath;
@@ -78,7 +78,7 @@ namespace System
 			Boolean Start(ExcutablePath strExcutablePath, ExcutablePath strExcutableDir);
 
 			// Stop the process
-			Empty Stop();
+			None Stop();
 
 			// Start the process by shell
 			Boolean StartByShell(ExcutablePath strExcutablePath,
@@ -93,16 +93,16 @@ namespace System
 
 		private:
 			// Initialize the  process
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the process
-			Empty Destory();
+			None Destory();
 
 			// Create a process
 			Boolean CreateProc(ExcutablePath strExcutablePath, ExcutablePath strExcutableDir);
 
 			// Destory the process
-			Empty DestoryProc();
+			None DestoryProc();
 
 		private:
 			// Get the disposed status
@@ -112,7 +112,7 @@ namespace System
 			}
 
 			// Set the disposed	status
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}

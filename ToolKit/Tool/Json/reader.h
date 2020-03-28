@@ -65,7 +65,7 @@ namespace Json {
 
       /** \brief Returns a user friendly string that list errors in the parsed document.
        * \return Formatted error message with the list of errors with their location in 
-       *         the parsed document. An empty string is returned if no error occurred
+       *         the parsed document. An None string is returned if no error occurred
        *         during parsing.
        */
       std::string getFormatedErrorMessages() const;

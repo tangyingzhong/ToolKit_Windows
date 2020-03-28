@@ -23,7 +23,7 @@ namespace System
 		class SerialPort
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef System::Byte Byte;
 			typedef System::ByteArray ByteArray;	
@@ -83,17 +83,17 @@ namespace System
 			virtual BOOL SetWriteTimeout(TimeoutMs iWriteMs);
 
 			// Close the port
-			virtual Empty Close();
+			virtual None Close();
 
 			// Clear the port
-			virtual Empty Clear();
+			virtual None Clear();
 
 		private:
 			// Init the port
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the port
-			Empty Destory();
+			None Destory();
 
 			// Configure the port
 			BOOL Configure(BoundRate eBoundRate, Parity eParity, DataBits eDataBits, StopBits eStopBits);
@@ -121,7 +121,7 @@ namespace System
 			}
 
 			// Set the PortHandle
-			inline Empty SetPortHandle(PortHandle hPortHandle)
+			inline None SetPortHandle(PortHandle hPortHandle)
 			{
 				m_PortHandle = hPortHandle;
 			}
@@ -133,7 +133,7 @@ namespace System
 			}
 
 			// Set the disposed status
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}

@@ -61,19 +61,19 @@ namespace System
 			Boolean Open(String strFileName);
 
 			// Init the audio player
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the palyer
-			Empty Destory();
+			None Destory();
 
 			// Create a block player
-			Empty CreateBlockPlayer(CODING_FORMAT_ENUM eCodeFormat,
+			None CreateBlockPlayer(CODING_FORMAT_ENUM eCodeFormat,
 				CHANNEL_ENUM eChannel,
 				BITWIDTH_ENUM eBitWidth,
 				SAMPLE_FREQ_ENUM eSampleFreq);
 
 			// Destory the block player
-			Empty DestoryBlockPlayer();
+			None DestoryBlockPlayer();
 
 			// Parse the file for the audio head info
 			Boolean ParseFile(String strFileName, AudioHeader& HeadInfo);
@@ -86,7 +86,7 @@ namespace System
 			}
 
 			// Set the FileName
-			inline Empty SetFileName(String strFileName)
+			inline None SetFileName(String strFileName)
 			{
 				m_strFileName = strFileName;
 			}
@@ -98,7 +98,7 @@ namespace System
 			}
 
 			// Set the BlockPlayer
-			inline Empty SetBlockPlayer(Player pBlockPlayer)
+			inline None SetBlockPlayer(Player pBlockPlayer)
 			{
 				m_pBlockPlayer = pBlockPlayer;
 			}
@@ -110,7 +110,7 @@ namespace System
 			}
 
 			// Set the PlayStatus
-			inline Empty SetPlayStatus(PLAY_STATE_ENUM ePlayStatus)
+			inline None SetPlayStatus(PLAY_STATE_ENUM ePlayStatus)
 			{
 				m_ePlayStatus = ePlayStatus;
 			}
@@ -122,7 +122,7 @@ namespace System
 			}
 
 			// Set the Disposed
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_bDisposed = bDisposed;
 			}

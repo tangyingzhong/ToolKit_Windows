@@ -22,7 +22,7 @@ namespace System
 		class File
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef System::FILE_MODE_ENUM FileMode;
 			typedef System::FILE_ACCESS_ENUM FileAccess;
@@ -68,7 +68,7 @@ namespace System
 			ArraySize Write(CONST char* pWriteArray, Offset iOffset, ArraySize iArraySize);
 
 			// Close the File
-			Empty Close();
+			None Close();
 
 			// Create a new File and cover one if it is exist in the directory
 			BOOL Create(String strFileName);
@@ -115,10 +115,10 @@ namespace System
 
 		private:
 			// Initialize the File
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the File
-			Empty Destory();
+			None Destory();
 
 		private:
 			// Get the Handle
@@ -128,7 +128,7 @@ namespace System
 			}
 
 			// Set the Handle
-			inline Empty SetFileHandle(FileHandle hFileHandle)
+			inline None SetFileHandle(FileHandle hFileHandle)
 			{
 				m_FileHandle = hFileHandle;
 			}
@@ -140,7 +140,7 @@ namespace System
 			}
 
 			// Set the FileName
-			inline Empty SetFileName(String strFileName)
+			inline None SetFileName(String strFileName)
 			{
 				m_FileName = strFileName;
 			}
@@ -152,7 +152,7 @@ namespace System
 			}
 
 			// Set the Disposed
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}
@@ -166,7 +166,6 @@ namespace System
 
 			// Disposed status
 			BOOL m_Disposed;
-
 		};
 	}
 }

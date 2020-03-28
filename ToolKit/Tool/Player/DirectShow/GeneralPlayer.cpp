@@ -23,13 +23,13 @@ GeneralPlayer::~GeneralPlayer()
 }
 
 // Initialize the GeneralPlayer
-Empty GeneralPlayer::Initialize()
+None GeneralPlayer::Initialize()
 {
 	::CoInitialize(NULL);
 }
 
 // Destory the GeneralPlayer
-Empty GeneralPlayer::Destory()
+None GeneralPlayer::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -44,7 +44,7 @@ Empty GeneralPlayer::Destory()
 }
 
 // Cleanup the audio
-Empty GeneralPlayer::CleanupAudio()
+None GeneralPlayer::CleanupAudio()
 {
 	if (GetGraphBuilder())
 	{

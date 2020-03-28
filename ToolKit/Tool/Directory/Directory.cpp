@@ -403,7 +403,7 @@ Directory::BOOL Directory::Copy(String strSrcDirPath, String strDestDirPath, BOO
 	return true;
 }
 
-// Delete an empty directory(The dir has no sub-directory)
+// Delete an None directory(The dir has no sub-directory)
 Directory::BOOL Directory::Delete(String strDirPath)
 {
 	if (strDirPath.IsEmpty())
@@ -577,7 +577,7 @@ Directory::BOOL Directory::IsExisted(String strDirPath)
 	return false;
 }
 
-// judge that wether the directory is empty or not
+// judge that wether the directory is None or not
 Directory::BOOL Directory::IsEmpty(String strRootDirPathPath)
 {
 	if (strRootDirPathPath.IsEmpty())
@@ -613,7 +613,7 @@ Directory::BOOL Directory::IsEmpty(String strRootDirPathPath)
 
 	Int32 bFind = 1;
 
-	BOOL bEmpty = true;
+	BOOL bNone = true;
 
 	while (bFind)
 	{
@@ -623,7 +623,7 @@ Directory::BOOL Directory::IsEmpty(String strRootDirPathPath)
 		}
 		else
 		{
-			bEmpty = false;
+			bNone = false;
 
 			break;
 		}
@@ -632,7 +632,7 @@ Directory::BOOL Directory::IsEmpty(String strRootDirPathPath)
 	// Close the finding
 	::FindClose(hDirectory);
 
-	if (bEmpty)
+	if (bNone)
 	{
 		return true;
 	}
@@ -697,7 +697,7 @@ Directory::FileAttribute Directory::GetDirAttribute(String strDirPath)
 }
 
 // Set the attribute of directory
-Directory::Empty Directory::SetDirAttribute(String strDirPath, FileAttrEnum eFileAttribute)
+Directory::None Directory::SetDirAttribute(String strDirPath, FileAttrEnum eFileAttribute)
 {
 	String strDirectory = TrimEnding(strDirPath);
 
@@ -707,7 +707,7 @@ Directory::Empty Directory::SetDirAttribute(String strDirPath, FileAttrEnum eFil
 }
 
 // Remove the attribute of the directory
-Directory::Empty Directory::RemoveDirAttribute(String strDirPath, FileAttrEnum eFileAttribute)
+Directory::None Directory::RemoveDirAttribute(String strDirPath, FileAttrEnum eFileAttribute)
 {
 	String strDirectory = TrimEnding(strDirPath);
 

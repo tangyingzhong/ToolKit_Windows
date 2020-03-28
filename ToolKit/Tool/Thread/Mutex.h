@@ -20,7 +20,7 @@ namespace System
 		class Mutex
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef CRITICAL_SECTION CRITICAL;
 
 		public:
@@ -32,10 +32,10 @@ namespace System
 
 		public:
 			// Lock the resource
-			Empty Lock();
+			None Lock();
 
 			// Unlock the resource
-			Empty Unlock();
+			None Unlock();
 
 		private:
 			// Critical section

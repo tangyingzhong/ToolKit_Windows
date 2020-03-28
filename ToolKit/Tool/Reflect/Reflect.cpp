@@ -25,7 +25,7 @@ Reflect* Reflect::GetInstance()
 }
 
 // Destory the instance
-Empty Reflect::DestoryInstance()
+None Reflect::DestoryInstance()
 {
 	MutexLocker Locker(pLock);
 
@@ -90,7 +90,7 @@ Boolean Reflect::RegisterClassType(String strClassName, CreateObject pCreateObje
 }
 
 // Dispose all registered object
-Empty Reflect::DisposeObjects()
+None Reflect::DisposeObjects()
 {
 	for (ClassTypeTable::iterator Iter = m_ClassTypeTable.begin();
 		Iter != m_ClassTypeTable.end(); 

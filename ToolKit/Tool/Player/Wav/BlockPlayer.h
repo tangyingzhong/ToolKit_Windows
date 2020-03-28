@@ -52,7 +52,7 @@ namespace System
 
 		private:
 			// The call back of audio play finish
-			static Empty CALLBACK AudioCallBack(WaveOutHandle hHandle, 	
+			static None CALLBACK AudioCallBack(WaveOutHandle hHandle, 	
 				Command uMsg,
 				Caller pObjectState, 
 				Paramenter dwParam1, 
@@ -79,22 +79,22 @@ namespace System
 			Boolean Close();
 
 			// Init the audio device
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the audio device
-			Empty Destory();
+			None Destory();
 
 			// Create the cache blocks
-			Empty CreateBlocks(Int32 iSize);
+			None CreateBlocks(Int32 iSize);
 
 			// Destory the cache blocks
-			Empty DestoryBlocks();
+			None DestoryBlocks();
 
 			// Install the cache
-			Empty InstallCache();
+			None InstallCache();
 
 			// Uninstall the cache
-			Empty UnInstallCache();
+			None UnInstallCache();
 
 		private:
 			// Fill the config para
@@ -117,7 +117,7 @@ namespace System
 			}
 
 			// Set the Handle
-			inline Empty SetHandle(WaveOutHandle hHandle)
+			inline None SetHandle(WaveOutHandle hHandle)
 			{
 				m_hHandle = hHandle;
 			}
@@ -129,7 +129,7 @@ namespace System
 			}
 
 			// Set the AvailableBlockCount
-			inline Empty SetAvailableBlockCount(Int32 iBlockCount)
+			inline None SetAvailableBlockCount(Int32 iBlockCount)
 			{
 				m_iAvailableBlockCount = iBlockCount;
 			}
@@ -141,7 +141,7 @@ namespace System
 			}
 
 			// Set the CurrentBlockIndex
-			inline Empty SetCurrentBlockIndex(Int32 iIndex)
+			inline None SetCurrentBlockIndex(Int32 iIndex)
 			{
 				m_iCurrentBlockIndex = iIndex;
 			}
@@ -153,7 +153,7 @@ namespace System
 			}
 
 			// Set the Disposed
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_bDisposed = bDisposed;
 			}
@@ -165,7 +165,7 @@ namespace System
 			}
 
 			// Set the Format
-			inline Empty SetFormat(CODING_FORMAT_ENUM eFormat)
+			inline None SetFormat(CODING_FORMAT_ENUM eFormat)
 			{
 				m_eCodeFormat = eFormat;
 			}
@@ -177,7 +177,7 @@ namespace System
 			}
 
 			// Set the Channel
-			inline Empty SetChannel(CHANNEL_ENUM eChannel)
+			inline None SetChannel(CHANNEL_ENUM eChannel)
 			{
 				m_eChannel = eChannel;
 			}
@@ -189,7 +189,7 @@ namespace System
 			}
 
 			// Set the BitWidth
-			inline Empty SetBitWidth(BITWIDTH_ENUM eBitWidth)
+			inline None SetBitWidth(BITWIDTH_ENUM eBitWidth)
 			{
 				m_eBitWidth = eBitWidth;
 			}
@@ -201,7 +201,7 @@ namespace System
 			}
 
 			// Set the Freq
-			inline Empty SetSampleFreq(SAMPLE_FREQ_ENUM eFreq)
+			inline None SetSampleFreq(SAMPLE_FREQ_ENUM eFreq)
 			{
 				m_eSampleFreq = eFreq;
 			}

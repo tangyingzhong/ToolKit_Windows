@@ -27,7 +27,7 @@ String::String(const std::wstring strWString):m_Length(0), m_pCArray(NULL), m_Di
 }
 #endif
 
-// Contruct an empty string
+// Contruct an None string
 String::String() :m_Length(0), m_pCArray(NULL), m_Disposed(false)
 {
 	Initialize(_T(""));
@@ -79,7 +79,7 @@ String& String::operator=(const String& other)
 }
 
 // Init the String
-String::Empty String::Initialize(StdString OtherStdString)
+String::None String::Initialize(StdString OtherStdString)
 {
 	// Set the default std String
 	SetStdString(OtherStdString);
@@ -92,7 +92,7 @@ String::Empty String::Initialize(StdString OtherStdString)
 }
 
 // Destory the String
-String::Empty String::Destroy()
+String::None String::Destroy()
 {
 	if (!GetDisposed())
 	{
@@ -103,13 +103,13 @@ String::Empty String::Destroy()
 }
 
 // Create a c type array
-String::Empty String::CreateCArray()
+String::None String::CreateCArray()
 {
 	SetCArray(new Array<Character>(GetLength() + 1));
 }
 
 // Destory the c type array
-String::Empty String::DestoryCArray()
+String::None String::DestoryCArray()
 {
 	if (GetCArray())
 	{
@@ -184,14 +184,14 @@ String::BOOL String::operator!=(String OtherString)
 	return !Equal(OtherString);
 }
 
-// Is empty string
+// Is None string
 String::BOOL String::IsEmpty()
 {
 	return GetStdString().empty();
 }
 
-// Set empty string
-String::Empty String::SetEmpty()
+// Set None string
+String::None String::SetEmpty()
 {
 	SetStdString(_T(""));
 }

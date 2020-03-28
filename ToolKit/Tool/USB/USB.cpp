@@ -24,13 +24,13 @@ USB::~USB()
 }
 
 // initialize the usb
-USB::Empty USB::Initialize()
+USB::None USB::Initialize()
 {
 
 }
 
 // release all the resource using by usb
-USB::Empty USB::Destory()
+USB::None USB::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -61,7 +61,7 @@ USB::BOOL USB::SetTimeOut(USBSize iTotalTimeout)
 }
 
 // Rebuild the vedor ID and product ID
-USB::Empty USB::CreateVidPid(String strVid, String strPid, PVIDTable& vPVIDTable)
+USB::None USB::CreateVidPid(String strVid, String strPid, PVIDTable& vPVIDTable)
 {
 	// Rebuild the vid and pid
 	String strVidHead = _T("vid_");
@@ -148,7 +148,7 @@ USB::PInterfaceDetailInfo USB::CreateInterfaceDetail(USBSize iSize)
 }
 
 // Destory the applyed interface detail struct
-USB::Empty USB::DestoryInterfaceDetail(PInterfaceDetailInfo interfaceDetail)
+USB::None USB::DestoryInterfaceDetail(PInterfaceDetailInfo interfaceDetail)
 {
 	::GlobalFree(interfaceDetail);
 }
@@ -285,7 +285,7 @@ USB::ByteArray USB::CreateOnePackage(ArraySize iPackageSize)
 }
 
 // Destory the buffer 
-USB::Empty USB::DestoryPakcage(ByteArray pPackage)
+USB::None USB::DestoryPakcage(ByteArray pPackage)
 {
 	if (pPackage)
 	{
@@ -316,7 +316,7 @@ USB::PHeadPackage USB::SetupHeadPackage(ByteArray pPackage,
 }
 
 // Setup the transfering buffer's data section(we need to create a new package with correct head and user buffer data)
-USB::Empty USB::SetupTransPackage(ByteArray pPackage,
+USB::None USB::SetupTransPackage(ByteArray pPackage,
 	PHeadPackage pHead,
 	ByteArray pTransferBuffer,
 	ArraySize iTransferSize)
@@ -487,7 +487,7 @@ USB::Size USB::Write(ByteArray pWriteArray, Offset iOffset, ArraySize iWriteSize
 }
 
 // Close the usb
-USB::Empty USB::Close()
+USB::None USB::Close()
 {
 	if (GetUsbHandle())
 	{

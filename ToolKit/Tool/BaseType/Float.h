@@ -90,7 +90,7 @@ namespace System
 			}
 
 			// Set the Value
-			inline Empty SetValue(float fValue)
+			inline None SetValue(float fValue)
 			{
 				m_Value = fValue;
 			}

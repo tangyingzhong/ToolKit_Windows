@@ -49,13 +49,13 @@ JsonDocument& JsonDocument::operator=(JsonDocument& other)
 }
 
 // Initialize the library
-Empty JsonDocument::Initialize()
+None JsonDocument::Initialize()
 {
 	
 }
 
 // Destory the library
-Empty JsonDocument::Destory()
+None JsonDocument::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -247,7 +247,7 @@ Boolean JsonDocument::GetKeys(KeyTable& FinalKeyTable)
 }
 
 // To map
-Empty JsonDocument::ToMap(std::map<std::string, std::string>& MapTable)
+None JsonDocument::ToMap(std::map<std::string, std::string>& MapTable)
 {
 	JsonObject::Members Mem = GetJsonObject().getMemberNames();
 
@@ -406,7 +406,7 @@ JsonDocument::JsonObject& JsonDocument::Get(JsonString strKey)
 }
 
 // Set the key's value
-Empty JsonDocument::Set(JsonString strKey, JsonObject Value)
+None JsonDocument::Set(JsonString strKey, JsonObject Value)
 {
 	if (strKey.IsEmpty())
 	{
@@ -428,7 +428,7 @@ JsonDocument JsonDocument::GetKeyValue(JsonString strKey)
 }
 
 // Set the key's value
-Empty JsonDocument::SetKeyValue(JsonString strKey, JsonString strValue)
+None JsonDocument::SetKeyValue(JsonString strKey, JsonString strValue)
 {
 	if (strKey.IsEmpty())
 	{
@@ -441,11 +441,11 @@ Empty JsonDocument::SetKeyValue(JsonString strKey, JsonString strValue)
 // Is Obejct IsEmpty
 Boolean JsonDocument::IsEmpty()
 {
-	return GetJsonObject().empty();
+	return GetJsonObject().IsEmpty();
 }
 
 // Set array
-Empty JsonDocument::SetArray(JsonDocument& JsonDoc)
+None JsonDocument::SetArray(JsonDocument& JsonDoc)
 {
 	if (JsonDoc.IsNull())
 	{
@@ -469,7 +469,7 @@ Empty JsonDocument::SetArray(JsonDocument& JsonDoc)
 }
 
 // Set the key's value
-Empty JsonDocument::SetKeyValue(JsonString strKey, JsonDocument& Doc)
+None JsonDocument::SetKeyValue(JsonString strKey, JsonDocument& Doc)
 {
 	if (strKey.IsEmpty())
 	{
@@ -499,7 +499,7 @@ Empty JsonDocument::SetKeyValue(JsonString strKey, JsonDocument& Doc)
 }
 
 // Set the key's value
-Empty JsonDocument::SetKeyValue(JsonString strKey, Int32 iValue)
+None JsonDocument::SetKeyValue(JsonString strKey, Int32 iValue)
 {
 	if (strKey.IsEmpty())
 	{
@@ -510,7 +510,7 @@ Empty JsonDocument::SetKeyValue(JsonString strKey, Int32 iValue)
 }
 
 // Set the key's value
-Empty JsonDocument::SetKeyValue(JsonString strKey, Boolean bValue)
+None JsonDocument::SetKeyValue(JsonString strKey, Boolean bValue)
 {
 	if (strKey.IsEmpty())
 	{
@@ -521,7 +521,7 @@ Empty JsonDocument::SetKeyValue(JsonString strKey, Boolean bValue)
 }
 
 // Set the key's value
-Empty JsonDocument::SetKeyValue(JsonString strKey, Real dValue)
+None JsonDocument::SetKeyValue(JsonString strKey, Real dValue)
 {
 	if (strKey.IsEmpty())
 	{

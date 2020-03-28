@@ -21,7 +21,7 @@ namespace System
 		class DoubleList
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef System::Int32 Length;
 			typedef System::Int32 Index;
@@ -95,7 +95,7 @@ namespace System
 
 		public:
 			// Add the element 
-			Empty Add(Reference Data)
+			None Add(Reference Data)
 			{
 				// Link the node to the end
 				this->LinkToEnd(Data);
@@ -114,7 +114,7 @@ namespace System
 				return this->GetLength();
 			}
 
-			// Is list empty or not
+			// Is list None or not
 			BOOL IsEmpty()
 			{
 				return this->_IsEmpty();
@@ -122,14 +122,14 @@ namespace System
 
 		private:
 			// Init the list
-			Empty Initialize()
+			None Initialize()
 			{
 				// Create head node
 				this->CreateHeadNode();
 			}
 
 			// Destory the list
-			Empty Destory()
+			None Destory()
 			{
 				if (!this->GetDisposed())
 				{
@@ -143,7 +143,7 @@ namespace System
 			}
 
 			// Delete the element
-			Empty DeleteNode(NodeElement pNodeElement)
+			None DeleteNode(NodeElement pNodeElement)
 			{
 				if (pNodeElement == NULL)
 				{
@@ -157,7 +157,7 @@ namespace System
 			}
 
 			// Link a node to the end
-			Empty LinkToEnd(Reference Data)
+			None LinkToEnd(Reference Data)
 			{
 				// Create a node
 				NodeElement pNode = this->CeateNode(Data);
@@ -166,7 +166,7 @@ namespace System
 			}
 
 			// Link a node to the end
-			Empty LinkToEnd(NodeElement pNodeElement)
+			None LinkToEnd(NodeElement pNodeElement)
 			{
 				// Get the last element
 				NodeElement pLastNode = this->FindLast();
@@ -178,7 +178,7 @@ namespace System
 			}
 
 			// Unlink the node
-			Empty Unlink(NodeElement pNodeElement)
+			None Unlink(NodeElement pNodeElement)
 			{
 				// Find the previous node
 				NodeElement PreNode = pNodeElement->pPre;
@@ -193,7 +193,7 @@ namespace System
 			}
 
 			// Unlink the node
-			Empty Unlink(Reference Data)
+			None Unlink(Reference Data)
 			{
 				// Find the current node
 				NodeElement CurNode = this->Find(Data);
@@ -216,7 +216,7 @@ namespace System
 			}
 
 			// Destory the node
-			Empty DestoryNode(NodeElement pNodeElement)
+			None DestoryNode(NodeElement pNodeElement)
 			{
 				if (pNodeElement != NULL)
 				{
@@ -227,7 +227,7 @@ namespace System
 			}
 
 			// Create head node
-			Empty CreateHeadNode()
+			None CreateHeadNode()
 			{
 				ValueType Data;
 
@@ -298,7 +298,7 @@ namespace System
 				return iCount;
 			}
 
-			// List is empty or not
+			// List is None or not
 			BOOL _IsEmpty()
 			{
 				if (this->GetHead() == NULL)
@@ -332,7 +332,7 @@ namespace System
 			}
 
 			// Set the head element
-			inline Empty SetHead(NodeElement pNodeElement)
+			inline None SetHead(NodeElement pNodeElement)
 			{
 				this->m_Head = pNodeElement;
 			}
@@ -344,7 +344,7 @@ namespace System
 			}
 
 			// Set the disposed status
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				this->m_Disposed = bDisposed;
 			}

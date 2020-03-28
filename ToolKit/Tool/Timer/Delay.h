@@ -20,7 +20,7 @@ namespace System
 		class Delay
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Int32 TimeUs;
 
 		public:
@@ -39,14 +39,14 @@ namespace System
 
 		public:
 			// Delay for us
-			Empty DelayUs(TimeUs iTimeUs);
+			None DelayUs(TimeUs iTimeUs);
 
 		private:
 			// Init the delay 
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the delay
-			Empty Destory();
+			None Destory();
 
 		private:
 			// Get the disposed
@@ -56,7 +56,7 @@ namespace System
 			}
 
 			// Set the disposed	
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}

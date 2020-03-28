@@ -41,7 +41,7 @@ const UInt Value::maxUInt = UInt(-1);
 //
 //inline char *safeStringDup( const std::string &str )
 //{
-//   if ( !str.empty() )
+//   if ( !str.IsEmpty() )
 //   {
 //      const size_t length = str.length();
 //      char *newString = static_cast<char *>( malloc( length + 1 ) );
@@ -942,7 +942,7 @@ Value::size() const
 
 
 bool 
-Value::empty() const
+Value::IsEmpty() const
 {
    if ( isNull() || isArray() || isObject() )
       return size() == 0u;

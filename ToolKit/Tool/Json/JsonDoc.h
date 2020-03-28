@@ -56,7 +56,7 @@ namespace System
 		static JsonDocument FromJson(JsonString& strJson);
 
 		// To map
-		Empty ToMap(std::map<std::string,std::string>& MapTable);
+		None ToMap(std::map<std::string,std::string>& MapTable);
 
 		// Object to string
 		JsonString ToJson();
@@ -89,22 +89,22 @@ namespace System
 		JsonDocument GetKeyValue(JsonString strKey);
 
 		// Set the key's value
-		Empty SetKeyValue(JsonString strKey, JsonDocument& Doc);
+		None SetKeyValue(JsonString strKey, JsonDocument& Doc);
 
 		// Set the key's value
-		Empty SetKeyValue(JsonString strKey, JsonString strValue);
+		None SetKeyValue(JsonString strKey, JsonString strValue);
 
 		// Set the key's value
-		Empty SetKeyValue(JsonString strKey, Int32 iValue);
+		None SetKeyValue(JsonString strKey, Int32 iValue);
 
 		// Set the key's value
-		Empty SetKeyValue(JsonString strKey, Real dValue);
+		None SetKeyValue(JsonString strKey, Real dValue);
 
 		// Set the key's value
-		Empty SetKeyValue(JsonString strKey, Boolean bValue);
+		None SetKeyValue(JsonString strKey, Boolean bValue);
 
 		// Set array
-		Empty SetArray(JsonDocument& JsonDoc);
+		None SetArray(JsonDocument& JsonDoc);
 
 		// Size of the json object
 		JsonSize Size();
@@ -127,7 +127,7 @@ namespace System
 		// Is the object null or not
 		Boolean IsNull();
 
-		// Is Obejct empty
+		// Is Obejct None
 		Boolean IsEmpty();
 
 		// Is Object
@@ -150,10 +150,10 @@ namespace System
 
 	private:
 		// Initialize the library
-		Empty Initialize();
+		None Initialize();
 
 		// Destory the library
-		Empty Destory();
+		None Destory();
 
 		// Write the object to file
 		Boolean WriteToFile(JsonString strFileName);
@@ -162,7 +162,7 @@ namespace System
 		JsonObject& Get(JsonString strKey);
 
 		// Set the key's value
-		Empty Set(JsonString strKey, JsonObject Value);
+		None Set(JsonString strKey, JsonObject Value);
 
 		// Parse the json file
 		Boolean ParseFromFile(JsonString strJsonFilePath);
@@ -175,13 +175,13 @@ namespace System
 		}
 
 		// Set the JsonObject
-		inline Empty SetJsonObject(JsonObject& Object)
+		inline None SetJsonObject(JsonObject& Object)
 		{
 			m_JsonObject = Object;
 		}
 
 		// Set the disposed status
-		inline Empty SetDisposed(Boolean bDisposed)
+		inline None SetDisposed(Boolean bDisposed)
 		{
 			m_bDisposed = bDisposed;
 		}

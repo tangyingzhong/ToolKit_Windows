@@ -44,7 +44,7 @@ namespace System
 
 	public:
 		// Fire event
-		virtual Empty FireEvent(Object pSender, Int32 iEventID, EventArgs* pArgs);
+		virtual None FireEvent(Object pSender, Int32 iEventID, EventArgs* pArgs);
 
 		// Register an object's callback to the event handler
 		virtual Boolean RegisterEvent(Object pReceiver, Int32 iEventID, HandlerFunc pHandlerFunc);
@@ -69,13 +69,13 @@ namespace System
 
 	private:
 		// Initialize the event handler
-		Empty Initialize();
+		None Initialize();
 
 		// Destory the event handler
-		Empty Destory();
+		None Destory();
 
 		// Clear the map table
-		Empty ClearTable();
+		None ClearTable();
 
 	private:
 		// Get the disposed state
@@ -85,7 +85,7 @@ namespace System
 		}
 
 		// Set the disposed state
-		inline Empty SetDisposed(Boolean bDisposed)
+		inline None SetDisposed(Boolean bDisposed)
 		{
 			m_bDisposed = bDisposed;
 		}

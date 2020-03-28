@@ -72,7 +72,7 @@ namespace System
 			}
 
 			// Set the bool value
-			inline Empty SetValue(bool bValue)
+			inline None SetValue(bool bValue)
 			{
 				m_Value = bValue;
 			}

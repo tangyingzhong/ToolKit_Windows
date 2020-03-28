@@ -18,7 +18,7 @@ public:
 	typedef DllLoader* Loader;
 	typedef T* PluginInterface;
 	typedef PluginInterface(*CreateModule)();
-	typedef Empty(*DestoryModule)(PluginInterface);
+	typedef None(*DestoryModule)(PluginInterface);
 
 public:
 	// Construct the ModuleLoader
@@ -131,7 +131,7 @@ private:
 	}
 
 	// Create module
-	Empty CreateTheModule()
+	None CreateTheModule()
 	{
 		if (GetCreateModule())
 		{
@@ -142,7 +142,7 @@ private:
 	}
 
 	// Destory module
-	Empty DestoryTheModule()
+	None DestoryTheModule()
 	{
 		if (GetDestoryModule())
 		{
@@ -151,13 +151,13 @@ private:
 	}
 
 	// Set module interface
-	Empty SetModuleInterface(PluginInterface pInterface)
+	None SetModuleInterface(PluginInterface pInterface)
 	{
 		SetPluginInterface(pInterface);
 	}
 
 	// Configure module name 
-	Empty ConfigureModuleName()
+	None ConfigureModuleName()
 	{
 		if (GetModuleFilePath().IsEmpty())
 		{
@@ -181,7 +181,7 @@ private:
 
 private:
 	// Init the module loader
-	Empty Initialize()
+	None Initialize()
 	{
 		// Configure the module name
 		ConfigureModuleName();
@@ -194,7 +194,7 @@ private:
 	}
 
 	// Destory the module loader
-	Empty Destory()
+	None Destory()
 	{
 		if (!GetDisposed())
 		{
@@ -209,13 +209,13 @@ private:
 	}
 
 	// Create a dll loader
-	Empty CreateDllLoader()
+	None CreateDllLoader()
 	{
 		SetDllLoader(new DllLoader());
 	}
 
 	// Destory the dll loader
-	Empty DestoryDllLoader()
+	None DestoryDllLoader()
 	{
 		if (GetDllLoader())
 		{
@@ -227,7 +227,7 @@ private:
 
 private:
 	// Set the ModuleName
-	inline Empty SetModuleName(String strModuleName)
+	inline None SetModuleName(String strModuleName)
 	{
 		m_strModuleName = strModuleName;
 	}
@@ -251,7 +251,7 @@ private:
 	}
 
 	// Set the DllLoader
-	inline Empty SetDllLoader(Loader pDllLoader)
+	inline None SetDllLoader(Loader pDllLoader)
 	{
 		m_pDllLoader = pDllLoader;
 	}
@@ -263,7 +263,7 @@ private:
 	}
 
 	// Set the PluginInterface
-	inline Empty SetPluginInterface(PluginInterface pPluginInterface)
+	inline None SetPluginInterface(PluginInterface pPluginInterface)
 	{
 		m_pPluginInterface = pPluginInterface;
 	}
@@ -275,7 +275,7 @@ private:
 	}
 
 	// Set the CreateModule
-	inline Empty SetCreateModule(CreateModule pCreateModule)
+	inline None SetCreateModule(CreateModule pCreateModule)
 	{
 		m_pCreateModule = pCreateModule;
 	}
@@ -287,7 +287,7 @@ private:
 	}
 
 	// Set the DestoryModule
-	inline Empty SetDestoryModule(DestoryModule pDestoryModule)
+	inline None SetDestoryModule(DestoryModule pDestoryModule)
 	{
 		m_pDestoryModule = pDestoryModule;
 	}
@@ -299,7 +299,7 @@ private:
 	}
 
 	// Set the disposed status
-	inline Empty SetDisposed(Boolean bDisposed)
+	inline None SetDisposed(Boolean bDisposed)
 	{
 		m_bDisposed = bDisposed;
 	}

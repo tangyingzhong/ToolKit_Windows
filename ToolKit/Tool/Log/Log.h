@@ -30,7 +30,7 @@ namespace System
 		class Log
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef BasicType::Int LineNumber;
 			typedef BasicType::Int ProcessID;
@@ -51,7 +51,7 @@ namespace System
 			static Log* GetInstance();
 
 			// Destory log self
-			static Empty DestoryInstance();
+			static None DestoryInstance();
 
 		private:
 			// Construct the log
@@ -68,10 +68,10 @@ namespace System
 
 		public:
 			// Config the log environment
-			Empty ConfigureEnvironment(String strLogDirectory);
+			None ConfigureEnvironment(String strLogDirectory);
 
 			// Log the message to the file
-			Empty Record(LogType eLogType,
+			None Record(LogType eLogType,
 				ProcessID strProcessID,
 				ThreadID strThreadID,
 				String strFileName,
@@ -81,10 +81,10 @@ namespace System
 				String strRemark = _T(""));
 
 			// Flush the message in buffer into the file
-			Empty Flush();
+			None Flush();
 
 			// Log the message to trace window
-			Empty Trace(LogType eLogType,
+			None Trace(LogType eLogType,
 				ProcessID strProcessID,
 				ThreadID strThreadID,
 				String strFileName,
@@ -94,14 +94,14 @@ namespace System
 				String strRemark = _T(""));
 
 			// Set max logger size
-			Empty SetMaxLoggerSize(Size iSize);
+			None SetMaxLoggerSize(Size iSize);
 
 		private:
 			// Init the Log
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the Log
-			Empty Destory();
+			None Destory();
 
 			// Create log directory
 			BOOL CreateLogDirectory();
@@ -116,16 +116,16 @@ namespace System
 			Size GetCurLogFileSize();
 
 			// Register the log type
-			Empty RegisterLogType();
+			None RegisterLogType();
 
 			// Get local time
 			String LocalTime(String strTimeFormat = _T("yyyy-MM-dd hh:mm:ss"));
 
 			// Log message to the file
-			Empty LogToFile(String& strLogFileName, String& strLogMessage);
+			None LogToFile(String& strLogFileName, String& strLogMessage);
 
 			// Log message
-			Empty WriteLog();
+			None WriteLog();
 
 			// Build the message
 			String BuildMessage(LogType eLogType,
@@ -138,16 +138,16 @@ namespace System
 				String strRemark);
 
 			// Push the message into the log buffer
-			Empty Add(String& strMessage);
+			None Add(String& strMessage);
 
 			// Connect all the message  
 			String ConnectAllMessages();
 
 			// Clear the log buffer
-			Empty Clear();
+			None Clear();
 
 			// Bacckup log file
-			Empty BackupLog(String strLogFileName);
+			None BackupLog(String strLogFileName);
 
 			// Add seperate lines to log file
 			BOOL AddSeperateLines(String strLogFileName);
@@ -160,7 +160,7 @@ namespace System
 			}
 
 			// Set the FileName
-			inline Empty SetFileName(String strLogFileName)
+			inline None SetFileName(String strLogFileName)
 			{
 				m_LogFileName = strLogFileName;
 			}
@@ -172,7 +172,7 @@ namespace System
 			}
 
 			// Set the Log directory
-			inline Empty SetLogDirectory(String strLogDirectory)
+			inline None SetLogDirectory(String strLogDirectory)
 			{
 				m_LogDirectory = strLogDirectory;
 			}
@@ -196,7 +196,7 @@ namespace System
 			}
 
 			// Set the Disposed
-			inline Empty SetDisposed(Boolean bDisposed)
+			inline None SetDisposed(Boolean bDisposed)
 			{
 				m_bDisposed = bDisposed;
 			}

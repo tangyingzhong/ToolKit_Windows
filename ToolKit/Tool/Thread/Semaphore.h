@@ -22,7 +22,7 @@ namespace System
 		class Semaphore
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef System::Object SemaphoreHandle;
 			typedef System::Int32 ResourceCount;
@@ -46,23 +46,23 @@ namespace System
 
 		public:
 			// Wait for a semaphore
-			Empty Acquire(MsTimeout iMsTimeout = INFINITE);
+			None Acquire(MsTimeout iMsTimeout = INFINITE);
 
 			// Make the sema to be signaled
-			Empty Release();
+			None Release();
 
 		private:
 			// Initialize the semaphore
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the semaphore
-			Empty Destory();
+			None Destory();
 
 			// Open the semaphore
-			Empty Open();
+			None Open();
 
 			// Close the semaphore
-			Empty Close();
+			None Close();
 
 		private:
 			// Get the SignalHandle
@@ -72,7 +72,7 @@ namespace System
 			}
 
 			// Set the SignalHandle
-			inline Empty SetSignalHandle(SemaphoreHandle hSignalHandle)
+			inline None SetSignalHandle(SemaphoreHandle hSignalHandle)
 			{
 				m_SignalHandle = hSignalHandle;
 			}
@@ -84,7 +84,7 @@ namespace System
 			}
 
 			// Set the semaphore name
-			inline Empty SetSignalName(SemaphoreName strSignalName)
+			inline None SetSignalName(SemaphoreName strSignalName)
 			{
 				m_SignalName = strSignalName;
 			}
@@ -96,7 +96,7 @@ namespace System
 			}
 
 			// Set the min resource count
-			inline Empty SetMinResourceCount(ResourceCount iMinCount)
+			inline None SetMinResourceCount(ResourceCount iMinCount)
 			{
 				m_MinCount = iMinCount;
 			}
@@ -108,7 +108,7 @@ namespace System
 			}
 
 			// Set the max resource count
-			inline Empty SetMaxResourceCount(ResourceCount iMaxCount)
+			inline None SetMaxResourceCount(ResourceCount iMaxCount)
 			{
 				m_MaxCount = iMaxCount;
 			}
@@ -120,7 +120,7 @@ namespace System
 			}
 
 			// Set the disposed status
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}

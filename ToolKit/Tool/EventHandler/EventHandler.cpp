@@ -13,13 +13,13 @@ EventHandler::~EventHandler()
 }
 
 // Initialize the event handler
-Empty EventHandler::Initialize()
+None EventHandler::Initialize()
 {
 	ClearTable();
 }
 
 // Destory the event handler
-Empty EventHandler::Destory()
+None EventHandler::Destory()
 {
     if(!GetDisposed())
     {
@@ -30,13 +30,13 @@ Empty EventHandler::Destory()
 }
 
 // Clear the map table
-Empty EventHandler::ClearTable()
+None EventHandler::ClearTable()
 {
 	EventMapTable().swap(m_EventMapTable);
 }
 
 // Fire event
-Empty EventHandler::FireEvent(Object pSender, Int32 iEventID,EventArgs* pArgs)
+None EventHandler::FireEvent(Object pSender, Int32 iEventID,EventArgs* pArgs)
 {
     if(pSender==nullptr)
     {

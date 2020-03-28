@@ -20,7 +20,7 @@ namespace System
 		class SocketClient
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef System::Byte Byte;
 			typedef System::ByteArray ByteArray;
@@ -62,29 +62,29 @@ namespace System
 			BOOL Send(SByteArray pWriteBuffer, Length iOffset, Length iWriteSize);
 
 			// Stop the server
-			Empty Stop();
+			None Stop();
 
 		private:
 			// Initialize the socket
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the socket
-			Empty Destory();
+			None Destory();
 
 			// Open a server socket
-			Empty Open();
+			None Open();
 
 			// Connect to the server
 			BOOL Connect();
 
 			// Close the server socket
-			Empty Close();
+			None Close();
 
 			// Create a socket
-			Empty CreateSocket(AddressFamily family, SocketType socketType, ProtocolType protocolType);
+			None CreateSocket(AddressFamily family, SocketType socketType, ProtocolType protocolType);
 
 			// Destory the socket
-			Empty DestorySocket();
+			None DestorySocket();
 
 		private:
 			// Get the ServerSocket
@@ -94,7 +94,7 @@ namespace System
 			}
 
 			// Set the ServerSocket
-			inline Empty SetServerSocket(NetSocket pServerSocket)
+			inline None SetServerSocket(NetSocket pServerSocket)
 			{
 				m_ServerSocket = pServerSocket;
 			}
@@ -106,7 +106,7 @@ namespace System
 			}
 
 			// Set the server ip
-			inline Empty SetServerIP(IPAddress strServerIP)
+			inline None SetServerIP(IPAddress strServerIP)
 			{
 				m_ServerIP = strServerIP;
 			}
@@ -118,7 +118,7 @@ namespace System
 			}
 
 			// Set the Server Port
-			inline Empty SetServerPort(NetPort iServerPort)
+			inline None SetServerPort(NetPort iServerPort)
 			{
 				m_ServerPort = iServerPort;
 			}
@@ -130,7 +130,7 @@ namespace System
 			}
 
 			// Set the disposed	status
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}

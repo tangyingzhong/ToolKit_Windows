@@ -22,7 +22,7 @@ namespace System
 		class Event
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef System::Int32 MsTimeout;
 			typedef System::Object EventHandle;
@@ -45,23 +45,23 @@ namespace System
 			BOOL Open(String strEventName = _T(""));
 
 			// Activate the event
-			Empty Signaled();
+			None Signaled();
 
 			// Dis-Activate the event
-			Empty NonSignaled();
+			None NonSignaled();
 
 			// Wait for the event
-			Empty Wait(MsTimeout iMsTimeout = INFINITE);
+			None Wait(MsTimeout iMsTimeout = INFINITE);
 
 		private:
 			// Initialize the Event
-			Empty Initialize();
+			None Initialize();
 
 			// Destory the Event
-			Empty Destory();
+			None Destory();
 
 			// Close the event
-			Empty Close();
+			None Close();
 
 		private:
 			// Get the EventHandle
@@ -71,7 +71,7 @@ namespace System
 			}
 
 			// Set the EventHandle
-			inline Empty SetEventHandle(EventHandle pEventHandle)
+			inline None SetEventHandle(EventHandle pEventHandle)
 			{
 				m_EventHandle = pEventHandle;
 			}
@@ -83,7 +83,7 @@ namespace System
 			}
 
 			// Set the disposed status
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}

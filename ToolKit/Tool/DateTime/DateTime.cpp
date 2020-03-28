@@ -224,7 +224,7 @@ DateTime DateTime::Now(TIME_TYPE_ENUM TimeType)
 }
 
 // Get the UTC time
-Empty DateTime::GetUTCTime()
+None DateTime::GetUTCTime()
 {
 	time_t TimeSnap = time(NULL);
 
@@ -248,7 +248,7 @@ Empty DateTime::GetUTCTime()
 }
 
 // Get the Current local time
-DateTime::Empty DateTime::GetLoclTime()
+DateTime::None DateTime::GetLoclTime()
 {
 	time_t t = time(NULL);
 

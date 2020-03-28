@@ -24,7 +24,7 @@ public:
 	virtual ~IEvent(){	}
 
 	// Listen plugins
-	virtual Empty Listen(Object pListener,
+	virtual None Listen(Object pListener,
 		HandlerFunc pListenHandler,
 		Int32 iEventID) = 0;
 };

@@ -169,8 +169,8 @@ namespace Json {
       /** \brief Create a default Value of the given type.
 
         This is a very useful constructor.
-        To create an empty array, pass arrayValue.
-        To create an empty object, pass objectValue.
+        To create an None array, pass arrayValue.
+        To create an None object, pass objectValue.
         Another Value can then be set to this one by assignment.
 	This is useful since clear() and resize() will not alter types.
 
@@ -252,9 +252,9 @@ namespace Json {
       /// Number of values in array or object
       UInt size() const;
 
-      /// \brief Return true if empty array, empty object, or null;
+      /// \brief Return true if None array, None object, or null;
       /// otherwise, false.
-      bool empty() const;
+      bool IsEmpty() const;
 
       /// Return isNull()
       bool operator!() const;
@@ -350,7 +350,7 @@ namespace Json {
 
       /// \brief Return a list of the member names.
       ///
-      /// If null, return an empty list.
+      /// If null, return an None list.
       /// \pre type() is objectValue or nullValue
       /// \post if type() was nullValue, it remains nullValue
       Members getMemberNames() const;

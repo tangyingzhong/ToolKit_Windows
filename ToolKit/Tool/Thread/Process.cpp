@@ -17,7 +17,7 @@ Process::~Process()
 }
 
 // Initialize the  process
-Process::Empty Process::Initialize()
+Process::None Process::Initialize()
 {
 	// Clear the process start info
 	ZeroMemory(&m_StartupInfo, sizeof(ProcessStartupInfo));
@@ -44,7 +44,7 @@ Process::Empty Process::Initialize()
 }
 
 // Dispose the process
-Process::Empty Process::Destory()
+Process::None Process::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -79,7 +79,7 @@ Boolean Process::CreateProc(ExcutablePath strExcutablePath, ExcutablePath strExc
 }
 
 // Destory the process
-Process::Empty Process::DestoryProc()
+Process::None Process::DestoryProc()
 {
 	if (m_ProcessInfo.hThread)
 	{
@@ -153,7 +153,7 @@ Boolean Process::StartByAdmin(ExcutablePath strExcutablePath,
 }
 
 // Stop the process
-Process::Empty Process::Stop()
+Process::None Process::Stop()
 {
 	// Get the exitcode at first
 	ExitCode dwExitCode;

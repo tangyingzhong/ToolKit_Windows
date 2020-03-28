@@ -723,7 +723,7 @@ StyledStreamWriter::writeIndent()
   /*
     Some comments in this method would have been nice. ;-)
 
-   if ( !document_.empty() )
+   if ( !document_.IsEmpty() )
    {
       char last = document_[document_.length()-1];
       if ( last == ' ' )     // already indented

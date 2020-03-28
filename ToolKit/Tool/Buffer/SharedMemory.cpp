@@ -19,13 +19,13 @@ SharedMemory::~SharedMemory()
 }
 
 // Initialize the shared memory
-SharedMemory::Empty SharedMemory::Initialize()
+SharedMemory::None SharedMemory::Initialize()
 {
 
 }
 
 // Dispose the shared memory
-SharedMemory::Empty SharedMemory::Destory()
+SharedMemory::None SharedMemory::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -47,7 +47,7 @@ SharedMemory::BOOL SharedMemory::IsOpen()
 }
 
 // Open the map file
-SharedMemory::Empty SharedMemory::Open()
+SharedMemory::None SharedMemory::Open()
 {
 	MapFileHandle hMapFileHandle = ::OpenFileMapping(FILE_MAP_ALL_ACCESS, 
 		NULL, 
@@ -137,7 +137,7 @@ SharedMemory::BOOL SharedMemory::Write(ByteArray buffer, Length offset, Length l
 }
 
 // Close the map file
-SharedMemory::Empty SharedMemory::Close()
+SharedMemory::None SharedMemory::Close()
 {
 	if (GetMapfileHandle())
 	{

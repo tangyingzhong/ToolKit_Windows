@@ -23,13 +23,13 @@ AudioPlayer::~AudioPlayer()
 }
 
 // Init the audio player
-Empty AudioPlayer::Initialize()
+None AudioPlayer::Initialize()
 {
 
 }
 
 // Destory the palyer
-Empty AudioPlayer::Destory()
+None AudioPlayer::Destory()
 {
 	if (GetDisposed() == false)
 	{
@@ -41,7 +41,7 @@ Empty AudioPlayer::Destory()
 }
 
 // Create a block player
-Empty AudioPlayer::CreateBlockPlayer(CODING_FORMAT_ENUM eCodeFormat,
+None AudioPlayer::CreateBlockPlayer(CODING_FORMAT_ENUM eCodeFormat,
 	CHANNEL_ENUM eChannel,
 	BITWIDTH_ENUM eBitWidth,
 	SAMPLE_FREQ_ENUM eSampleFreq)
@@ -50,7 +50,7 @@ Empty AudioPlayer::CreateBlockPlayer(CODING_FORMAT_ENUM eCodeFormat,
 }
 
 // Destory the block player
-Empty AudioPlayer::DestoryBlockPlayer()
+None AudioPlayer::DestoryBlockPlayer()
 {
 	if (GetBlockPlayer())
 	{

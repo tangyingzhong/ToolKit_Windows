@@ -21,7 +21,7 @@ namespace System
 		class Iterator
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Boolean BOOL;
 			typedef System::Int32 Length;
 			typedef System::Int32 Index;
@@ -82,13 +82,13 @@ namespace System
 
 		private:
 			// Init the list
-			Empty Initialize()
+			None Initialize()
 			{
 				
 			}
 
 			// Destory the list
-			Empty Destory()
+			None Destory()
 			{
 				if (!this->GetDisposed())
 				{
@@ -107,7 +107,7 @@ namespace System
 			}
 
 			// Set the data pointer
-			inline Empty SetPointer(Pointer pPointer)
+			inline None SetPointer(Pointer pPointer)
 			{
 				this->m_Pointer = pPointer;
 			}
@@ -119,7 +119,7 @@ namespace System
 			}
 
 			// Set the disposed status
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				this->m_Disposed = bDisposed;
 			}

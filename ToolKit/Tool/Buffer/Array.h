@@ -24,7 +24,7 @@ namespace System
 		class Array
 		{
 		public:
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::Object Object;
 			typedef System::Boolean BOOL;
 			typedef System::Int32 ArraySize;
@@ -95,7 +95,7 @@ namespace System
 			}
 
 			// Resize the array
-			Empty Resize(ArraySize iNewSize)
+			None Resize(ArraySize iNewSize)
 			{
 				if (iNewSize < 0)
 				{
@@ -136,7 +136,7 @@ namespace System
 			}
 
 			// Swap two arrays
-			Empty Swap(Array<T>& other)
+			None Swap(Array<T>& other)
 			{
 				Array<T> tempArray;
 
@@ -152,20 +152,20 @@ namespace System
 			}
 
 			// Clear the Array
-			Empty Clear()
+			None Clear()
 			{
 				Array<T>::Clear(Data(),0,Size());
 			}
 
 		public:
 			//Copy the array. Notice: you must ensure that your dest array has enough space for the source size
-			static Empty Copy(Array<ValueType>& SourceArray, Array<ValueType>& DestArray)
+			static None Copy(Array<ValueType>& SourceArray, Array<ValueType>& DestArray)
 			{
 				DestArray = SourceArray;
 			}
 
 			//Copy the array. Notice: you must ensure that your dest array has enough space for the source size
-			static Empty Copy(Pointer pSourceArray, ArraySize iSourceSize, Pointer pDestArray, ArraySize iDestSize)
+			static None Copy(Pointer pSourceArray, ArraySize iSourceSize, Pointer pDestArray, ArraySize iDestSize)
 			{
 				if (pSourceArray == NULL || pDestArray == NULL || iDestSize < iSourceSize)
 				{
@@ -178,7 +178,7 @@ namespace System
 			}
 
 			// Clear the array. Notice: you must input legal start position and count of element
-			static Empty Clear(Pointer pArray, Index iStartIndex, ArraySize iCount)
+			static None Clear(Pointer pArray, Index iStartIndex, ArraySize iCount)
 			{
 				if (iStartIndex < 0 || iCount < 0 || pArray == NULL)
 				{
@@ -191,21 +191,21 @@ namespace System
 			}
 
 			// Clear the array. Notice: you must input legal start position and count of element
-			static Empty Clear(Array<ValueType>& Arr, Index iStartIndex, ArraySize iCount)
+			static None Clear(Array<ValueType>& Arr, Index iStartIndex, ArraySize iCount)
 			{
 				Clear(Arr.Data(), iStartIndex, iCount);
 			}
 
 		private:
 			// Initialize the array
-			Empty Initialize()
+			None Initialize()
 			{
 				// Create a buffer
 				CreateBuffer(GetArraySize());
 			}
 
 			// Destorty the array
-			Empty Destory()
+			None Destory()
 			{
 				if (!GetDisposed())
 				{
@@ -217,7 +217,7 @@ namespace System
 			}
 
 			// Create buffer
-			Empty CreateBuffer(ArraySize iArraySize)
+			None CreateBuffer(ArraySize iArraySize)
 			{
 				if (iArraySize == 0)
 				{
@@ -239,7 +239,7 @@ namespace System
 			}
 
 			// Destory the buffer
-			Empty DestoryBuffer()
+			None DestoryBuffer()
 			{
 				if (GetElementPointer())
 				{
@@ -256,7 +256,7 @@ namespace System
 			}
 
 			// Deep copy buffer
-			Empty DeepCopyBuffer(ArraySize iNewSize)
+			None DeepCopyBuffer(ArraySize iNewSize)
 			{
 				// Backup the current buffer
 				Pointer pPrevious = Backup();
@@ -285,7 +285,7 @@ namespace System
 				{
 					std::cerr << "Irlegal input index,you must input a correct index in array's size range." << std::endl;
 
-					return m_EmptyElement;
+					return m_NoneElement;
 				}
 
 				return GetElementPointer()[iIndex];
@@ -299,7 +299,7 @@ namespace System
 			}
 
 			// Set element pointer
-			inline Empty SetElementPointer(Pointer pElementPointer)
+			inline None SetElementPointer(Pointer pElementPointer)
 			{
 				m_ElementPointer = pElementPointer;
 			}
@@ -311,7 +311,7 @@ namespace System
 			}
 
 			// Set array size
-			inline Empty SetArraySize(ArraySize iArraySize)
+			inline None SetArraySize(ArraySize iArraySize)
 			{
 				m_ArraySize = iArraySize;
 			}
@@ -323,7 +323,7 @@ namespace System
 			}
 
 			// Set the element's position
-			inline Empty SetElementPos(Offset iElementPosition)
+			inline None SetElementPos(Offset iElementPosition)
 			{
 				m_ElementPosition = iElementPosition;
 			}
@@ -335,7 +335,7 @@ namespace System
 			}
 
 			//Set the Disposed status
-			inline Empty SetDisposed(BOOL bDisposed)
+			inline None SetDisposed(BOOL bDisposed)
 			{
 				m_Disposed = bDisposed;
 			}
@@ -350,8 +350,8 @@ namespace System
 			// Position of the pointer
 			Offset m_ElementPosition;
 
-			// Empty value data
-			ValueType m_EmptyElement;
+			// None value data
+			ValueType m_NoneElement;
 
 			// Disposed status 
 			BOOL m_Disposed;

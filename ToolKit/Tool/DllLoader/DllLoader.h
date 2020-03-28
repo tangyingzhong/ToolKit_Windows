@@ -63,10 +63,10 @@ namespace System
 
 	private:
 		// Initialize the library
-		Empty Initialize();
+		None Initialize();
 
 		// Destory the library
-		Empty Destory();
+		None Destory();
 
 	private:
 		// Get the Library
@@ -76,7 +76,7 @@ namespace System
 		}
 
 		// Set the Library
-		inline Empty SetLibraryModule(HMODULE hLibraryModule)
+		inline None SetLibraryModule(HMODULE hLibraryModule)
 		{
 			m_hLibraryModule = hLibraryModule;
 		}
@@ -88,13 +88,13 @@ namespace System
 		}
 
 		// Set the LibraryName
-		inline Empty SetLibraryName(String strLibraryName)
+		inline None SetLibraryName(String strLibraryName)
 		{
 			m_strLibraryName = strLibraryName;
 		}
 
 		// Set the disposed status
-		inline Empty SetDisposed(Boolean bDisposed)
+		inline None SetDisposed(Boolean bDisposed)
 		{
 			m_bDisposed = bDisposed;
 		}

@@ -19,7 +19,7 @@ SqlCommand::~SqlCommand()
 }
 
 // Init the cmd
-SqlCommand::Empty SqlCommand::Initialize()
+SqlCommand::None SqlCommand::Initialize()
 {
 	// Init the com
 	::CoInitialize(NULL);
@@ -29,7 +29,7 @@ SqlCommand::Empty SqlCommand::Initialize()
 }
 
 // Destory the command
-SqlCommand::Empty SqlCommand::Destory()
+SqlCommand::None SqlCommand::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -44,7 +44,7 @@ SqlCommand::Empty SqlCommand::Destory()
 }
 
 // Output error string
-Empty SqlCommand::OutputError(String strMsg)
+None SqlCommand::OutputError(String strMsg)
 {
 #ifdef UNICODE
 	std::cerr << strMsg.CStr() << std::endl;
@@ -54,7 +54,7 @@ Empty SqlCommand::OutputError(String strMsg)
 }
 
 // Create the command ptr
-SqlCommand::Empty SqlCommand::CreateCommand()
+SqlCommand::None SqlCommand::CreateCommand()
 {
 	try
 	{
@@ -69,7 +69,7 @@ SqlCommand::Empty SqlCommand::CreateCommand()
 }
 
 // Destory the command ptr
-SqlCommand::Empty SqlCommand::DestoryCommand()
+SqlCommand::None SqlCommand::DestoryCommand()
 {
 	if (GetComm())
 	{
@@ -125,7 +125,7 @@ SqlCommand::pRecordSet SqlCommand::ExecuteNonQuery(AffectedRows& iAffectRows)
 }
 
 // Add Paramenter
-SqlCommand::Empty SqlCommand::Add(SqlParamenter* pSqlPara)
+SqlCommand::None SqlCommand::Add(SqlParamenter* pSqlPara)
 {
 	if (GetComm())
 	{
@@ -156,7 +156,7 @@ SqlCommand::Empty SqlCommand::Add(SqlParamenter* pSqlPara)
 }
 
 // Excute the process
-SqlCommand::Empty SqlCommand::Excute(String strStoreProcName)
+SqlCommand::None SqlCommand::Excute(String strStoreProcName)
 {
 	if (strStoreProcName == _T(""))
 	{

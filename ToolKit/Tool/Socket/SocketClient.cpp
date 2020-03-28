@@ -20,13 +20,13 @@ SocketClient::~SocketClient()
 }
 
 // Initialize the socket
-SocketClient::Empty SocketClient::Initialize()
+SocketClient::None SocketClient::Initialize()
 {
 	CreateSocket(InterNetwork, Stream, Tcp);
 }
 
 // Dispose the socket
-SocketClient::Empty SocketClient::Destory()
+SocketClient::None SocketClient::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -37,13 +37,13 @@ SocketClient::Empty SocketClient::Destory()
 }
 
 // Create a socket
-SocketClient::Empty SocketClient::CreateSocket(AddressFamily family, SocketType socketType, ProtocolType protocolType)
+SocketClient::None SocketClient::CreateSocket(AddressFamily family, SocketType socketType, ProtocolType protocolType)
 {
 	SetServerSocket(new Socket(family, socketType, protocolType));
 }
 
 // Destory the socket
-SocketClient::Empty SocketClient::DestorySocket()
+SocketClient::None SocketClient::DestorySocket()
 {
 	if (GetServerSocket())
 	{
@@ -54,7 +54,7 @@ SocketClient::Empty SocketClient::DestorySocket()
 }
 
 // Open a server socket
-SocketClient::Empty SocketClient::Open()
+SocketClient::None SocketClient::Open()
 {
 	if (GetServerSocket())
 	{
@@ -63,7 +63,7 @@ SocketClient::Empty SocketClient::Open()
 }
 
 // Close the server socket
-SocketClient::Empty SocketClient::Close()
+SocketClient::None SocketClient::Close()
 {
 	if (GetServerSocket())
 	{
@@ -102,7 +102,7 @@ SocketClient::BOOL SocketClient::Start()
 /// none
 /// </remarks>
 ///***********************************************************************
-SocketClient::Empty SocketClient::Stop()
+SocketClient::None SocketClient::Stop()
 {
 	Close();
 }

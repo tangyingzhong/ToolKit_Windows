@@ -81,13 +81,13 @@ Socket& Socket::operator=(const Socket& other)
 }
 
 // Init the socket
-Socket::Empty Socket::Initialize()
+Socket::None Socket::Initialize()
 {
 	Array<Byte>::Clear((ByteArray)(&(m_SocketAddr)), 0, sizeof(m_SocketAddr));
 }
 
 // Dispose the socket
-Socket::Empty Socket::Destory()
+Socket::None Socket::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -98,7 +98,7 @@ Socket::Empty Socket::Destory()
 }
 
 // Create a new socket
-Socket::Empty Socket::CreateSocket()
+Socket::None Socket::CreateSocket()
 {
 	// The WSADATA
 	WSADATA WsdData;
@@ -111,7 +111,7 @@ Socket::Empty Socket::CreateSocket()
 }
 
 // Destory the socket
-Socket::Empty Socket::DestorySocket()
+Socket::None Socket::DestorySocket()
 {
 	Close();
 
@@ -119,7 +119,7 @@ Socket::Empty Socket::DestorySocket()
 }
 
 // Configure the socket
-Socket::Empty Socket::Configure(IPAddress strIPAddress, NetPort iPortNo)
+Socket::None Socket::Configure(IPAddress strIPAddress, NetPort iPortNo)
 {
 	inet_pton(AF_INET, strIPAddress.ToANSIData().c_str(), &m_SocketAddr.sin_addr);
 
@@ -140,7 +140,7 @@ Socket::BOOL Socket::IsValid()
 }
 
 // Open the socket
-Socket::Empty Socket::Open()
+Socket::None Socket::Open()
 {
 	CreateSocket();
 }
@@ -373,7 +373,7 @@ Socket::BOOL Socket::GetLoaclIP(vector<IPAddress>& vIPAddrTable)
 }
 
 // Get Ip with Mac table
-Socket::Empty Socket::GetLocalIpMAc(MacIpTable& IpMacTable)
+Socket::None Socket::GetLocalIpMAc(MacIpTable& IpMacTable)
 {
 	// Store local machine's card's info
 	PIP_ADAPTER_INFO pIpAdapterInfo = new IP_ADAPTER_INFO();
@@ -514,7 +514,7 @@ Socket::BOOL Socket::Send(SByteArray pWriteBuffer, Length iOffset, Length iWrite
 }
 
 // Close the socket
-Socket::Empty Socket::Close()
+Socket::None Socket::Close()
 {
 	if (m_ListenSocket != INVALID_SOCKET)
 	{

@@ -24,7 +24,7 @@ namespace System
 		{
 		public:
 			typedef System::Boolean BOOL;
-			typedef System::Empty Empty;
+			typedef System::None None;
 			typedef System::FileAttribute FileAttribute;
 			typedef System::FILE_ATTRIBUTE_ENUM FileAttrEnum;
 			typedef System::Object DirectoryHandle;
@@ -64,7 +64,7 @@ namespace System
 			// Is the directory existed or not
 			static BOOL IsExisted(String strDirPath);
 
-			// Is directoy empty or not
+			// Is directoy None or not
 			static BOOL IsEmpty(String strRootDirPath);
 
 			// Is directory
@@ -77,10 +77,10 @@ namespace System
 			static FileAttribute GetDirAttribute(String strDirPath);
 
 			// Set the Attributer of directory
-			static Empty SetDirAttribute(String strDirPath, FileAttrEnum eFileAttribute);
+			static None SetDirAttribute(String strDirPath, FileAttrEnum eFileAttribute);
 
 			// Remove the attribute of the directory
-			static Empty RemoveDirAttribute(String strDirPath, FileAttrEnum eFileAttribute);
+			static None RemoveDirAttribute(String strDirPath, FileAttrEnum eFileAttribute);
 
 			// Get current directory of main project
 			static String GetCurDirectory();
@@ -110,7 +110,7 @@ namespace System
 			// Create a new directory
 			static BOOL Create(String strDirPath);
 
-			// Delete the empty directory
+			// Delete the None directory
 			static BOOL Delete(String strDirPath);
 
 			// Build the new root directory

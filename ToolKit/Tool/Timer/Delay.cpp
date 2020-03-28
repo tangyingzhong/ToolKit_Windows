@@ -16,13 +16,13 @@ Delay::~Delay()
 }
 
 // Init the delay 
-Delay::Empty Delay::Initialize()
+Delay::None Delay::Initialize()
 {
 
 }
 
 // Destory the delay
-Delay::Empty Delay::Destory()
+Delay::None Delay::Destory()
 {
 	if (!GetDisposed())
 	{
@@ -31,7 +31,7 @@ Delay::Empty Delay::Destory()
 }
 
 // Delay for us
-Delay::Empty Delay::DelayUs(TimeUs iTimeUs)
+Delay::None Delay::DelayUs(TimeUs iTimeUs)
 {
 	LARGE_INTEGER dwStart;
 	LARGE_INTEGER dwCurrent;
