@@ -78,9 +78,6 @@
     <Filter Include="Tool\Reflect">
       <UniqueIdentifier>{8523b97c-7a35-4de9-a7da-5be37b00bb8b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Tool\Sqlite">
-      <UniqueIdentifier>{85e91cdc-8e4b-4dda-b0da-d7f1dfbb142e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Tool\DllLoader">
       <UniqueIdentifier>{ad6d199f-9813-40eb-96d4-347aab2231db}</UniqueIdentifier>
     </Filter>
@@ -205,9 +202,6 @@
     </ClCompile>
     <ClCompile Include="Tool\Reflect\Reflect.cpp">
       <Filter>Tool\Reflect</Filter>
-    </ClCompile>
-    <ClCompile Include="Tool\Sqlite\SqliteDB.cpp">
-      <Filter>Tool\Sqlite</Filter>
     </ClCompile>
     <ClCompile Include="Tool\DllLoader\DllLoader.cpp">
       <Filter>Tool\DllLoader</Filter>
@@ -436,12 +430,6 @@
     <ClInclude Include="Tool\Reflect\Reflect.h">
       <Filter>Tool\Reflect</Filter>
     </ClInclude>
-    <ClInclude Include="Tool\Sqlite\sqlite3.h">
-      <Filter>Tool\Sqlite</Filter>
-    </ClInclude>
-    <ClInclude Include="Tool\Sqlite\SqliteDB.h">
-      <Filter>Tool\Sqlite</Filter>
-    </ClInclude>
     <ClInclude Include="Tool\DllLoader\DllLoader.h">
       <Filter>Tool\DllLoader</Filter>
     </ClInclude>
@@ -465,13 +453,5 @@
     <None Include="Tool\Json\json_valueiterator.inl">
       <Filter>Tool\Json</Filter>
     </None>
-    <None Include="Tool\Sqlite\sqlite3.dll">
-      <Filter>Tool\Sqlite</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="Tool\Sqlite\sqlite3.lib">
-      <Filter>Tool\Sqlite</Filter>
-    </Library>
   </ItemGroup>
 </Project>

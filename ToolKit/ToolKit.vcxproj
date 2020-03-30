@@ -54,7 +54,6 @@
     <ClCompile Include="Tool\Socket\Socket.cpp" />
     <ClCompile Include="Tool\Socket\SocketClient.cpp" />
     <ClCompile Include="Tool\Socket\SocketServer.cpp" />
-    <ClCompile Include="Tool\Sqlite\SqliteDB.cpp" />
     <ClCompile Include="Tool\Sql\SqlCommand.cpp" />
     <ClCompile Include="Tool\Sql\SqlConnection.cpp" />
     <ClCompile Include="Tool\Sql\SqlParamenter.cpp" />
@@ -128,8 +127,6 @@
     <ClInclude Include="Tool\Socket\SocketClient.h" />
     <ClInclude Include="Tool\Socket\SocketServer.h" />
     <ClInclude Include="Tool\Socket\SocketType.h" />
-    <ClInclude Include="Tool\Sqlite\sqlite3.h" />
-    <ClInclude Include="Tool\Sqlite\SqliteDB.h" />
     <ClInclude Include="Tool\Sql\SqlCommand.h" />
     <ClInclude Include="Tool\Sql\SqlConnection.h" />
     <ClInclude Include="Tool\Sql\SqlParamenter.h" />
@@ -152,11 +149,7 @@
     <None Include="Tool\Json\json_internalarray.inl" />
     <None Include="Tool\Json\json_internalmap.inl" />
     <None Include="Tool\Json\json_valueiterator.inl" />
-    <None Include="Tool\Sqlite\sqlite3.dll" />
     <None Include="Tool\Sql\msado15.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="Tool\Sqlite\sqlite3.lib" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B60AE1CD-ADD8-40CC-8B04-4D69B9F2E270}</ProjectGuid>
