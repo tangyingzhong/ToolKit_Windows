@@ -215,7 +215,7 @@
     <ClCompile Include="Tool\Encoding\ANSI.cpp">
       <Filter>Tool\Encoding</Filter>
     </ClCompile>
-    <ClCompile Include="Tool\Encoding\UTF16.cpp">
+    <ClCompile Include="Tool\Encoding\Unicode.cpp">
       <Filter>Tool\Encoding</Filter>
     </ClCompile>
   </ItemGroup>
@@ -448,7 +448,7 @@
     <ClInclude Include="Tool\Encoding\ANSI.h">
       <Filter>Tool\Encoding</Filter>
     </ClInclude>
-    <ClInclude Include="Tool\Encoding\UTF16.h">
+    <ClInclude Include="Tool\Encoding\Unicode.h">
       <Filter>Tool\Encoding</Filter>
     </ClInclude>
   </ItemGroup>

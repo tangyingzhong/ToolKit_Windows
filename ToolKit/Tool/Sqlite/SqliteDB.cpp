@@ -1,4 +1,4 @@
-#include "Tool/Encoding/UTF16.h"
+#include "Tool/Encoding/Unicode.h"
 #include "Tool/Encoding/ANSI.h"
 #include "Tool/Encoding/UTF8.h"
 #include "SqliteDB.h"
