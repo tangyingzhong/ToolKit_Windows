@@ -13,7 +13,7 @@
 
 #include "Tool/Common/SystemType.h"
 #include "Tool/BaseType/String.h"
-#include "Tool/Encoding/UTF16.h"
+#include "Tool/Encoding/Unicode.h"
 
 using namespace System;
 using namespace System::BasicType;

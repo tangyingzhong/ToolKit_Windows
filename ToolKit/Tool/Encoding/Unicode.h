@@ -4,12 +4,12 @@
 /// <contact>tangyz114987@outlook.com</contact>
 /// <version>v1.0.0</version>
 /// <describe>
-/// Convert other encoding string to be UTF16 string
+/// Convert other encoding string to be Unicode string
 ///</describe>
 /// <date>2019/7/16</date>
 ///***********************************************************************
-#ifndef UTF16_H
-#define UTF16_H
+#ifndef UNICODE_H
+#define UNICODE_H
 
 #include "EncodeType.h"
 
@@ -17,7 +17,7 @@ namespace System
 {
 	namespace Encoding
 	{
-		class UTF16
+		class Unicode
 		{
 		public:
 			typedef System::Int32 Index;
@@ -31,36 +31,36 @@ namespace System
 			typedef ENCODE_TYPE_ENUM EncodeType;
 
 		private:
-			// Construct the UTF16
-			UTF16() {	}
+			// Construct the Unicode
+			Unicode() {	}
 
-			// Detructe the UTF16
-			~UTF16() {	}
+			// Detructe the Unicode
+			~Unicode() {	}
 
 			// Forbid the object copying
-			UTF16(const UTF16& other) {	}
+			Unicode(const Unicode& other) {	}
 
 			// Forbid the obejct assignment
-			UTF16& operator=(const UTF16& other) {	}
+			Unicode& operator=(const Unicode& other) {	}
 
 		public:
-			// Get the UTF16 string from the multibytes array Notice: count must contain '\0'
+			// Get the Unicode string from the multibytes array Notice: count must contain '\0'
 			static WStdString GetString(SCharArray Buffer,
 				Index iPos, 
 				Length iCount, 
 				EncodeType eEncodingType);
 
-			// Get the UTF16 string from the multibyte string
+			// Get the Unicode string from the multibyte string
 			static WStdString GetString(StdString MultiString, EncodeType eEncodingType);
 
 		private:
-			//UTF8 to UTF16
-			static WStdString UTF8ToUTF16(StdString Utf8String);
+			//UTF8 to Unicode
+			static WStdString UTF8ToUnicode(StdString Utf8String);
 
-			//ANSI to UTF16
-			static WStdString ANSIToUTF16(StdString ANSIString);
+			//ANSI to Unicode
+			static WStdString ANSIToUnicode(StdString ANSIString);
 		};
 	}
 }
 
-#endif // UTF16_H
+#endif // UNICODE_H

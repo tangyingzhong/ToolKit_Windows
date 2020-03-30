@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <string>
 #include "Tool/Encoding/ANSI.h"
-#include "Tool/Encoding/UTF16.h"
+#include "Tool/Encoding/Unicode.h"
 #include "Tool/Encoding/UTF8.h"
 #include "String.h"
 
@@ -11,15 +11,15 @@ using namespace System::BasicType;
 
 #ifdef UNICODE
 // Construct the string auto from ansi string
-String::String(const std::string strAnsiString) :m_Length(0), m_pCArray(NULL), m_Disposed(false)
+String::String(std::string strAnsiString) :m_Length(0), m_pCArray(NULL), m_Disposed(false)
 {
-	std::wstring strFinal = UTF16::GetString(strAnsiString, ENCODE_ANSI);
+	std::wstring strFinal = Unicode::GetString(strAnsiString, ENCODE_ANSI);
 
 	Initialize(strFinal);
 }
 #else
 // Construct the string auto from wide string from ansi string
-String::String(const std::wstring strWString):m_Length(0), m_pCArray(NULL), m_Disposed(false)
+String::String(std::wstring strWString):m_Length(0), m_pCArray(NULL), m_Disposed(false)
 {
 	std::string strAnsi=ANSI::GetString(strWString,ENCODE_ANSI);
 
@@ -407,7 +407,7 @@ System::WByteArray String::AllocWideString()
 	const Int32 END_CHAR_COUNT = 1;
 
 	// Get the wide string from the ANSI array
-	std::wstring strWideString = ToUTF16Data();
+	std::wstring strWideString = ToUnicodeData();
 
 	// Resize the wide array
 	m_WideArray.Resize((Length)strWideString.length() + 1);
@@ -421,7 +421,7 @@ System::WByteArray String::AllocWideString()
 	return m_WideArray.Data();
 }
 
-// Utf8 string(UTF16->ANSI->UTF8 or ANSI->UTF8)
+// Utf8 string(Unicode->ANSI->UTF8 or ANSI->UTF8)
 std::string String::ToUTF8Data()
 {
 #ifdef UNICODE
@@ -448,12 +448,12 @@ std::string String::ToANSIData()
 }
 
 // Data of the string
-std::wstring String::ToUTF16Data()
+std::wstring String::ToUnicodeData()
 {
 #ifdef UNICODE
 	std::wstring strData = GetStdString();
 #else
-	std::wstring strData = UTF16::GetString(GetStdString(), ENCODE_ANSI);
+	std::wstring strData = Unicode::GetString(GetStdString(), ENCODE_ANSI);
 #endif
 
 	return strData;

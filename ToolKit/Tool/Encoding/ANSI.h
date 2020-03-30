@@ -45,14 +45,14 @@ namespace System
 			ANSI& operator=(const ANSI& Another) {	}
 
 		public:
-			// Get mutilbytes from UTF16 array Notice: count must contain '\0'
-			static StdString GetString(WCharArray UTF16Buffer, 
+			// Get mutilbytes from Unicode array Notice: count must contain '\0'
+			static StdString GetString(WCharArray UnicodeBuffer, 
 				Index iPos, 
 				Length iCount,
 				EncodeType eEncodeType);
 
-			// Get mutilbytes from UTF16 string
-			static StdString GetString(WStdString UTF16String);
+			// Get mutilbytes from Unicode string
+			static StdString GetString(WStdString UnicodeString);
 
 			// Get mutilbytes from multibyte array Notice: count must contain '\0'
 			static StdString GetString(SCharArray MultibyteBuffer,
@@ -67,8 +67,8 @@ namespace System
 			// Convert UTF8 to Mutilbytes
 			static StdString UTF8ToANSI(StdString UTF8String);
 
-			// Convert UTF16 to Mutilbytes
-			static StdString UTF16ToANSI(WStdString UTF16String);
+			// Convert Unicode to Mutilbytes
+			static StdString UnicodeToANSI(WStdString UnicodeString);
 		};
 	}
 }

@@ -17,15 +17,10 @@
 // Close the c4996 warning which is tip you that you should use a safe function not an old one
 #pragma warning(disable:4996)
 
-#ifdef UNICODE
-#define _T(x) L ## x
-#else
-#define _T(x) x
-#endif
-
 // Exclude rarely-used stuff from Windows headers
 #define WIN32_LEAN_AND_MEAN 
 #include <windows.h>
+#include <tchar.h>
 #include <sstream>
 #include <string>
 

@@ -45,10 +45,10 @@ namespace System
 			~String();
 #ifdef UNICODE
 			// Construct the string auto from ansi string
-			String(const std::string strAnsiString);
+			String(std::string strAnsiString);
 #else
 			// Construct the string auto from wide string from ansi string
-			String(const std::wstring strWString);
+			String(std::wstring strWString);
 #endif
 			// Contruct a string with STL string
 			String(StdString OtherStdString);
@@ -112,14 +112,14 @@ namespace System
 			// Get the wide string when you are in ANSI environment to program
 			WByteArray AllocWideString();
 
-			// Utf8 string ((UTF16->ANSI->UTF8 or only ANSI->UTF8))
+			// Utf8 string ((Unicode->ANSI->UTF8 or only ANSI->UTF8))
 			std::string ToUTF8Data();
 
-			// ANSI string ((UTF16->ANSI or only ANSI))
+			// ANSI string ((Unicode->ANSI or only ANSI))
 			std::string ToANSIData();
 
-			// UTF16 string
-			std::wstring ToUTF16Data();
+			// Unicode string
+			std::wstring ToUnicodeData();
 
 			// Make string upper
 			String& MakeUpper();

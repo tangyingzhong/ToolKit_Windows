@@ -1,18 +1,18 @@
 #include "Tool/Buffer/Array.h"
 #include "ANSI.h"
 #include "UTF8.h"
-#include "UTF16.h"
+#include "Unicode.h"
 
 using namespace System::Buffer;
 using namespace System::Encoding;
 
-// Convert a UTF16 buffer to ANSI string
-ANSI::StdString ANSI::GetString(WCharArray UTF16Buffer,
+// Convert a Unicode buffer to ANSI string
+ANSI::StdString ANSI::GetString(WCharArray UnicodeBuffer,
 	Index iPos,
 	Length iCount,
 	EncodeType eEncodeType)
 {
-	if (UTF16Buffer==NULL)
+	if (UnicodeBuffer==NULL)
 	{
 		return "";
 	}
@@ -22,11 +22,11 @@ ANSI::StdString ANSI::GetString(WCharArray UTF16Buffer,
 		return "";
 	}
 
-	std::wstring strUTF16;
+	std::wstring strUnicode;
 
-	strUTF16.append(UTF16Buffer + iPos, iCount);
+	strUnicode.append(UnicodeBuffer + iPos, iCount);
 
-	std::string strAnsi = UTF16ToANSI(strUTF16);
+	std::string strAnsi = UnicodeToANSI(strUnicode);
 
 	return strAnsi;
 }
@@ -67,15 +67,15 @@ ANSI::StdString ANSI::GetString(SCharArray MultibyteBuffer,
 	return "";
 }
 
-// Get mutilbytes from UTF16 string
-ANSI::StdString ANSI::GetString(WStdString UTF16String)
+// Get mutilbytes from Unicode string
+ANSI::StdString ANSI::GetString(WStdString UnicodeString)
 {
-	if (UTF16String.empty())
+	if (UnicodeString.empty())
 	{
 		return "";
 	}
 
-	return UTF16ToANSI(UTF16String);
+	return UnicodeToANSI(UnicodeString);
 }
 
 // Get mutilbytes from multibyte string
@@ -101,13 +101,13 @@ ANSI::StdString ANSI::GetString(StdString strMultiString, EncodeType eEncodeType
 // Convert UTF8 to Mutilbytes
 ANSI::StdString ANSI::UTF8ToANSI(StdString UTF8String)
 {
-	return UTF16ToANSI(UTF16::GetString(UTF8String, EncodeType::ENCODE_UTF8));
+	return UnicodeToANSI(Unicode::GetString(UTF8String, EncodeType::ENCODE_UTF8));
 }
 
-// Convert UTF16 to Mutilbytes
-ANSI::StdString ANSI::UTF16ToANSI(WStdString UTF16String)
+// Convert Unicode to Mutilbytes
+ANSI::StdString ANSI::UnicodeToANSI(WStdString UnicodeString)
 {
-	if (UTF16String.empty())
+	if (UnicodeString.empty())
 	{
 		return "";
 	}
@@ -115,7 +115,7 @@ ANSI::StdString ANSI::UTF16ToANSI(WStdString UTF16String)
 	// Get the multibytes size
 	Length iMultiByteLength = ::WideCharToMultiByte(CP_ACP,
 		0,
-		UTF16String.c_str(),
+		UnicodeString.c_str(),
 		-1,
 		NULL,
 		0,
@@ -129,10 +129,10 @@ ANSI::StdString ANSI::UTF16ToANSI(WStdString UTF16String)
 	// Create an ANSI Array 
 	Array<SCharacter> ANSIArray(iMultiByteLength + 1);
 	
-	// Convert UTF16 to multibytes
+	// Convert Unicode to multibytes
 	Length iANSILength = ::WideCharToMultiByte(CP_ACP,
 		0,
-		UTF16String.c_str(),
+		UnicodeString.c_str(),
 		-1,
 		ANSIArray.Data(),
 		ANSIArray.Size(),

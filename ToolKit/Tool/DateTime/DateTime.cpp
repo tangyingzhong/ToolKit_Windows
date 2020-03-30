@@ -1,6 +1,6 @@
 #include <time.h>
 #include "Tool/BaseType/Int.h"
-#include "Tool/Encoding/UTF16.h"
+#include "Tool/Encoding/Unicode.h"
 #include "DateTime.h"
 
 using namespace System::Clock;

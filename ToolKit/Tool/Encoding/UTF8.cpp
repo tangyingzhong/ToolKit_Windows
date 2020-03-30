@@ -1,7 +1,7 @@
 #include "Tool/Buffer/Array.h"
 #include "UTF8.h"
 #include "ANSI.h"
-#include "UTF16.h"
+#include "Unicode.h"
 
 using namespace System::Encoding;
 using namespace System::Buffer;
@@ -63,11 +63,11 @@ UTF8::StdString UTF8::GetString(StdString strMultiString, EncodeType eEncodeType
 }
 
 // Get the UTF8 string from the byte array
-UTF8::StdString UTF8::GetString(WCharArray UTF16Buffer,
+UTF8::StdString UTF8::GetString(WCharArray UnicodeBuffer,
 	Index iPos,
 	Length iCount)
 {
-	if (UTF16Buffer == NULL)
+	if (UnicodeBuffer == NULL)
 	{
 		return "";
 	}
@@ -77,30 +77,30 @@ UTF8::StdString UTF8::GetString(WCharArray UTF16Buffer,
 		return "";
 	}
 
-	std::wstring strUTF16;
+	std::wstring strUnicode;
 
-	strUTF16.append(UTF16Buffer + iPos, iCount);
+	strUnicode.append(UnicodeBuffer + iPos, iCount);
 
-	std::string strUtf8 = UTF16ToUTF8(strUTF16);
+	std::string strUtf8 = UnicodeToUTF8(strUnicode);
 
 	return strUtf8;
 }
 
 // Get the UTF8 string from the byte array
-UTF8::StdString UTF8::GetString(WStdString UTF16String)
+UTF8::StdString UTF8::GetString(WStdString UnicodeString)
 {
-	if (UTF16String.empty())
+	if (UnicodeString.empty())
 	{
 		return "";
 	}
 
-	return UTF16ToUTF8(UTF16String);
+	return UnicodeToUTF8(UnicodeString);
 }
 
-// Convert UTF16 string to UTF8 string
-UTF8::StdString UTF8::UTF16ToUTF8(WStdString UTF16String)
+// Convert Unicode string to UTF8 string
+UTF8::StdString UTF8::UnicodeToUTF8(WStdString UnicodeString)
 {
-	if (UTF16String.empty())
+	if (UnicodeString.empty())
 	{
 		return "";
 	}
@@ -108,7 +108,7 @@ UTF8::StdString UTF8::UTF16ToUTF8(WStdString UTF16String)
 	// Get the utf8 length
 	Length iMultiByteLength = WideCharToMultiByte(CP_UTF8,
 		0, 
-		UTF16String.c_str(), 
+		UnicodeString.c_str(), 
 		-1, 
 		NULL, 
 		0, 
@@ -122,10 +122,10 @@ UTF8::StdString UTF8::UTF16ToUTF8(WStdString UTF16String)
 	// Create a utf8 buffer 
 	Array<SCharacter> MultiBytesArray(iMultiByteLength + 1);
 	
-	// Convert the UTF16 bytes to the UTF8 bytes  
+	// Convert the Unicode bytes to the UTF8 bytes  
 	Length iUtf8Length = WideCharToMultiByte(CP_UTF8, 
 		0, 
-		UTF16String.c_str(), 
+		UnicodeString.c_str(), 
 		-1, 
 		MultiBytesArray.Data(), 
 		MultiBytesArray.Size(), 
@@ -142,5 +142,5 @@ UTF8::StdString UTF8::UTF16ToUTF8(WStdString UTF16String)
 // Convert ANSI string to UTF8 string
 UTF8::StdString UTF8::ANSIToUTF8(StdString ANSIString)
 {
-	return UTF16ToUTF8(UTF16::GetString(ANSIString, ENCODE_ANSI));
+	return UnicodeToUTF8(Unicode::GetString(ANSIString, ENCODE_ANSI));
 }

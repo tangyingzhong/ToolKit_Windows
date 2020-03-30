@@ -1,6 +1,6 @@
 #include <fstream>
 #include "Tool/Encoding/ANSI.h"
-#include "Tool/Encoding/UTF16.h"
+#include "Tool/Encoding/Unicode.h"
 #include "Tool/Encoding/UTF8.h"
 #include "Tool/BaseType/Int.h"
 #include "Tool/BaseType/Double.h"

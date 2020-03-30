@@ -3,7 +3,7 @@
 #include <Iphlpapi.h>
 #include "Tool/Buffer/Array.h"
 #include "Tool/Thread/Mutex.h"
-#include "Tool/Encoding/UTF16.h"
+#include "Tool/Encoding/Unicode.h"
 #include "Tool/BaseType/String.h"
 #include "Socket.h"
 
