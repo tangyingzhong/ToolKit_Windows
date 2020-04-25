@@ -49,7 +49,7 @@ namespace System
 		JsonDocument& operator=(JsonDocument& other);
 
 	public:
-		// Json file to obejct
+		// Json file to obejct 
 		static JsonDocument FromJsonFile(JsonString strFilePath);
 
 		// String to object

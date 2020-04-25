@@ -10,16 +10,35 @@ using namespace System::Encoding;
 using namespace System::BasicType;
 
 #ifdef UNICODE
-// Construct the string auto from ansi string
-String::String(std::string strAnsiString) :m_Length(0), m_pCArray(NULL), m_Disposed(false)
+// Construct the string auto from multi string
+String::String(std::string strMultiString, ENCODE_TYPE_ENUM eEncodeType) :
+	m_StdString(_T("")),
+	m_Length(0), 
+	m_pCArray(NULL), 
+	m_Disposed(false)
 {
-	std::wstring strFinal = Unicode::GetString(strAnsiString, ENCODE_ANSI);
+	std::wstring strFinal = L"";
+
+	if (eEncodeType == ENCODE_ANSI)
+	{
+		strFinal = Unicode::GetString(strMultiString, ENCODE_ANSI);
+	}
+	else if (ENCODE_UTF8)
+	{
+		std::string strAnsi = ANSI::GetString(strMultiString, ENCODE_UTF8);
+
+		strFinal = Unicode::GetString(strAnsi,ENCODE_ANSI);
+	}
 
 	Initialize(strFinal);
 }
 #else
 // Construct the string auto from wide string from ansi string
-String::String(std::wstring strWString):m_Length(0), m_pCArray(NULL), m_Disposed(false)
+String::String(std::wstring strWString):
+	m_StdString(_T("")),
+	m_Length(0),
+	m_pCArray(NULL),
+	m_Disposed(false)
 {
 	std::string strAnsi=ANSI::GetString(strWString,ENCODE_ANSI);
 
@@ -28,19 +47,31 @@ String::String(std::wstring strWString):m_Length(0), m_pCArray(NULL), m_Disposed
 #endif
 
 // Contruct an None string
-String::String() :m_Length(0), m_pCArray(NULL), m_Disposed(false)
+String::String() :
+	m_StdString(_T("")),
+	m_Length(0),
+	m_pCArray(NULL),
+	m_Disposed(false)
 {
 	Initialize(_T(""));
 }
 
 // Contruct an string with STL String
-String::String(StdString OtherStdString) :m_Length(0), m_pCArray(NULL), m_Disposed(false)
+String::String(StdString OtherStdString) :
+	m_StdString(_T("")),
+	m_Length(0),
+	m_pCArray(NULL),
+	m_Disposed(false)
 {
 	Initialize(OtherStdString);
 }
 
 // Contruct a string with C-type string
-String::String(const CharArray pString) :m_Length(0), m_pCArray(NULL), m_Disposed(false)
+String::String(const CharArray pString) :
+	m_StdString(_T("")),
+	m_Length(0),
+	m_pCArray(NULL),
+	m_Disposed(false)
 {
 	Initialize((CharArray)pString);
 }
@@ -119,7 +150,7 @@ String::None String::DestoryCArray()
 	}
 }
 
-// Get C-type string 
+// Get C-type string Note: you shoukdn't free the array's memory here
 LPCTSTR String::CStr()
 {
 	if (GetCArray() == NULL)

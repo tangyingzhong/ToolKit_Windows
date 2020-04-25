@@ -5,13 +5,14 @@
 using namespace System::MultiMedia;
 
 // Construct the GeneralPlayer
-GeneralPlayer::GeneralPlayer() :m_pGraphBuilder(NULL),
-m_pMediaController(NULL),
-m_pMediaEvent(NULL),
-m_pMediaSeeking(NULL),
-m_pBasicAudio(NULL),
-m_iAudioDuration(0),
-m_bDisposed(false)
+GeneralPlayer::GeneralPlayer() :
+	m_pGraphBuilder(NULL),
+	m_pMediaController(NULL),
+	m_pMediaEvent(NULL),
+	m_pMediaSeeking(NULL),
+	m_pBasicAudio(NULL),
+	m_iAudioDuration(0),
+	m_bDisposed(false)
 {
 	Initialize();
 }
@@ -98,6 +99,7 @@ Boolean GeneralPlayer::Load(String strAudioFilePath)
 		CLSCTX_INPROC_SERVER,
 		IID_IGraphBuilder,
 		(void **)&m_pGraphBuilder);
+
 	if (FAILED(hResult))
 	{
 		::SetLastError(hResult);

@@ -441,7 +441,7 @@ Socket::None Socket::GetLocalIpMAc(MacIpTable& IpMacTable)
 
 	if (pIpAdapterInfo)
 	{
-		delete pIpAdapterInfo;
+		delete[] pIpAdapterInfo;
 	}
 }
 
@@ -553,9 +553,10 @@ Socket::Size WINAPI Socket::AsyncRead(Object paramenter)
 			&(result->Result.wsaBuf), 
 			1, 
 			&(result->Result.iOutSize), 
-			(LPDWORD)0, 
+			NULL, 
 			&(result->AsynSocket),
 			NULL);
+
 		if (len == 0)
 		{
 			if (GetLastError() == WSA_IO_PENDING)
@@ -565,7 +566,7 @@ Socket::Size WINAPI Socket::AsyncRead(Object paramenter)
 					&(result->AsynSocket), 
 					&(result->Result.iOutSize),
 					FALSE, 
-					(LPDWORD)0))
+					NULL))
 				{
 					if (result->Result.pCallBackFunc)
 					{

@@ -14,10 +14,12 @@
 #include <vector>
 #include "Tool/Common/SystemType.h"
 #include "Tool/Buffer/Array.h"
+#include "Tool/Encoding/EncodeType.h"
 
 using namespace std;
 using namespace System;
 using namespace System::Buffer;
+using namespace System::Encoding;
 
 namespace System
 {
@@ -44,8 +46,8 @@ namespace System
 			// Destruct the string
 			~String();
 #ifdef UNICODE
-			// Construct the string auto from ansi string
-			String(std::string strAnsiString);
+			// Construct the string auto from multi string
+			String(std::string strMultiString, ENCODE_TYPE_ENUM eEncodeType= ENCODE_ANSI);
 #else
 			// Construct the string auto from wide string from ansi string
 			String(std::wstring strWString);
@@ -56,7 +58,6 @@ namespace System
 			// Contruct a string with C-type string
 			String(const CharArray pString);
 
-		public:
 			// Allow the string copying
 			String(const String& other);
 

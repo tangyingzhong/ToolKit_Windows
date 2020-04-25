@@ -53,7 +53,7 @@ public:\
 public:\
 	strClassName##Creator()\
 	{\
-		m_pDllLoader=new DllLoader();\
+		m_pDllLoader = new DllLoader();\
 \
 		if(m_pDllLoader)\
 		{\
@@ -63,7 +63,7 @@ public:\
 \
 			m_pInterface=pCreateModule();\
 \
-			m_pDestoryModule=m_pDllLoader->GetFunc<DestoryModule>(_T("DestoryModule"));\
+			m_pDestoryModule = m_pDllLoader->GetFunc<DestoryModule>(_T("DestoryModule"));\
 		}\
 	}\
 \
@@ -97,7 +97,7 @@ private:\
 	DestoryModule m_pDestoryModule;\
 };\
 \
-strClassName##Creator pCreator=new strClassName##Creator();\
+strClassName##Creator pCreator = new strClassName##Creator();\
 
 #define GET_MODULE() \
 pCreator->GetInterface()\

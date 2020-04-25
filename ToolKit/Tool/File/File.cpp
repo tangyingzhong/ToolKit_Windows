@@ -5,7 +5,10 @@
 using namespace System::IO;
 
 // Construct the File Stream
-File::File() :m_FileHandle(NULL), m_FileName(_T("")), m_Disposed(false)
+File::File() :
+	m_FileHandle(NULL), 
+	m_FileName(_T("")), 
+	m_Disposed(false)
 {
 	Initialize();
 }
@@ -59,7 +62,14 @@ File::BOOL File::_CreateFile(String strFilePath,
 	SetFileName(strFilePath);
 
 	// Create the file 
-	SetFileHandle(::CreateFile(GetFileName().CStr(), OperateAccess, 0, NULL, OpenMode, AttributeEnum, NULL));
+	SetFileHandle(::CreateFile(GetFileName().CStr(),
+		OperateAccess,
+		0, 
+		NULL, 
+		OpenMode, 
+		AttributeEnum, 
+		NULL));
+
 	if (GetFileHandle() == INVALID_HANDLE_VALUE)
 	{
 		if (GetLastError()==32)
@@ -356,7 +366,12 @@ File::ArraySize File::Read(char* pReadArray, Offset iOffset, ArraySize iArraySiz
 
 	ArraySize dwReadBytes = 0;
 
-	if (::ReadFile(GetFileHandle(), pReadArray, iArraySize, &dwReadBytes, NULL) == FALSE)
+	Int32 iRet = ::ReadFile(GetFileHandle(), 
+		pReadArray, 
+		iArraySize, 
+		&dwReadBytes, 
+		NULL);
+	if (iRet == FALSE)
 	{
 		return 0;
 	}
@@ -381,7 +396,13 @@ File::ArraySize File::Write(CONST char* pWriteArray, Offset iOffset, ArraySize i
 
 	ArraySize dwWriteBytes = 0;
 
-	if (::WriteFile(GetFileHandle(), pWriteArray, iArraySize, &dwWriteBytes, NULL) == FALSE)
+	Int32 iRet = ::WriteFile(GetFileHandle(), 
+		pWriteArray,
+		iArraySize, 
+		&dwWriteBytes, 
+		NULL);
+
+	if (iRet == FALSE)
 	{
 		return 0;
 	}

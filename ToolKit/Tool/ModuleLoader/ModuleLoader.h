@@ -4,328 +4,336 @@
 /// <contact>tangyz114987@outlook.com</contact>
 /// <version>v1.0.0</version>
 /// <describe>
-/// Load modules in the plugin under bin directory
+/// Load modules by your module interface. Note: your module must have two interface 
+/// They are CreateModule , DestoryModule
 ///</describe>
 /// <date>2019/9/2</date>
 ///***********************************************************************
 #ifndef MODULELOADER_H
 #define MODULELOADER_H
 
-template<class T>
-class ModuleLoader
+namespace System
 {
-public:
-	typedef DllLoader* Loader;
-	typedef T* PluginInterface;
-	typedef PluginInterface(*CreateModule)();
-	typedef None(*DestoryModule)(PluginInterface);
-
-public:
-	// Construct the ModuleLoader
-	ModuleLoader(String strModuleFilePath) :m_strModuleName(_T("")),
-		m_strModuleFilePath(strModuleFilePath),
-		m_pDllLoader(NULL),
-		m_pPluginInterface(NULL),
-		m_pDestoryModule(NULL),
-		m_bDisposed(false)
+	template<class T>
+	class ModuleLoader
 	{
-		Initialize();
-	}
+	public:
+		typedef System::DllLoader* Loader;
+		typedef T* PluginInterface;
+		typedef PluginInterface(*CreateModule)();
+		typedef None(*DestoryModule)(PluginInterface);
 
-	// Detructe the ModuleLoader
-	~ModuleLoader()
-	{
-		Destory();
-	}
-
-private:
-	// Forbid the Copy ModuleLoader
-	ModuleLoader(const ModuleLoader& other) {	}
-
-	// Forbid the assigment of ModuleLoader
-	ModuleLoader& operator=(const ModuleLoader& other) {	}
-
-public:
-	// Get module interface 
-	T* GetModuleInterface() const
-	{
-		return GetPluginInterface();
-	}
-
-	// Get the ModuleName
-	inline String GetModuleName() const
-	{
-		return m_strModuleName;
-	}
-
-private:
-	// Load the module
-	Boolean Load()
-	{
-		if (GetDllLoader() == NULL)
+	public:
+		// Construct the ModuleLoader
+		ModuleLoader(String strModuleFilePath) :
+			m_strModuleName(_T("")),
+			m_strModuleFilePath(strModuleFilePath),
+			m_pDllLoader(NULL),
+			m_pPluginInterface(NULL),
+			m_pDestoryModule(NULL),
+			m_bDisposed(false)
 		{
-			return false;
+			Initialize();
 		}
 
-		if (GetModuleFilePath().IsEmpty())
+		// Detructe the ModuleLoader
+		~ModuleLoader()
 		{
-			return false;
+			Destory();
 		}
 
-		if (!IsLoad())
-		{
-			String strErrorMsg = _T("");
+	private:
+		// Forbid the Copy ModuleLoader
+		ModuleLoader(const ModuleLoader& other) {	}
 
-			if (!GetDllLoader()->Load(GetModuleFilePath(), strErrorMsg))
+		// Forbid the assigment of ModuleLoader
+		ModuleLoader& operator=(const ModuleLoader& other) {	}
+
+	public:
+		// Get module interface 
+		T* GetModuleInterface() const
+		{
+			return GetPluginInterface();
+		}
+
+		// Get the ModuleName
+		inline String GetModuleName() const
+		{
+			return m_strModuleName;
+		}
+
+	private:
+		// Load the module
+		Boolean Load()
+		{
+			if (GetDllLoader() == NULL)
 			{
 				return false;
 			}
 
-			CreateModule pCreateModule = GetDllLoader()->GetFunc<CreateModule>(_T("CreateModule"));
-			if (pCreateModule == NULL)
+			if (GetModuleFilePath().IsEmpty())
 			{
 				return false;
 			}
 
-			SetCreateModule(pCreateModule);
+			if (!IsLoad())
+			{
+				String strErrorMsg = _T("");
 
-			SetDestoryModule(GetDllLoader()->GetFunc<DestoryModule>(_T("DestoryModule")));
-			if (GetDestoryModule() == NULL)
+				if (!GetDllLoader()->Load(GetModuleFilePath(), strErrorMsg))
+				{
+					return false;
+				}
+
+				CreateModule pCreateModule = GetDllLoader()->GetFunc<CreateModule>(_T("CreateModule"));
+				if (pCreateModule == NULL)
+				{
+					std::cerr << "You must define your create interface as CreateModule" << std::endl;
+
+					return false;
+				}
+
+				SetCreateModule(pCreateModule);
+
+				SetDestoryModule(GetDllLoader()->GetFunc<DestoryModule>(_T("DestoryModule")));
+				if (GetDestoryModule() == NULL)
+				{
+					std::cerr << "You must define your destory interface as DestoryModule" << std::endl;
+
+					return false;
+				}
+
+				CreateTheModule();
+			}
+
+			return true;
+		}
+
+		// Unload the module
+		Boolean Unload()
+		{
+			if (GetDllLoader() == NULL)
 			{
 				return false;
 			}
 
-			CreateTheModule();
+			if (IsLoad())
+			{
+				DestoryTheModule();
+
+				return GetDllLoader()->Unload();
+			}
+
+			return true;
 		}
 
-		return true;
-	}
-
-	// Unload the module
-	Boolean Unload()
-	{
-		if (GetDllLoader() == NULL)
+		// Is load the module
+		Boolean IsLoad()
 		{
-			return false;
+			if (GetDllLoader() == NULL)
+			{
+				return false;
+			}
+
+			return GetDllLoader()->IsOpen();
 		}
 
-		if (IsLoad())
+		// Create module
+		None CreateTheModule()
 		{
-			DestoryTheModule();
+			if (GetCreateModule())
+			{
+				PluginInterface pInterface = (PluginInterface)m_pCreateModule();
 
-			return GetDllLoader()->Unload();
+				SetModuleInterface(pInterface);
+			}
 		}
 
-		return true;
-	}
-
-	// Is load the module
-	Boolean IsLoad()
-	{
-		if (GetDllLoader() == NULL)
+		// Destory module
+		None DestoryTheModule()
 		{
-			return false;
+			if (GetDestoryModule())
+			{
+				m_pDestoryModule(GetModuleInterface());
+			}
 		}
 
-		return GetDllLoader()->IsOpen();
-	}
-
-	// Create module
-	None CreateTheModule()
-	{
-		if (GetCreateModule())
+		// Set module interface
+		None SetModuleInterface(PluginInterface pInterface)
 		{
-			PluginInterface pInterface = (PluginInterface)m_pCreateModule();
-
-			SetModuleInterface(pInterface);
+			SetPluginInterface(pInterface);
 		}
-	}
 
-	// Destory module
-	None DestoryTheModule()
-	{
-		if (GetDestoryModule())
+		// Configure module name 
+		None ConfigureModuleName()
 		{
-			m_pDestoryModule(GetModuleInterface());
+			if (GetModuleFilePath().IsEmpty())
+			{
+				SetModuleName(_T(""));
+
+				return;
+			}
+
+			Int32 iPos = GetModuleFilePath().FindLast(_T("\\"));
+			if (iPos == -1)
+			{
+				SetModuleName(_T(""));
+
+				return;
+			}
+
+			String strModuleName = GetModuleFilePath().Right(GetModuleFilePath().GetLength() - iPos - 1);
+
+			SetModuleName(strModuleName);
 		}
-	}
 
-	// Set module interface
-	None SetModuleInterface(PluginInterface pInterface)
-	{
-		SetPluginInterface(pInterface);
-	}
-
-	// Configure module name 
-	None ConfigureModuleName()
-	{
-		if (GetModuleFilePath().IsEmpty())
+	private:
+		// Init the module loader
+		None Initialize()
 		{
-			SetModuleName(_T(""));
+			// Configure the module name
+			ConfigureModuleName();
 
-			return;
+			// Create a dll loader
+			CreateDllLoader();
+
+			// Load the module
+			Load();
 		}
 
-		Int32 iPos = GetModuleFilePath().FindLast(_T("\\"));
-		if (iPos == -1)
+		// Destory the module loader
+		None Destory()
 		{
-			SetModuleName(_T(""));
+			if (!GetDisposed())
+			{
+				SetDisposed(true);
 
-			return;
+				// Unload the module
+				Unload();
+
+				// Destory the dll loader
+				DestoryDllLoader();
+			}
 		}
-
-		String strModuleName = GetModuleFilePath().Right(GetModuleFilePath().GetLength() - iPos - 1);
-
-		SetModuleName(strModuleName);
-	}
-
-private:
-	// Init the module loader
-	None Initialize()
-	{
-		// Configure the module name
-		ConfigureModuleName();
 
 		// Create a dll loader
-		CreateDllLoader();
-
-		// Load the module
-		Load();
-	}
-
-	// Destory the module loader
-	None Destory()
-	{
-		if (!GetDisposed())
+		None CreateDllLoader()
 		{
-			SetDisposed(true);
-
-			// Unload the module
-			Unload();
-
-			// Destory the dll loader
-			DestoryDllLoader();
+			SetDllLoader(new DllLoader());
 		}
-	}
 
-	// Create a dll loader
-	None CreateDllLoader()
-	{
-		SetDllLoader(new DllLoader());
-	}
-
-	// Destory the dll loader
-	None DestoryDllLoader()
-	{
-		if (GetDllLoader())
+		// Destory the dll loader
+		None DestoryDllLoader()
 		{
-			delete GetDllLoader();
+			if (GetDllLoader())
+			{
+				delete GetDllLoader();
 
-			SetDllLoader(NULL);
+				SetDllLoader(NULL);
+			}
 		}
-	}
 
-private:
-	// Set the ModuleName
-	inline None SetModuleName(String strModuleName)
-	{
-		m_strModuleName = strModuleName;
-	}
+	private:
+		// Set the ModuleName
+		inline None SetModuleName(String strModuleName)
+		{
+			m_strModuleName = strModuleName;
+		}
 
-	// Get the ModuleFilePath
-	inline String GetModuleFilePath() const
-	{
-		return m_strModuleFilePath;
-	}
+		// Get the ModuleFilePath
+		inline String GetModuleFilePath() const
+		{
+			return m_strModuleFilePath;
+		}
 
-	// Set the ModuleFilePath
-	inline void SetModuleFilePath(String strModuleFilePath)
-	{
-		m_strModuleFilePath = strModuleFilePath;
-	}
+		// Set the ModuleFilePath
+		inline void SetModuleFilePath(String strModuleFilePath)
+		{
+			m_strModuleFilePath = strModuleFilePath;
+		}
 
-	// Get the DllLoader
-	inline Loader GetDllLoader() const
-	{
-		return m_pDllLoader;
-	}
+		// Get the DllLoader
+		inline Loader GetDllLoader() const
+		{
+			return m_pDllLoader;
+		}
 
-	// Set the DllLoader
-	inline None SetDllLoader(Loader pDllLoader)
-	{
-		m_pDllLoader = pDllLoader;
-	}
+		// Set the DllLoader
+		inline None SetDllLoader(Loader pDllLoader)
+		{
+			m_pDllLoader = pDllLoader;
+		}
 
-	// Get the PluginInterface
-	inline PluginInterface GetPluginInterface() const
-	{
-		return m_pPluginInterface;
-	}
+		// Get the PluginInterface
+		inline PluginInterface GetPluginInterface() const
+		{
+			return m_pPluginInterface;
+		}
 
-	// Set the PluginInterface
-	inline None SetPluginInterface(PluginInterface pPluginInterface)
-	{
-		m_pPluginInterface = pPluginInterface;
-	}
+		// Set the PluginInterface
+		inline None SetPluginInterface(PluginInterface pPluginInterface)
+		{
+			m_pPluginInterface = pPluginInterface;
+		}
 
-	// Get the CreateModule
-	inline CreateModule GetCreateModule() const
-	{
-		return m_pCreateModule;
-	}
+		// Get the CreateModule
+		inline CreateModule GetCreateModule() const
+		{
+			return m_pCreateModule;
+		}
 
-	// Set the CreateModule
-	inline None SetCreateModule(CreateModule pCreateModule)
-	{
-		m_pCreateModule = pCreateModule;
-	}
+		// Set the CreateModule
+		inline None SetCreateModule(CreateModule pCreateModule)
+		{
+			m_pCreateModule = pCreateModule;
+		}
 
-	// Get the DestoryModule
-	inline DestoryModule GetDestoryModule() const
-	{
-		return m_pDestoryModule;
-	}
+		// Get the DestoryModule
+		inline DestoryModule GetDestoryModule() const
+		{
+			return m_pDestoryModule;
+		}
 
-	// Set the DestoryModule
-	inline None SetDestoryModule(DestoryModule pDestoryModule)
-	{
-		m_pDestoryModule = pDestoryModule;
-	}
+		// Set the DestoryModule
+		inline None SetDestoryModule(DestoryModule pDestoryModule)
+		{
+			m_pDestoryModule = pDestoryModule;
+		}
 
-	// Get disposed status
-	inline Boolean GetDisposed() const
-	{
-		return m_bDisposed;
-	}
+		// Get disposed status
+		inline Boolean GetDisposed() const
+		{
+			return m_bDisposed;
+		}
 
-	// Set the disposed status
-	inline None SetDisposed(Boolean bDisposed)
-	{
-		m_bDisposed = bDisposed;
-	}
+		// Set the disposed status
+		inline None SetDisposed(Boolean bDisposed)
+		{
+			m_bDisposed = bDisposed;
+		}
 
-private:
-	// Module name
-	String m_strModuleName;
+	private:
+		// Module name
+		String m_strModuleName;
 
-	// Module file path
-	String m_strModuleFilePath;
+		// Module file path
+		String m_strModuleFilePath;
 
-	// Dll loader
-	Loader m_pDllLoader;
+		// Dll loader
+		Loader m_pDllLoader;
 
-	// Module interface
-	PluginInterface m_pPluginInterface;
+		// Module interface
+		PluginInterface m_pPluginInterface;
 
-	// Create func
-	CreateModule m_pCreateModule;
+		// Create func
+		CreateModule m_pCreateModule;
 
-	// Destory func
-	DestoryModule  m_pDestoryModule;
+		// Destory func
+		DestoryModule  m_pDestoryModule;
 
-	// Disposed status
-	Boolean m_bDisposed;
-};
-#endif //MODULELOADER_H
+		// Disposed status
+		Boolean m_bDisposed;
+	};
+}
 
-
+#endif // MODULELOADER_H

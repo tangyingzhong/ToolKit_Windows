@@ -17,6 +17,12 @@
 // Close the c4996 warning which is tip you that you should use a safe function not an old one
 #pragma warning(disable:4996)
 
+// Disable the warnning of not having a retrurn variable for a function
+#pragma warning(disable:6031)
+
+// Do not tip that you haven't initialize the copy constructor's members' value
+#pragma warning(disable:26495)
+
 // Exclude rarely-used stuff from Windows headers
 #define WIN32_LEAN_AND_MEAN 
 #include <windows.h>

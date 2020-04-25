@@ -38,12 +38,12 @@ None EventHandler::ClearTable()
 // Fire event
 None EventHandler::FireEvent(Object pSender, Int32 iEventID,EventArgs* pArgs)
 {
-    if(pSender==nullptr)
+    if(pSender==NULL)
     {
         return;
     }
 
-    if(pArgs==nullptr)
+    if(pArgs==NULL)
     {
         return;
     }
@@ -88,12 +88,12 @@ None EventHandler::FireEvent(Object pSender, Int32 iEventID,EventArgs* pArgs)
 // Register an object's callback to the event handler
 Boolean EventHandler::RegisterEvent(Object pReceiver, Int32 iEventID,HandlerFunc pHandlerFunc)
 {
-    if(pReceiver==nullptr)
+    if(pReceiver==NULL)
     {
         return false;
     }
 
-    if(pHandlerFunc==nullptr)
+    if(pHandlerFunc==NULL)
     {
         return false;
     }
@@ -154,7 +154,7 @@ Boolean EventHandler::RegisterEvent(Object pReceiver, Int32 iEventID,HandlerFunc
 // UnRegister receiver
 Boolean EventHandler::UnRegisterEvent(Object pReceiver)
 {
-    if(pReceiver==nullptr)
+    if(pReceiver==NULL)
     {
         return false;
     }
@@ -177,7 +177,7 @@ Boolean EventHandler::UnRegisterEvent(Object pReceiver)
 // UnRegister receiver
 Boolean EventHandler::UnRegisterEvent(Object pReceiver, Int32 iEventID)
 {
-    if(pReceiver==nullptr)
+    if(pReceiver==NULL)
     {
         return false;
     }
@@ -207,12 +207,12 @@ Boolean EventHandler::UnRegisterEvent(Object pReceiver, Int32 iEventID)
 // UnRegister an object's callback from the event handler
 Boolean EventHandler::UnRegisterEvent(Object pReceiver, Int32 iEventID,HandlerFunc pHandlerFunc)
 {
-    if(pReceiver==nullptr)
+    if(pReceiver==NULL)
     {
         return false;
     }
 
-    if(pHandlerFunc==nullptr)
+    if(pHandlerFunc==NULL)
     {
         return false;
     }
@@ -280,7 +280,7 @@ Boolean EventHandler::UnRegisterEvent(Int32 iEventID)
 // UnRegister all eventid's func
 Boolean EventHandler::UnRegisterEvent(Int32 iEventID,HandlerFunc pHandlerFunc)
 {
-    if(pHandlerFunc==nullptr)
+    if(pHandlerFunc==NULL)
     {
         return false;
     }
@@ -323,7 +323,7 @@ Boolean EventHandler::UnRegisterEvent(Int32 iEventID,HandlerFunc pHandlerFunc)
 // UnRegister all funcs
 Boolean EventHandler::UnRegisterEvent(HandlerFunc pHandlerFunc)
 {
-    if(pHandlerFunc==nullptr)
+    if(pHandlerFunc==NULL)
     {
         return false;
     }

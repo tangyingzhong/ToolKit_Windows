@@ -34,18 +34,18 @@ struct EventPara
 
     EventPara()
     {
-        pSender=nullptr;
-        pReceiver=nullptr;
+        pSender=NULL;
+        pReceiver=NULL;
         iEventID=-1;
-        pArgs=nullptr;
+        pArgs=NULL;
     }
 
     Boolean IsEmpty()
     {
-        return (pSender==nullptr)
-                && (pReceiver==nullptr)
+        return (pSender==NULL)
+                && (pReceiver==NULL)
                 && (iEventID==-1)
-                && (pArgs==nullptr);
+                && (pArgs==NULL);
     }
 };
 

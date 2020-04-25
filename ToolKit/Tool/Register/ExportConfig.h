@@ -11,15 +11,13 @@
 #ifndef EXPORTCONFIG_H
 #define EXPORTCONFIG_H
 
-#define EXPOT_MODULE
-
 #ifdef EXPOT_MODULE
 
-#define DLL_API extern "C" __declspec(dllexport)
+#define MODULE_API extern "C" __declspec(dllexport)
 
 #else 
 
-#define DLL_API __declspec(dllimport)
+#define MODULE_API extern "C" __declspec(dllimport)
 
 #endif
 

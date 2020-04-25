@@ -185,11 +185,11 @@ JsonDocument JsonDocument::FromJsonFile(JsonString strFilePath)
 // String to object
 JsonDocument JsonDocument::FromJson(JsonString& strJson)
 {
-	JsonReader Read;
+	JsonReader Reader;
 
 	JsonDocument JsonDoc;
 
-	if (!Read.parse(strJson.ToUTF8Data(), JsonDoc.GetJsonObject()))
+	if (!Reader.parse(strJson.ToUTF8Data(), JsonDoc.GetJsonObject()))
 	{
 		return JsonDocument();
 	}
@@ -236,9 +236,7 @@ Boolean JsonDocument::GetKeys(KeyTable& FinalKeyTable)
 
 	for (Int32 iIndex = 0; iIndex < (Int32)KeyList.size();++iIndex)
 	{
-		std::string strAnsi = ANSI::GetString(KeyList[iIndex], ENCODE_UTF8);
-
-		String strFinalKey = strAnsi;
+		String strFinalKey = String(KeyList[iIndex]);
 
 		FinalKeyTable.push_back(strFinalKey);
 	}
@@ -476,25 +474,30 @@ None JsonDocument::SetKeyValue(JsonString strKey, JsonDocument& Doc)
 		return;
 	}
 
-	if (Doc.IsObject() || Doc.IsArray())
+	if (!Doc.IsObject())
+	{
+		return;
+	}
+
+	if (Doc.IsArray())
 	{
 		Set(strKey, Doc.GetJsonObject());
 	}
 	else if (Doc.IsBool())
 	{
-		Set(strKey, Doc.GetJsonObject().asBool());
+		SetKeyValue(strKey, Doc.GetJsonObject().asBool());
 	}
 	else if (Doc.IsInt())
 	{
-		Set(strKey, Doc.GetJsonObject().asInt());
+		SetKeyValue(strKey, Doc.GetJsonObject().asInt());
 	}
 	else if (Doc.IsString())
 	{
-		Set(strKey, Doc.GetJsonObject().asString());
+		SetKeyValue(strKey, Doc.GetJsonObject().asString());
 	}
 	else if (Doc.IsDouble())
 	{
-		Set(strKey, Doc.GetJsonObject().asDouble());
+		SetKeyValue(strKey, Doc.GetJsonObject().asDouble());
 	}
 }
 
