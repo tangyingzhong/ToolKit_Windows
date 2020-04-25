@@ -48,28 +48,28 @@ namespace System
 	}
 }
 
-static String GetFileName(SByteArray pFileName)
+static String GetFileName(std::string strName)
 {
-	std::string strFilePath = pFileName;
+	std::string strFilePath = strName;
 
 	String strFileName = strFilePath;
 
-	Int32 iPos = strFileName.FindLast(_T("\\"));
+	Int32 iPos = strFileName.FindLast(String(_T("\\")));
 
 	String strFinalFileName = strFileName.Right(strFileName.GetLength() - iPos - 1);
 
 	return strFinalFileName;
 }
 
-static String GetFunctionName(SByteArray pFuncName)
+static String GetFunctionName(std::string strName)
 {
-	String strFunctionName = pFuncName;
+	String strFunctionName = strName;
 
 	return strFunctionName;
 }
 
-#define _FILE_  GetFileName(__FILE__)
+#define _FILE_  GetFileName(std::string(__FILE__))
 
-#define _FUNCNAME_ GetFunctionName(__FUNCTION__)
+#define _FUNCNAME_ GetFunctionName(std::string(__FUNCTION__))
 
 #endif // LOGTYPE_H

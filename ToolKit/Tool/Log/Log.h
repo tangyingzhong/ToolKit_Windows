@@ -78,7 +78,7 @@ namespace System
 				LineNumber iLineNo,
 				String strFuncName,
 				String strMessage,
-				String strRemark = _T(""));
+				String strRemark = String(_T("")));
 
 			// Flush the message in buffer into the file
 			None Flush();
@@ -91,7 +91,7 @@ namespace System
 				LineNumber iLineNo,
 				String strFuncName,
 				String strMessage,
-				String strRemark = _T(""));
+				String strRemark = String(_T("")));
 
 			// Set max logger size
 			None SetMaxLoggerSize(Size iSize);
@@ -119,7 +119,7 @@ namespace System
 			None RegisterLogType();
 
 			// Get local time
-			String LocalTime(String strTimeFormat = _T("yyyy-MM-dd hh:mm:ss"));
+			String LocalTime(String strTimeFormat = String(_T("yyyy-MM-dd hh:mm:ss")));
 
 			// Log message to the file
 			None LogToFile(String& strLogFileName, String& strLogMessage);

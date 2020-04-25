@@ -43,10 +43,10 @@ namespace System
 		~JsonDocument();
 
 		// Copy the constructure
-		JsonDocument(JsonDocument& other);
+		JsonDocument(const JsonDocument& other);
 
 		// Assign the object
-		JsonDocument& operator=(JsonDocument& other);
+		JsonDocument& operator=(const JsonDocument& other);
 
 	public:
 		// Json file to obejct 

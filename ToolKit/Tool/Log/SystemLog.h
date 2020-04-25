@@ -48,45 +48,45 @@ Remark);
 #define LOG_FLUSH() pSystemLogger->Flush();
 
 #define LOG_DEBUG(Message,Remark) \
-LOG(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,Message,Remark) \
-LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,Message,Remark) \
-LOG_STD(Message)
+LOG(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,String(Message),String(Remark)) \
+LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,String(Message),String(Remark)) \
+LOG_STD(String(Message))
 
 #define LOG_ERROR(Message,Remark) \
-LOG(System::IO::LOG_TYPE_ENUM::LOGGING_ERROR,_FILE_,__LINE__,_FUNCNAME_,Message,Remark) \
-LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,Message,Remark) \
-LOG_STD(Message)
+LOG(System::IO::LOG_TYPE_ENUM::LOGGING_ERROR,_FILE_,__LINE__,_FUNCNAME_,String(Message),String(Remark)) \
+LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,String(Message),String(Remark)) \
+LOG_STD(String(Message))
 
 #define LOG_INFORMATION(Message,Remark) \
-LOG(System::IO::LOG_TYPE_ENUM::LOGGING_INFORMATION,_FILE_,__LINE__,_FUNCNAME_,Message,Remark) \
-LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,Message,Remark) \
-LOG_STD(Message)
+LOG(System::IO::LOG_TYPE_ENUM::LOGGING_INFORMATION,_FILE_,__LINE__,_FUNCNAME_,String(Message),String(Remark)) \
+LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,String(Message),String(Remark)) \
+LOG_STD(String(Message))
 
 #define LOG_DEBUG_EX(Message) \
 { \
-String strMesg=Message; \
-String strRemark = _T("");\
+String strMesg=String(Message); \
+String strRemark = String(_T(""));\
 LOG(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG, _FILE_, __LINE__, _FUNCNAME_, strMesg, strRemark) \
 LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG, _FILE_, __LINE__, _FUNCNAME_, strMesg, strRemark) \
-LOG_STD(Message) \
+LOG_STD(String(Message)) \
 }
 
 #define LOG_ERROR_EX(Message) \
 { \
-String strMesg=Message; \
-String strRemark = _T("");\
+String strMesg=String(Message); \
+String strRemark = String(_T(""));\
 LOG(System::IO::LOG_TYPE_ENUM::LOGGING_ERROR,_FILE_,__LINE__,_FUNCNAME_,strMesg,strRemark) \
 LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,strMesg,strRemark) \
-LOG_STD(Message) \
+LOG_STD(String(Message)) \
 }
 
 #define LOG_INFORMATION_EX(Message) \
 { \
-String strMesg=Message; \
-String strRemark = _T(""); \
+String strMesg=String(Message); \
+String strRemark = String(_T("")); \
 LOG(System::IO::LOG_TYPE_ENUM::LOGGING_INFORMATION,_FILE_,__LINE__,_FUNCNAME_,strMesg,strRemark) \
 LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,_FILE_,__LINE__,_FUNCNAME_,strMesg,strRemark) \
-LOG_STD(Message) \
+LOG_STD(String(Message)) \
 }
 
 class AutoLogger
@@ -107,14 +107,14 @@ public:
 			m_iLineNo, 
 			m_strFunctionName, 
 			m_strStartMessage, 
-			_T(""));
+			String(_T("")));
 
 		LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,
 			m_strFileName, 
 			m_iLineNo,
 			m_strFunctionName,
 			m_strStartMessage,
-			_T(""));
+			String(_T("")));
 	}
 
 	~AutoLogger()
@@ -124,14 +124,14 @@ public:
 			m_iLineNo, 
 			m_strFunctionName, 
 			m_strEndMessage,
-			_T(""));
+			String(_T("")));
 
 		LOG_TRACE(System::IO::LOG_TYPE_ENUM::LOGGING_DEBUG,
 			m_strFileName, 
 			m_iLineNo, 
 			m_strFunctionName, 
 			m_strEndMessage,
-			_T(""));
+			String(_T("")));
 	}
 
 private:

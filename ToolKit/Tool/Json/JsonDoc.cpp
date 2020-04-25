@@ -28,19 +28,23 @@ JsonDocument::~JsonDocument()
 }
 
 // Copy the constructure
-JsonDocument::JsonDocument(JsonDocument& other)
+JsonDocument::JsonDocument(const JsonDocument& other)
 {
-	SetJsonObject(other.GetJsonObject());
+	JsonObject obj = other.m_JsonObject;
+
+	SetJsonObject(obj);
 
 	SetDisposed(other.GetDisposed());
 }
 
 // Assign the object
-JsonDocument& JsonDocument::operator=(JsonDocument& other)
+JsonDocument& JsonDocument::operator=(const JsonDocument& other)
 {
 	if (this != &other)
 	{
-		SetJsonObject(other.GetJsonObject());
+		JsonObject obj = other.m_JsonObject;
+
+		SetJsonObject(obj);
 
 		SetDisposed(other.GetDisposed());
 	}
@@ -474,12 +478,7 @@ None JsonDocument::SetKeyValue(JsonString strKey, JsonDocument& Doc)
 		return;
 	}
 
-	if (!Doc.IsObject())
-	{
-		return;
-	}
-
-	if (Doc.IsArray())
+	if (Doc.IsObject() || Doc.IsArray())
 	{
 		Set(strKey, Doc.GetJsonObject());
 	}

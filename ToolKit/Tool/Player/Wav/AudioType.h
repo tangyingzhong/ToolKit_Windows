@@ -12,6 +12,7 @@
 #define AUDIOTYPE_H
 
 #include <Windows.h>
+#include <mmsystem.h>
 #include "Tool/Common/SystemType.h"
 
 namespace System

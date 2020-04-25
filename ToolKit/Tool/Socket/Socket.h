@@ -86,7 +86,7 @@ namespace System
 			None GetLocalIpMAc(MacIpTable& IpMacTable);
 
 			// Get Mac by ip
-			BOOL Socket::GetMacByIp(String strIpAddr, String& strMacAddr);
+			BOOL GetMacByIp(String strIpAddr, String& strMacAddr);
 
 		public:
 			// Open the socket

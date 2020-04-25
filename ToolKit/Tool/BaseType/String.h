@@ -11,6 +11,7 @@
 #ifndef STRING_H
 #define STRING_H
 
+#include <tchar.h>
 #include <vector>
 #include "Tool/Common/SystemType.h"
 #include "Tool/Buffer/Array.h"
