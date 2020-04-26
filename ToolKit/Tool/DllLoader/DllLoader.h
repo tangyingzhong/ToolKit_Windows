@@ -58,7 +58,7 @@ namespace System
 				return NULL;
 			}
 
-			return (T)(::GetProcAddress(m_hLibraryModule, strFunctionName.ToAnsiData().c_str()));
+			return (T)(::GetProcAddress(m_hLibraryModule, strFunctionName.ToANSIData().c_str()));
 		}
 
 	private:
