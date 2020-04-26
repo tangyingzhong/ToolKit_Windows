@@ -31,7 +31,7 @@ namespace System
 
 		public:
 			// Construct the SqlParamenter
-			SqlParamenter(String strParaName = _T("default"),
+			SqlParamenter(String strParaName = String(_T("default")),
 				DataTypeEnum DataType = DataTypeEnum::adInteger,
 				ParameterDirectionEnum ParaDirection = ParameterDirectionEnum::adParamInput,
 				ParamenterSize ParaSize = 4,

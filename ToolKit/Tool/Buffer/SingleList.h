@@ -314,7 +314,7 @@ namespace System
 					return NULL;
 				}
 
-				if (pNode == NULL)
+				if (pCurNode == NULL)
 				{
 					return NULL;
 				}

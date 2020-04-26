@@ -337,9 +337,6 @@
     <ClInclude Include="Tool\USB\USBType.h">
       <Filter>Tool\USB</Filter>
     </ClInclude>
-    <ClInclude Include="Application\BasicTool.h">
-      <Filter>Application</Filter>
-    </ClInclude>
     <ClInclude Include="Tool\Buffer\Queue.h">
       <Filter>Tool\Buffer</Filter>
     </ClInclude>
@@ -438,6 +435,9 @@
     </ClInclude>
     <ClInclude Include="Tool\Encoding\Unicode.h">
       <Filter>Tool\Encoding</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Toolkit.h">
+      <Filter>Tool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

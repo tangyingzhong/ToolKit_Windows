@@ -53,7 +53,6 @@ namespace System
 				m_CircleBuffer = other.m_CircleBuffer;
 				SetReadPos(other.GetReadPos());
 				SetWritePos(other.GetWritePos());
-				SetIsFull(other.GetIsFull());
 				SetDisposed(other.GetDisposed());
 			}
 
@@ -66,7 +65,6 @@ namespace System
 					m_CircleBuffer = other.m_CircleBuffer;
 					SetReadPos(other.GetReadPos());
 					SetWritePos(other.GetWritePos());
-					SetIsFull(other.GetIsFull());
 					SetDisposed(other.GetDisposed());
 				}
 				return *this;
@@ -128,7 +126,6 @@ namespace System
 			{			
 				SetReadPos(0);
 				SetWritePos(0);
-				SetIsFull(false);
 				SetBufferSize(iNewSize);
 				m_CircleBuffer.Resize(GetBufferSize());
 			}
@@ -138,7 +135,6 @@ namespace System
 			{
 				SetReadPos(0);
 				SetWritePos(0);
-				SetIsFull(false);
 				m_CircleBuffer.Clear();
 			}
 
@@ -157,9 +153,6 @@ namespace System
 
 				// Set the write position
 				SetWritePos(0);
-
-				// Set the full flag
-				SetIsFull(false);
 			}
 
 			// Destory the CircleBuffer

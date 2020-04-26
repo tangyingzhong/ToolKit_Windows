@@ -69,7 +69,6 @@
     <ClCompile Include="Tool\USB\USB.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Application\BasicTool.h" />
     <ClInclude Include="Application\PreCompile.h" />
     <ClInclude Include="Application\targetver.h" />
     <ClInclude Include="Tool\BaseType\Bool.h" />
@@ -139,6 +138,7 @@
     <ClInclude Include="Tool\Timer\Counter.h" />
     <ClInclude Include="Tool\Timer\Delay.h" />
     <ClInclude Include="Tool\Timer\Timer.h" />
+    <ClInclude Include="Tool\Toolkit.h" />
     <ClInclude Include="Tool\USB\cyioctl.h" />
     <ClInclude Include="Tool\USB\USB.h" />
     <ClInclude Include="Tool\USB\usb100.h" />

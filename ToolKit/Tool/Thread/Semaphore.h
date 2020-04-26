@@ -31,7 +31,7 @@ namespace System
 
 		public:
 			// Construct the Semaphore with name
-			Semaphore(SemaphoreName strSignalName = _T(""), 
+			Semaphore(SemaphoreName strSignalName = String(_T("")), 
 				ResourceCount iMinCount = 1, 
 				ResourceCount iMaxCount = 1);
 

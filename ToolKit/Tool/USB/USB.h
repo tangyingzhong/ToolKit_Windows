@@ -62,8 +62,8 @@ namespace System
 
 		public:
 			// Construct the usb with the Guid
-			USB(String strVid = _T("0547"),
-				String strPid = _T("1005"),
+			USB(String strVid = String(_T("0547")),
+				String strPid = String(_T("1005")),
 				const DeviceID DeviceID = { 0xAE18AA60, 0x7F6A, 0x11D4, 0x97, 0xDD, 0x00, 0x01, 0x02, 0x29, 0xb9, 0x59 }
 			);
 

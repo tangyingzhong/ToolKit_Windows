@@ -42,7 +42,7 @@ namespace System
 
 		public:
 			// Open the event
-			BOOL Open(String strEventName = _T(""));
+			BOOL Open(String strEventName = String(_T("")));
 
 			// Activate the event
 			None Signaled();
@@ -94,7 +94,6 @@ namespace System
 
 			// Disposed status
 			BOOL m_Disposed;
-
 		};
 	}
 }
