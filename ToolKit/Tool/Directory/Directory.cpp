@@ -719,104 +719,13 @@ Directory::None Directory::RemoveDirAttribute(String strDirPath, FileAttrEnum eF
 // Get directory's create time
 Directory::BOOL Directory::GetCreatedTime(String strDirPath, DateTime& CreatedTime)
 {
-	HANDLE hDir = CreateFile(strDirPath.CStr(), GENERIC_READ,
-		FILE_SHARE_READ | FILE_SHARE_DELETE,
-		NULL, OPEN_EXISTING,
-		FILE_FLAG_BACKUP_SEMANTICS, NULL);
-
-	if (hDir == INVALID_HANDLE_VALUE)
-	{
-		return false;
-	}
-
-	FILETIME lpCreationTime;
-
-	FILETIME lpLastAccessTime;
-
-	FILETIME lpLastWriteTime;
-
-	// Get time attribute
-	if (GetFileTime(hDir, &lpCreationTime, &lpLastAccessTime, &lpLastWriteTime))
-	{
-		FILETIME CreationTime;
-
-		// Convert UTC time to Local time
-		FileTimeToLocalFileTime(&lpCreationTime, &CreationTime);
-
-		SYSTEMTIME SysCreatedTime;
-
-		// Convert Local time to System time
-		FileTimeToSystemTime(&CreationTime, &SysCreatedTime);
-
-		DateTime SysDateTime(static_cast<Int32>(SysCreatedTime.wYear),
-			static_cast<Int32>(SysCreatedTime.wMonth),
-			static_cast<Int32>(SysCreatedTime.wDay),
-			static_cast<Int32>(SysCreatedTime.wHour),
-			static_cast<Int32>(SysCreatedTime.wMinute),
-			static_cast<Int32>(SysCreatedTime.wSecond));
-
-		CreatedTime = SysDateTime;
-
-		CloseHandle(hDir);
-
-		return true;
-	}
-
-	CloseHandle(hDir);
-
-	return false;
+	return File::GetCreatedTime(strDirPath, CreatedTime);
 }
 
 // Set directory's create time
 Directory::BOOL Directory::SetCreatedTime(String strDirPath, DateTime& CreatedTime)
 {
-	HANDLE hDir = CreateFile(strDirPath.CStr(), GENERIC_READ | GENERIC_WRITE,
-		FILE_SHARE_READ | FILE_SHARE_DELETE,
-		NULL, OPEN_EXISTING,
-		FILE_FLAG_BACKUP_SEMANTICS, NULL);
-
-	if (hDir == INVALID_HANDLE_VALUE)
-	{
-		return false;
-	}
-
-	SYSTEMTIME SysCreatedTime;
-
-	SysCreatedTime.wYear = static_cast<WORD>(CreatedTime.m_Year);
-
-	SysCreatedTime.wMonth = static_cast<WORD>(CreatedTime.m_Month);
-
-	SysCreatedTime.wDay = static_cast<WORD>(CreatedTime.m_Day);
-
-	SysCreatedTime.wHour = static_cast<WORD>(CreatedTime.m_Hour);
-
-	SysCreatedTime.wMinute = static_cast<WORD>(CreatedTime.m_Minute);
-
-	SysCreatedTime.wSecond = static_cast<WORD>(CreatedTime.m_Second);
-
-	FILETIME lpCreationTime;
-
-	FILETIME lpLastAccessTime;
-
-	FILETIME lpLastWriteTime;
-
-	SystemTimeToFileTime(&SysCreatedTime, &lpCreationTime);
-
-	SystemTimeToFileTime(&SysCreatedTime, &lpLastAccessTime);
-
-	SystemTimeToFileTime(&SysCreatedTime, &lpLastWriteTime);
-
-	// Get time attribute
-	if (!SetFileTime(hDir, &lpCreationTime, &lpLastAccessTime, &lpLastWriteTime))
-	{
-		CloseHandle(hDir);
-
-		return false;
-	}
-
-	CloseHandle(hDir);
-
-	return true;
+	return File::SetCreatedTime(strDirPath, CreatedTime);
 }
 
 // Get current directory of main project
