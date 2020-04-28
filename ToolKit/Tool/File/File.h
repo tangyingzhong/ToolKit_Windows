@@ -12,8 +12,10 @@
 #define FILE_H
 
 #include "Tool/BaseType/String.h"
+#include "Tool/DateTime/DateTime.h"
 
 using namespace System::BasicType;
+using namespace System::Clock;
 
 namespace System
 {
@@ -99,6 +101,18 @@ namespace System
 
 			// Get the File Attribute(hidden,directory,normal ,system etc.)
 			static FileAttribute GetAttributes(String strFileName);
+
+			// Set the File Attribute
+			static None SetAttributes(String strFilePath, FileAttrEnum eFileAttribute);
+
+			// Remove the file's attribute
+			static None RemoveAttribute(String strFilePath, FileAttrEnum eFileAttribute);
+
+			// Get file's create time
+			static BOOL GetCreatedTime(String strFilePath, DateTime& CreatedTime);
+
+			// Set file's create time
+			static BOOL SetCreatedTime(String strFilePath, DateTime& CreatedTime);
 
 		private:
 			// File is opened 

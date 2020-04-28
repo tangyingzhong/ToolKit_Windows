@@ -196,6 +196,125 @@ File::FileAttribute File::GetAttributes(String strFileName)
 	return Attribute;
 }
 
+// Set the File Attribute
+File::None File::SetAttributes(String strFilePath, FileAttrEnum eFileAttribute)
+{
+	DWORD dAttribute = ::GetFileAttributes(strFilePath.CStr());
+
+	::SetFileAttributes(strFilePath.CStr(), dAttribute | eFileAttribute);
+}
+
+// Remove the file's attribute
+File::None File::RemoveAttribute(String strFilePath, FileAttrEnum eFileAttribute)
+{
+	DWORD dAttribute = ::GetFileAttributes(strFilePath.CStr());
+
+	::SetFileAttributes(strFilePath.CStr(), dAttribute & (~eFileAttribute));
+}
+
+// Get file's create time
+File::BOOL File::GetCreatedTime(String strFilePath, DateTime& CreatedTime)
+{
+	HANDLE hDir = CreateFile(strFilePath.CStr(), GENERIC_READ,
+		FILE_SHARE_READ | FILE_SHARE_DELETE,
+		NULL, OPEN_EXISTING,
+		FILE_FLAG_BACKUP_SEMANTICS, NULL);
+
+	if (hDir == INVALID_HANDLE_VALUE)
+	{
+		return false;
+	}
+
+	FILETIME lpCreationTime;
+
+	FILETIME lpLastAccessTime;
+
+	FILETIME lpLastWriteTime;
+
+	// Get time attribute
+	if (GetFileTime(hDir, &lpCreationTime, &lpLastAccessTime, &lpLastWriteTime))
+	{
+		FILETIME CreationTime;
+
+		// Convert UTC time to Local time
+		FileTimeToLocalFileTime(&lpCreationTime, &CreationTime);
+
+		SYSTEMTIME SysCreatedTime;
+
+		// Convert Local time to System time
+		FileTimeToSystemTime(&CreationTime, &SysCreatedTime);
+
+		DateTime SysDateTime(static_cast<Int32>(SysCreatedTime.wYear),
+			static_cast<Int32>(SysCreatedTime.wMonth),
+			static_cast<Int32>(SysCreatedTime.wDay),
+			static_cast<Int32>(SysCreatedTime.wHour),
+			static_cast<Int32>(SysCreatedTime.wMinute),
+			static_cast<Int32>(SysCreatedTime.wSecond));
+
+		CreatedTime = SysDateTime;
+
+		CloseHandle(hDir);
+
+		return true;
+	}
+
+	CloseHandle(hDir);
+
+	return false;
+}
+
+// Set file's create time
+File::BOOL File::SetCreatedTime(String strFilePath, DateTime& CreatedTime)
+{
+	HANDLE hDir = CreateFile(strFilePath.CStr(), GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_DELETE,
+		NULL, OPEN_EXISTING,
+		FILE_FLAG_BACKUP_SEMANTICS, NULL);
+
+	if (hDir == INVALID_HANDLE_VALUE)
+	{
+		return false;
+	}
+
+	SYSTEMTIME SysCreatedTime;
+
+	SysCreatedTime.wYear = static_cast<WORD>(CreatedTime.m_Year);
+
+	SysCreatedTime.wMonth = static_cast<WORD>(CreatedTime.m_Month);
+
+	SysCreatedTime.wDay = static_cast<WORD>(CreatedTime.m_Day);
+
+	SysCreatedTime.wHour = static_cast<WORD>(CreatedTime.m_Hour);
+
+	SysCreatedTime.wMinute = static_cast<WORD>(CreatedTime.m_Minute);
+
+	SysCreatedTime.wSecond = static_cast<WORD>(CreatedTime.m_Second);
+
+	FILETIME lpCreationTime;
+
+	FILETIME lpLastAccessTime;
+
+	FILETIME lpLastWriteTime;
+
+	SystemTimeToFileTime(&SysCreatedTime, &lpCreationTime);
+
+	SystemTimeToFileTime(&SysCreatedTime, &lpLastAccessTime);
+
+	SystemTimeToFileTime(&SysCreatedTime, &lpLastWriteTime);
+
+	// Get time attribute
+	if (!SetFileTime(hDir, &lpCreationTime, &lpLastAccessTime, &lpLastWriteTime))
+	{
+		CloseHandle(hDir);
+
+		return false;
+	}
+
+	CloseHandle(hDir);
+
+	return true;
+}
+
 // Move the file pointer to special position
 File::Offset File::Seek(SeekOrigin SeekType, Offset iOffset)
 {

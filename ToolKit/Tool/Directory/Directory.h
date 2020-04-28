@@ -13,8 +13,10 @@
 
 #include "Tool/Common/SystemType.h"
 #include "Tool/BaseType/String.h"
+#include "Tool/DateTime/DateTime.h"
 
 using namespace System::BasicType;
+using namespace System::Clock;
 
 namespace System
 {
@@ -81,6 +83,12 @@ namespace System
 
 			// Remove the attribute of the directory
 			static None RemoveDirAttribute(String strDirPath, FileAttrEnum eFileAttribute);
+
+			// Get directory's create time
+			static BOOL GetCreatedTime(String strDirPath,DateTime& CreatedTime);
+
+			// Set directory's create time
+			static BOOL SetCreatedTime(String strDirPath, DateTime& CreatedTime);
 
 			// Get current directory of main project
 			static String GetCurDirectory();

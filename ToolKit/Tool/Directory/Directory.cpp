@@ -44,7 +44,7 @@ Directory::BOOL Directory::Create(String strDirPath, BOOL bRecursive)
 	String strDir = Extract(strDirPath);
 
 	// Create the path recursively
-	if (!Create(strDir,bRecursive))
+	if (!Create(strDir, bRecursive))
 	{
 		return false;
 	}
@@ -112,7 +112,7 @@ String Directory::AddEnding(String strPath)
 	}
 	else
 	{
-		strStandardPath = strPath+_T("\\");
+		strStandardPath = strPath + _T("\\");
 	}
 
 	return strStandardPath;
@@ -134,12 +134,12 @@ Directory::BOOL Directory::IsEqual(String strSrcDirPath, String strDestDirPath)
 	// Get the src directory name
 	Int32 iPos = strSrcDirPath.FindLast(_T("\\"));
 
-	String strSrcDirName = strSrcDirPath.Right(strSrcDirPath.GetLength()-iPos-1);
+	String strSrcDirName = strSrcDirPath.Right(strSrcDirPath.GetLength() - iPos - 1);
 
 	// Get the dest directory name D:\\34.json
 	Int32 iDestPos = strDestDirPath.FindLast(_T("\\"));
 
-	String strDestDirName = strDestDirPath.Right(strDestDirPath.GetLength() - iDestPos-1);
+	String strDestDirName = strDestDirPath.Right(strDestDirPath.GetLength() - iDestPos - 1);
 
 	return strSrcDirName == strDestDirName;
 }
@@ -163,10 +163,10 @@ String Directory::Build(String strSrcPath, String strDestPath)
 	String strDstShortName = strDestPath.Right(strDestPath.GetLength() - iDstPos - 1);
 
 	// Get the src short name
-	Int32 iSrcPos = strSrcPath.Find(strDstShortName,0);
+	Int32 iSrcPos = strSrcPath.Find(strDstShortName, 0);
 
-	String strSrcShortName = strSrcPath.Right(strSrcPath.GetLength() - iSrcPos -1- strDstShortName.GetLength());
-	
+	String strSrcShortName = strSrcPath.Right(strSrcPath.GetLength() - iSrcPos - 1 - strDstShortName.GetLength());
+
 	String strFinalPath = Directory::AddEnding(strDestPath) + strSrcShortName;
 
 	return strFinalPath;
@@ -434,7 +434,7 @@ Directory::BOOL Directory::Delete(String strDirPath, BOOL bRecursive)
 
 	// Trim the ending 
 	String strDir = TrimEnding(strDirPath);
-	
+
 	// Is the directory
 	if (!IsDirectory(strDir))
 	{
@@ -490,7 +490,7 @@ Directory::BOOL Directory::Delete(String strDirPath, BOOL bRecursive)
 			if (!File().Delete(strFileName))
 			{
 				return false;
-			}			
+			}
 		}
 	}
 
@@ -552,7 +552,7 @@ Directory::BOOL Directory::IsExisted(String strDirPath)
 
 	String strDirectory = TrimEnding(strDirPath);
 
-	if (strDirectory.GetLength()==2)
+	if (strDirectory.GetLength() == 2)
 	{
 		// Is valid dirve root directory
 		if (!IsValidRootDriveDirectory(strDirectory))
@@ -650,11 +650,11 @@ Directory::BOOL Directory::IsDirectory(String strPath)
 
 	// Check wether it is directory 
 	FileAttribute Attr = GetDirAttribute(strPath);
-	if (Attr.dwDirectory ==0)
+	if (Attr.dwDirectory == 0)
 	{
 		return false;
 	}
-	
+
 	return true;
 }
 
@@ -677,21 +677,21 @@ Directory::FileAttribute Directory::GetDirAttribute(String strDirPath)
 	}
 
 	// Set the WinFileAttribute Struct
-	sFileAttr.dwArchive = dAttribute&(FileAttrEnum::ARCHIVE);
-	sFileAttr.dwCompressed = dAttribute&(FileAttrEnum::COMPRESSED);
-	sFileAttr.dwDevice = dAttribute&(FileAttrEnum::DEVICE);
-	sFileAttr.dwDirectory = dAttribute&(FileAttrEnum::DIRECTORY);
-	sFileAttr.dwEncrypted = dAttribute&(FileAttrEnum::ENCRYPTED);
-	sFileAttr.dwHidden = dAttribute&(FileAttrEnum::HIDDEN);
-	sFileAttr.dwNormal = dAttribute&(FileAttrEnum::NORMAL);
-	sFileAttr.dwNotContentIndexed = dAttribute&(FileAttrEnum::NOTCONTENTINDEXED);
-	sFileAttr.dwOffline = dAttribute&(FileAttrEnum::OFFLINE);
-	sFileAttr.dwReadOnly = dAttribute&(FileAttrEnum::READONLY);
-	sFileAttr.dwReparsePoint = dAttribute&(FileAttrEnum::REPARSEPOINT);
-	sFileAttr.dwSparseFile = dAttribute&(FileAttrEnum::SPARSEFILE);
-	sFileAttr.dwSystem = dAttribute&(FileAttrEnum::SYSTEM);
-	sFileAttr.dwTemporary = dAttribute&(FileAttrEnum::TEMPORARY);
-	sFileAttr.dwVirtual = dAttribute&(FileAttrEnum::VIRTUAL);
+	sFileAttr.dwArchive = dAttribute & (FileAttrEnum::ARCHIVE);
+	sFileAttr.dwCompressed = dAttribute & (FileAttrEnum::COMPRESSED);
+	sFileAttr.dwDevice = dAttribute & (FileAttrEnum::DEVICE);
+	sFileAttr.dwDirectory = dAttribute & (FileAttrEnum::DIRECTORY);
+	sFileAttr.dwEncrypted = dAttribute & (FileAttrEnum::ENCRYPTED);
+	sFileAttr.dwHidden = dAttribute & (FileAttrEnum::HIDDEN);
+	sFileAttr.dwNormal = dAttribute & (FileAttrEnum::NORMAL);
+	sFileAttr.dwNotContentIndexed = dAttribute & (FileAttrEnum::NOTCONTENTINDEXED);
+	sFileAttr.dwOffline = dAttribute & (FileAttrEnum::OFFLINE);
+	sFileAttr.dwReadOnly = dAttribute & (FileAttrEnum::READONLY);
+	sFileAttr.dwReparsePoint = dAttribute & (FileAttrEnum::REPARSEPOINT);
+	sFileAttr.dwSparseFile = dAttribute & (FileAttrEnum::SPARSEFILE);
+	sFileAttr.dwSystem = dAttribute & (FileAttrEnum::SYSTEM);
+	sFileAttr.dwTemporary = dAttribute & (FileAttrEnum::TEMPORARY);
+	sFileAttr.dwVirtual = dAttribute & (FileAttrEnum::VIRTUAL);
 
 	return sFileAttr;
 }
@@ -714,6 +714,109 @@ Directory::None Directory::RemoveDirAttribute(String strDirPath, FileAttrEnum eF
 	DWORD dAttribute = ::GetFileAttributes(strDirectory.CStr());
 
 	::SetFileAttributes(strDirectory.CStr(), dAttribute & (~eFileAttribute));
+}
+
+// Get directory's create time
+Directory::BOOL Directory::GetCreatedTime(String strDirPath, DateTime& CreatedTime)
+{
+	HANDLE hDir = CreateFile(strDirPath.CStr(), GENERIC_READ,
+		FILE_SHARE_READ | FILE_SHARE_DELETE,
+		NULL, OPEN_EXISTING,
+		FILE_FLAG_BACKUP_SEMANTICS, NULL);
+
+	if (hDir == INVALID_HANDLE_VALUE)
+	{
+		return false;
+	}
+
+	FILETIME lpCreationTime;
+
+	FILETIME lpLastAccessTime;
+
+	FILETIME lpLastWriteTime;
+
+	// Get time attribute
+	if (GetFileTime(hDir, &lpCreationTime, &lpLastAccessTime, &lpLastWriteTime))
+	{
+		FILETIME CreationTime;
+
+		// Convert UTC time to Local time
+		FileTimeToLocalFileTime(&lpCreationTime, &CreationTime);
+
+		SYSTEMTIME SysCreatedTime;
+
+		// Convert Local time to System time
+		FileTimeToSystemTime(&CreationTime, &SysCreatedTime);
+
+		DateTime SysDateTime(static_cast<Int32>(SysCreatedTime.wYear),
+			static_cast<Int32>(SysCreatedTime.wMonth),
+			static_cast<Int32>(SysCreatedTime.wDay),
+			static_cast<Int32>(SysCreatedTime.wHour),
+			static_cast<Int32>(SysCreatedTime.wMinute),
+			static_cast<Int32>(SysCreatedTime.wSecond));
+
+		CreatedTime = SysDateTime;
+
+		CloseHandle(hDir);
+
+		return true;
+	}
+
+	CloseHandle(hDir);
+
+	return false;
+}
+
+// Set directory's create time
+Directory::BOOL Directory::SetCreatedTime(String strDirPath, DateTime& CreatedTime)
+{
+	HANDLE hDir = CreateFile(strDirPath.CStr(), GENERIC_READ | GENERIC_WRITE,
+		FILE_SHARE_READ | FILE_SHARE_DELETE,
+		NULL, OPEN_EXISTING,
+		FILE_FLAG_BACKUP_SEMANTICS, NULL);
+
+	if (hDir == INVALID_HANDLE_VALUE)
+	{
+		return false;
+	}
+
+	SYSTEMTIME SysCreatedTime;
+
+	SysCreatedTime.wYear = static_cast<WORD>(CreatedTime.m_Year);
+
+	SysCreatedTime.wMonth = static_cast<WORD>(CreatedTime.m_Month);
+
+	SysCreatedTime.wDay = static_cast<WORD>(CreatedTime.m_Day);
+
+	SysCreatedTime.wHour = static_cast<WORD>(CreatedTime.m_Hour);
+
+	SysCreatedTime.wMinute = static_cast<WORD>(CreatedTime.m_Minute);
+
+	SysCreatedTime.wSecond = static_cast<WORD>(CreatedTime.m_Second);
+
+	FILETIME lpCreationTime;
+
+	FILETIME lpLastAccessTime;
+
+	FILETIME lpLastWriteTime;
+
+	SystemTimeToFileTime(&SysCreatedTime, &lpCreationTime);
+
+	SystemTimeToFileTime(&SysCreatedTime, &lpLastAccessTime);
+
+	SystemTimeToFileTime(&SysCreatedTime, &lpLastWriteTime);
+
+	// Get time attribute
+	if (!SetFileTime(hDir, &lpCreationTime, &lpLastAccessTime, &lpLastWriteTime))
+	{
+		CloseHandle(hDir);
+
+		return false;
+	}
+
+	CloseHandle(hDir);
+
+	return true;
 }
 
 // Get current directory of main project
@@ -778,7 +881,7 @@ Directory::BOOL Directory::Contains(String strRootDirPath, String strFileName)
 	{
 		return false;
 	}
-	else if (iFindPos== strRootDirPath.GetLength()-1)
+	else if (iFindPos == strRootDirPath.GetLength() - 1)
 	{
 		strFullPath = strRootDirPath + _T("*");
 	}
@@ -847,12 +950,12 @@ Directory::BOOL Directory::LookUpSubDirectory(String strDirPath, DirectoryTable&
 	{
 		return false;
 	}
-	else if (iFindPos==strDirPath.GetLength()-1)
+	else if (iFindPos == strDirPath.GetLength() - 1)
 	{
 		strDirPath = strDirPath + _T("*");
 	}
 	else
-	{		
+	{
 		strDirPath = strDirPath + _T("\\*");
 	}
 
@@ -874,7 +977,7 @@ Directory::BOOL Directory::LookUpSubDirectory(String strDirPath, DirectoryTable&
 		}
 
 		// Judge the found one is directory or not
-		if (data.dwFileAttributes&FileAttrEnum::DIRECTORY)
+		if (data.dwFileAttributes & FileAttrEnum::DIRECTORY)
 		{
 			if (String(data.cFileName) == _T("..") || String(data.cFileName) == _T("."))
 			{
@@ -916,7 +1019,7 @@ Directory::BOOL Directory::LookUpSubFiles(String strCurrentDir, FileTable& vFile
 	{
 		return false;
 	}
-	else if (iFindPos== strCurrentDir.GetLength()-1)
+	else if (iFindPos == strCurrentDir.GetLength() - 1)
 	{
 		strCurrentDir = strCurrentDir + _T("*");
 	}
