@@ -19,13 +19,13 @@ using namespace System;
 using namespace std;
 
 #define REGISTER_CREATE_MODULE(BaseClassType,ClassType) \
-DLL_API BaseClassType* CreateModule()\
+FUNC_ITEM BaseClassType* CreateModule()\
 {\
 	return new ClassType();\
 }
 
 #define REGISTER_DESTORY_MODULE(BaseClassType) \
-DLL_API void DestoryModule(BaseClassType* pModule) \
+FUNC_ITEM void DestoryModule(BaseClassType* pModule) \
 {\
 	if (pModule != NULL) \
 	{\

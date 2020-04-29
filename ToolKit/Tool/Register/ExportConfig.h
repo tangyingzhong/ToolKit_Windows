@@ -11,13 +11,23 @@
 #ifndef EXPORTCONFIG_H
 #define EXPORTCONFIG_H
 
-#ifdef EXPOT_MODULE
+#ifdef EXPORT_FUNCTION
 
-#define MODULE_API extern "C" __declspec(dllexport)
+#define FUNC_ITEM extern "C" __declspec(dllexport)
 
 #else 
 
-#define MODULE_API extern "C" __declspec(dllimport)
+#define FUNC_ITEM extern "C" __declspec(dllimport)
+
+#endif
+
+#ifdef EXPORT_CLASS
+
+#define CLASS_ITEM  __declspec(dllexport)
+
+#else 
+
+#define CLASS_ITEM  __declspec(dllimport)
 
 #endif
 
