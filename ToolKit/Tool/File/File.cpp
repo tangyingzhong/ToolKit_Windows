@@ -212,8 +212,34 @@ File::None File::RemoveAttribute(String strFilePath, FileAttrEnum eFileAttribute
 	::SetFileAttributes(strFilePath.CStr(), dAttribute & (~eFileAttribute));
 }
 
+// Convert time
+None File::TimeConvertion(FILETIME SrcTime, DateTime& DestTime)
+{
+	FILETIME CreationTime;
+
+	// Convert UTC time to Local time
+	FileTimeToLocalFileTime(&SrcTime, &CreationTime);
+
+	SYSTEMTIME SysCreatedTime;
+
+	// Convert Local time to System time
+	FileTimeToSystemTime(&CreationTime, &SysCreatedTime);
+
+	DateTime SysDateTime(static_cast<Int32>(SysCreatedTime.wYear),
+		static_cast<Int32>(SysCreatedTime.wMonth),
+		static_cast<Int32>(SysCreatedTime.wDay),
+		static_cast<Int32>(SysCreatedTime.wHour),
+		static_cast<Int32>(SysCreatedTime.wMinute),
+		static_cast<Int32>(SysCreatedTime.wSecond));
+
+	DestTime = SysDateTime;
+}
+
 // Get file's create time
-File::BOOL File::GetCreatedTime(String strFilePath, DateTime& CreatedTime)
+File::BOOL File::GetCreatedTime(String strFilePath,
+	DateTime& CreatedTime,
+	DateTime& LastAccessTime,
+	DateTime& LastWriteTime)
 {
 	HANDLE hDir = CreateFile(strFilePath.CStr(), GENERIC_READ,
 		FILE_SHARE_READ | FILE_SHARE_DELETE,
@@ -234,24 +260,11 @@ File::BOOL File::GetCreatedTime(String strFilePath, DateTime& CreatedTime)
 	// Get time attribute
 	if (GetFileTime(hDir, &lpCreationTime, &lpLastAccessTime, &lpLastWriteTime))
 	{
-		FILETIME CreationTime;
+		TimeConvertion(lpCreationTime, CreatedTime);
 
-		// Convert UTC time to Local time
-		FileTimeToLocalFileTime(&lpCreationTime, &CreationTime);
+		TimeConvertion(lpLastAccessTime, LastAccessTime);
 
-		SYSTEMTIME SysCreatedTime;
-
-		// Convert Local time to System time
-		FileTimeToSystemTime(&CreationTime, &SysCreatedTime);
-
-		DateTime SysDateTime(static_cast<Int32>(SysCreatedTime.wYear),
-			static_cast<Int32>(SysCreatedTime.wMonth),
-			static_cast<Int32>(SysCreatedTime.wDay),
-			static_cast<Int32>(SysCreatedTime.wHour),
-			static_cast<Int32>(SysCreatedTime.wMinute),
-			static_cast<Int32>(SysCreatedTime.wSecond));
-
-		CreatedTime = SysDateTime;
+		TimeConvertion(lpLastWriteTime, LastWriteTime);
 
 		CloseHandle(hDir);
 
@@ -263,8 +276,35 @@ File::BOOL File::GetCreatedTime(String strFilePath, DateTime& CreatedTime)
 	return false;
 }
 
+// Convert time
+None File::TimeConvertion(DateTime& SrcTime, FILETIME& DestTime)
+{
+	SYSTEMTIME SysTime;
+
+	SysTime.wYear = static_cast<WORD>(SrcTime.m_Year);
+
+	SysTime.wMonth = static_cast<WORD>(SrcTime.m_Month);
+
+	SysTime.wDay = static_cast<WORD>(SrcTime.m_Day);
+
+	SysTime.wHour = static_cast<WORD>(SrcTime.m_Hour);
+
+	SysTime.wMinute = static_cast<WORD>(SrcTime.m_Minute);
+
+	SysTime.wSecond = static_cast<WORD>(SrcTime.m_Second);
+
+	FILETIME lpLocalTime;
+
+	SystemTimeToFileTime(&SysTime, &lpLocalTime);
+
+	LocalFileTimeToFileTime(&lpLocalTime, &DestTime);
+}
+
 // Set file's create time
-File::BOOL File::SetCreatedTime(String strFilePath, DateTime& CreatedTime)
+File::BOOL File::SetCreatedTime(String strFilePath, 
+	DateTime& CreatedTime,
+	DateTime& LastAccessTime,
+	DateTime& LastWriteTime)
 {
 	HANDLE hDir = CreateFile(strFilePath.CStr(), GENERIC_READ | GENERIC_WRITE,
 		FILE_SHARE_READ | FILE_SHARE_DELETE,
@@ -276,31 +316,17 @@ File::BOOL File::SetCreatedTime(String strFilePath, DateTime& CreatedTime)
 		return false;
 	}
 
-	SYSTEMTIME SysCreatedTime;
-
-	SysCreatedTime.wYear = static_cast<WORD>(CreatedTime.m_Year);
-
-	SysCreatedTime.wMonth = static_cast<WORD>(CreatedTime.m_Month);
-
-	SysCreatedTime.wDay = static_cast<WORD>(CreatedTime.m_Day);
-
-	SysCreatedTime.wHour = static_cast<WORD>(CreatedTime.m_Hour);
-
-	SysCreatedTime.wMinute = static_cast<WORD>(CreatedTime.m_Minute);
-
-	SysCreatedTime.wSecond = static_cast<WORD>(CreatedTime.m_Second);
-
 	FILETIME lpCreationTime;
+
+	TimeConvertion(CreatedTime, lpCreationTime);
 
 	FILETIME lpLastAccessTime;
 
+	TimeConvertion(LastAccessTime, lpLastAccessTime);
+
 	FILETIME lpLastWriteTime;
 
-	SystemTimeToFileTime(&SysCreatedTime, &lpCreationTime);
-
-	SystemTimeToFileTime(&SysCreatedTime, &lpLastAccessTime);
-
-	SystemTimeToFileTime(&SysCreatedTime, &lpLastWriteTime);
+	TimeConvertion(LastWriteTime, lpLastWriteTime);
 
 	// Get time attribute
 	if (!SetFileTime(hDir, &lpCreationTime, &lpLastAccessTime, &lpLastWriteTime))

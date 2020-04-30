@@ -85,10 +85,16 @@ namespace System
 			static None RemoveDirAttribute(String strDirPath, FileAttrEnum eFileAttribute);
 
 			// Get directory's create time
-			static BOOL GetCreatedTime(String strDirPath,DateTime& CreatedTime);
+			static BOOL GetCreatedTime(String strDirPath,
+				DateTime& CreatedTime,
+				DateTime& LastAccessTime,
+				DateTime& LastWriteTime);
 
 			// Set directory's create time
-			static BOOL SetCreatedTime(String strDirPath, DateTime& CreatedTime);
+			static BOOL SetCreatedTime(String strDirPath, 
+				DateTime& CreatedTime,
+				DateTime& LastAccessTime,
+				DateTime& LastWriteTime);
 
 			// Get current directory of main project
 			static String GetCurDirectory();

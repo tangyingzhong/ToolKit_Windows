@@ -109,10 +109,16 @@ namespace System
 			static None RemoveAttribute(String strFilePath, FileAttrEnum eFileAttribute);
 
 			// Get file's create time
-			static BOOL GetCreatedTime(String strFilePath, DateTime& CreatedTime);
+			static BOOL GetCreatedTime(String strFilePath, 
+				DateTime& CreatedTime,
+				DateTime& LastAccessTime,
+				DateTime& LastWriteTime);
 
 			// Set file's create time
-			static BOOL SetCreatedTime(String strFilePath, DateTime& CreatedTime);
+			static BOOL SetCreatedTime(String strFilePath, 
+				DateTime& CreatedTime,
+				DateTime& LastAccessTime,
+				DateTime& LastWriteTime);
 
 		private:
 			// File is opened 
@@ -126,6 +132,12 @@ namespace System
 
 			// Prepare the envir
 			static BOOL PrepareEnvironment(String strFilePath);
+
+			// Convert time
+			static None TimeConvertion(FILETIME SrcTime, DateTime& DestTime);
+
+			// Convert time
+			static None TimeConvertion(DateTime& SrcTime, FILETIME& DestTime);
 
 		private:
 			// Initialize the File

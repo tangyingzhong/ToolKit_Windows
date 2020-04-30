@@ -717,15 +717,27 @@ Directory::None Directory::RemoveDirAttribute(String strDirPath, FileAttrEnum eF
 }
 
 // Get directory's create time
-Directory::BOOL Directory::GetCreatedTime(String strDirPath, DateTime& CreatedTime)
+Directory::BOOL Directory::GetCreatedTime(String strDirPath,
+	DateTime& CreatedTime,
+	DateTime& LastAccessTime,
+	DateTime& LastWriteTime)
 {
-	return File::GetCreatedTime(strDirPath, CreatedTime);
+	return File::GetCreatedTime(strDirPath,
+		CreatedTime,
+		LastAccessTime,
+		LastWriteTime);
 }
 
 // Set directory's create time
-Directory::BOOL Directory::SetCreatedTime(String strDirPath, DateTime& CreatedTime)
+Directory::BOOL Directory::SetCreatedTime(String strDirPath,
+	DateTime& CreatedTime,
+	DateTime& LastAccessTime,
+	DateTime& LastWriteTime)
 {
-	return File::SetCreatedTime(strDirPath, CreatedTime);
+	return File::SetCreatedTime(strDirPath,
+		CreatedTime,
+		LastAccessTime,
+		LastWriteTime);
 }
 
 // Get current directory of main project
