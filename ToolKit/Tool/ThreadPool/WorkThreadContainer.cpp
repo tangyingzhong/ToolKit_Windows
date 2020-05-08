@@ -4,7 +4,7 @@
 using namespace System::Thread;
 
 // Construct the WorkThreadContainer
-WorkThreadContainer::WorkThreadContainer():m_bDisposed(false)
+WorkThreadContainer::WorkThreadContainer() :m_bDisposed(false)
 {
 
 }
@@ -32,7 +32,7 @@ void WorkThreadContainer::CloseAllThread()
 
 		delete pThread;
 
-		pThread = nullptr;
+		pThread = NULL;
 	}
 }
 

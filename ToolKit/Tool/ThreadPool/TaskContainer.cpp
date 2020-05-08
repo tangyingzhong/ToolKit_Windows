@@ -3,7 +3,7 @@
 using namespace System::Thread;
 
 // Construct the TaskContainer
-TaskContainer::TaskContainer():m_bDisposed(false)
+TaskContainer::TaskContainer() :m_bDisposed(false)
 {
 
 }
@@ -20,7 +20,7 @@ TaskContainer::~TaskContainer()
 // Add task
 int TaskContainer::AddTask(TaskEntry& task)
 {
-	if (m_TaskQueue.size()> MAX_TASK_QUEUE)
+	if (m_TaskQueue.size() > MAX_TASK_QUEUE)
 	{
 		return 1;
 	}

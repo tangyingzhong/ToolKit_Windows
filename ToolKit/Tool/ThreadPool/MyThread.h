@@ -70,6 +70,14 @@ namespace System
 			// Get thread id
 			unsigned long long GetThreadId();
 
+			// Get the ExitThreadPool
+			static inline bool GetExitThreadPool()
+			{
+				std::lock_guard<std::mutex> Locker(m_ExitPoolLock);
+
+				return m_bExitThreadPool;
+			}
+
 		private:
 			// Get the disposed status
 			inline bool GetDisposed() const
@@ -107,16 +115,8 @@ namespace System
 				m_pThreadPool = pThreadPool;
 			}
 
-			// Get the ExitThreadPool
-			inline bool& GetExitThreadPool()
-			{
-				std::lock_guard<std::mutex> Locker(m_ExitPoolLock);
-
-				return m_bExitThreadPool;
-			}
-
 			// Set the ExitThreadPool
-			inline void SetExitThreadPool(bool bExitThreadPool)
+			static inline void SetExitThreadPool(bool bExitThreadPool)
 			{
 				std::lock_guard<std::mutex> Locker(m_ExitPoolLock);
 
@@ -139,11 +139,11 @@ namespace System
 			// Thread detach state
 			bool m_bIsDetached;
 
-			// Is exit the thread pool
-			bool m_bExitThreadPool;
-			
 			// Lock for the thread pool exit
-			std::mutex m_ExitPoolLock;
+			static std::mutex m_ExitPoolLock;
+
+			// Is exit the thread pool
+			static bool m_bExitThreadPool;
 
 			// Disposed status
 			bool m_bDisposed;

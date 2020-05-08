@@ -3,7 +3,7 @@
 using namespace System::Thread;
 
 // Construct the IdelThreadContainer
-IdelThreadContainer::IdelThreadContainer(IThreadPool* pThreadPool, int threadNum):
+IdelThreadContainer::IdelThreadContainer(IThreadPool* pThreadPool, int threadNum) :
 	m_pThreadPool(pThreadPool),
 	m_iThreadCnt(threadNum),
 	m_bDisposed(false)
@@ -25,7 +25,7 @@ IdelThreadContainer::~IdelThreadContainer()
 // Init the container
 void IdelThreadContainer::Init()
 {
-	for (int index=0;index<GetThreadCnt();++index)
+	for (int index = 0; index < GetThreadCnt(); ++index)
 	{
 		MyThread* pThread = new MyThread(GetThreadPool());
 
@@ -36,8 +36,8 @@ void IdelThreadContainer::Init()
 // Destory the container
 void IdelThreadContainer::Destory()
 {
-	for (std::vector<MyThread*>::iterator Iter=m_IdelTable.begin();
-		Iter!=m_IdelTable.end();
+	for (std::vector<MyThread*>::iterator Iter = m_IdelTable.begin();
+		Iter != m_IdelTable.end();
 		++Iter)
 	{
 		MyThread* pThread = *Iter;
@@ -47,7 +47,7 @@ void IdelThreadContainer::Destory()
 
 		delete pThread;
 
-		pThread = nullptr;
+		pThread = NULL;
 	}
 }
 
@@ -72,7 +72,7 @@ void IdelThreadContainer::AddThread(MyThread* pThread)
 // Get top thread
 MyThread* IdelThreadContainer::GetTopThread()
 {
-	MyThread* pThread= m_IdelTable.back();
+	MyThread* pThread = m_IdelTable.back();
 
 	m_IdelTable.pop_back();
 

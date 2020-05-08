@@ -17,28 +17,47 @@ namespace System
 {
 	namespace Thread
 	{
-		struct TaskEntry
+		struct UserData
 		{
-			typedef void(*TaskCallbackFunc)(void* pUserData,bool& bExitThreadPool);
-
-			// Task id
-			int iTaskId;
-
-			// Thread id (Task is ran in this thread)
-			unsigned long long iThreadId;
-
-			// Task callback function
-			TaskCallbackFunc pFunc;
+			typedef bool(*GetIsExitThreadPool)();
 
 			// User data
 			void* pUserData;
 
+			// Is exit the thread pool (Read not for write)
+			GetIsExitThreadPool pPoolFunc;
+
+			UserData()
+			{
+				pUserData = NULL;
+
+				pPoolFunc = NULL;
+			}
+		};
+
+		struct TaskEntry
+		{
+			typedef void(*TaskCallbackFunc)(UserData* pUserData);
+
+			// Task id
+			int iTaskId;
+
+			// Thread id (Read not for write)
+			unsigned long long iThreadId;
+
+			// Task callback function
+			TaskCallbackFunc pUserFunc;
+
+			// User data
+			UserData AttachedUserData;
+
 			TaskEntry()
 			{
 				iTaskId = 0;
+
 				iThreadId = 0;
-				pFunc = NULL;
-				pUserData = NULL;
+
+				pUserFunc = NULL;
 			}
 		};
 

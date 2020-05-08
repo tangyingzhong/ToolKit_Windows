@@ -8,9 +8,9 @@
 using namespace System::Thread;
 
 // Construct the ThreadPool
-ThreadPool::ThreadPool(int threadNum):
+ThreadPool::ThreadPool(int threadNum) :
 	m_iThreadCnt(threadNum),
-	m_pIdelContainer(nullptr),
+	m_pIdelContainer(NULL),
 	m_bStopPool(false),
 	m_bForceStop(false),
 	m_strErrorText(""),
@@ -34,7 +34,7 @@ ThreadPool::~ThreadPool()
 // Create idel container
 void ThreadPool::CreateIdelContainer()
 {
-	SetIdelTable(new IdelThreadContainer(this,GetThreadCnt()));
+	SetIdelTable(new IdelThreadContainer(this, GetThreadCnt()));
 }
 
 // Destory idel container
@@ -44,7 +44,7 @@ void ThreadPool::DestoryIdelContainer()
 	{
 		delete GetIdelTable();
 
-		SetIdelTable(nullptr);
+		SetIdelTable(NULL);
 	}
 }
 
@@ -120,18 +120,18 @@ void ThreadPool::Run()
 			continue;
 		}
 
-		std::cout << "Get a task to run: " <<std::to_string(task.iTaskId)<< std::endl;
+		std::cout << "Get a task to run: " << std::to_string(task.iTaskId) << std::endl;
 
 		// Get an idel thread 
 		MyThread* pThread = GetAnIdelThread();
-		if (pThread==nullptr)
+		if (pThread == NULL)
 		{
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 			continue;
 		}
 
-		std::cout << "Get an idel thread to have the task "<< std::endl;
+		std::cout << "Get an idel thread to have the task " << std::endl;
 
 		std::cout << "Idel container size :" << GetIdelTable()->GetSize() << std::endl;
 
@@ -148,12 +148,12 @@ void ThreadPool::Run()
 
 		std::cout << "Add the idel thread to work container" << std::endl;
 
-		std::cout << "work container size :"<< m_WorkContainer.GetSize() << std::endl;
+		std::cout << "work container size :" << m_WorkContainer.GetSize() << std::endl;
 
 		// Start thread
 		StartThread(pThread);
 
-		std::cout << "Start task now with thread : "<< std::to_string(pThread->GetId()) << std::endl;
+		std::cout << "Start task now with thread : " << std::to_string(pThread->GetId()) << std::endl;
 	}
 }
 
@@ -166,7 +166,7 @@ void ThreadPool::StartThread(MyThread* pThread)
 // configure the thread
 bool ThreadPool::ConfigureThread(MyThread* pThread, TaskEntry& task, bool bDetached)
 {
-	if (pThread==nullptr)
+	if (pThread == NULL)
 	{
 		SetErrorText("Thread is invalid !");
 
@@ -237,14 +237,14 @@ int ThreadPool::AddTask(TaskEntry& task)
 // Get an idel thread
 MyThread* ThreadPool::GetAnIdelThread()
 {
-	if (GetIdelTable()==nullptr)
+	if (GetIdelTable() == NULL)
 	{
-		return nullptr;
+		return NULL;
 	}
 
 	if (GetIdelTable()->IsEmpty())
 	{
-		return nullptr;
+		return NULL;
 	}
 
 	std::lock_guard<std::mutex> Locker(m_IdelLock);
@@ -255,7 +255,7 @@ MyThread* ThreadPool::GetAnIdelThread()
 // Add to work container
 bool ThreadPool::AddToWorkContainer(MyThread* pThread)
 {
-	if (pThread==nullptr)
+	if (pThread == NULL)
 	{
 		return false;
 	}
@@ -270,7 +270,7 @@ bool ThreadPool::AddToWorkContainer(MyThread* pThread)
 // Remove from the work container
 bool ThreadPool::RemoveFromWorkContainer(MyThread* pThread)
 {
-	if (pThread == nullptr)
+	if (pThread == NULL)
 	{
 		return false;
 	}
@@ -285,7 +285,7 @@ bool ThreadPool::RemoveFromWorkContainer(MyThread* pThread)
 // Add to idel container
 bool ThreadPool::AddToIdelContainer(MyThread* pThread)
 {
-	if (pThread == nullptr)
+	if (pThread == NULL)
 	{
 		return false;
 	}
@@ -310,7 +310,7 @@ bool ThreadPool::Transfer(MyThread* pThread)
 		return false;
 	}
 
-	std::cout << "Finish the removing from work container:"<< std::to_string(pThread->GetId()) << std::endl;
+	std::cout << "Finish the removing from work container:" << std::to_string(pThread->GetId()) << std::endl;
 
 	std::cout << "Final work container size :" << m_WorkContainer.GetSize() << std::endl;
 
