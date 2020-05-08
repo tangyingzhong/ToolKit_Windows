@@ -105,25 +105,46 @@ Boolean Ini::GetKeyValue(String strAppName, String strKey, String& strDefaultVal
 // Get key's value
 Boolean Ini::GetKeyValue(String strAppName, String strKey, Int& iDefaultValue)
 {
-	String strValue = iDefaultValue.ToString();
+	String strValue;
 
-	return GetKeyValue(strAppName, strKey, strValue);
+	if (!GetKeyValue(strAppName, strKey, strValue))
+	{
+		return false;
+	}
+
+	iDefaultValue = Int::Parse(strValue);
+
+	return true;
 }
 
 // Get key's value
 Boolean Ini::GetKeyValue(String strAppName, String strKey, Double& dDefaultValue)
 {
-	String strValue = dDefaultValue.ToString();
+	String strValue;
 
-	return GetKeyValue(strAppName, strKey, strValue);
+	if (!GetKeyValue(strAppName, strKey, strValue))
+	{
+		return false;
+	}
+
+	dDefaultValue = Double::Parse(strValue);
+
+	return true;
 }
 
 // Get key's value
 Boolean Ini::GetKeyValue(String strAppName, String strKey, Bool& bDefaultValue)
 {
-	String strValue = bDefaultValue.ToString();
+	String strValue;
 
-	return GetKeyValue(strAppName, strKey, strValue);
+	if (!GetKeyValue(strAppName, strKey, strValue))
+	{
+		return false;
+	}
+
+	bDefaultValue = Bool::Parse(strValue);
+
+	return true;
 }
 
 // Set key's value
