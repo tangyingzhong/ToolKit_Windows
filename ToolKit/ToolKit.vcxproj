@@ -40,6 +40,7 @@
     <ClCompile Include="Tool\Encoding\UTF8.cpp" />
     <ClCompile Include="Tool\EventHandler\EventHandler.cpp" />
     <ClCompile Include="Tool\File\File.cpp" />
+    <ClCompile Include="Tool\Ini\Ini.cpp" />
     <ClCompile Include="Tool\Json\JsonDoc.cpp" />
     <ClCompile Include="Tool\Json\json_reader.cpp" />
     <ClCompile Include="Tool\Json\json_value.cpp" />
@@ -97,6 +98,7 @@
     <ClInclude Include="Tool\Eventor\EventBase.h" />
     <ClInclude Include="Tool\Eventor\IEvent.h" />
     <ClInclude Include="Tool\File\File.h" />
+    <ClInclude Include="Tool\Ini\Ini.h" />
     <ClInclude Include="Tool\Json\autolink.h" />
     <ClInclude Include="Tool\Json\config.h" />
     <ClInclude Include="Tool\Json\features.h" />

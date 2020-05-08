@@ -81,6 +81,9 @@
     <Filter Include="Tool\DllLoader">
       <UniqueIdentifier>{ad6d199f-9813-40eb-96d4-347aab2231db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tool\Ini">
+      <UniqueIdentifier>{72e19215-ade5-442b-b198-b51e49cb19ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application\PreCompile.cpp">
@@ -211,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="Tool\Encoding\Unicode.cpp">
       <Filter>Tool\Encoding</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Ini\Ini.cpp">
+      <Filter>Tool\Ini</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -438,6 +444,9 @@
     </ClInclude>
     <ClInclude Include="Tool\Toolkit.h">
       <Filter>Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool\Ini\Ini.h">
+      <Filter>Tool\Ini</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
