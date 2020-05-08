@@ -58,6 +58,11 @@
     <ClCompile Include="Tool\Sql\SqlCommand.cpp" />
     <ClCompile Include="Tool\Sql\SqlConnection.cpp" />
     <ClCompile Include="Tool\Sql\SqlParamenter.cpp" />
+    <ClCompile Include="Tool\ThreadPool\IdelThreadContainer.cpp" />
+    <ClCompile Include="Tool\ThreadPool\MyThread.cpp" />
+    <ClCompile Include="Tool\ThreadPool\TaskContainer.cpp" />
+    <ClCompile Include="Tool\ThreadPool\ThreadPool.cpp" />
+    <ClCompile Include="Tool\ThreadPool\WorkThreadContainer.cpp" />
     <ClCompile Include="Tool\Thread\Event.cpp" />
     <ClCompile Include="Tool\Thread\MessageDistributor.cpp" />
     <ClCompile Include="Tool\Thread\Mutex.cpp" />
@@ -131,6 +136,12 @@
     <ClInclude Include="Tool\Sql\SqlCommand.h" />
     <ClInclude Include="Tool\Sql\SqlConnection.h" />
     <ClInclude Include="Tool\Sql\SqlParamenter.h" />
+    <ClInclude Include="Tool\ThreadPool\IdelThreadContainer.h" />
+    <ClInclude Include="Tool\ThreadPool\IThreadPool.h" />
+    <ClInclude Include="Tool\ThreadPool\MyThread.h" />
+    <ClInclude Include="Tool\ThreadPool\TaskContainer.h" />
+    <ClInclude Include="Tool\ThreadPool\ThreadPool.h" />
+    <ClInclude Include="Tool\ThreadPool\WorkThreadContainer.h" />
     <ClInclude Include="Tool\Thread\Event.h" />
     <ClInclude Include="Tool\Thread\MessageDistributor.h" />
     <ClInclude Include="Tool\Thread\Mutex.h" />
