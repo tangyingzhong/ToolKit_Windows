@@ -19,7 +19,7 @@ namespace System
 	{
 		struct TaskEntry
 		{
-			typedef void(*TaskCallbackFunc)(void* pUserData,bool bExitThreadPool);
+			typedef void(*TaskCallbackFunc)(void* pUserData,bool& bExitThreadPool);
 
 			// Task id
 			int iTaskId;

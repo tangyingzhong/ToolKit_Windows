@@ -12,6 +12,7 @@
 #define MYTHREAD_H
 
 #include <thread>
+#include <mutex>
 #include "IThreadPool.h"
 
 namespace System
@@ -107,14 +108,18 @@ namespace System
 			}
 
 			// Get the ExitThreadPool
-			inline bool GetExitThreadPool() const
+			inline bool& GetExitThreadPool()
 			{
+				std::lock_guard<std::mutex> Locker(m_ExitPoolLock);
+
 				return m_bExitThreadPool;
 			}
 
 			// Set the ExitThreadPool
 			inline void SetExitThreadPool(bool bExitThreadPool)
 			{
+				std::lock_guard<std::mutex> Locker(m_ExitPoolLock);
+
 				m_bExitThreadPool = bExitThreadPool;
 			}
 
@@ -137,6 +142,9 @@ namespace System
 			// Is exit the thread pool
 			bool m_bExitThreadPool;
 			
+			// Lock for the thread pool exit
+			std::mutex m_ExitPoolLock;
+
 			// Disposed status
 			bool m_bDisposed;
 		};

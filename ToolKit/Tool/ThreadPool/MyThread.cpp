@@ -52,6 +52,12 @@ unsigned long long MyThread::GetThreadId()
 	return threadId;
 }
 
+// Set is exit thread pool
+void MyThread::SetIsExitThreadPool(bool bExit)
+{
+	SetExitThreadPool(bExit);
+}
+
 // Run the thread
 void MyThread::Run()
 {
