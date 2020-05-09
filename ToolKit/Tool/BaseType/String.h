@@ -47,9 +47,15 @@ namespace System
 			// Destruct the string
 			~String();
 #ifdef UNICODE
+			// Construct the c-string auto from multi string
+			String(const SByteArray pStrMultiString, ENCODE_TYPE_ENUM eEncodeType = ENCODE_ANSI);
+
 			// Construct the string auto from multi string
 			String(std::string strMultiString, ENCODE_TYPE_ENUM eEncodeType= ENCODE_ANSI);
 #else
+			// Construct the c-string auto from wide string from ansi string
+			String(const WByteArray pStrWideString);
+
 			// Construct the string auto from wide string from ansi string
 			String(std::wstring strWString);
 #endif

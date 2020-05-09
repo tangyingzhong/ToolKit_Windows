@@ -89,10 +89,10 @@ namespace System
 			static DateTime FromTime_t(time_t TimeSnap, TIME_TYPE_ENUM TimeType = TIME_LOCAL);
 
 			// Get the time from string
-			static DateTime FromString(String strTime, String strTimeFormat = String(_T("yyyy-MM-dd hh:mm:ss")));
+			static DateTime FromString(String strTime, String strTimeFormat = String("yyyy-MM-dd hh:mm:ss"));
 
 			// Convert time to string with sepecial seperator
-			String ToString(String strTimeFormat = String(_T("yyyy-MM-dd hh:mm:ss")));
+			String ToString(String strTimeFormat = String("yyyy-MM-dd hh:mm:ss"));
 
 			// Get time snap(Note: it can calculate to sec only)
 			time_t ToTime_t();

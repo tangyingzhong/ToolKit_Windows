@@ -10,6 +10,18 @@ using namespace System::Encoding;
 using namespace System::BasicType;
 
 #ifdef UNICODE
+// Construct the c-string auto from multi string
+String::String(const SByteArray pStrMultiString, ENCODE_TYPE_ENUM eEncodeType):
+	m_StdString(_T("")),
+	m_Length(0),
+	m_pCArray(NULL),
+	m_Disposed(false)
+{
+	std::string strMultiString = pStrMultiString;
+
+	*this = String(strMultiString, eEncodeType);
+}
+
 // Construct the string auto from multi string
 String::String(std::string strMultiString, ENCODE_TYPE_ENUM eEncodeType) :
 	m_StdString(_T("")),
@@ -33,6 +45,14 @@ String::String(std::string strMultiString, ENCODE_TYPE_ENUM eEncodeType) :
 	Initialize(strFinal);
 }
 #else
+// Construct the c-string auto from wide string from ansi string
+String::String(const WByteArray pStrWideString)
+{
+	std::wstring strWideString = pStrWideString;
+
+	*this = String(strWideString);
+}
+
 // Construct the string auto from wide string from ansi string
 String::String(std::wstring strWString):
 	m_StdString(_T("")),

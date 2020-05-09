@@ -1,787 +1,432 @@
-///************************************************************************
-/// <copyrigth>2018-2019 Corporation.All Rights Reserved</copyrigth>
-/// <author>tangyingzhong</author>
-/// <contact>tangyz114987@outlook.com</contact>
-/// <version>V1.0.0</version>
-/// <describe>
-/// Test String class 
-///</describe>
-/// <date>2019/4/18</date>
-///***********************************************************************
-
-#include "StdAfx.h"
-#include <CppUnitTest.h>
-#include <list>
+#include "stdafx.h"
+#include "CppUnitTest.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-using namespace System::BasicType;
 
-namespace ToolUnitTest
+namespace Tool_UnitTest
 {
 	TEST_CLASS(StringTest)
 	{
 	public:
-		// Init the class
-		TEST_CLASS_INITIALIZE(InitString)
+		TEST_METHOD(TestMethod_Constrcutor1)
 		{
+			std::string strWhat = "I don't know every thing";
 
+			String strFinal = strWhat;
+
+			Assert::IsTrue(strFinal == _T("I don't know every thing"));
+
+			std::string strWhat1 = "其实我也不知道为甚";
+
+			String strFinal1 = strWhat1;
+
+			Assert::IsTrue(strFinal1 == _T("其实我也不知道为甚"));
+
+			std::string strUtf8 = UTF8::GetString(strFinal1.CStr());
+
+			std::string strFinal21 = ANSI::GetString(strUtf8,ENCODE_UTF8);
+
+			Assert::IsTrue(strWhat1 == strFinal21);
 		}
 
-		// Clean up the class
-		TEST_CLASS_CLEANUP(CleanString)
+		TEST_METHOD(TestMethod_Constrcutor2)
 		{
+			std::string strFileData;
 
-		}
-
-		// Test Substring function
-		TEST_METHOD(TestSTL)
-		{
-			std::list<int> IdTable;
-
-			IdTable.push_back(89);
-			IdTable.push_back(12);
-			IdTable.push_back(23);
-			IdTable.push_back(443);
-
-			for (std::list<int>::iterator Iter = IdTable.begin(); Iter != IdTable.end(); Iter++)
 			{
-			
+				File FileHelper;
+
+				FileHelper.Open(_T("C:\\Users\\Administrator\\Desktop\\yu.txt"), File::FileMode::OPEN, File::FileAccess::READ);
+
+				SByte Buffer[1024] = {0};
+
+				FileHelper.Read(Buffer, 0, 1024);
+
+				strFileData = Buffer;
+
+				FileHelper.Close();
 			}
 
+			String strData = String(strFileData,ENCODE_UTF8);
+
+			std::cout << strData.ToANSIData() << std::endl;
 		}
 
-		// Test Substring function
-		TEST_METHOD(TestSubString1)
+		TEST_METHOD(TestMethod_Constrcutor3)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			SByte Buffer[1024] = { 0 };
 
-			String strResult = m_TestString.SubString(-1, 123);
-
-			bool ret = false;
-
-			if (strResult == _T(""))
 			{
-				ret = true;
+				File FileHelper;
+
+				FileHelper.Open(_T("C:\\Users\\Administrator\\Desktop\\yu.txt"), File::FileMode::OPEN, File::FileAccess::READ);
+
+				FileHelper.Read(Buffer, 0, 1024);
+
+				FileHelper.Close();
 			}
 
+			const char* pData = Buffer;
 
-			Assert::IsTrue(ret == true);
+			String strData = String(pData, ENCODE_UTF8);
+
+			String strData2 = String("我会回复",ENCODE_ANSI);
+
+			std::cout << strData.ToANSIData() << std::endl;
 		}
 
-		// Test Substring function
-		TEST_METHOD(TestSubString2)
+		TEST_METHOD(TestMethod_Arg)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest1 = _T("Source_test_string:%d + %f=%lf,%s");
 
-			String strResult = m_TestString.SubString(0, 5200);
+			strTest1.Arg(15).Arg(2.5f).Arg(5.778).Arg(_T("Fromtt"));
 
-			bool ret = false;
+			Assert::IsTrue(strTest1 == _T("Source_test_string:15 + 2.5=5.778,Fromtt"));
 
-			if (strResult == _T(""))
-			{
-				ret = true;
-			}
+			String strFinal = _T("%d+%f+%lf=%s");
 
+			strFinal.Arg(_T("78")).Arg(8.6).Arg(89).Arg(9.5f);
 
-			Assert::IsTrue(ret == true);
+			Assert::IsTrue(strFinal == _T("89+9.5+8.6=78"));
 		}
 
-		// Test Substring function
-		TEST_METHOD(TestSubString3)
+		TEST_METHOD(TestMethod_Split)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest1 = _T("Source_test_string");
 
-			String strResult = m_TestString.SubString(54, - 1);
+			String::StringTable Table1;
 
-			bool ret = false;
+			Assert::IsTrue(strTest1.Split(_T("_"), Table1));
 
-			if (strResult == _T(""))
-			{
-				ret = true;
-			}
+			String strTest2 = _T("-Source-test-string-");
 
+			String::StringTable Table2;
 
-			Assert::IsTrue(ret == true);
+			Assert::IsFalse(strTest2.Split(_T("_"), Table2));
+
+			Assert::IsTrue(strTest2.Split(_T("-"), Table2));
+
+			String strTest3 = _T("-Source-test-string-%$");
+
+			String::StringTable Table3;
+
+			Assert::IsTrue(strTest3.Split(_T("%"), Table3));
 		}
 
-		// Test Substring function
-		TEST_METHOD(TestSubString4)
+		TEST_METHOD(TestMethod_SubString)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest = _T("I need an assistant now");
 
-			String strResult = m_TestString.SubString(m_TestString.GetLength(), m_TestString.GetLength());
+			String strNew1 = strTest.SubString(-1);
 
-			bool ret = false;
+			Assert::IsTrue(strNew1 == _T(""));
 
-			if (strResult == _T(""))
-			{
-				ret = true;
-			}
+			String strNew2 = strTest.SubString(0);
 
+			Assert::IsTrue(strNew2 == strTest);
 
-			Assert::IsTrue(ret == true);
+			String strNew3 = strTest.SubString(13434);
+
+			Assert::IsTrue(strNew3 == _T(""));
+
+			String strNew4 = strTest.SubString(-1, 8980);
+
+			Assert::IsTrue(strNew4 == _T(""));
+
+			String strNew5 = strTest.SubString(0, strTest.GetLength());
+
+			Assert::IsTrue(strNew5 == strTest);
+
+			String strNew6 = strTest.SubString(13434, -1);
+
+			Assert::IsTrue(strNew6 == _T(""));
+
+			String strNew7 = strTest.SubString(-1, strTest.GetLength());
+
+			Assert::IsTrue(strNew7 == _T(""));
 		}
 
-		// Test Substring function
-		TEST_METHOD(TestSubString5)
+		TEST_METHOD(TestMethod_Left)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest = _T("I need an assistant now\\yu\\reess\\yuer");
 
-			String strResult = m_TestString.SubString(13, m_TestString.GetLength());
+			String strNew1 = strTest.Left(9090);
 
-			bool ret = false;
+			Assert::IsTrue(strNew1.IsEmpty());
 
-			if (strResult == _T(""))
-			{
-				ret = true;
-			}
+			String strNew2 = strTest.Left(-1);
 
+			Assert::IsTrue(strNew2.IsEmpty());
 
-			Assert::IsTrue(ret == true);
+			String strNew3 = strTest.Left(strTest.GetLength());
+
+			Assert::IsTrue(strNew3==strTest);
+
+			String strNew4 = strTest.Left(0);
+
+			Assert::IsTrue(strNew4==_T(""));
+
+			String strNew5 = strTest.Left(strTest.GetLength() - 2);
+
+			Assert::IsTrue(strNew5 == _T("I need an assistant now\\yu\\reess\\yu"));
 		}
 
-		// Test Substring function
-		TEST_METHOD(TestSubString6)
+		TEST_METHOD(TestMethod_Right)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest = _T("I need an assistant now\\yu\\reess\\yuer");
 
-			String strResult = m_TestString.SubString(13, m_TestString.GetLength()-15);
+			String strNew1 = strTest.Right(9090);
 
-			bool ret = false;
+			Assert::IsTrue(strNew1 == _T(""));
 
-			if (strResult == _T(""))
-			{
-				ret = true;
-			}
+			String strNew2 = strTest.Right(-1);
 
+			Assert::IsTrue(strNew2 == _T(""));
 
-			Assert::IsTrue(ret != true);
+			String strNew3 = strTest.Right(strTest.GetLength());
+
+			Assert::IsTrue(strNew3 == strTest);
+
+			String strNew4 = strTest.Right(0);
+
+			Assert::IsTrue(strNew4 == _T(""));
+
+			String strNew5 = strTest.Right(strTest.GetLength() - 2);
+
+			Assert::IsTrue(strNew5 == _T("need an assistant now\\yu\\reess\\yuer"));
 		}
 
-		// Test Substring function
-		TEST_METHOD(TestSubString7)
+		TEST_METHOD(TestMethod_Find)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest = _T("I need an assistant now\\yu\\reess\\yuer");
 
-			String strResult = m_TestString.SubString(13);
+			Int32 iPos1 = strTest.Find(_T("\\"), 0);
 
-			bool ret = false;
+			Assert::AreNotEqual(-1, iPos1);
 
-			if (strResult == _T(""))
-			{
-				ret = true;
-			}
+			Int32 iPos11 = strTest.Find(_T("\\"), 24);
 
+			Assert::AreNotEqual(-1, iPos11);
 
-			Assert::IsTrue(ret != true);
+			Int32 iPos2 = strTest.Find(_T("%"), 0);
+
+			Assert::AreEqual(-1, iPos2);
+
+			Int32 iPos3 = strTest.Find(_T("%"), -1);
+
+			Assert::AreEqual(-1, iPos3);
+
+			Int32 iPos4 = strTest.Find(_T("\\"), -1);
+
+			Assert::AreEqual(-1, iPos4);
+
+			Int32 iPos5 = strTest.Find(_T("\\"), 7898);
+
+			Assert::AreEqual(-1, iPos5);
+
+			Int32 iPos6 = strTest.Find(_T(""), 7898);
+
+			Assert::AreEqual(-1, iPos6);
 		}
 
-		// Test Substring function
-		TEST_METHOD(TestSubString8)
+		TEST_METHOD(TestMethod_FindLast)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest = _T("I need an assistant now\\yu\\reess\\yuer");
 
-			String strResult = m_TestString.SubString(0);
+			Int32 iPos1 = strTest.FindLast(_T("\\"));
 
-			bool ret = false;
+			Assert::AreNotEqual(-1, iPos1);
 
-			if (strResult == _T(""))
-			{
-				ret = true;
-			}
+			Int32 iPos2 = strTest.FindLast(_T("%"));
 
+			Assert::AreEqual(-1, iPos2);
 
-			Assert::IsTrue(ret != true);
+			Int32 iPos6 = strTest.FindLast(_T(""));
+
+			Assert::AreEqual(-1, iPos6);
 		}
 
-		// Test Substring function
-		TEST_METHOD(TestSubString9)
+		TEST_METHOD(TestMethod_Replace)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest = _T("I need an assistant now\\yu\\reess\\yuer");
 
-			String strResult = m_TestString.SubString(m_TestString.GetLength());
+			strTest.Replace(23, 1, _T("/"));
 
-			bool ret = false;
+			strTest.Replace(23, 6, _T("Common"));
 
-			if (strResult ==_T(""))
-			{
-				ret = true;
-			}
+			strTest.Replace(0, 1, _T("\\"));
 
+			strTest.Replace(0, -1, _T("\\"));
 
-			Assert::IsTrue(ret == true);
+			strTest.Replace(-1, -1, _T("\\"));
+
+			strTest.Replace(7893, 9344, _T("\\"));
 		}
 
-		// Test Find function
-		TEST_METHOD(TestFind1)
+		TEST_METHOD(TestMethod_IsContain)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest = _T("I need an assistant now\\yu\\reess\\yuer");
 
-			int iPos = m_TestString.Find(_T("r"), 0);
+			Assert::IsTrue(strTest.IsContain(_T("\\")));
 
-			Assert::IsTrue(iPos != -1);
+			Assert::IsFalse(strTest.IsContain(_T("&")));
 		}
 
-		// Test Find function
-		TEST_METHOD(TestFind2)
+		TEST_METHOD(TestMethod_AllocWideString)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest = _T("I need an assistant 我很幸运");
 
-			int iPos = m_TestString.Find(_T(""), 0);
+			std::wstring w = strTest.AllocWideString();
 
-			Assert::IsTrue(iPos == -1);
+			Assert::IsTrue(w == strTest.CStr());
 		}
 
-		// Test Find function
-		TEST_METHOD(TestFind3)
+		TEST_METHOD(TestMethod_ToANSIData)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest = _T("I need an assistant 我很幸运");
 
-			int iPos = m_TestString.Find(_T("5"), 0);
+			std::string strAnsi = strTest.ToANSIData();
 
-			Assert::IsTrue(iPos == -1);
+			Assert::IsTrue(strAnsi == "I need an assistant 我很幸运");
 		}
 
-		// Test Find function
-		TEST_METHOD(TestFind4)
+		TEST_METHOD(TestMethod_UnicodeData)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest = _T("I need an assistant 我很幸运");
 
-			int iPos = m_TestString.Find(_T("r"), 9);
+			std::wstring w = strTest.ToUnicodeData();
 
-			Assert::IsTrue(iPos != -1);
+			Assert::IsTrue(w == strTest.CStr());
 		}
 
-		// Test Find function
-		TEST_METHOD(TestFind5)
+		TEST_METHOD(TestMethod_MakeUpper)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest = _T("I need an assistant now\\yu\\reess\\yuer");
 
-			int iPos = m_TestString.Find(_T("r"), m_TestString.GetLength());
+			strTest.MakeUpper();
 
-			Assert::IsTrue(iPos == -1);
+			Assert::IsTrue(strTest == _T("I NEED AN ASSISTANT NOW\\YU\\REESS\\YUER"));
 		}
 
-		// Test Find function
-		TEST_METHOD(TestFind6)
+		TEST_METHOD(TestMethod_MakeLower)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest = _T("CAN YOU DO ME A FAVOR?");
 
-			int iPos = m_TestString.Find(_T("r"), -43);
+			strTest.MakeLower();
 
-			Assert::IsTrue(iPos == -1);
+			Assert::IsTrue(strTest == _T("can you do me a favor?"));
 		}
 
-		// Test spliting string
-		TEST_METHOD(TestSplit1)
+		TEST_METHOD(TestMethod_operator_index)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest = _T("I need an assistant now\\yu\\reess\\yuer");
 
-			vector<String> vNewStringTable;
-			Assert::IsTrue(m_TestString.Split(_T(","), vNewStringTable));
+			Character strIndex = strTest[1];
+
+			Assert::IsTrue(strIndex == _T(' '));
+
+			Character strIndex0 = strTest[5];
+
+			Assert::IsTrue(strIndex0 == _T('d'));
+
+			Character strIndex1 = strTest[-1];
+
+			Assert::IsTrue(strIndex1 == _T('N'));
+
+			Character strIndex2 = strTest[9093];
+
+			Assert::IsTrue(strIndex2 == _T('N'));
 		}
 
-		// Test spliting string
-		TEST_METHOD(TestSplit2)
+		TEST_METHOD(TestMethod_operator_Add)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest = _T("Great you are! ");
 
-			vector<String> vNewStringTable;
-			Assert::IsTrue(m_TestString.Split(_T("t"), vNewStringTable));
+			strTest + _T("boy")+_T(" and girl");
+
+			Assert::IsTrue(strTest == _T("Great you are! boy and girl"));
 		}
 
-		// Test spliting string
-		TEST_METHOD(TestSplit3)
+		TEST_METHOD(TestMethod_operator_Equal)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest = _T("Great you are!");
 
-			vector<String> vNewStringTable;
-			Assert::IsFalse(m_TestString.Split(_T(""), vNewStringTable));
+			String strTest1 = _T("Great you are !");
+
+			Assert::IsFalse(strTest == strTest1);
+
+			String strTest2 = _T("Great you are!");
+
+			Assert::IsTrue(strTest == strTest2);
 		}
 
-		// Test spliting string
-		TEST_METHOD(TestSplit4)
+		TEST_METHOD(TestMethod_operator_NotEqual)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest = _T("Great you are!");
 
-			vector<String> vNewStringTable;
-			Assert::IsFalse(m_TestString.Split(_T("2"), vNewStringTable));
+			String strTest1 = _T("erererr !");
+
+			Assert::IsTrue(strTest != strTest1);
+
+			String strTest2 = _T("Great you are!");
+
+			Assert::IsFalse(strTest != strTest2);
 		}
 
-		// Test FindLast function
-		TEST_METHOD(TestFindLast1)
+		TEST_METHOD(TestMethod_operator_IsNone)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest = _T("Great you are!");
 
-			int iPos = m_TestString.FindLast(_T("r"));
+			Assert::IsFalse(strTest.IsEmpty());
 
-			Assert::IsTrue(iPos != -1);
+			String strTest2 =_T("");
+
+			Assert::IsTrue(strTest2.IsEmpty());
 		}
 
-		// Test FindLast function
-		TEST_METHOD(TestFindLast2)
+		TEST_METHOD(TestMethod_operator_CStr)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strTest = _T("Great you are! 我很幸运");
 
-			int iPos = m_TestString.FindLast(_T("7"));
+			LPCTSTR pTest = strTest.CStr();
 
-			Assert::IsTrue(iPos == -1);
+			Assert::IsTrue(pTest != NULL);
 		}
 
-		// Test FindLast function
-		TEST_METHOD(TestFindLast3)
+		TEST_METHOD(TestMethod_operator_Parse)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			String strData = _T("15478");
 
-			int iPos = m_TestString.FindLast(_T(""));
+			Int32 iData1 = String::Parse<Int32>(strData);
 
-			Assert::IsTrue(iPos == -1);
+			Assert::IsTrue(iData1==15478);
+
+			String strData1 = _T("79384rer");
+
+			Int32 iData2 = String::Parse<Int32>(strData1);
+
+			Assert::IsTrue(iData2 == 79384);
+
+			String strData2 = _T("yuhf");
+
+			Int32 iData3 = String::Parse<Int32>(strData2);
+
+			Assert::IsTrue(iData3 == 0);
 		}
 
-		// Test FindLast function
-		TEST_METHOD(TestFindLast4)
+		TEST_METHOD(TestMethod_operator_ToString)
 		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
+			Int32 iData1 = 9089;
 
-			int iPos = m_TestString.FindLast(_T("a"));
+			String strData1=String::ToString<Int32>(iData1);
 
-			Assert::IsTrue(iPos != -1);
+			Assert::IsTrue(strData1 == _T("9089"));
+
+			Real Data2 = 9089.52;
+
+			String strData2 = String::ToString<Real>(Data2);
+
+			Assert::IsTrue(strData2.IsContain(_T("9089.52")));
 		}
-
-		// Test Replace function
-		TEST_METHOD(TestReplace1)
-		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
-
-			String strOld = m_TestString;
-
-			m_TestString = m_TestString.Replace(8, 1, _T("T"));
-
-			Assert::IsTrue(m_TestString != strOld);
-		}
-
-		// Test Replace function
-		TEST_METHOD(TestReplace2)
-		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
-
-			String strOld = m_TestString;
-
-			m_TestString = m_TestString.Replace(-1, 1, _T("T"));
-
-			Assert::IsTrue(m_TestString == strOld);
-		}
-
-		// Test Replace function
-		TEST_METHOD(TestReplace3)
-		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
-
-			String strOld = m_TestString;
-
-			m_TestString = m_TestString.Replace(0, -1, _T("T"));
-
-			Assert::IsTrue(m_TestString == strOld);
-		}
-
-		// Test Replace function
-		TEST_METHOD(TestReplace4)
-		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
-
-			String strOld = m_TestString;
-
-			m_TestString = m_TestString.Replace(3, 1, _T("S"));
-
-			Assert::IsTrue(m_TestString != strOld);
-		}
-
-		// Test Replace function
-		TEST_METHOD(TestReplace5)
-		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
-
-			String strOld = m_TestString;
-
-			m_TestString = m_TestString.Replace(3, 3, _T("We"));
-
-			Assert::IsTrue(m_TestString != strOld);
-		}
-
-		// Test Replace function
-		TEST_METHOD(TestReplace6)
-		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
-
-			String strOld = m_TestString;
-
-			m_TestString = m_TestString.Replace(m_TestString.GetLength(), 3, _T("We"));
-
-			Assert::IsTrue(m_TestString == strOld);
-		}
-
-		// Test Replace function
-		TEST_METHOD(TestReplace7)
-		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
-
-			String strOld = m_TestString;
-
-			m_TestString = m_TestString.Replace(1, 0, _T("We"));
-
-			Assert::IsTrue(m_TestString == strOld);
-		}
-
-		// Test Replace function
-		TEST_METHOD(TestReplace8)
-		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
-
-			String strOld = m_TestString;
-
-			m_TestString = m_TestString.Replace(1, m_TestString.GetLength(), _T("kkk"));
-
-			Assert::IsTrue(m_TestString != strOld);
-		}
-
-		// Test Replace function
-		TEST_METHOD(TestReplace9)
-		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
-
-			String strOld = m_TestString;
-
-			m_TestString = m_TestString.Replace(1, m_TestString.GetLength() + 10, _T("kkk"));
-
-			Assert::IsTrue(m_TestString != strOld);
-		}
-
-		// Test Replace function
-		TEST_METHOD(TestReplace10)
-		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
-
-			String strOld = m_TestString;
-
-			m_TestString = m_TestString.Replace(1, m_TestString.GetLength() + 10, _T(""));
-
-			Assert::IsTrue(m_TestString != strOld);
-		}
-
-		// Test AllocWideString function
-		TEST_METHOD(TestAllocWideString1)
-		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
-
-			wchar_t pWBuffer[60] = {0};
-		
-			memcpy_s(pWBuffer, sizeof(pWBuffer), m_TestString.AllocWideString(),sizeof(wchar_t)*m_TestString.GetLength());
-		}
-
-		// Test Makeupper function
-		TEST_METHOD(TestMakeUpper1)
-		{
-			m_TestString = _T("Hi,You are great,We are going to have a nice trip,hahah");
-
-			m_TestString = m_TestString.MakeUpper();
-		}
-
-		// Test MakeLower function
-		TEST_METHOD(TestMakeLower)
-		{
-			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
-
-			m_TestString = m_TestString.MakeLower();
-		}
-
-		// Test [] function
-		TEST_METHOD(TestGetCharFunc1)
-		{
-			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
-
-			TCHAR ch = m_TestString[3];
-
-			Assert::IsTrue(ch != _T('N'));
-		}
-
-		// Test [] function
-		TEST_METHOD(TestGetCharFunc2)
-		{
-			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
-
-			TCHAR ch = m_TestString[-1];
-
-			Assert::IsTrue(ch == _T('N'));
-		}
-
-		// Test [] function
-		TEST_METHOD(TestGetCharFunc3)
-		{
-			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
-
-			TCHAR ch = m_TestString[m_TestString.GetLength()];
-
-			Assert::IsTrue(ch == _T('N'));
-		}
-
-		// Test [] function
-		TEST_METHOD(TestGetCharFunc4)
-		{
-			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
-
-			TCHAR ch = m_TestString[11.2];
-
-			Assert::IsTrue(ch != _T('N'));
-		}
-
-		// Test [] function
-		TEST_METHOD(TestGetCharFunc5)
-		{
-			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
-
-			TCHAR ch = m_TestString['a'];
-
-			Assert::IsTrue(ch == _T('N'));
-		}
-
-		// Test + function
-		TEST_METHOD(TestAddFunc1)
-		{
-			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
-
-			String strOld = m_TestString;
-
-			m_TestString + _T(" Calm dowm");
-
-			Assert::IsTrue(strOld != m_TestString);
-		}
-
-		// Test + function
-		TEST_METHOD(TestAddFunc2)
-		{
-			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
-
-			String strOld = m_TestString;
-
-			m_TestString + String(_T(" Love you Winnie"));
-
-			Assert::IsTrue(strOld != m_TestString);
-		}
-
-		// Test + function
-		TEST_METHOD(TestAddFunc3)
-		{
-			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
-
-			String strOld = m_TestString;
-
-			m_TestString + std::wstring(_T(" Love you Winnie"));
-
-			Assert::IsTrue(strOld != m_TestString);
-		}
-
-		// Test == function
-		TEST_METHOD(TestEqualFunc1)
-		{
-			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
-
-			bool bRet = false;
-
-			if (m_TestString == _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT"))
-			{
-				bRet = true;
-			}
-
-			Assert::IsTrue(bRet == true);
-		}
-
-		// Test == function
-		TEST_METHOD(TestEqualFunc2)
-		{
-			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
-
-			bool bRet = false;
-
-			if (m_TestString == String(_T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT")))
-			{
-				bRet = true;
-			}
-
-			Assert::IsTrue(bRet == true);
-		}
-
-		// Test == function
-		TEST_METHOD(TestEqualFunc3)
-		{
-			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
-
-			bool bRet = false;
-
-			if (m_TestString == std::wstring(_T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT")))
-			{
-				bRet = true;
-			}
-
-			Assert::IsTrue(bRet == true);
-		}
-
-		// Test != function
-		TEST_METHOD(TestNotEqualFunc1)
-		{
-			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
-
-			bool bRet = false;
-
-			if (m_TestString != std::wstring(_T("OK")))
-			{
-				bRet = true;
-			}
-
-			Assert::IsTrue(bRet == true);
-		}
-
-		// Test != function
-		TEST_METHOD(TestNotEqualFunc2)
-		{
-			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
-
-			bool bRet = false;
-
-			if (m_TestString != String(_T("OK")))
-			{
-				bRet = true;
-			}
-
-			Assert::IsTrue(bRet == true);
-		}
-
-		// Test != function
-		TEST_METHOD(TestNotEqualFunc3)
-		{
-			m_TestString = _T("OK,YOU ARE RIGHT,I SHOULD DO MY BEST TO HANDLE IT");
-
-			bool bRet = false;
-
-			if (m_TestString != _T("OK"))
-			{
-				bRet = true;
-			}
-
-			Assert::IsTrue(bRet == true);
-		}
-
-		// Test parse function
-		TEST_METHOD(TestParseFunc1)
-		{
-			m_TestString = _T("452");
-
-			int iResult = String::Parse<int>(m_TestString);
-
-			Assert::IsTrue(iResult == 452);
-		}
-
-		// Test parse function
-		TEST_METHOD(TestParseFunc2)
-		{
-			m_TestString = _T("452.415");
-
-			float fResult = String::Parse<float>(m_TestString);
-
-			Assert::IsTrue(fResult >= 452.415f);
-		}
-
-		// Test parse function
-		TEST_METHOD(TestParseFunc3)
-		{
-			m_TestString = _T("452.415");
-
-			double dResult = String::Parse<double>(m_TestString);
-
-			Assert::IsTrue(dResult >= 452.415l);
-		}
-
-		// Test parse function
-		TEST_METHOD(TestParseFunc4)
-		{
-			m_TestString = _T("-90");
-
-			int iResult = String::Parse<int>(m_TestString);
-
-			Assert::IsTrue(iResult == -90);
-		}
-
-		// Test parse function
-		TEST_METHOD(TestParseFunc5)
-		{
-			m_TestString = _T("-90.67");
-
-			float fResult = String::Parse<float>(m_TestString);
-
-			Assert::IsTrue(fResult >= -90.67f);
-		}
-
-		// Test tostring function
-		TEST_METHOD(TestToString1)
-		{
-			int iTest = 999;
-
-			String strTest = String::ToString(iTest);
-
-			Assert::IsTrue(strTest == _T("999"));
-		}
-
-		// Test tostring function
-		TEST_METHOD(TestToString2)
-		{
-			int iTest = -999;
-
-			String strTest = String::ToString(iTest);
-
-			Assert::IsTrue(strTest == _T("-999"));
-		}
-
-		// Test tostring function
-		TEST_METHOD(TestToString3)
-		{
-			float iTest = -999.8888f;
-
-			String strTest = String::ToString(iTest);
-
-			Assert::IsTrue(strTest != _T("-999.8888"));
-		}
-
-		// Test tostring function
-		TEST_METHOD(TestToString4)
-		{
-			float iTest = 999.8888f;
-
-			String strTest = String::ToString(iTest);
-
-			Assert::IsTrue(strTest != _T("999.8888"));
-		}
-
-		// Test tostring function
-		TEST_METHOD(TestToString5)
-		{
-			double iTest = 999.8888l;
-
-			String strTest = String::ToString(iTest);
-
-			Assert::IsTrue(strTest != _T("999.8888"));
-		}
-
-		// Test tostring function
-		TEST_METHOD(TestToString6)
-		{
-			double iTest = -999.8888l;
-
-			String strTest = String::ToString(iTest);
-
-			Assert::IsTrue(strTest != _T("-999.8888"));
-		}
-
-	private:
-		// Test String
-		String m_TestString;
 	};
 }
