@@ -22,7 +22,7 @@
     <ProjectGuid>{E06A22E9-7058-425A-AF2F-686DFFE5C5ED}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ToolUnitTest</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -164,6 +164,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArrayTest.cpp" />
+    <ClCompile Include="DateTimeTest.cpp" />
+    <ClCompile Include="DirectoryTest.cpp" />
+    <ClCompile Include="FileTest.cpp" />
+    <ClCompile Include="GeneralPlayerTest.cpp" />
+    <ClCompile Include="JsonTest.cpp" />
+    <ClCompile Include="PlayerTest.cpp" />
+    <ClCompile Include="SocketTest.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

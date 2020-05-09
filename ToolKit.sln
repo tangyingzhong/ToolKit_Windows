@@ -1,11 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ToolKit", "ToolKit\ToolKit.vcxproj", "{B60AE1CD-ADD8-40CC-8B04-4D69B9F2E270}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ToolUnitTest", "ToolUnitTest\ToolUnitTest.vcxproj", "{E06A22E9-7058-425A-AF2F-686DFFE5C5ED}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B60AE1CD-ADD8-40CC-8B04-4D69B9F2E270} = {B60AE1CD-ADD8-40CC-8B04-4D69B9F2E270}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,5 +37,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0A0F2D58-DEB6-42B6-8150-EAF5C33706D9}
 	EndGlobalSection
 EndGlobal

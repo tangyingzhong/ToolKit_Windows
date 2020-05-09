@@ -14,7 +14,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace ToolUnitTest
+namespace Tool_UnitTest
 {
 	TEST_MODULE_INITIALIZE(ToolUnitTestInitialize)
 	{

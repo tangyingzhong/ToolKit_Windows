@@ -15,7 +15,7 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace System::BasicType;
 
-namespace ToolUnitTest
+namespace Tool_UnitTest
 {
 	TEST_CLASS(ArrayTest)
 	{
