@@ -15,25 +15,23 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace System::BasicType;
 
-namespace Tool_UnitTest
+namespace Int_UnitTest
 {
 	TEST_CLASS(IntTest)
 	{
 	public:
-		// Init the class
-		TEST_CLASS_INITIALIZE(InitInt)
+		// Test operator int() const
+		TEST_METHOD(TestMethod_operator_int)
 		{
+			Int a = 88;
 
-		}
+			int b = 66;
 
-		// Clean up the class
-		TEST_CLASS_CLEANUP(CleanInt)
-		{
-
+			std::cout << a << "-" << b << std::endl;
 		}
 
 		// Test == function
-		TEST_METHOD(TestEqaulFunc1)
+		TEST_METHOD(TestMethod_operator_Equal)
 		{
 			Int a = 90;
 
@@ -50,7 +48,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test == function
-		TEST_METHOD(TestEqaulFunc2)
+		TEST_METHOD(TestMethod_operator_Equal2)
 		{
 			Int a = 90;
 
@@ -67,7 +65,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test != function
-		TEST_METHOD(TestNotEqaulFunc1)
+		TEST_METHOD(TestMethod_operator_NotEqaul)
 		{
 			Int a = 90;
 
@@ -84,7 +82,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test != function
-		TEST_METHOD(TestNotEqaulFunc2)
+		TEST_METHOD(TestMethod_operator_NotEqaul2)
 		{
 			Int a = 90;
 
@@ -101,7 +99,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test + function
-		TEST_METHOD(TestAddFunc1)
+		TEST_METHOD(TestMethod_operator_Add)
 		{
 			Int a = 90;
 
@@ -113,7 +111,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test + function
-		TEST_METHOD(TestAddFunc2)
+		TEST_METHOD(TestMethod_operator_Add2)
 		{
 			Int a = 90;
 
@@ -125,7 +123,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test + function
-		TEST_METHOD(TestAddFunc3)
+		TEST_METHOD(TestMethod_operator_Add3)
 		{
 			Int a = 90.45;
 
@@ -137,7 +135,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test - function
-		TEST_METHOD(TestSubFunc1)
+		TEST_METHOD(TestMethod_operator_Sub)
 		{
 			Int a = 90.45;
 
@@ -149,7 +147,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test - function
-		TEST_METHOD(TestSubFunc2)
+		TEST_METHOD(TestMethod_operator_Sub2)
 		{
 			Int a = 90.45;
 
@@ -162,7 +160,7 @@ namespace Tool_UnitTest
 
 
 		// Test * function
-		TEST_METHOD(TesMulFunc3)
+		TEST_METHOD(TestMethod_operator_Sub3)
 		{
 			Int a = 20;
 
@@ -174,7 +172,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test * function
-		TEST_METHOD(TesMulFunc4)
+		TEST_METHOD(TestMethod_operator_Mul)
 		{
 			Int a = 20;
 
@@ -186,7 +184,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test / function
-		TEST_METHOD(TestDivideFunc1)
+		TEST_METHOD(TestMethod_operator_Divide)
 		{
 			Int a = 100;
 
@@ -198,7 +196,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test / function
-		TEST_METHOD(TestDivideFunc2)
+		TEST_METHOD(TestMethod_operator_Divide2)
 		{
 			Int a = 2;
 
@@ -210,7 +208,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test / function
-		TEST_METHOD(TestDivideFunc3)
+		TEST_METHOD(TestMethod_operator_Divide3)
 		{
 			Int a = -30;
 
@@ -222,7 +220,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test / function
-		TEST_METHOD(TestDivideFunc4)
+		TEST_METHOD(TestMethod_operator_Divide4)
 		{
 			Int a = 450;
 
@@ -234,7 +232,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test % function
-		TEST_METHOD(TestSeFunc1)
+		TEST_METHOD(TestMethod_operator_SeFunc1)
 		{
 			Int a = 450;
 
@@ -246,7 +244,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test % function
-		TEST_METHOD(TestSeFunc2)
+		TEST_METHOD(TestMethod_operator_SeFunc2)
 		{
 			Int a = 450;
 
@@ -258,7 +256,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test << function
-		TEST_METHOD(TestLeftFunc1)
+		TEST_METHOD(TestMethod_operator_LeftFunc1)
 		{
 			Int a = 2;
 
@@ -268,7 +266,7 @@ namespace Tool_UnitTest
 		}
 	
 		// Test << function
-		TEST_METHOD(TestLeftFunc2)
+		TEST_METHOD(TestMethod_operator_LeftFunc2)
 		{
 			Int a = -2;
 
@@ -278,7 +276,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test << function
-		TEST_METHOD(TestLeftFunc3)
+		TEST_METHOD(TestMethod_operator_LeftFunc3)
 		{
 			Int a = 2;
 
@@ -288,7 +286,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test >> function
-		TEST_METHOD(TestRightFunc1)
+		TEST_METHOD(TestMethod_operator_RightFunc)
 		{
 			Int a = 2;
 
@@ -298,7 +296,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test >> function
-		TEST_METHOD(TestRightFunc2)
+		TEST_METHOD(TestMethod_operator_RightFunc1)
 		{
 			Int a = 2;
 
@@ -308,7 +306,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test >> function
-		TEST_METHOD(TestRightFunc3)
+		TEST_METHOD(TestMethod_operator_RightFunc2)
 		{
 			Int a = 4;
 
@@ -318,7 +316,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test ! function
-		TEST_METHOD(TestReverseFunc)
+		TEST_METHOD(TestMethod_operator_ReverseFunc)
 		{
 			Int a = 2;
 
@@ -328,7 +326,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test ! function
-		TEST_METHOD(TestReverseFunc1)
+		TEST_METHOD(TestMethod_operator_ReverseFunc1)
 		{
 			Int a = 200;
 
@@ -338,7 +336,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test ! function
-		TEST_METHOD(TestReverseFunc2)
+		TEST_METHOD(TestMethod_operator_ReverseFunc2)
 		{
 			Int a = 0;
 
@@ -348,7 +346,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test ++ function
-		TEST_METHOD(TestAddAddFunc1)
+		TEST_METHOD(TestMethod_operator_AddPlus)
 		{
 			Int a = 2;
 
@@ -358,7 +356,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test ++ function
-		TEST_METHOD(TestAddAddFunc2)
+		TEST_METHOD(TestMethod_operator_AddPlus2)
 		{
 			Int a = 2;
 
@@ -368,15 +366,17 @@ namespace Tool_UnitTest
 		}
 
 		// Test ++ function
-		TEST_METHOD(TestAddAddFunc3)
+		TEST_METHOD(TestMethod_operator_AddPlus3)
 		{
 			Int a = 2;
 
-			Assert::IsTrue(a++ == 3);
+			Assert::IsFalse(a++ == 3);
+
+			Assert::IsTrue(a == 3);
 		}
 
 		// Test ++ function
-		TEST_METHOD(TestAddAddFunc4)
+		TEST_METHOD(TestMethod_operator_AddPlus4)
 		{
 			Int a = 2;
 
@@ -384,7 +384,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test > function
-		TEST_METHOD(TestBiggerFunc4)
+		TEST_METHOD(TestMethod_operator_Bigger)
 		{
 			Int a = 2;
 
@@ -394,7 +394,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test > function
-		TEST_METHOD(TestBiggerFunc2)
+		TEST_METHOD(TestMethod_operator_Bigger1)
 		{
 			Int a = 2;
 
@@ -404,7 +404,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test >= function
-		TEST_METHOD(TestBiggerThanFunc3)
+		TEST_METHOD(TestMethod_operator_Bigger2)
 		{
 			Int a = 122;
 
@@ -414,7 +414,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test >= function
-		TEST_METHOD(TestBiggerThanFunc4)
+		TEST_METHOD(TestMethod_operator_Bigger3)
 		{
 			Int a = 122;
 
@@ -424,7 +424,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test <= function
-		TEST_METHOD(TestSmallThanFunc1)
+		TEST_METHOD(TestMethod_operator_SmallThanFunc1)
 		{
 			Int a = 12;
 
@@ -434,7 +434,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test <= function
-		TEST_METHOD(TestSmallThanFunc2)
+		TEST_METHOD(TestMethod_operator_SmallThanFunc2)
 		{
 			Int a = 122;
 
@@ -444,7 +444,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test <= function
-		TEST_METHOD(TestSmallThanFunc3)
+		TEST_METHOD(TestMethod_operator_SmallThanFunc3)
 		{
 			Int a = 122;
 
@@ -454,7 +454,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test <= function
-		TEST_METHOD(TestSmallThanFunc4)
+		TEST_METHOD(TestMethod_operator_SmallThanFunc4)
 		{
 			Int a = 122;
 
@@ -464,7 +464,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test Parse function
-		TEST_METHOD(TestParseFunc1)
+		TEST_METHOD(TestMethod_operator_ParseFunc)
 		{
 			Int a = Int::Parse(_T("890"));
 
@@ -472,7 +472,7 @@ namespace Tool_UnitTest
 		}
 
 		// Test ToString function
-		TEST_METHOD(TestToStringFunc1)
+		TEST_METHOD(TestMethod_operator_ToStringFunc)
 		{
 			Int a = 908;
 

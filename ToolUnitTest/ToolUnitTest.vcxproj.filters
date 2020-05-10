@@ -52,5 +52,14 @@
     <ClCompile Include="SocketTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="BoolTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DoubleTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FloatTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -3,7 +3,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace Tool_UnitTest
+namespace String_UnitTest
 {
 	TEST_CLASS(StringTest)
 	{

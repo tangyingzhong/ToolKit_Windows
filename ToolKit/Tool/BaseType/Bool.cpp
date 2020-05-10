@@ -72,13 +72,13 @@ Bool Bool::operator==(const bool bValue)
 // Wether they are eqauled or not
 Bool Bool::operator!=(const Bool& Another)
 {
-	return Equal(Another);
+	return !Equal(Another);
 }
 
 //Wether they are eqauled or not
 Bool Bool::operator!=(const bool bValue)
 {
-	return Equal(bValue);
+	return !Equal(bValue);
 }
 
 // Override the bool type
@@ -88,7 +88,7 @@ Bool::operator bool() const
 }
 
 // Parse the "true" or "false" to bool
-Bool Bool::Parse(String& BoolString)
+Bool Bool::Parse(String BoolString)
 {
 	bool bResult = false;
 

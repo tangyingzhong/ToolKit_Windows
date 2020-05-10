@@ -55,7 +55,7 @@ namespace System
 			operator bool() const;
 
 			// Parse the "true" or "false" to bool
-			static Bool Parse(String& BoolString);
+			static Bool Parse(String BoolString);
 
 			// Bool value converts to be string
 			String ToString();

@@ -40,7 +40,7 @@ Double& Double::operator=(const Double& Another)
 // Implement the + object
 Double Double::operator+(Double& Another)
 {
-	return (GetValue() + Another.GetValue());
+	return operator+(Another.GetValue());
 }
 
 // Implement the + value
@@ -52,7 +52,7 @@ Double Double::operator+(double dValue)
 // Implement the += object
 Double Double::operator+=(Double& Another)
 {
-	return (m_Value += Another.GetValue());
+	return operator+=(Another.GetValue());
 }
 
 // Implement the += value
@@ -64,7 +64,7 @@ Double Double::operator+=(double dValue)
 // Implement the -= object
 Double Double::operator-=(Double& Another)
 {
-	return (m_Value -= Another.GetValue());
+	return operator-=(Another.GetValue());
 }
 
 // Implement the -= value
@@ -76,7 +76,7 @@ Double Double::operator-=(double dValue)
 // Implement the - object
 Double Double::operator-(Double& Another)
 {
-	return (m_Value - Another.GetValue());
+	return operator-(Another.GetValue());
 }
 
 // Implement the - value
@@ -88,7 +88,7 @@ Double Double::operator-(double dValue)
 // Implement the * object
 Double Double::operator*(Double& Another)
 {
-	return (m_Value * Another.GetValue());
+	return operator*(Another.GetValue());
 }
 
 // Implement the * value
@@ -100,7 +100,7 @@ Double Double::operator*(double dValue)
 // Implement the / object
 Double Double::operator/(Double& Another)
 {
-	return (m_Value / Another.GetValue());
+	return operator/(Another.GetValue());
 }
 
 // Implement the / value

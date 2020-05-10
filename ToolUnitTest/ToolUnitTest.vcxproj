@@ -164,9 +164,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArrayTest.cpp" />
+    <ClCompile Include="BoolTest.cpp" />
     <ClCompile Include="DateTimeTest.cpp" />
     <ClCompile Include="DirectoryTest.cpp" />
+    <ClCompile Include="DoubleTest.cpp" />
     <ClCompile Include="FileTest.cpp" />
+    <ClCompile Include="FloatTest.cpp" />
     <ClCompile Include="GeneralPlayerTest.cpp" />
     <ClCompile Include="JsonTest.cpp" />
     <ClCompile Include="PlayerTest.cpp" />
