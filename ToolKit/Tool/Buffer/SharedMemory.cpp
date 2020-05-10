@@ -4,10 +4,11 @@
 using namespace System::Buffer;
 
 // Construct the shared memory with a fixed size and name
-SharedMemory::SharedMemory(const MapFileName strMapFileName, const MapFileSize iMapFileSize) :m_MapfileHandle(NULL),
-m_MapFileName(strMapFileName),
-m_SharedSize(iMapFileSize),
-m_Disposed(false)
+SharedMemory::SharedMemory(const MapFileName strMapFileName, const MapFileSize iMapFileSize) :
+	m_MapfileHandle(NULL),
+	m_MapFileName(strMapFileName),
+	m_SharedSize(iMapFileSize),
+	m_Disposed(false)
 {
 	Initialize();
 }
@@ -67,7 +68,8 @@ SharedMemory::None SharedMemory::Open()
 	}
 }
 
-// Read the common memory.(Len must be one of 64K ,2*64K,4*64KIt can be called one-level cache,two-level cache and four -level cache)
+// Read the common memory.
+// (Len must be one of 64K ,2*64K,4*64KIt can be called one-level cache,two-level cache and four -level cache)
 SharedMemory::BOOL SharedMemory::Read(ByteArray buffer, Length offset, Length len)
 {
 	BOOL bSuccess = false;

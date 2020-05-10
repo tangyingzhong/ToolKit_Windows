@@ -51,11 +51,11 @@ namespace System
 			// Time type
 			enum  TIME_TYPE_ENUM
 			{
-				// UTC time
-				TIME_UTC_=0,
-
 				// BeiJing time
-				TIME_LOCAL
+				TIME_LOCAL = 0,
+
+				// UTC time
+				TIME_UTC_	
 			};
 
 		public:

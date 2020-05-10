@@ -3,7 +3,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace Tool_UnitTest
+namespace Directory_UnitTest
 {
 	TEST_CLASS(DirectoryTest)
 	{
@@ -17,18 +17,18 @@ namespace Tool_UnitTest
 
 		TEST_METHOD(Test_Delete)
 		{
-			Assert::IsFalse(Directory::Delete(_T("D:\\23"), true));
+			Assert::IsTrue(Directory::Delete(_T("D:\\23")));
 
-			Assert::IsTrue(Directory::Delete(_T("D:\\1"), true));
+			Assert::IsTrue(Directory::Delete("D:\\1", true));
 		}
 
 		TEST_METHOD(Test_Copy)
 		{
 			String strSrcDirPath = _T("D:\\SrcTest");
 
-			String strDestDirPath = _T("E:\\FinalTest\\12\\34");
+			String strDestDirPath = _T("F:\\FinalTest\\12\\34");
 
-			if (!Directory::Copy(strSrcDirPath, strDestDirPath, true))
+			if (!Directory::Copy(strSrcDirPath, strDestDirPath))
 			{
 				Assert::Fail(_T("Failed to copy directory!"));
 			}
@@ -61,7 +61,7 @@ namespace Tool_UnitTest
 
 			String strPath = _T("D:\\SrcTest");
 
-			Assert::IsFalse(Directory::IsEmpty(strPath));
+			Assert::IsTrue(Directory::IsEmpty(strPath));
 
 			String strPath1 = _T("D:\\SrcTest\\55");
 
@@ -70,7 +70,7 @@ namespace Tool_UnitTest
 
 		TEST_METHOD(Test_IsDir)
 		{
-			String strPath = _T("D:\\SrcTest\\Province.json");
+			String strPath = _T("D:\\aa.wav");
 
 			Assert::IsFalse(Directory::IsDirectory(strPath));
 
@@ -85,31 +85,35 @@ namespace Tool_UnitTest
 
 		TEST_METHOD(Test_Contains)
 		{
-			String strDstPath = _T("D:\\SrcTest\\Province.json");
+			String strDstPath = _T("D:\\XunLeiDownload\\ssh_offline.rar");
 
 			String strRootPath = _T("D:\\");
 
 			Assert::IsTrue(Directory::Contains(strRootPath, strDstPath));
 
-			String strRootPath1 = _T("D:\\SrcTest");
+			String strDstPath3 = _T("D:\\XunLeiDownload");
+
+			Assert::IsFalse(Directory::Contains(strRootPath, strDstPath3));
+
+			String strRootPath1 = _T("D:\\XunLeiDownload");
 
 			Assert::IsTrue(Directory::Contains(strRootPath1, strDstPath));
 
-			String strRootPath2 = _T("E:\\SrcTest");
+			String strRootPath2 = _T("F:\\zhengwenyan");
 
 			Assert::IsFalse(Directory::Contains(strRootPath2, strDstPath));
 		}
 
 		TEST_METHOD(Test_SetDirAttribute)
 		{
-			String strDstPath = _T("D:\\SrcTest\\Province.json");
+			String strDstPath = _T("D:\\aa.wav");
 
 			Directory::SetDirAttribute(strDstPath, HIDDEN);
 		}
 
 		TEST_METHOD(Test_RemoveDirAttribute)
 		{
-			String strDstPath = _T("D:\\SrcTest\\Province.json");
+			String strDstPath = _T("D:\\aa.wav");
 
 			Directory::RemoveDirAttribute(strDstPath, HIDDEN);
 		}

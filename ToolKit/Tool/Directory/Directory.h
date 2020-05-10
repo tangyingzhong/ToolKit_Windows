@@ -45,17 +45,17 @@ namespace System
 			Directory(const Directory& other) {	}
 
 			// Allow the obejct assignment
-			Directory& operator=(Directory& other) {	}
+			Directory& operator=(Directory& other) { return *this; }
 
 		public:
 			// Create new directory recursively
-			static BOOL Create(String strDirPath, BOOL bRecursive);
+			static BOOL Create(String strDirPath, BOOL bRecursive = true);
 
 			// Copy the directory recursively
-			static BOOL Copy(String strSrcDirPath, String strDestDirPath,BOOL bCover);
+			static BOOL Copy(String strSrcDirPath, String strDestDirPath,BOOL bCover = false);
 
 			// Delete the directory recursively
-			static BOOL Delete(String strDirPath, BOOL bRecursive);
+			static BOOL Delete(String strDirPath, BOOL bRecursive = false);
 
 			// Trim path ending without "\\"
 			static String TrimEnding(String strPath);
@@ -122,13 +122,13 @@ namespace System
 			static BOOL CopySrcFilesToDest_NotCover(String strSrcDirPath, String strNewDestDirPath);
 
 			// Create a new directory
-			static BOOL Create(String strDirPath);
+			static BOOL CreateDir(String strDirPath);
 
 			// Delete the None directory
-			static BOOL Delete(String strDirPath);
+			static BOOL DeleteDir(String strDirPath);
 
 			// Build the new root directory
-			static String BuildNewRoot(String strSrcPath, String strDestPath, String strCurPath);
+			static String BuildNewRoot(String strSrcPath, String strDestPath);
 
 			// Build new directory or file path
 			static String Build(String strSrcPath, String strDestPath);

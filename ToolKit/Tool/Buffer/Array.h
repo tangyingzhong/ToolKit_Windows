@@ -58,7 +58,10 @@ namespace System
 				CreateBuffer(GetArraySize());
 				if (GetElementPointer())
 				{
-					Array::Copy(other.GetElementPointer(), other.GetArraySize(), GetElementPointer(), GetArraySize());
+					Array::Copy(other.GetElementPointer(), 
+						other.GetArraySize(), 
+						GetElementPointer(), 
+						GetArraySize());
 				}
 			}
 
@@ -74,7 +77,10 @@ namespace System
 					CreateBuffer(GetArraySize());
 					if (GetElementPointer())
 					{
-						Array::Copy(other.GetElementPointer(), other.GetArraySize(), GetElementPointer(), GetArraySize());
+						Array::Copy(other.GetElementPointer(),
+							other.GetArraySize(), 
+							GetElementPointer(), 
+							GetArraySize());
 					}
 				}
 

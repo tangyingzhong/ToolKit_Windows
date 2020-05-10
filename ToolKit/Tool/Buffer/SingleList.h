@@ -40,29 +40,22 @@ namespace System
 			// Construct the SingleList
 			SingleList() :m_Disposed(false)
 			{
-				this->Initialize();
+				Initialize();
 			}
 
 			// Detructe the SingleList
 			~SingleList() 
 			{
-				this->Destory();
+				Destory();
 			}
 
 			// Allow the object copying
 			SingleList(const SingleList& other)
 			{
-				if (this->IsEmpty())
-				{
-					this->SetHead(other.GetHead());
-				}
-				else
-				{
-					// Copy the list
-					this->Copy(other);
-				}
+				// Copy the list
+				Copy(other);
 
-				this->SetDisposed(other.GetDisposed());
+				SetDisposed(other.GetDisposed());
 			}
 
 			// Allow the obejct assignment
@@ -70,53 +63,85 @@ namespace System
 			{
 				if (this != &other)
 				{
-					if (this->IsEmpty())
-					{
-						this->SetHead(other.GetHead());
-					}
-					else
-					{
-						// Destory the list at first
-						this->DeleteNode(this->GetHead());
+					// Destory the list at first
+					DeleteNode(GetHead());
 
-						// Create a head node
-						this->CreateHeadNode();
+					// Create a head node
+					CreateHeadNode();
 
-						// Copy the list
-						this->Copy(other);
-					}
+					// Copy the list
+					Copy(other);
 
-					this->SetDisposed(other.GetDisposed());
+					SetDisposed(other.GetDisposed());
 				}
 
 				return *this;
 			}
 
 		public:
+			// Get the element
+			BOOL Get(Index iIndex, Reference Data)
+			{
+				if (iIndex<0 || iIndex > Size())
+				{
+					return false;
+				}
+
+				NodeElement CurNode = Find(iIndex);
+				if (CurNode == NULL)
+				{
+					return false;
+				}
+
+				Data = CurNode->Data;
+
+				return true;
+			}
+
 			// Add the element 
 			None Add(Reference Data)
 			{
 				// Link the node to the end
-				this->LinkToEnd(Data);
+				LinkToEnd(Data);
+			}
+
+			// Remove the element
+			BOOL Remove(Index iIndex)
+			{
+				if (iIndex<0 || iIndex > Size())
+				{
+					return false;
+				}
+
+				NodeElement CurNode = Find(iIndex);
+				if (CurNode == NULL)
+				{
+					return false;
+				}
+
+				// Unlink the element
+				Unlink(CurNode);
+
+				return true;
 			}
 
 			// Remove the element
 			BOOL Remove(Reference Data)
 			{
 				// Unlink the element
-				this->Unlink(Data);
+				Unlink(Data);
 			}
 
 			// Get the list size
 			Length Size()
 			{
-				return this->GetLength();
+				return GetLength();
 			}
 
 			// Is list None or not
 			BOOL IsEmpty()
 			{
-				return this->_IsEmpty();
+				return _IsEmpty();
 			}
 
 		private:
@@ -124,19 +149,19 @@ namespace System
 			None Initialize()
 			{
 				// Create head node
-				this->CreateHeadNode();
+				CreateHeadNode();
 			}
 
 			// Destory the list
 			None Destory()
 			{
-				if (!this->GetDisposed())
+				if (!GetDisposed())
 				{
-					this->SetDisposed(true);
+					SetDisposed(true);
 
-					if (!this->_IsEmpty())
+					if (!IsEmpty())
 					{
-						this->DeleteNode(this->GetHead());
+						DeleteNode(GetHead());
 					}
 				}
 			}
@@ -152,53 +177,56 @@ namespace System
 				DeleteNode(pNodeElement->pNext);
 
 				// Destory the node
-				this->DestoryNode(pNodeElement);
+				DestoryNode(pNodeElement);
 			}
 
 			// Link a node to the end
 			None LinkToEnd(Reference Data)
 			{
 				// Create a node
-				NodeElement pNode = this->CeateNode(Data);
+				NodeElement pNode = CeateNode(Data);
 
-				this->LinkToEnd(pNode);				
+				LinkToEnd(pNode);				
 			}
 
 			// Link a node to the end
 			None LinkToEnd(NodeElement pNodeElement)
 			{
 				// Get the last element
-				NodeElement pLastNode = this->FindLast();
+				NodeElement pLastNode = FindLast();
 
 				// Link the element to the end element
 				pLastNode->pNext = pNodeElement;
+
+				pNodeElement->pNext = NULL;
 			}
 
 			// Unlink the node
 			None Unlink(NodeElement pNodeElement)
 			{
 				// Find the previous node
-				NodeElement PreNode = this->FindPrevious(pNodeElement);
+				NodeElement PreNode = FindPrevious(pNodeElement);
 
 				// Unlink
 				PreNode->pNext = pNodeElement->pNext;
 
 				// Destory this node
-				this->DestoryNode(pNodeElement);
+				DestoryNode(pNodeElement);
 			}
 
 			// Unlink the node
 			None Unlink(Reference Data)
 			{
 				// Find the previous node
-				NodeElement CurNode = NULL;
-				NodeElement PreNode = this->FindPrevious(Data, CurNode);
+				NodeElement pCurNode = Find(Data);
+
+				NodeElement PreNode = FindPrevious(pCurNode);
 
 				// Unlink
-				PreNode->pNext = CurNode->pNext;
+				PreNode->pNext = pCurNode->pNext;
 
 				// Destory this node
-				this->DestoryNode(CurNode);
+				DestoryNode(pCurNode);
 			}
 
 			// Create a node
@@ -229,18 +257,45 @@ namespace System
 			{
 				ValueType Data;
 
-				this->SetHead(this->CeateNode(Data));
+				SetHead(CeateNode(Data));
+			}
+
+			// Find the element
+			NodeElement Find(Index iIndex)
+			{
+				if (IsEmpty())
+				{
+					return NULL;
+				}
+
+				NodeElement CurNode = GetHead();
+
+				Index iCurIndex = 0;
+
+				while (CurNode->pNext != NULL)
+				{
+					CurNode = CurNode->pNext;
+
+					if (iIndex == iCurIndex)
+					{
+						break;
+					}
+
+					++iCurIndex;
+				}
+
+				return CurNode;
 			}
 
 			// Find the element
 			NodeElement Find(Reference Data)
 			{
-				if (this->_IsEmpty())
+				if (IsEmpty())
 				{
 					return NULL;
 				}
 
-				NodeElement CurNode = this->GetHead();
+				NodeElement CurNode = GetHead();
 
 				while (CurNode->pNext != NULL)
 				{
@@ -259,12 +314,7 @@ namespace System
 			// Find the last element 
 			NodeElement FindLast()
 			{
-				if (this->_IsEmpty())
-				{
-					return NULL;
-				}
-
-				NodeElement CurNode = this->GetHead();
+				NodeElement CurNode = GetHead();
 
 				while (CurNode->pNext != NULL)
 				{
@@ -277,7 +327,7 @@ namespace System
 			// Find the previous element
 			NodeElement FindPrevious(NodeElement pNode)
 			{
-				if (this->_IsEmpty())
+				if (IsEmpty())
 				{
 					return NULL;
 				}
@@ -287,68 +337,51 @@ namespace System
 					return NULL;
 				}
 
-				NodeElement CurNode = this->GetHead();
+				NodeElement pHeadNode = GetHead();
 
-				NodeElement PreNode = CurNode;
+				NodeElement PreNode = pHeadNode;
 
-				while (CurNode->pNext != NULL)
+				NodeElement CurNode = pHeadNode->pNext;
+
+				while (CurNode != NULL)
 				{
-					PreNode = CurNode;
-
-					CurNode = CurNode->pNext;
-
 					if (CurNode == pNode)
 					{
 						break;
 					}
+
+					PreNode = CurNode;
+
+					CurNode = CurNode->pNext;
 				}
 
 				return PreNode;
 			}
 
 			// Find the previous element
-			NodeElement FindPrevious(Reference Data, NodeElement& pCurNode)
+			NodeElement FindPrevious(Reference Data)
 			{
-				if (this->_IsEmpty())
+				if (IsEmpty())
 				{
 					return NULL;
 				}
 
-				if (pCurNode == NULL)
-				{
-					return NULL;
-				}
+				NodeElement CurNode = Find(Data);
 
-				NodeElement CurNode = this->GetHead();
+				, NodeElement pPreviousNode = FindPrevious(CurNode);
 
-				NodeElement PreNode = CurNode;
-
-				while (CurNode->pNext != NULL)
-				{
-					PreNode = CurNode;
-
-					CurNode = CurNode->pNext;
-
-					if (CurNode->Data == Data)
-					{
-						pCurNode = CurNode;
-
-						break;
-					}
-				}
-
-				return PreNode;
+				return pPreviousNode;
 			}
 
 			// Get the current list length
 			Length GetLength()
 			{
-				if (this->_IsEmpty())
+				if (IsEmpty())
 				{
 					return 0;
 				}
 
-				NodeElement CurNode = this->GetHead();
+				NodeElement CurNode = GetHead();
 
 				int iCount = 0;
 
@@ -356,7 +389,7 @@ namespace System
 				{
 					CurNode = CurNode->pNext;
 
-					iCount++;
+					++iCount;
 				}
 
 				return iCount;
@@ -365,7 +398,14 @@ namespace System
 			// List is None or not
 			BOOL _IsEmpty()
 			{
-				if (this->GetHead() == NULL)
+				NodeElement pNode = GetHead();
+
+				if (pNode == NULL)
+				{
+					return true;
+				}
+
+				if (pNode->pNext == NULL)
 				{
 					return true;
 				}
@@ -376,16 +416,24 @@ namespace System
 			// Copy the list 
 			BOOL Copy(const SingleList& List)
 			{
-				NodeElement pNode = List.GetHead();
-
-				while (pNode->pNext != NULL)
+				NodeElement pHeadNode = List.GetHead();
+				if (pHeadNode==NULL)
 				{
-					pNode = pNode->pNext;
-
-					NodeElement pNode = this->CeateNode(pNode->Data);
-
-					this->LinkToEnd(pNode);
+					return false;
 				}
+
+				NodeElement pNode = pHeadNode->pNext;
+
+				while (pNode != NULL)
+				{
+					NodeElement pNewNode = CeateNode(pNode->Data);
+
+					LinkToEnd(pNewNode);
+
+					pNode = pNode->pNext;
+				}
+
+				return true;
 			}
 
 		private:
@@ -398,7 +446,7 @@ namespace System
 			// Set the head element
 			inline None SetHead(NodeElement pNodeElement)
 			{
-				this->m_Head = pNodeElement;
+				m_Head = pNodeElement;
 			}
 
 			// Get the disposed status
@@ -410,7 +458,7 @@ namespace System
 			// Set the disposed status
 			inline None SetDisposed(BOOL bDisposed)
 			{
-				this->m_Disposed = bDisposed;
+				m_Disposed = bDisposed;
 			}
 
 		private:

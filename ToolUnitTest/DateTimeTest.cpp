@@ -3,7 +3,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace Tool_UnitTest
+namespace DateTime_UnitTest
 {		
 	TEST_CLASS(DateTimeTest)
 	{
@@ -22,16 +22,19 @@ namespace Tool_UnitTest
 
 			std::cout << strData2.ToANSIData() << std::endl;
 		}
-
 		TEST_METHOD(Test_ToTime_t)
 		{
 			DateTime CurTime1 = DateTime::Now(DateTime::TIME_UTC_);
 
 			time_t t1 = CurTime1.ToTime_t();
 
+			String strTime1 = DateTime::FromTime_t(t1).ToString();
+
 			DateTime CurTime2 = DateTime::Now(DateTime::TIME_LOCAL);
 
 			time_t t2 = CurTime2.ToTime_t();
+
+			String strTime2 = DateTime::FromTime_t(t2).ToString();
 		}
 
 		TEST_METHOD(Test_FromTime_t)
@@ -52,7 +55,6 @@ namespace Tool_UnitTest
 
 			Assert::IsTrue(CurTime2 == Time2);
 		}
-
 
 		TEST_METHOD(Test_ToString)
 		{

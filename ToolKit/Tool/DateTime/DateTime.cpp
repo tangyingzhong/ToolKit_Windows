@@ -182,7 +182,7 @@ DateTime DateTime::FromTime_t(time_t TimeSnap, TIME_TYPE_ENUM TimeType)
 	{
 		p = localtime(&t);
 	}
-	else if (TimeType==TIME_UTC)
+	else if (TimeType==TIME_UTC_)
 	{
 		p = gmtime(&t);	
 	}
@@ -215,7 +215,7 @@ DateTime DateTime::Now(TIME_TYPE_ENUM TimeType)
 	{
 		CurTime.GetLoclTime();
 	}
-	else if (TimeType == TIME_UTC)
+	else if (TimeType == TIME_UTC_)
 	{
 		CurTime.GetUTCTime();
 	}

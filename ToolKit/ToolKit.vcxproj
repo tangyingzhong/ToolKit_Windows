@@ -85,8 +85,6 @@
     <ClInclude Include="Tool\Buffer\Array.h" />
     <ClInclude Include="Tool\Buffer\CircleBuffer.h" />
     <ClInclude Include="Tool\Buffer\DoubleList.h" />
-    <ClInclude Include="Tool\Buffer\Iterator.h" />
-    <ClInclude Include="Tool\Buffer\Queue.h" />
     <ClInclude Include="Tool\Buffer\SharedMemory.h" />
     <ClInclude Include="Tool\Buffer\SingleList.h" />
     <ClInclude Include="Tool\Common\SystemType.h" />

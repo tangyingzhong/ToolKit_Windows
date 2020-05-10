@@ -52,7 +52,7 @@ namespace System
 			SharedMemory(const SharedMemory& other) {	}
 
 			// Forbid the object copying
-			SharedMemory& operator=(const SharedMemory& other) {	}
+			SharedMemory& operator=(const SharedMemory& other) { return *this; }
 
 		public:
 			// Read the common memory. 

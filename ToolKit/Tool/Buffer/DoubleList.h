@@ -41,29 +41,22 @@ namespace System
 			// Construct the DoubleList
 			DoubleList() :m_Disposed(false)
 			{
-				this->Initialize();
+				Initialize();
 			}
 
 			// Detructe the DoubleList
-			~DoubleList() 
+			~DoubleList()
 			{
-				this->Destory();
+				Destory();
 			}
 
 			// Allow the object copying
 			DoubleList(const DoubleList& other)
 			{
-				if (this->IsEmpty())
-				{
-					this->SetHead(other.GetHead());
-				}
-				else
-				{
-					// Copy the list
-					this->Copy(other);
-				}
+				// Copy the list
+				Copy(other);
 
-				this->SetDisposed(other.GetDisposed());
+				SetDisposed(other.GetDisposed());
 			}
 
 			// Allow the obejct assignment
@@ -71,53 +64,85 @@ namespace System
 			{
 				if (this != &other)
 				{
-					if (this->IsEmpty())
-					{
-						this->SetHead(other.GetHead());
-					}
-					else
-					{
-						// Destory the list at first
-						this->DeleteNode(this->GetHead());
+					// Destory the list at first
+					DeleteNode(GetHead());
 
-						// Create a head node
-						this->CreateHeadNode();
+					// Create a head node
+					CreateHeadNode();
 
-						// Copy the list
-						this->Copy(other);
-					}
+					// Copy the list
+					Copy(other);
 
-					this->SetDisposed(other.GetDisposed());
+					SetDisposed(other.GetDisposed());
 				}
 
 				return *this;
 			}
 
 		public:
+			// Get the element
+			BOOL Get(Index iIndex, Reference Data)
+			{
+				if (iIndex<0 || iIndex > Size())
+				{
+					return false;
+				}
+
+				NodeElement CurNode = Find(iIndex);
+				if (CurNode == NULL)
+				{
+					return false;
+				}
+
+				Data = CurNode->Data;
+
+				return true;
+			}
+
 			// Add the element 
 			None Add(Reference Data)
 			{
 				// Link the node to the end
-				this->LinkToEnd(Data);
+				LinkToEnd(Data);
+			}
+
+			// Remove the element
+			BOOL Remove(Index iIndex)
+			{
+				if (iIndex<0 || iIndex > Size())
+				{
+					return false;
+				}
+
+				NodeElement CurNode = Find(iIndex);
+				if (CurNode == NULL)
+				{
+					return false;
+				}
+
+				// Unlink the element
+				Unlink(CurNode);
+
+				return true;
 			}
 
 			// Remove the element
 			BOOL Remove(Reference Data)
 			{
 				// Unlink the element
-				this->Unlink(Data);
+				Unlink(Data);
 			}
 
 			// Get the list size
 			Length Size()
 			{
-				return this->GetLength();
+				return GetLength();
 			}
 
 			// Is list None or not
 			BOOL IsEmpty()
 			{
-				return this->_IsEmpty();
+				return _IsEmpty();
 			}
 
 		private:
@@ -125,19 +150,19 @@ namespace System
 			None Initialize()
 			{
 				// Create head node
-				this->CreateHeadNode();
+				CreateHeadNode();
 			}
 
 			// Destory the list
 			None Destory()
 			{
-				if (!this->GetDisposed())
+				if (!GetDisposed())
 				{
-					this->SetDisposed(true);
+					SetDisposed(true);
 
-					if (!this->_IsEmpty())
+					if (!IsEmpty())
 					{
-						this->DeleteNode(this->GetHead());
+						DeleteNode(GetHead());
 					}
 				}
 			}
@@ -153,23 +178,23 @@ namespace System
 				DeleteNode(pNodeElement->pNext);
 
 				// Destory the node
-				this->DestoryNode(pNodeElement);
+				DestoryNode(pNodeElement);
 			}
 
 			// Link a node to the end
 			None LinkToEnd(Reference Data)
 			{
 				// Create a node
-				NodeElement pNode = this->CeateNode(Data);
+				NodeElement pNode = CeateNode(Data);
 
-				this->LinkToEnd(pNode);	
+				LinkToEnd(pNode);	
 			}
 
 			// Link a node to the end
 			None LinkToEnd(NodeElement pNodeElement)
 			{
 				// Get the last element
-				NodeElement pLastNode = this->FindLast();
+				NodeElement pLastNode = FindLast();
 
 				// Link the element to the end element
 				pLastNode->pNext = pNodeElement;
@@ -180,6 +205,16 @@ namespace System
 			// Unlink the node
 			None Unlink(NodeElement pNodeElement)
 			{
+				if (pNodeElement == NULL)
+				{
+					return;
+				}
+
+				if (pNodeElement == GetHead())
+				{
+					return;
+				}
+
 				// Find the previous node
 				NodeElement PreNode = pNodeElement->pPre;
 
@@ -189,16 +224,16 @@ namespace System
 				pNodeElement->pNext->pPre = PreNode;
 
 				// Destory this node
-				this->DestoryNode(pNodeElement);
+				DestoryNode(pNodeElement);
 			}
 
 			// Unlink the node
 			None Unlink(Reference Data)
 			{
 				// Find the current node
-				NodeElement CurNode = this->Find(Data);
+				NodeElement CurNode = Find(Data);
 
-				this->Unlink(CurNode);
+				Unlink(CurNode);
 			}
 
 			// Create a node
@@ -231,18 +266,45 @@ namespace System
 			{
 				ValueType Data;
 
-				this->SetHead(this->CeateNode(Data));
+				SetHead(CeateNode(Data));
+			}
+
+			// Find the element
+			NodeElement Find(Index iIndex)
+			{
+				if (IsEmpty())
+				{
+					return NULL;
+				}
+
+				NodeElement CurNode = GetHead();
+
+				Index iCurIndex = 0;
+
+				while (CurNode->pNext != NULL)
+				{
+					CurNode = CurNode->pNext;
+
+					if (iIndex == iCurIndex)
+					{
+						break;
+					}
+
+					++iCurIndex;
+				}
+
+				return CurNode;
 			}
 
 			// Find the element
 			NodeElement Find(Reference Data)
 			{
-				if (this->_IsEmpty())
+				if (IsEmpty())
 				{
 					return NULL;
 				}
 
-				NodeElement CurNode = this->GetHead();
+				NodeElement CurNode = GetHead();
 
 				while (CurNode->pNext != NULL)
 				{
@@ -261,12 +323,7 @@ namespace System
 			// Find the last element 
 			NodeElement FindLast()
 			{
-				if (this->_IsEmpty())
-				{
-					return NULL;
-				}
-
-				NodeElement CurNode = this->GetHead();
+				NodeElement CurNode = GetHead();
 
 				while (CurNode->pNext != NULL)
 				{
@@ -279,12 +336,16 @@ namespace System
 			// Get the current list length
 			Length GetLength()
 			{
-				if (this->_IsEmpty())
+				if (IsEmpty())
 				{
 					return 0;
 				}
 
-				NodeElement CurNode = this->GetHead();
+				NodeElement CurNode = GetHead();
+				if (CurNode ==NULL)
+				{
+					return 0;
+				}
 
 				int iCount = 0;
 
@@ -292,7 +353,7 @@ namespace System
 				{
 					CurNode = CurNode->pNext;
 
-					iCount++;
+					++iCount;
 				}
 
 				return iCount;
@@ -301,7 +362,14 @@ namespace System
 			// List is None or not
 			BOOL _IsEmpty()
 			{
-				if (this->GetHead() == NULL)
+				NodeElement pNode = GetHead();
+
+				if (pNode == NULL)
+				{
+					return true;
+				}
+
+				if (pNode->pNext == NULL)
 				{
 					return true;
 				}
@@ -312,16 +380,24 @@ namespace System
 			// Copy the list 
 			BOOL Copy(const DoubleList& List)
 			{
-				NodeElement pNode = List.GetHead();
-
-				while (pNode->pNext != NULL)
+				NodeElement pHeadNode = List.GetHead();
+				if (pHeadNode == NULL)
 				{
-					pNode = pNode->pNext;
-
-					NodeElement pNode = this->CeateNode(pNode->Data);
-
-					this->LinkToEnd(pNode);
+					return false;
 				}
+
+				NodeElement pNode = pHeadNode->pNext;
+
+				while (pNode != NULL)
+				{
+					NodeElement pNewNode = CeateNode(pNode->Data);
+
+					LinkToEnd(pNewNode);
+
+					pNode = pNode->pNext;
+				}
+
+				return true;
 			}
 
 		private:
@@ -334,7 +410,7 @@ namespace System
 			// Set the head element
 			inline None SetHead(NodeElement pNodeElement)
 			{
-				this->m_Head = pNodeElement;
+				m_Head = pNodeElement;
 			}
 
 			// Get the disposed status
@@ -346,7 +422,7 @@ namespace System
 			// Set the disposed status
 			inline None SetDisposed(BOOL bDisposed)
 			{
-				this->m_Disposed = bDisposed;
+				m_Disposed = bDisposed;
 			}
 
 		private:

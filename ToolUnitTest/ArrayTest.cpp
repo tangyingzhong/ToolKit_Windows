@@ -15,23 +15,11 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace System::BasicType;
 
-namespace Tool_UnitTest
+namespace Array_UnitTest
 {
 	TEST_CLASS(ArrayTest)
 	{
 	public:
-		// Init the class
-		TEST_CLASS_INITIALIZE(InitArray)
-		{
-
-		}
-
-		// Clean up the class
-		TEST_CLASS_CLEANUP(CleanArray)
-		{
-
-		}
-
 		// Test [] function
 		TEST_METHOD(TestGetCharFunc1)
 		{
@@ -39,12 +27,12 @@ namespace Tool_UnitTest
 
 			int iSize = TestArray.Size();
 
-			for (Int index = 0; index < iSize; index++)
+			for (Int index = 0; index < iSize; ++index)
 			{
 				TestArray[index] = index;
 			}
 
-			for (Int index = 0; index < iSize; index++)
+			for (Int index = 0; index < iSize; ++index)
 			{
 				Int iValue = TestArray[index];
 
@@ -59,7 +47,7 @@ namespace Tool_UnitTest
 
 			int iSize = TestArray.Size();
 
-			for (Int index = 0; index < iSize; index++)
+			for (Int index = 0; index < iSize; ++index)
 			{
 				TestArray[index] = index;
 			}
@@ -76,7 +64,7 @@ namespace Tool_UnitTest
 
 			int iSize = TestArray.Size();
 
-			for (Int index = 0; index < iSize; index++)
+			for (Int index = 0; index < iSize; ++index)
 			{
 				TestArray[index] = index;
 			}
@@ -113,21 +101,31 @@ namespace Tool_UnitTest
 		{
 			Array<Int> TestArray(5);
 
-			for (Int index = 0; index < TestArray.Size(); index++)
+			for (Int index = 0; index < TestArray.Size(); ++index)
 			{
 				TestArray[index] = index;
 			}
 
 			TestArray.Resize(10);
 
-			for (Int index = 0; index < TestArray.Size(); index++)
+			for (Int index = 5; index < TestArray.Size(); ++index)
+			{
+				TestArray[index] = 8*index;
+			}
+
+			for (Int index = 0; index < TestArray.Size(); ++index)
 			{
 				Int iValue = TestArray[index];
 
 				if (index < 5)
 				{
 					Assert::IsTrue(iValue == index);
-				}			
+				}
+
+				if (index == 5)
+				{
+					Assert::IsTrue(iValue == 40);
+				}
 			}	
 		}
 
@@ -136,7 +134,7 @@ namespace Tool_UnitTest
 		{
 			Array<Int> TestArray(5);
 
-			for (Int index = 0; index < TestArray.Size(); index++)
+			for (Int index = 0; index < TestArray.Size(); ++index)
 			{
 				TestArray[index] = index;
 			}
@@ -151,7 +149,7 @@ namespace Tool_UnitTest
 		{
 			Array<Int> TestArray(5);
 
-			for (Int index = 0; index < TestArray.Size(); index++)
+			for (Int index = 0; index < TestArray.Size(); ++index)
 			{
 				TestArray[index] = index;
 			}
@@ -166,12 +164,12 @@ namespace Tool_UnitTest
 		{
 			Array<Int> TestArray(5);
 
-			for (Int index = 0; index < TestArray.Size(); index++)
+			for (Int index = 0; index < TestArray.Size(); ++index)
 			{
 				TestArray[index] = index;
 			}
 
-			for (Int index = 0; index < TestArray.Size(); index++)
+			for (Int index = 0; index < TestArray.Size(); ++index)
 			{
 				Int iValue0 = TestArray[index];
 
@@ -180,7 +178,7 @@ namespace Tool_UnitTest
 
 			TestArray.Clear();
 
-			for (Int index = 0; index < TestArray.Size(); index++)
+			for (Int index = 0; index < TestArray.Size(); ++index)
 			{
 				Int iValue = TestArray[index];
 
@@ -188,5 +186,43 @@ namespace Tool_UnitTest
 			}
 		}
 
+		// Test copy function
+		TEST_METHOD(TestCopyFunc1)
+		{
+			String strData1 = "Fuck you";
+			
+			Character Buffer[1024] = {0};
+
+			Array<Character>::Copy((Character*)strData1.CStr(), strData1.GetLength(), Buffer,1024);
+
+			Assert::IsTrue(strData1 == String(Buffer));
+		}
+
+		// Test copy function
+		TEST_METHOD(TestCopyFunc2)
+		{
+			String strData = "我不知道设是否";
+
+			Array<SByte> Data1(strData.ToANSIData().length()+1);
+
+			memcpy_s(Data1.Data(), 
+				Data1.Size(), 
+				strData.ToANSIData().c_str(), 
+				strData.ToANSIData().length() + 1);
+			
+			Array<SByte> Data2(strData.ToANSIData().length() +1);
+
+			Array<SByte>::Copy(Data1, Data2);
+
+			String strFinalData = Data2.Data();
+
+			Assert::IsTrue(strFinalData == strData);
+
+			Array<SByte>::Clear(Data2,0, Data2.Size());
+
+			strFinalData = Data2.Data();
+
+			Assert::IsTrue(strFinalData.IsEmpty());
+		}
 	};
 }
