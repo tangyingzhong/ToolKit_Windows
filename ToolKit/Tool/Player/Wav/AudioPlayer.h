@@ -41,7 +41,7 @@ namespace System
 			AudioPlayer(const AudioPlayer& other){	}
 
 			// Asigment of AudioPlayer
-			AudioPlayer& operator=(const AudioPlayer& other){	}
+			AudioPlayer& operator=(const AudioPlayer& other) { return *this; }
 
 		public:
 			// Start the player

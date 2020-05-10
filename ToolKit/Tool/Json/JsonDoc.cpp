@@ -4,9 +4,11 @@
 #include "Tool/Encoding/UTF8.h"
 #include "Tool/BaseType/Int.h"
 #include "Tool/BaseType/Double.h"
+#include "Tool/File/File.h"
 #include "JsonDoc.h"
 
 using namespace System;
+using namespace System::IO;
 
 // Construct the JsonDocument with json file
 JsonDocument::JsonDocument() :m_bDisposed(false)
@@ -141,20 +143,22 @@ Boolean JsonDocument::WriteToFile(JsonString strFileName)
 		return false;
 	}
 
-	std::ofstream Streamer;
+	String strJson = ToJson();
 
-	Streamer.open(strFileName.ToANSIData(), std::ios::out | std::ios::trunc);
+	File FileHelper;
 
-	if (!Streamer.is_open())
+	if (!FileHelper.Open(strFileName, File::FileMode::CREATE, File::FileAccess::READWRITE))
 	{
 		return false;
 	}
 
-	Streamer << GetJsonObject().toStyledString();
+	FileHelper.Write((SByteArray)strJson.ToUTF8Data().c_str(), 
+		0, 
+		static_cast<File::ArraySize>(strJson.ToUTF8Data().length()));
 
-	Streamer.close();
+	FileHelper.Close();
 
-	return Streamer.good();
+	return true;
 }
 
 // Flush the json to file
@@ -240,7 +244,7 @@ Boolean JsonDocument::GetKeys(KeyTable& FinalKeyTable)
 
 	for (Int32 iIndex = 0; iIndex < (Int32)KeyList.size();++iIndex)
 	{
-		String strFinalKey = String(KeyList[iIndex]);
+		String strFinalKey = String(KeyList[iIndex],ENCODE_UTF8);
 
 		FinalKeyTable.push_back(strFinalKey);
 	}
@@ -328,11 +332,7 @@ JsonDocument::JsonString JsonDocument::ToJson()
 		return _T("");
 	}
 
-	std::string strUtf8Json = GetJsonObject().toStyledString();
-
-	std::string strAnsiJson = ANSI::GetString(strUtf8Json, ENCODE_UTF8);
-
-	String strJson = strAnsiJson;
+	std::string strJson = GetJsonObject().toStyledString();
 
 	return strJson;
 }

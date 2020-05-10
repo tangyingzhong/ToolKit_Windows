@@ -19,9 +19,6 @@
     <ClCompile Include="StdAfx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ToolUnitTest.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="StringTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -65,6 +62,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="SingleListTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="IniTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

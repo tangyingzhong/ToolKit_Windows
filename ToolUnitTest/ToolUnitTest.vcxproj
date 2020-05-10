@@ -172,6 +172,7 @@
     <ClCompile Include="FileTest.cpp" />
     <ClCompile Include="FloatTest.cpp" />
     <ClCompile Include="GeneralPlayerTest.cpp" />
+    <ClCompile Include="IniTest.cpp" />
     <ClCompile Include="JsonTest.cpp" />
     <ClCompile Include="PlayerTest.cpp" />
     <ClCompile Include="SingleListTest.cpp" />
@@ -183,7 +184,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="IntTest.cpp" />
-    <ClCompile Include="ToolUnitTest.cpp" />
     <ClCompile Include="StringTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

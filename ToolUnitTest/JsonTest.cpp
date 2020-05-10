@@ -3,7 +3,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace Tool_UnitTest
+namespace Json_UnitTest
 {		
 	TEST_CLASS(JsonTest)
 	{
@@ -27,7 +27,7 @@ namespace Tool_UnitTest
 				Assert::Fail(_T("Failed to get all keys under this root key"));
 			}
 
-			Assert::IsTrue(JsonDoc.IsContain(_T("systemName")));
+			Assert::IsTrue(JsonDoc.IsContain(_T("ÐÕÃû")));
 		}
 
 		TEST_METHOD(Test_FromJson)

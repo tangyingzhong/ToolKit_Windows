@@ -209,6 +209,9 @@ Boolean AudioPlayer::Play(String fileName)
 	{
 		if (GetBlockPlayer() == NULL)
 		{
+			// Close the file
+			FileHelper.Close();
+
 			return false;
 		}
 
@@ -216,6 +219,9 @@ Boolean AudioPlayer::Play(String fileName)
 		{
 			if(!GetBlockPlayer()->Stop())
 			{
+				// Close the file
+				FileHelper.Close();
+
 				return false;
 			}
 
@@ -225,6 +231,9 @@ Boolean AudioPlayer::Play(String fileName)
 		{
 			if (!GetBlockPlayer()->Pause())
 			{
+				// Close the file
+				FileHelper.Close();
+
 				return false;
 			}
 
@@ -234,6 +243,9 @@ Boolean AudioPlayer::Play(String fileName)
 		{
 			if (!GetBlockPlayer()->Continue())
 			{
+				// Close the file
+				FileHelper.Close();
+
 				return false;
 			}
 		}
@@ -305,6 +317,8 @@ Boolean AudioPlayer::Stop()
 	{
 		return false;
 	}
+
+	Pause();
 
 	MutexLocker Locker(m_pLock);
 

@@ -1,18 +1,38 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
+#include <thread>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace Tool_UnitTest
+namespace Player_UnitTest
 {
-	TEST_CLASS(Player_UnitTest)
+	TEST_CLASS(PlayerTest)
 	{
 	public:
 		TEST_METHOD(TestMethod_Play)
 		{
 			AudioPlayer Player;
 
-			Assert::IsTrue(Player.Play(_T("D:\\林俊杰 - 可惜没如果.wav")));
+			std::thread t = std::thread([=,&Player]{
+				Player.Play(_T("D:\\aa.wav"));
+				});
+
+			Sleep(10000);
+
+			Player.Pause();
+
+			Sleep(5000);
+
+			Player.Continue();
+
+			Sleep(15000);
+
+			Player.Stop();
+
+			if (t.joinable())
+			{
+				t.join();
+			}
 		}
 	};
 }

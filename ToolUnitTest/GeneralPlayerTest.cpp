@@ -3,23 +3,23 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace Tool_UnitTest
+namespace GeneralPlayer_UnitTest
 {
-	TEST_CLASS(GeneralPlayer_UnitTest)
+	TEST_CLASS(GeneralPlayerTest)
 	{
 	public:
 		TEST_METHOD(TestMethod_Load)
 		{
 			GeneralPlayer GeneralAudioPlayer;
 
-			Assert::IsTrue(GeneralAudioPlayer.Load(_T("D:\\林俊杰 - 可惜没如果.wav")));
+			Assert::IsTrue(GeneralAudioPlayer.Load(_T("D:\\aa.wav")));
 		}
 
 		TEST_METHOD(TestMethod_Play)
 		{
 			GeneralPlayer GeneralAudioPlayer;
 
-			Assert::IsTrue(GeneralAudioPlayer.Load(_T("D:\\林俊杰 - 可惜没如果.wav")));
+			Assert::IsTrue(GeneralAudioPlayer.Load(_T("D:\\aa.wav")));
 
 			Assert::IsTrue(GeneralAudioPlayer.Play());
 
@@ -31,7 +31,7 @@ namespace Tool_UnitTest
 		{
 			GeneralPlayer GeneralAudioPlayer;
 
-			Assert::IsTrue(GeneralAudioPlayer.Load(_T("D:\\林俊杰 - 可惜没如果.wav")));
+			Assert::IsTrue(GeneralAudioPlayer.Load(_T("D:\\aa.wav")));
 
 			FixedInt32 iVolume = GeneralAudioPlayer.GetCurrentVolume();
 
@@ -47,7 +47,7 @@ namespace Tool_UnitTest
 		{
 			GeneralPlayer GeneralAudioPlayer;
 
-			Assert::IsTrue(GeneralAudioPlayer.Load(_T("D:\\林俊杰 - 可惜没如果.wav")));
+			Assert::IsTrue(GeneralAudioPlayer.Load(_T("D:\\aa.wav")));
 
 			FixedInt32 iVolume =10;
 
@@ -75,6 +75,36 @@ namespace Tool_UnitTest
 
 			FixedInt32 iEventCode12 = 0;
 			GeneralAudioPlayer.WaitForCompletion(2 * 60 * 1000, &iEventCode12);
+		}
+
+		TEST_METHOD(TestMethod_Playing)
+		{
+			GeneralPlayer Player;
+
+			Player.Load("D:\\aa.wav");
+
+			Player.SetVolume(1000);
+
+			std::thread t = std::thread([=, &Player] {
+				Player.Play();
+				});
+
+			Sleep(10000);
+
+			Player.Pause();
+
+			Sleep(5000);
+
+			Player.Resume();
+
+			Sleep(15000);
+
+			Player.Stop();
+
+			if (t.joinable())
+			{
+				t.join();
+			}
 		}
 	};
 }

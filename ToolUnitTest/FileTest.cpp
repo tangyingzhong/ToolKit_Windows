@@ -3,7 +3,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace Tool_UnitTest
+namespace File_UnitTest
 {
 	TEST_CLASS(FileTest)
 	{
@@ -12,7 +12,7 @@ namespace Tool_UnitTest
 		{
 			File FileHelper;
 
-			Assert::IsTrue(FileHelper.Open(_T("D:\\SysConf.json"), File::FileMode::OPEN));
+			Assert::IsTrue(FileHelper.Open(_T("D:\\yu.txt"), File::FileMode::OPEN));
 
 			FileHelper.Close();
 
@@ -20,7 +20,7 @@ namespace Tool_UnitTest
 
 			FileHelper.Close();
 
-			Assert::IsFalse(FileHelper.Open(_T("D:\\SysConf.json"), File::FileMode::CREATENEW));
+			Assert::IsFalse(FileHelper.Open(_T("D:\\yu.txt"), File::FileMode::CREATENEW));
 
 			FileHelper.Close();
 
@@ -80,13 +80,11 @@ namespace Tool_UnitTest
 		{
 			File FileHelper;
 
-			Assert::IsTrue(FileHelper.Open(_T("D:\\OSSystem.zip"), File::FileMode::OPEN));
+			Assert::IsTrue(FileHelper.Open(_T("D:\\aa.wav"), File::FileMode::OPEN));
 
 			File::FileSize iSize = FileHelper.GetSize();
 
-			UInt64 iMax = 4294967296;
-
-			Assert::IsTrue(iSize >iMax);
+			FileHelper.Close();
 		}
 
 		TEST_METHOD(Test_IsExisted)
@@ -98,23 +96,23 @@ namespace Tool_UnitTest
 
 		TEST_METHOD(Test_Delete)
 		{
-			Assert::IsTrue(File::Delete(_T("D:\\SysConf1.json")));
+			Assert::IsFalse(File::Delete(_T("D:\\SysConf1.json")));
 
 			Assert::IsFalse(File::Delete(_T("D:\\SysConf2.json")));
 		}
 
 		TEST_METHOD(Test_Move)
 		{
-			String strSrcPath = _T("E:\\360\\SysConf.json");
+			String strSrcPath = _T("D:\\SysConf.json");
 
-			String strDestPath = _T("D:\\TG\\SysConfigurator.json");
+			String strDestPath = _T("F:\\TG\\SysConfigurator.json");
 
 			Assert::IsTrue(File::Move(strSrcPath, strDestPath));
 		}
 
 		TEST_METHOD(Test_Rename)
 		{
-			String strSrcPath = _T("E:\\SysConfigurator.json");
+			String strSrcPath = _T("F:\\SysConf26.json");
 
 			String strDestPath = _T("D:\\ATG\\SysConfigurator.json");
 
@@ -123,7 +121,7 @@ namespace Tool_UnitTest
 
 		TEST_METHOD(Test_Copy)
 		{
-			String strSrcPath = _T("D:\\SysConfigurator.json");
+			String strSrcPath = _T("D:\\SysConf16.json");
 
 			String strDestPath = _T("E:\\ATG1\\SysConfigurator.json");
 

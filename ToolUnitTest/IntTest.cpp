@@ -125,7 +125,7 @@ namespace Int_UnitTest
 		// Test + function
 		TEST_METHOD(TestMethod_operator_Add3)
 		{
-			Int a = 90.45;
+			Int a = 90;
 
 			Int b = 22;
 
@@ -137,7 +137,7 @@ namespace Int_UnitTest
 		// Test - function
 		TEST_METHOD(TestMethod_operator_Sub)
 		{
-			Int a = 90.45;
+			Int a = 90;
 
 			int b = 50;
 
@@ -149,7 +149,7 @@ namespace Int_UnitTest
 		// Test - function
 		TEST_METHOD(TestMethod_operator_Sub2)
 		{
-			Int a = 90.45;
+			Int a = 90;
 
 			int b = 50;
 
