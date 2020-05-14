@@ -5,8 +5,6 @@
 
 using namespace System::Thread;
 
-bool MyThread::m_bExitThreadPool = false;
-
 // Construct the MyThread
 MyThread::MyThread(IThreadPool* pThreadPool) :
 	m_iThreadId(0),
@@ -53,22 +51,17 @@ unsigned long long MyThread::GetThreadId()
 	return threadId;
 }
 
-// Set is exit thread pool
-void MyThread::SetIsExitThreadPool(bool bExit)
-{
-	SetExitThreadPool(bExit);
-}
-
 // Run the thread
 void MyThread::Run()
 {
 	SetId(GetThreadId());
 
-	m_pTask->iThreadId = GetId();
+	if (GetCurTask())
+	{
+		GetCurTask()->SetThreadId(GetId());
 
-	m_pTask->AttachedUserData.pPoolFunc = GetExitThreadPool;
-
-	m_pTask->pUserFunc(&(m_pTask->AttachedUserData));
+		(GetCurTask()->GetUserFunc())(GetCurTask());
+	}
 
 	// Add current thread to idel container again
 	if (GetThreadPool())

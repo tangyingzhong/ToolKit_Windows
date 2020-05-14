@@ -42,9 +42,6 @@ namespace System
 			// Start the thread
 			void Start();
 
-			// Set is exit thread pool
-			void SetIsExitThreadPool(bool bExit);
-
 			// Get the ThreadId
 			inline unsigned long long GetId() const
 			{
@@ -60,7 +57,13 @@ namespace System
 			// Set the Task
 			inline void SetTask(TaskEntry& task)
 			{
-				m_pTask = &task;
+				SetCurTask(&task);
+			}
+
+			// Set the ExitThreadPool
+			void SetIsExitThreadPool(bool bExitThreadPool)
+			{
+				GetCurTask()->SetIsExitPool(bExitThreadPool);
 			}
 
 		private:
@@ -69,14 +72,6 @@ namespace System
 
 			// Get thread id
 			unsigned long long GetThreadId();
-
-			// Get the ExitThreadPool
-			static inline bool GetExitThreadPool()
-			{
-				std::lock_guard<std::mutex> Locker(m_ExitPoolLock);
-
-				return m_bExitThreadPool;
-			}
 
 		private:
 			// Get the disposed status
@@ -115,12 +110,16 @@ namespace System
 				m_pThreadPool = pThreadPool;
 			}
 
-			// Set the ExitThreadPool
-			static inline void SetExitThreadPool(bool bExitThreadPool)
+			// Get the Task
+			inline TaskEntry* GetCurTask() const
 			{
-				std::lock_guard<std::mutex> Locker(m_ExitPoolLock);
+				return m_pTask;
+			}
 
-				m_bExitThreadPool = bExitThreadPool;
+			// Set the Task
+			inline void SetCurTask(TaskEntry* pTask)
+			{
+				m_pTask = pTask;
 			}
 
 		private:
@@ -132,18 +131,12 @@ namespace System
 
 			// Task
 			TaskEntry* m_pTask;
-
+		
 			// Current thread
 			std::thread m_CurThread;
 
 			// Thread detach state
 			bool m_bIsDetached;
-
-			// Lock for the thread pool exit
-			static std::mutex m_ExitPoolLock;
-
-			// Is exit the thread pool
-			static bool m_bExitThreadPool;
 
 			// Disposed status
 			bool m_bDisposed;

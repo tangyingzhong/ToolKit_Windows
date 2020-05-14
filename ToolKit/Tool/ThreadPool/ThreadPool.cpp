@@ -120,7 +120,7 @@ void ThreadPool::Run()
 			continue;
 		}
 
-		std::cout << "Get a task to run: " << std::to_string(task.iTaskId) << std::endl;
+		std::cout << "Get a task to run: " << std::to_string(task.GetTaskId()) << std::endl;
 
 		// Get an idel thread 
 		MyThread* pThread = GetAnIdelThread();
