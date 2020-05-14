@@ -220,7 +220,7 @@ bool ThreadPool::GetOneTask(TaskEntry& task)
 }
 
 // Add Task to pool
-int ThreadPool::AddTask(TaskEntry& task)
+bool ThreadPool::AddTask(TaskEntry& task)
 {
 	std::lock_guard<std::mutex> Locker(m_TaskLock);
 
@@ -228,10 +228,10 @@ int ThreadPool::AddTask(TaskEntry& task)
 	{
 		SetErrorText("Task container is full now !");
 
-		return 1;
+		return false;
 	}
 
-	return 0;
+	return true;
 }
 
 // Get an idel thread

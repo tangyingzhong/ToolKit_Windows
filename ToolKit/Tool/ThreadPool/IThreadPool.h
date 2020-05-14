@@ -168,7 +168,7 @@ namespace System
 			virtual int Stop(bool bForce) = 0;
 
 			// Add Task to pool
-			virtual int AddTask(TaskEntry& task) = 0;
+			virtual bool AddTask(TaskEntry& task) = 0;
 
 			// Get error message
 			virtual std::string GetErrorMsg() = 0;

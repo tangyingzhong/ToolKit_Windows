@@ -47,7 +47,7 @@ namespace System
 			virtual int Stop(bool bForce);
 
 			// Add Task to pool
-			virtual int AddTask(TaskEntry& task);
+			virtual bool AddTask(TaskEntry& task);
 
 			// Transfer thread to container
 			virtual bool Transfer(MyThread* pThread);
