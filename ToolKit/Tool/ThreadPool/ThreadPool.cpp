@@ -9,6 +9,7 @@ using namespace System::Thread;
 
 // Construct the ThreadPool
 ThreadPool::ThreadPool(int threadNum) :
+	m_iMonitorThreadId(0),
 	m_iThreadCnt(threadNum),
 	m_pIdelContainer(NULL),
 	m_bStopPool(false),
@@ -48,10 +49,19 @@ void ThreadPool::DestoryIdelContainer()
 	}
 }
 
+// Force to exit all busy threads
+void ThreadPool::ForceExitAllBusyThreads()
+{
+	if (!m_WorkContainer.IsEmpty())
+	{
+		m_WorkContainer.CloseAllThreads();
+	}
+}
+
 // Destory busy container
 void ThreadPool::DestoryBusyContainer()
 {
-	m_WorkContainer.CloseAllThread();
+	m_WorkContainer.CloseAllThreads();
 }
 
 // Get thread id
@@ -70,17 +80,35 @@ unsigned long long ThreadPool::GetThreadId()
 	return threadId;
 }
 
+// Wait for busy threads' exit
+bool ThreadPool::IsAllBusyThreadsExited()
+{
+	std::lock_guard<std::mutex> Locker(m_WorkLock);
+
+	if (!m_WorkContainer.IsEmpty())
+	{
+		std::cout << "Wait for work container empty" << std::endl;
+
+		return false;
+	}
+
+	return true;
+}
+
 // Run the pool
 void ThreadPool::Run()
 {
+	// Get the monitor thread's id
+	SetMonitorThreadId(GetThreadId());
+
 	while (1)
 	{
 		if (GetStopPool())
 		{
 			if (GetForceStop())
 			{
-				// Destory busy container
-				DestoryBusyContainer();
+				// Force to exit all busy threads
+				ForceExitAllBusyThreads();
 
 				// Destory idel container
 				DestoryIdelContainer();
@@ -91,15 +119,10 @@ void ThreadPool::Run()
 			}
 			else
 			{
+				// Wait for all busy threads' exit
+				if (!IsAllBusyThreadsExited())
 				{
-					std::lock_guard<std::mutex> Locker(m_WorkLock);
-
-					if (!m_WorkContainer.IsEmpty())
-					{
-						std::cout << "Wait for work container empty" << std::endl;
-
-						continue;
-					}
+					continue;
 				}
 
 				// Destory idel container
@@ -131,40 +154,24 @@ void ThreadPool::Run()
 			continue;
 		}
 
-		std::cout << "Get an idel thread to have the task " << std::endl;
+		std::cout << "Get an idel thread to run the task " << std::endl;
 
 		std::cout << "Idel container size :" << GetIdelTable()->GetSize() << std::endl;
 
-		// configure the thread
-		if (!ConfigureThread(pThread, task, true))
+		// Start thread
+		if (!StartTaskThread(pThread, task))
 		{
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 			continue;
 		}
 
-		// Add the thread to work container
-		AddToWorkContainer(pThread);
-
-		std::cout << "Add the idel thread to work container" << std::endl;
-
-		std::cout << "work container size :" << m_WorkContainer.GetSize() << std::endl;
-
-		// Start thread
-		StartThread(pThread);
-
 		std::cout << "Start task now with thread : " << std::to_string(pThread->GetId()) << std::endl;
 	}
 }
 
 // Start thread
-void ThreadPool::StartThread(MyThread* pThread)
-{
-	pThread->Start();
-}
-
-// configure the thread
-bool ThreadPool::ConfigureThread(MyThread* pThread, TaskEntry& task, bool bDetached)
+bool ThreadPool::StartTaskThread(MyThread* pThread,TaskEntry& Task)
 {
 	if (pThread == NULL)
 	{
@@ -173,9 +180,19 @@ bool ThreadPool::ConfigureThread(MyThread* pThread, TaskEntry& task, bool bDetac
 		return false;
 	}
 
-	pThread->SetTask(task);
+	pThread->SetTask(Task);
 
-	pThread->SetDetachState(bDetached);
+	if (!Task.GetIsDetached())
+	{
+		// Add the thread to work container
+		AddToWorkContainer(pThread);
+
+		std::cout << "Add the idel thread to work container" << std::endl;
+
+		std::cout << "work container size :" << m_WorkContainer.GetSize() << std::endl;
+	}
+
+	pThread->Start(Task.GetIsDetached());
 
 	return true;
 }

@@ -42,9 +42,6 @@ void IdelThreadContainer::Destory()
 	{
 		MyThread* pThread = *Iter;
 
-		// Force to exit the thread pool
-		pThread->SetIsExitThreadPool(true);
-
 		delete pThread;
 
 		pThread = NULL;

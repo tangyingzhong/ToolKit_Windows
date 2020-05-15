@@ -48,7 +48,7 @@ namespace System
 			bool IsEmpty();
 
 			// Close all threads
-			void CloseAllThread();
+			void CloseAllThreads();
 
 		private:
 			// Get the disposed status

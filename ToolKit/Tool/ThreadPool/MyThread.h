@@ -36,11 +36,8 @@ namespace System
 			MyThread& operator=(const MyThread& other) { return *this; };
 
 		public:
-			// Set thread detach
-			void SetDetachState(bool bIsDetach);
-
 			// Start the thread
-			void Start();
+			void Start(bool bIsDetach);
 
 			// Get the ThreadId
 			inline unsigned long long GetId() const
@@ -48,22 +45,16 @@ namespace System
 				return m_iThreadId;
 			}
 
-			// Set the ThreadId
-			inline void SetId(unsigned long long iThreadId)
-			{
-				m_iThreadId = iThreadId;
-			}
-
 			// Set the Task
 			inline void SetTask(TaskEntry& task)
 			{
-				SetCurTask(&task);
+				SetCurTask(task);
 			}
 
 			// Set the ExitThreadPool
 			void SetIsExitThreadPool(bool bExitThreadPool)
 			{
-				GetCurTask()->SetIsExitPool(bExitThreadPool);
+				GetCurTask().SetIsExitPool(bExitThreadPool);
 			}
 
 		private:
@@ -86,18 +77,6 @@ namespace System
 				m_bDisposed = bDisposed;
 			}
 
-			// Get the IsDetached
-			inline bool GetIsDetached() const
-			{
-				return m_bIsDetached;
-			}
-
-			// Set the IsDetached
-			inline void SetIsDetached(bool bIsDetached)
-			{
-				m_bIsDetached = bIsDetached;
-			}
-
 			// Get the ThreadPool
 			inline IThreadPool* GetThreadPool() const
 			{
@@ -111,15 +90,21 @@ namespace System
 			}
 
 			// Get the Task
-			inline TaskEntry* GetCurTask() const
+			inline TaskEntry& GetCurTask()
 			{
-				return m_pTask;
+				return m_Task;
 			}
 
 			// Set the Task
-			inline void SetCurTask(TaskEntry* pTask)
+			inline void SetCurTask(TaskEntry& Task)
 			{
-				m_pTask = pTask;
+				m_Task = Task;
+			}
+
+			// Set the ThreadId
+			inline void SetId(unsigned long long iThreadId)
+			{
+				m_iThreadId = iThreadId;
 			}
 
 		private:
@@ -130,13 +115,10 @@ namespace System
 			IThreadPool* m_pThreadPool;
 
 			// Task
-			TaskEntry* m_pTask;
+			TaskEntry m_Task;
 		
 			// Current thread
 			std::thread m_CurThread;
-
-			// Thread detach state
-			bool m_bIsDetached;
 
 			// Disposed status
 			bool m_bDisposed;

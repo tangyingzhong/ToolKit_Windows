@@ -9,7 +9,6 @@ using namespace System::Thread;
 MyThread::MyThread(IThreadPool* pThreadPool) :
 	m_iThreadId(0),
 	m_pThreadPool(pThreadPool),
-	m_bIsDetached(true),
 	m_bDisposed(false)
 {
 
@@ -27,12 +26,6 @@ MyThread::~MyThread()
 			m_CurThread.join();
 		}
 	}
-}
-
-// Set thread detach
-void MyThread::SetDetachState(bool bIsDetach)
-{
-	SetIsDetached(bIsDetach);
 }
 
 // Get thread id
@@ -56,12 +49,9 @@ void MyThread::Run()
 {
 	SetId(GetThreadId());
 
-	if (GetCurTask())
-	{
-		GetCurTask()->SetThreadId(GetId());
+	GetCurTask().SetThreadId(GetId());
 
-		(GetCurTask()->GetUserFunc())(GetCurTask());
-	}
+	(GetCurTask().GetUserFunc())(&(GetCurTask()));
 
 	// Add current thread to idel container again
 	if (GetThreadPool())
@@ -71,16 +61,12 @@ void MyThread::Run()
 }
 
 // Start the thread
-void MyThread::Start()
+void MyThread::Start(bool bIsDetach)
 {
 	m_CurThread = std::thread(&MyThread::Run, this);
 
-	if (GetIsDetached())
+	if (bIsDetach)
 	{
 		m_CurThread.detach();
-	}
-	else
-	{
-		m_CurThread.join();
 	}
 }

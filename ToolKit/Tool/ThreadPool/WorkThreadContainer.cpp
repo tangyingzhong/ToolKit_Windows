@@ -15,11 +15,14 @@ WorkThreadContainer::~WorkThreadContainer()
 	if (!GetDisposed())
 	{
 		SetDisposed(true);
+
+		// Close all threads
+		CloseAllThreads();
 	}
 }
 
 // Close all threads
-void WorkThreadContainer::CloseAllThread()
+void WorkThreadContainer::CloseAllThreads()
 {
 	for (std::list<MyThread*>::iterator Iter = m_pWorkList.begin();
 		Iter != m_pWorkList.end();

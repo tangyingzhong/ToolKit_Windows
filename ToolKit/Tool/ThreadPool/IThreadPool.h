@@ -27,18 +27,31 @@ namespace System
 			// Contruct the task
 			TaskEntry():
 				m_iTaskId(0),
+				m_bIsDetached(false),
 				m_iThreadId(0),
-				m_bIsExitPool(false),
 				m_pUserFunc(NULL),
-				m_pUserData(NULL)
+				m_pUserData(NULL),
+				m_pExitPoolLock(NULL),
+				m_bIsExitPool(false)				
 			{
+				SetExitPoolLock(new std::mutex());
+			}
 
+			// Destruct the task
+			~TaskEntry()
+			{
+				if (GetExitPoolLock())
+				{
+					delete GetExitPoolLock();
+
+					SetExitPoolLock(NULL);
+				}
 			}
 
 			// Copy construct the task
 			TaskEntry(const TaskEntry& other)
 			{
-				//SetIsExitPool(other.GetIsExitPool());
+				SetIsExitPool(other.GetIsExitPool());
 
 				SetTaskId(other.GetTaskId());
 
@@ -54,7 +67,7 @@ namespace System
 			{
 				if (this != &other)
 				{
-					//SetIsExitPool(other.GetIsExitPool());
+					SetIsExitPool(other.GetIsExitPool());
 
 					SetTaskId(other.GetTaskId());
 
@@ -69,9 +82,9 @@ namespace System
 			}
 
 			// Get the IsExitPool
-			inline bool GetIsExitPool()
+			inline bool GetIsExitPool() const
 			{
-				std::lock_guard<std::mutex> Locker(m_ExitPoolLock);
+				std::lock_guard<std::mutex> Locker(*GetExitPoolLock());
 
 				return m_bIsExitPool;
 			}
@@ -79,7 +92,7 @@ namespace System
 			// Set the IsExitPool
 			inline void SetIsExitPool(bool bIsExitPool)
 			{
-				std::lock_guard<std::mutex> Locker(m_ExitPoolLock);
+				std::lock_guard<std::mutex> Locker(*GetExitPoolLock());
 
 				m_bIsExitPool = bIsExitPool;
 			}
@@ -132,9 +145,37 @@ namespace System
 				m_pUserData = pUserData;
 			}
 
+			// Get the IsDetached
+			inline bool GetIsDetached() const
+			{
+				return m_bIsDetached;
+			}
+
+			// Set the IsDetached
+			inline void SetIsDetached(bool bIsDetached)
+			{
+				m_bIsDetached = bIsDetached;
+			}
+
+		private:
+			// Get the ExitPoolLock
+			inline std::mutex* GetExitPoolLock() const
+			{
+				return m_pExitPoolLock;
+			}
+
+			// Set the ExitPoolLock
+			inline void SetExitPoolLock(std::mutex* pExitPoolLock)
+			{
+				m_pExitPoolLock = pExitPoolLock;
+			}
+
 		private:
 			// Task id
 			int m_iTaskId;
+			
+			// Is detach the task
+			bool m_bIsDetached;
 			
 			// Thread id (Read not for write)
 			unsigned long long m_iThreadId;
@@ -146,8 +187,8 @@ namespace System
 			void* m_pUserData;
 		
 			// Lock for the thread pool exit
-			std::mutex m_ExitPoolLock;
-
+			std::mutex* m_pExitPoolLock;
+			
 			// Is exit the thread pool
 			bool m_bIsExitPool;
 		};
@@ -165,7 +206,7 @@ namespace System
 			virtual void Start() = 0;
 
 			// Stop pool
-			virtual int Stop(bool bForce) = 0;
+			virtual int Stop(bool bForce = false) = 0;
 
 			// Add Task to pool
 			virtual bool AddTask(TaskEntry& task) = 0;

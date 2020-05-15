@@ -44,7 +44,7 @@ namespace System
 			virtual void Start();
 
 			// Stop pool
-			virtual int Stop(bool bForce);
+			virtual int Stop(bool bForce = false);
 
 			// Add Task to pool
 			virtual bool AddTask(TaskEntry& task);
@@ -56,6 +56,9 @@ namespace System
 			virtual std::string GetErrorMsg();
 
 		private:
+			// Run the pool
+			void Run();
+
 			// Create idel container
 			void CreateIdelContainer();
 
@@ -64,9 +67,6 @@ namespace System
 
 			// Destory busy container
 			void DestoryBusyContainer();
-
-			// Run the pool
-			void Run();
 
 			// Get a task
 			bool GetOneTask(TaskEntry& task);
@@ -83,14 +83,17 @@ namespace System
 			// Add to idel container
 			bool AddToIdelContainer(MyThread* pThread);
 
-			// Configure the thread
-			bool ConfigureThread(MyThread* pThread, TaskEntry& task, bool bDetached);
-
 			// Start thread
-			void StartThread(MyThread* pThread);
+			bool StartTaskThread(MyThread* pThread, TaskEntry& Task);
 
 			// Get thread id
 			unsigned long long GetThreadId();
+
+			// Wait for busy threads' exit
+			bool IsAllBusyThreadsExited();
+
+			// Force to exit all busy threads
+			void ForceExitAllBusyThreads();
 
 		private:
 			// Get the disposed status
@@ -177,7 +180,22 @@ namespace System
 				m_bStopPool = bStopPool;
 			}
 
+			// Get the MonitorThreadId
+			inline unsigned long long GetMonitorThreadId() const
+			{
+				return m_iMonitorThreadId;
+			}
+
+			// Set the MonitorThreadId
+			inline void SetMonitorThreadId(unsigned long long iMonitorThreadId)
+			{
+				m_iMonitorThreadId = iMonitorThreadId;
+			}
+
 		private:
+			// Monitor thread id
+			unsigned long long m_iMonitorThreadId;
+			
 			// Monitor thread
 			std::thread m_MonitorThread;
 
