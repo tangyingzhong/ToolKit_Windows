@@ -18,31 +18,31 @@ TaskContainer::~TaskContainer()
 }
 
 // Add task
-int TaskContainer::AddTask(TaskEntry& task)
+int TaskContainer::AddTask(TaskEntry* pTask)
 {
 	if (m_TaskQueue.size() > MAX_TASK_QUEUE)
 	{
 		return 1;
 	}
 
-	m_TaskQueue.push(task);
+	m_TaskQueue.push(pTask);
 
 	return 0;
 }
 
 // Get a task
-bool TaskContainer::GetOneTask(TaskEntry& task)
+TaskEntry* TaskContainer::GetOneTask()
 {
 	if (IsEmpty())
 	{
-		return false;
+		return NULL;
 	}
 
-	task = m_TaskQueue.front();
+	TaskEntry* pTask = m_TaskQueue.front();
 
 	m_TaskQueue.pop();
 
-	return true;
+	return pTask;
 }
 
 // Is empty

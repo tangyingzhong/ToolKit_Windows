@@ -46,15 +46,15 @@ namespace System
 			}
 
 			// Set the Task
-			inline void SetTask(TaskEntry& task)
+			inline void SetTask(TaskEntry* pTask)
 			{
-				SetCurTask(task);
+				SetCurTask(pTask);
 			}
 
 			// Set the ExitThreadPool
 			void SetIsExitThreadPool(bool bExitThreadPool)
 			{
-				GetCurTask().SetIsExitPool(bExitThreadPool);
+				GetCurTask()->SetIsExitPool(bExitThreadPool);
 			}
 
 		private:
@@ -90,15 +90,15 @@ namespace System
 			}
 
 			// Get the Task
-			inline TaskEntry& GetCurTask()
+			inline TaskEntry* GetCurTask()
 			{
-				return m_Task;
+				return m_pTask;
 			}
 
 			// Set the Task
-			inline void SetCurTask(TaskEntry& Task)
+			inline void SetCurTask(TaskEntry* pTask)
 			{
-				m_Task = Task;
+				m_pTask = pTask;
 			}
 
 			// Set the ThreadId
@@ -115,7 +115,7 @@ namespace System
 			IThreadPool* m_pThreadPool;
 
 			// Task
-			TaskEntry m_Task;
+			TaskEntry* m_pTask;
 		
 			// Current thread
 			std::thread m_CurThread;

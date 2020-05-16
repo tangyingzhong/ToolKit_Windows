@@ -14,6 +14,7 @@ ThreadPool::ThreadPool(int threadNum) :
 	m_pIdelContainer(NULL),
 	m_bStopPool(false),
 	m_bForceStop(false),
+	m_bTransferOk(false),
 	m_strErrorText(""),
 	m_bDisposed(false)
 {
@@ -92,6 +93,13 @@ bool ThreadPool::IsAllBusyThreadsExited()
 		return false;
 	}
 
+	if (!GetTransferOk())
+	{
+		std::cout << "Wait for thread's transferring ok !" << std::endl;
+
+		return false;
+	}
+
 	return true;
 }
 
@@ -110,40 +118,35 @@ void ThreadPool::Run()
 				// Force to exit all busy threads
 				ForceExitAllBusyThreads();
 
-				// Destory idel container
-				DestoryIdelContainer();
-
 				std::cout << "Force to exit the thread pool" << std::endl;
-
-				break;
 			}
 			else
 			{
-				// Wait for all busy threads' exit
-				if (!IsAllBusyThreadsExited())
-				{
-					continue;
-				}
-
-				// Destory idel container
-				DestoryIdelContainer();
-
 				std::cout << "Not force to exit the pool" << std::endl;
-
-				break;
 			}
+
+			// Wait for all busy threads' exit
+			if (!IsAllBusyThreadsExited())
+			{
+				continue;
+			}
+
+			// Destory idel container
+			DestoryIdelContainer();
+
+			break;
 		}
 
 		// Get a task
-		TaskEntry task;
-		if (!GetOneTask(task))
+		TaskEntry* pCurTask = GetOneTask();
+		if (pCurTask == NULL || pCurTask->IsEmpty())
 		{
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 			continue;
 		}
 
-		std::cout << "Get a task to run: " << std::to_string(task.GetTaskId()) << std::endl;
+		std::cout << "Get a task to run: " << std::to_string(pCurTask->GetTaskId()) << std::endl;
 
 		// Get an idel thread 
 		MyThread* pThread = GetAnIdelThread();
@@ -159,7 +162,7 @@ void ThreadPool::Run()
 		std::cout << "Idel container size :" << GetIdelTable()->GetSize() << std::endl;
 
 		// Start thread
-		if (!StartTaskThread(pThread, task))
+		if (!StartTaskThread(pThread, pCurTask))
 		{
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
@@ -171,7 +174,7 @@ void ThreadPool::Run()
 }
 
 // Start thread
-bool ThreadPool::StartTaskThread(MyThread* pThread,TaskEntry& Task)
+bool ThreadPool::StartTaskThread(MyThread* pThread,TaskEntry* pTask)
 {
 	if (pThread == NULL)
 	{
@@ -180,9 +183,9 @@ bool ThreadPool::StartTaskThread(MyThread* pThread,TaskEntry& Task)
 		return false;
 	}
 
-	pThread->SetTask(Task);
+	pThread->SetTask(pTask);
 
-	if (!Task.GetIsDetached())
+	if (!pTask->GetIsDetached())
 	{
 		// Add the thread to work container
 		AddToWorkContainer(pThread);
@@ -192,7 +195,7 @@ bool ThreadPool::StartTaskThread(MyThread* pThread,TaskEntry& Task)
 		std::cout << "work container size :" << m_WorkContainer.GetSize() << std::endl;
 	}
 
-	pThread->Start(Task.GetIsDetached());
+	pThread->Start(pTask->GetIsDetached());
 
 	return true;
 }
@@ -219,29 +222,26 @@ int ThreadPool::Stop(bool bForce)
 }
 
 // Get a task
-bool ThreadPool::GetOneTask(TaskEntry& task)
+TaskEntry* ThreadPool::GetOneTask()
 {
 	if (m_TaskContainer.IsEmpty())
 	{
-		return false;
+		return NULL;
 	}
 
 	std::lock_guard<std::mutex> Locker(m_TaskLock);
 
-	if (!m_TaskContainer.GetOneTask(task))
-	{
-		return false;
-	}
+	TaskEntry* pTask = m_TaskContainer.GetOneTask();
 
-	return true;
+	return pTask;
 }
 
 // Add Task to pool
-bool ThreadPool::AddTask(TaskEntry& task)
+bool ThreadPool::AddTask(TaskEntry* pTask)
 {
 	std::lock_guard<std::mutex> Locker(m_TaskLock);
 
-	if (m_TaskContainer.AddTask(task) == 1)
+	if (m_TaskContainer.AddTask(pTask) == 1)
 	{
 		SetErrorText("Task container is full now !");
 
@@ -342,6 +342,8 @@ bool ThreadPool::Transfer(MyThread* pThread)
 	std::cout << "Re-add to the idel container" << std::endl;
 
 	std::cout << "Final idel container size :" << GetIdelTable()->GetSize() << std::endl;
+
+	SetTransferOk(true);
 
 	return true;
 }

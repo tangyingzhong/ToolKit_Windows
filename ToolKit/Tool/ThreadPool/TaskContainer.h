@@ -38,10 +38,10 @@ namespace System
 
 		public:
 			// Add task
-			int AddTask(TaskEntry& task);
+			int AddTask(TaskEntry* pTask);
 
 			// Get a task
-			bool GetOneTask(TaskEntry& task);
+			TaskEntry* GetOneTask();
 
 			// Is empty
 			bool IsEmpty();
@@ -61,7 +61,7 @@ namespace System
 
 		private:
 			// Task queue
-			std::queue<TaskEntry> m_TaskQueue;
+			std::queue<TaskEntry*> m_TaskQueue;
 
 			// Disposed status
 			bool m_bDisposed;

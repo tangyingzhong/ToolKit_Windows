@@ -49,9 +49,9 @@ void MyThread::Run()
 {
 	SetId(GetThreadId());
 
-	GetCurTask().SetThreadId(GetId());
+	GetCurTask()->SetThreadId(GetId());
 
-	(GetCurTask().GetUserFunc())(&(GetCurTask()));
+	(GetCurTask()->GetUserFunc())(GetCurTask());
 
 	// Add current thread to idel container again
 	if (GetThreadPool())

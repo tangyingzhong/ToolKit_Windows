@@ -32,10 +32,6 @@ void WorkThreadContainer::CloseAllThreads()
 
 		// Force to exit the thread pool
 		pThread->SetIsExitThreadPool(true);
-
-		delete pThread;
-
-		pThread = NULL;
 	}
 }
 
