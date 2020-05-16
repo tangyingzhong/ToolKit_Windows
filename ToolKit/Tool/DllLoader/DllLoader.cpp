@@ -70,6 +70,15 @@ Boolean DllLoader::Load(String strLibraryName, String& strErrorMsg)
 
 	DWORD dErrorCode = GetLastError();
 
+	if (dErrorCode == 126)
+	{
+		strErrorMsg = String(_T("Failed to load dll,you may need to add thirdth libraries."));
+
+		MessageBox(NULL, strErrorMsg.CStr(), _T("DllLoader Error"), 0);
+
+		return false;
+	}
+
 	strErrorMsg = String(_T("Failed to load dll . Error code: %d")).Arg((Int32)dErrorCode);
 
 	MessageBox(NULL, strErrorMsg.CStr(),_T("DllLoader Error"), 0);
