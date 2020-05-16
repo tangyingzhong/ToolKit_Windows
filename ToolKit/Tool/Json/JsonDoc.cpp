@@ -395,7 +395,9 @@ JsonDocument::JsonString JsonDocument::ToJson()
 
 	std::string strJson = GetJsonObject().toStyledString();
 
-	return strJson;
+	String strData = String(strJson,ENCODE_UTF8);
+
+	return strData;
 }
 
 // Append the data
@@ -428,7 +430,7 @@ JsonDocument& JsonDocument::Append(JsonDocument JsonObject)
 // Append the data
 JsonDocument& JsonDocument::Append(JsonString strValue)
 {
-	m_JsonObject.append(strValue.ToANSIData());
+	m_JsonObject.append(strValue.ToUTF8Data());
 
 	return *this;
 }
@@ -480,7 +482,7 @@ None JsonDocument::Set(JsonString strKey, JsonObject Value)
 		return;
 	}
 
-	m_JsonObject[strKey.ToANSIData()] = Value;
+	m_JsonObject[strKey.ToUTF8Data()] = Value;
 }
 
 // Get the value of key
@@ -571,7 +573,7 @@ None JsonDocument::SetKeyValue(JsonString strKey, JsonString strValue)
 		return;
 	}
 
-	Set(strKey, strValue.ToANSIData());
+	Set(strKey, strValue.ToUTF8Data());
 }
 
 // Set the key's value
