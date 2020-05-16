@@ -58,6 +58,9 @@ namespace System
 
 			// Construct the string auto from wide string from ansi string
 			String(std::wstring strWString);
+
+			// Contruct a string with STL string
+			String(std::string OtherStdString, ENCODE_TYPE_ENUM eEncodeType);
 #endif
 			// Contruct a string with STL string
 			String(StdString OtherStdString);

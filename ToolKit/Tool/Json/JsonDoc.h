@@ -50,13 +50,13 @@ namespace System
 
 	public:
 		// Json file to obejct 
-		static JsonDocument FromJsonFile(JsonString strFilePath);
+		static JsonDocument FromJsonFile(JsonString strFilePath, JsonString& strErrorMsg);
 
 		// String to object
-		static JsonDocument FromJson(JsonString& strJson);
+		static JsonDocument FromJson(JsonString& strJson,JsonString& strErrorMsg);
 
 		// To map
-		None ToMap(std::map<std::string,std::string>& MapTable);
+		None ToMap(std::map<std::string, std::string>& MapTable);
 
 		// Object to string
 		JsonString ToJson();
@@ -101,7 +101,7 @@ namespace System
 		None SetKeyValue(JsonString strKey, Real dValue);
 
 		// Set the key's value
-		None SetKeyValue(JsonString strKey, Boolean bValue);
+		None SetKeyValue(JsonString strKey, Boolean bIsBoolValue, Boolean bValue);
 
 		// Set array
 		None SetArray(JsonDocument& JsonDoc);
@@ -148,6 +148,9 @@ namespace System
 		// Is the object to be an array
 		Boolean IsArray();
 
+		// Get error message
+		String GetErrorMsg();
+
 	private:
 		// Initialize the library
 		None Initialize();
@@ -166,6 +169,9 @@ namespace System
 
 		// Parse the json file
 		Boolean ParseFromFile(JsonString strJsonFilePath);
+
+		// Parse from the string
+		Boolean ParseFromData(String strData,JsonDocument& JsonDoc);
 
 	private:		
 		// Get the JsonObject
@@ -192,10 +198,25 @@ namespace System
 			return m_bDisposed;
 		}
 
+		// Get the ErrorText
+		inline String GetErrorText() const
+		{
+			return m_strErrorText;
+		}
+
+		// Set the ErrorText
+		inline void SetErrorText(String strErrorText)
+		{
+			m_strErrorText = strErrorText;
+		}
+
 	private:
 		// Json value
 		JsonObject m_JsonObject;
 
+		// Error message
+		String m_strErrorText;
+		
 		// Disposed status
 		Boolean m_bDisposed;	
 	};

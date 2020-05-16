@@ -16,65 +16,39 @@ namespace String_UnitTest
 
 			Assert::IsTrue(strFinal == _T("I don't know every thing"));
 
-			std::string strWhat1 = "其实我也不知道为甚";
+			std::string strWhat1 = "其实我不知道啊";
 
 			String strFinal1 = strWhat1;
 
-			Assert::IsTrue(strFinal1 == _T("其实我也不知道为甚"));
+			Assert::IsTrue(strFinal1 == "其实我不知道啊");
 
-			std::string strUtf8 = UTF8::GetString(strFinal1.CStr());
+			std::wstring strTest1 = L"我在游荡人间，你可知否";
 
-			std::string strFinal21 = ANSI::GetString(strUtf8,ENCODE_UTF8);
+			String strTest11 = strTest1;
 
-			Assert::IsTrue(strWhat1 == strFinal21);
+			Assert::IsTrue(strTest11 == L"我在游荡人间，你可知否");
 		}
 
-		TEST_METHOD(TestMethod_Constrcutor2)
+		TEST_METHOD(TestMethod_UTF8)
 		{
-			std::string strFileData;
+			std::string strFileData = GetFileData(_T("D:\\app.txt"));
 
-			{
-				File FileHelper;
+			String strTest23 = String(strFileData, ENCODE_UTF8);
 
-				FileHelper.Open(_T("C:\\Users\\Administrator\\Desktop\\yu.txt"), File::FileMode::OPEN, File::FileAccess::READ);
+			std::string strUtf8 = strTest23.ToUTF8Data();
 
-				SByte Buffer[1024] = {0};
+			std::string strAnsi = strTest23.ToANSIData();
 
-				FileHelper.Read(Buffer, 0, 1024);
+			std::wstring strUnicode = strTest23.ToUnicodeData();
 
-				strFileData = Buffer;
+			std::string strFileData1 = GetFileData(_T("D:\\app1.txt"));
 
-				FileHelper.Close();
-			}
+			String strTest33 = strFileData1;
 
-			String strData = String(strFileData,ENCODE_UTF8);
+			std::wstring strBigFileData1 = Unicode::GetString(strFileData1, ENCODE_ANSI);
 
-			std::cout << strData.ToANSIData() << std::endl;
+			String strTest34 = strBigFileData1;
 		}
-
-		TEST_METHOD(TestMethod_Constrcutor3)
-		{
-			SByte Buffer[1024] = { 0 };
-
-			{
-				File FileHelper;
-
-				FileHelper.Open(_T("C:\\Users\\Administrator\\Desktop\\yu.txt"), File::FileMode::OPEN, File::FileAccess::READ);
-
-				FileHelper.Read(Buffer, 0, 1024);
-
-				FileHelper.Close();
-			}
-
-			const char* pData = Buffer;
-
-			String strData = String(pData, ENCODE_UTF8);
-
-			String strData2 = String("我会回复",ENCODE_ANSI);
-
-			std::cout << strData.ToANSIData() << std::endl;
-		}
-
 		TEST_METHOD(TestMethod_Arg)
 		{
 			String strTest1 = _T("Source_test_string:%d + %f=%lf,%s");
@@ -278,7 +252,7 @@ namespace String_UnitTest
 
 			std::wstring w = strTest.AllocWideString();
 
-			Assert::IsTrue(w == strTest.CStr());
+			Assert::IsTrue(w == strTest.ToUnicodeData());
 		}
 
 		TEST_METHOD(TestMethod_ToANSIData)
@@ -296,7 +270,7 @@ namespace String_UnitTest
 
 			std::wstring w = strTest.ToUnicodeData();
 
-			Assert::IsTrue(w == strTest.CStr());
+			Assert::IsTrue(w == strTest.ToUnicodeData());
 		}
 
 		TEST_METHOD(TestMethod_MakeUpper)
@@ -427,6 +401,26 @@ namespace String_UnitTest
 			String strData2 = String::ToString<Real>(Data2);
 
 			Assert::IsTrue(strData2.IsContain(_T("9089.52")));
+		}
+
+	private:
+		// Get a string
+		std::string GetFileData(String strFilePath)
+		{
+			File FileHelper;
+
+			if (!FileHelper.Open(strFilePath, File::FileMode::OPEN, File::FileAccess::READWRITE))
+			{
+				return "";
+			}
+
+			SByte buffer[1024] = { 0 };
+
+			FileHelper.Read(buffer, 0, 1024);
+
+			FileHelper.Close();
+
+			return buffer;
 		}
 	};
 }

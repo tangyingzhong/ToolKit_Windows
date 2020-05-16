@@ -30,7 +30,7 @@ namespace Directory_UnitTest
 
 			if (!Directory::Copy(strSrcDirPath, strDestDirPath))
 			{
-				Assert::Fail(_T("Failed to copy directory!"));
+				Assert::Fail(String(_T("Failed to copy directory!")).ToUnicodeData().c_str());
 			}
 		}
 

@@ -9,8 +9,7 @@ using namespace System::Encoding;
 // Convert a Unicode buffer to ANSI string
 ANSI::StdString ANSI::GetString(WCharArray UnicodeBuffer,
 	Index iPos,
-	Length iCount,
-	EncodeType eEncodeType)
+	Length iCount)
 {
 	if (UnicodeBuffer==NULL)
 	{

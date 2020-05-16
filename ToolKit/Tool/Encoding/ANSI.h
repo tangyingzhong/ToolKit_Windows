@@ -48,8 +48,7 @@ namespace System
 			// Get mutilbytes from Unicode array Notice: count must contain '\0'
 			static StdString GetString(WCharArray UnicodeBuffer, 
 				Index iPos, 
-				Length iCount,
-				EncodeType eEncodeType);
+				Length iCount);
 
 			// Get mutilbytes from Unicode string
 			static StdString GetString(WStdString UnicodeString);
@@ -58,10 +57,10 @@ namespace System
 			static StdString GetString(SCharArray MultibyteBuffer,
 				Index iPos,
 				Length iCount,
-				EncodeType eEncodeType);
+				EncodeType eEncodeType = ENCODE_ANSI);
 
 			// Get mutilbytes from multibyte string
-			static StdString GetString(StdString strMultiString,EncodeType eEncodeType);
+			static StdString GetString(StdString strMultiString,EncodeType eEncodeType = ENCODE_ANSI);
 
 		private:
 			// Convert UTF8 to Mutilbytes

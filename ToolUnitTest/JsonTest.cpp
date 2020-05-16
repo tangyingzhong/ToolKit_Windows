@@ -10,24 +10,39 @@ namespace Json_UnitTest
 	public:
 		TEST_METHOD(Test_FromJsonFile)
 		{
-			JsonDocument JsonDoc1 = JsonDocument::FromJsonFile(_T("D:\\data.json"));
+			String strErrorMsg;
+
+			JsonDocument JsonDoc1 = JsonDocument::FromJsonFile(_T("D:\\System.json"), strErrorMsg);
 
 			Boolean bRet1 = JsonDoc1.IsNull();
 
 			Assert::IsTrue(bRet1 == false);
 		}
 
-		TEST_METHOD(Test_GetKeys)
+		TEST_METHOD(Test_GetKeysTest)
 		{
-			JsonDocument JsonDoc = JsonDocument::FromJsonFile(_T("D:\\data.json"));
+			String strErrorMsg;
+
+			JsonDocument JsonDoc = JsonDocument::FromJsonFile(_T("D:\\System.json"), strErrorMsg);
 
 			JsonDocument::KeyTable Table;
 			if (!JsonDoc.GetKeys(Table))
 			{
-				Assert::Fail(_T("Failed to get all keys under this root key"));
+				Assert::Fail(String(_T("Failed to get all keys under this root key")).ToUnicodeData().c_str());
 			}
+		}
 
-			Assert::IsTrue(JsonDoc.IsContain(_T("姓名")));
+		TEST_METHOD(Test_GetKeys)
+		{
+			String strErrorMsg;
+
+			JsonDocument JsonDoc = JsonDocument::FromJsonFile(_T("D:\\System1.json"), strErrorMsg);
+
+			vector<String> ValueTable;
+
+			JsonDocument JsonObject = JsonDoc.GetKeyValue(_T("App"));
+
+			String strData = JsonObject.GetKeyValue(_T("设备ID")).ToString();
 		}
 
 		TEST_METHOD(Test_FromJson)
@@ -42,7 +57,9 @@ namespace Json_UnitTest
 				\"systemName\" : \"SHENGYANG\",\
 				\"wsdl_vpr_host\" : \"http://192.168.0.101:49090\"}");
 
-			JsonDocument JsonDoc = JsonDocument::FromJson(strJson);
+			String strErrorMsg;
+
+			JsonDocument JsonDoc = JsonDocument::FromJson(strJson,strErrorMsg);
 
 			String strAddr = JsonDoc.GetKeyValue(_T("地址")).ToString();
 
@@ -79,13 +96,13 @@ namespace Json_UnitTest
 
 			JsonObject.SetKeyValue(_T("Result"), 5.62);
 
-			JsonObject.SetKeyValue(_T("IsOpen"), false);
+			JsonObject.SetKeyValue(_T("IsOpen"), false,true);
 
 			JsonDocument JsonDoc;
 
 			JsonDoc.SetKeyValue(_T("App"), JsonObject);
 
-			JsonDoc.Flush(_T("D:\\data1.json"));
+			JsonDoc.Flush(_T("D:\\System1.json"));
 		}
 
 		TEST_METHOD(Test_Append)
@@ -108,12 +125,14 @@ namespace Json_UnitTest
 
 			JsonDoc.SetKeyValue(_T("Province"), JsonObject);
 
-			JsonDoc.Flush(_T("D:\\data2.json"));
+			JsonDoc.Flush(_T("D:\\System2.json"));
 		}
 
 		TEST_METHOD(Test_GetKeyValue)
 		{
-			JsonDocument JsonDoc = JsonDocument::FromJsonFile(_T("D:\\Province.json"));
+			String strErrorMsg;
+
+			JsonDocument JsonDoc = JsonDocument::FromJsonFile(_T("D:\\System2.json"),strErrorMsg);
 
 			Assert::IsTrue(!JsonDoc.IsNull());
 
@@ -145,10 +164,12 @@ namespace Json_UnitTest
 
 			if (!FileHelper.Open(_T("D:\\AA.json"),File::FileMode::CREATE,File::FileAccess::READWRITE))
 			{
-				Assert::Fail(_T("Failed to create a file"));
+				Assert::Fail(String(_T("Failed to create a file")).ToUnicodeData().c_str());
 			}
 
-			FileHelper.Write((SByteArray)strProName.ToUTF8Data().c_str(), 0, static_cast<File::ArraySize>(strProName.ToUTF8Data().length()));
+			FileHelper.Write((SByteArray)strProName.ToUTF8Data().c_str(),
+				0, 
+				static_cast<File::ArraySize>(strProName.ToUTF8Data().length()));
 
 			FileHelper.Close();
 		}
@@ -175,12 +196,39 @@ namespace Json_UnitTest
 
 			if (!FileHelper.Open(_T("D:\\ToJson.json"), File::FileMode::CREATE, File::FileAccess::READWRITE))
 			{
-				Assert::Fail(_T("Failed to create a file"));
+				Assert::Fail(String(_T("Failed to create a file")).ToUnicodeData().c_str());
 			}
 
-			FileHelper.Write((SByteArray)strJson.ToUTF8Data().c_str(), 0, static_cast<File::ArraySize>(strJson.ToUTF8Data().length()));
+			FileHelper.Write((SByteArray)strJson.ToUTF8Data().c_str(),
+				0,
+				static_cast<File::ArraySize>(strJson.ToUTF8Data().length()));
 
 			FileHelper.Close();
+		}
+
+		TEST_METHOD(Test_Parse)
+		{
+			String strErrorMsg;
+
+			JsonDocument JsonDoc = JsonDocument::FromJsonFile(_T("D:\\System1.json"), strErrorMsg);
+
+			Assert::IsTrue(!JsonDoc.IsNull());
+
+			String strText1 = JsonDoc.GetKeyValue("App").GetKeyValue("Banana").ToString();
+
+			String strText2 = JsonDoc.GetKeyValue("App").GetKeyValue("Person").ToString();
+
+			String strText3 = JsonDoc.GetKeyValue("App").GetKeyValue("设备ID").ToString();
+
+			Int32 iRet1 = JsonDoc.GetKeyValue("App").GetKeyValue("Computers").ToInt();
+
+			Real dRet1 = JsonDoc.GetKeyValue("App").GetKeyValue("Result").ToDouble();
+
+			Boolean bRet1 = JsonDoc.GetKeyValue("App").GetKeyValue("IsOpen").ToBool();
+
+			std::map<std::string, std::string> CurMap;
+
+			JsonDoc.ToMap(CurMap);
 		}
 	};
 }

@@ -37,32 +37,55 @@ String::String(std::string strMultiString, ENCODE_TYPE_ENUM eEncodeType) :
 	}
 	else if (ENCODE_UTF8)
 	{
-		std::string strAnsi = ANSI::GetString(strMultiString, ENCODE_UTF8);
-
-		strFinal = Unicode::GetString(strAnsi,ENCODE_ANSI);
+		strFinal = Unicode::GetString(strMultiString, ENCODE_UTF8);
 	}
 
 	Initialize(strFinal);
 }
 #else
-// Construct the c-string auto from wide string from ansi string
-String::String(const WByteArray pStrWideString)
+// Construct the c-string(wide string's code is Ansi)
+String::String(const WByteArray pStrWideString):
+	m_StdString(_T("")),
+	m_Length(0),
+	m_pCArray(NULL),
+	m_Disposed(false)
 {
 	std::wstring strWideString = pStrWideString;
 
 	*this = String(strWideString);
 }
 
-// Construct the string auto from wide string from ansi string
+// Construct the string(wide string's code is Ansi)
 String::String(std::wstring strWString):
 	m_StdString(_T("")),
 	m_Length(0),
 	m_pCArray(NULL),
 	m_Disposed(false)
 {
-	std::string strAnsi=ANSI::GetString(strWString,ENCODE_ANSI);
+	std::string strData = ANSI::GetString(strWString);
 
-	Initialize(strAnsi);
+	Initialize(strData);
+}
+
+// Contruct a string with STL string
+String::String(StdString OtherStdString, ENCODE_TYPE_ENUM eEncodeType) :
+	m_StdString(_T("")),
+	m_Length(0),
+	m_pCArray(NULL),
+	m_Disposed(false)
+{
+	std::string strData;
+
+	if (eEncodeType == ENCODE_ANSI)
+	{
+		strData = ANSI::GetString(OtherStdString, ENCODE_ANSI);
+	}
+	else if (eEncodeType == ENCODE_UTF8)
+	{
+		strData = ANSI::GetString(OtherStdString, ENCODE_UTF8);
+	}
+
+	Initialize(strData);
 }
 #endif
 
@@ -472,39 +495,45 @@ System::WByteArray String::AllocWideString()
 	return m_WideArray.Data();
 }
 
-// Utf8 string(Unicode->ANSI->UTF8 or ANSI->UTF8)
+// Get UTF8 string (Note: current string must be Ansi code)
 std::string String::ToUTF8Data()
 {
+	std::string strUtf8 = "";
+
 #ifdef UNICODE
 	std::string strAnsi = ANSI::GetString(GetStdString());
 
-	std::string strUtf8 = UTF8::GetString(strAnsi, ENCODE_ANSI);
+	strUtf8 = UTF8::GetString(strAnsi, ENCODE_ANSI);
 #else
-	std::string strUtf8 = UTF8::GetString(GetStdString(), ENCODE_ANSI);
+	strUtf8 = UTF8::GetString(GetStdString(), ENCODE_ANSI);
 #endif
 
 	return strUtf8;
 }
 
-// ANSI string(UNICODE->ANSI or ANSI)
+// Get Ansi string (Note: current string must be Ansi code)
 std::string String::ToANSIData()
 {
+	std::string strAnsi = "";
+
 #ifdef UNICODE
-	std::string strAnsi = ANSI::GetString(GetStdString());
+	strAnsi = ANSI::GetString(GetStdString());
 #else
-	std::string strAnsi = ANSI::GetString(GetStdString(),ENCODE_ANSI);
+	strAnsi = GetStdString();
 #endif
 
 	return strAnsi;
 }
 
-// Data of the string
+// Get Unicode string (Note: current string must be Ansi code)
 std::wstring String::ToUnicodeData()
 {
+	std::wstring strData = L"";
+
 #ifdef UNICODE
-	std::wstring strData = GetStdString();
+	strData = GetStdString();
 #else
-	std::wstring strData = Unicode::GetString(GetStdString(), ENCODE_ANSI);
+	strData = Unicode::GetString(GetStdString(), ENCODE_ANSI);
 #endif
 
 	return strData;

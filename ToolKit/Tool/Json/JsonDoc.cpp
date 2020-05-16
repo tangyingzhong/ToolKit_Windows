@@ -4,6 +4,7 @@
 #include "Tool/Encoding/UTF8.h"
 #include "Tool/BaseType/Int.h"
 #include "Tool/BaseType/Double.h"
+#include "Tool/BaseType/Bool.h"
 #include "Tool/File/File.h"
 #include "JsonDoc.h"
 
@@ -11,7 +12,9 @@ using namespace System;
 using namespace System::IO;
 
 // Construct the JsonDocument with json file
-JsonDocument::JsonDocument() :m_bDisposed(false)
+JsonDocument::JsonDocument() :
+	m_strErrorText(""),
+	m_bDisposed(false)
 {
 	Initialize();
 }
@@ -74,6 +77,8 @@ Boolean JsonDocument::ParseFromFile(JsonString strJsonFilePath)
 {
 	if (strJsonFilePath.IsEmpty())
 	{
+		SetErrorText("Input file path is empty !");
+
 		return false;
 	}
 
@@ -81,8 +86,14 @@ Boolean JsonDocument::ParseFromFile(JsonString strJsonFilePath)
 
 	FileStream.open(strJsonFilePath.ToANSIData(), std::ios::binary);
 
-	if (!JsonReader().parse(FileStream, GetJsonObject()))
+	JsonReader Reader;
+
+	if (!Reader.parse(FileStream, GetJsonObject()))
 	{
+		std::string strErrorText = Reader.getFormatedErrorMessages();
+
+		SetErrorText(String(strErrorText, ENCODE_UTF8));
+
 		FileStream.close();
 
 		return false;
@@ -96,13 +107,27 @@ Boolean JsonDocument::ParseFromFile(JsonString strJsonFilePath)
 // Is the object null or not
 Boolean JsonDocument::IsNull()
 {
-	return GetJsonObject().isNull();
+	if (GetJsonObject().isNull())
+	{
+		SetErrorText("Json object is empty !");
+
+		return true;
+	}
+
+	return false;
 }
 
 // Is Object
 Boolean JsonDocument::IsObject()
 {
-	return GetJsonObject().isObject();
+	if (!GetJsonObject().isObject())
+	{
+		SetErrorText("Json is not an object !");
+
+		return false;
+	}
+
+	return true;
 }
 
 // Is the object bool value
@@ -140,6 +165,8 @@ Boolean JsonDocument::WriteToFile(JsonString strFileName)
 {
 	if (strFileName.IsEmpty())
 	{
+		SetErrorText("File path is empty !");
+
 		return false;
 	}
 
@@ -149,6 +176,8 @@ Boolean JsonDocument::WriteToFile(JsonString strFileName)
 
 	if (!FileHelper.Open(strFileName, File::FileMode::CREATE, File::FileAccess::READWRITE))
 	{
+		SetErrorText("Failed to create the file !");
+
 		return false;
 	}
 
@@ -166,6 +195,8 @@ Boolean JsonDocument::Flush(JsonString strFilePath)
 {
 	if (strFilePath.IsEmpty())
 	{
+		SetErrorText("File path is empty !");
+
 		return false;
 	}
 
@@ -173,7 +204,7 @@ Boolean JsonDocument::Flush(JsonString strFilePath)
 }
 
 // Json file to obejct
-JsonDocument JsonDocument::FromJsonFile(JsonString strFilePath)
+JsonDocument JsonDocument::FromJsonFile(JsonString strFilePath, JsonString& strErrorMsg)
 {
 	if (strFilePath.IsEmpty())
 	{
@@ -184,21 +215,42 @@ JsonDocument JsonDocument::FromJsonFile(JsonString strFilePath)
 
 	if (!JsonDoc.ParseFromFile(strFilePath))
 	{
+		strErrorMsg = JsonDoc.GetErrorMsg();
+
 		return JsonDocument();
 	}
 
 	return JsonDoc;
 }
 
-// String to object
-JsonDocument JsonDocument::FromJson(JsonString& strJson)
+// Parse from the string
+Boolean JsonDocument::ParseFromData(String strData, JsonDocument& JsonDoc)
 {
 	JsonReader Reader;
 
+	if (!Reader.parse(strData.ToUTF8Data(), JsonDoc.GetJsonObject()))
+	{
+		std::string strErrorText = Reader.getFormatedErrorMessages();
+
+		SetErrorText(String(strErrorText, ENCODE_UTF8));
+
+		return false;
+	}
+
+	return true;
+}
+
+// String to object
+JsonDocument JsonDocument::FromJson(JsonString& strJson, JsonString& strErrorMsg)
+{
+	JsonDocument JsonParser;
+
 	JsonDocument JsonDoc;
 
-	if (!Reader.parse(strJson.ToUTF8Data(), JsonDoc.GetJsonObject()))
+	if (!JsonParser.ParseFromData(strJson,JsonDoc))
 	{
+		strErrorMsg = JsonParser.GetErrorMsg();
+
 		return JsonDocument();
 	}
 
@@ -210,6 +262,8 @@ Boolean JsonDocument::IsContain(JsonString strKey)
 {
 	if (strKey.IsEmpty())
 	{
+		SetErrorText("Key is empty");
+
 		return false;
 	}
 
@@ -261,59 +315,66 @@ None JsonDocument::ToMap(std::map<std::string, std::string>& MapTable)
 		Iter != Mem.end();
 		++Iter)
 	{
-		Json::ValueType Type = GetJsonObject()[*Iter].type();
+		String strMember = String(*Iter,ENCODE_UTF8);
+
+		JsonDocument CurObject = GetKeyValue(strMember);
+
+		Json::ValueType Type = CurObject.GetJsonObject().type();
 
 		switch (Type)
 		{
+		case Json::objectValue:
+		{
+			CurObject.ToMap(MapTable);
+		}
+			break;
 		case Json::stringValue:
 		{
-			MapTable.insert(pair<std::string, std::string>(*Iter,m_JsonObject[*Iter].asString()));
+			MapTable[strMember.ToANSIData()] = CurObject.ToString().ToANSIData();
 		}
 			break;
 
 		case Json::intValue:
 		{
-			Int iValue = m_JsonObject[*Iter].asInt();
+			Int iValue = CurObject.ToInt();
 
-			MapTable.insert(pair<std::string, std::string>(*Iter, iValue.ToString().ToANSIData()));
+			MapTable[strMember.ToANSIData()] = iValue.ToString().ToANSIData();
 		}
 			break;
 
 		case Json::realValue:
 		{
-			Double dValue = m_JsonObject[*Iter].asDouble();
+			Double dValue = CurObject.ToDouble();
 
-			MapTable.insert(pair<std::string, std::string>(*Iter, dValue.ToString().ToANSIData()));
+			MapTable[strMember.ToANSIData()] = dValue.ToString().ToANSIData();
 		}
 			break;
 
 		case Json::booleanValue:
 		{
-			bool bValue = m_JsonObject[*Iter].asBool();
+			Bool bValue = CurObject.ToBool();
 
-			std::string strBValue = bValue == true ? "true" : "false";
-
-			MapTable.insert(pair<std::string, std::string>(*Iter, strBValue));
+			MapTable[strMember.ToANSIData()] = bValue.ToString().ToANSIData();
 		}
 			break;
 
 		case Json::arrayValue:
 		{
-			std::string strArrayValue;
+			String strArrayValue;
 
 			for (int iIndex = 0; iIndex < (int)m_JsonObject.size();++iIndex)
 			{
-				strArrayValue += m_JsonObject[*Iter].asString();
+				strArrayValue = strArrayValue + CurObject.ToString();
 
-				strArrayValue += ",";
+				strArrayValue = strArrayValue + ",";
 			}
 
-			if (!strArrayValue.empty())
+			if (!strArrayValue.IsEmpty())
 			{
-				strArrayValue = strArrayValue.substr(0, strArrayValue.length() - 1);
+				strArrayValue = strArrayValue.Left(strArrayValue.GetLength()-1);
 			}
 
-			MapTable.insert(pair<std::string, std::string>(*Iter, strArrayValue));
+			MapTable[strMember.ToANSIData()] = strArrayValue.ToANSIData();
 		}
 			break;
 
@@ -391,8 +452,10 @@ JsonDocument& JsonDocument::Append(Real dValue)
 // Remove one element
 JsonDocument& JsonDocument::RemoveAt(Int32 iIndex)
 {
-	if (iIndex<0)
+	if (iIndex < 0)
 	{
+		SetErrorText("Failed to remove object ,index you input is irrlegal,check it please !");
+
 		return *this;
 	}
 
@@ -404,7 +467,9 @@ JsonDocument& JsonDocument::RemoveAt(Int32 iIndex)
 // Get key's value
 JsonDocument::JsonObject& JsonDocument::Get(JsonString strKey)
 {
-	return m_JsonObject[strKey.ToUTF8Data()];
+	std::string strFinalKey = strKey.ToUTF8Data();
+
+	return m_JsonObject[strFinalKey];
 }
 
 // Set the key's value
@@ -415,7 +480,7 @@ None JsonDocument::Set(JsonString strKey, JsonObject Value)
 		return;
 	}
 
-	m_JsonObject[strKey.ToUTF8Data()] = Value;
+	m_JsonObject[strKey.ToANSIData()] = Value;
 }
 
 // Get the value of key
@@ -423,27 +488,25 @@ JsonDocument JsonDocument::GetKeyValue(JsonString strKey)
 {
 	if (strKey.IsEmpty())
 	{
+		SetErrorText("Key is empty !");
+
 		return JsonDocument();
 	}
 
 	return Get(strKey);
 }
 
-// Set the key's value
-None JsonDocument::SetKeyValue(JsonString strKey, JsonString strValue)
-{
-	if (strKey.IsEmpty())
-	{
-		return;
-	}
-
-	Set(strKey, strValue.ToUTF8Data());
-}
-
 // Is Obejct IsEmpty
 Boolean JsonDocument::IsEmpty()
 {
-	return GetJsonObject().IsEmpty();
+	if (GetJsonObject().IsEmpty())
+	{
+		SetErrorText("Json object is empty !");
+
+		return true;
+	}
+
+	return false;
 }
 
 // Set array
@@ -501,6 +564,17 @@ None JsonDocument::SetKeyValue(JsonString strKey, JsonDocument& Doc)
 }
 
 // Set the key's value
+None JsonDocument::SetKeyValue(JsonString strKey, JsonString strValue)
+{
+	if (strKey.IsEmpty())
+	{
+		return;
+	}
+
+	Set(strKey, strValue.ToANSIData());
+}
+
+// Set the key's value
 None JsonDocument::SetKeyValue(JsonString strKey, Int32 iValue)
 {
 	if (strKey.IsEmpty())
@@ -512,7 +586,7 @@ None JsonDocument::SetKeyValue(JsonString strKey, Int32 iValue)
 }
 
 // Set the key's value
-None JsonDocument::SetKeyValue(JsonString strKey, Boolean bValue)
+None JsonDocument::SetKeyValue(JsonString strKey, Boolean bValue, Boolean bIsBoolValue)
 {
 	if (strKey.IsEmpty())
 	{
@@ -572,8 +646,10 @@ JsonDocument::JsonSize JsonDocument::Size()
 // Get array element
 JsonDocument JsonDocument::operator[](Index iIndex)
 {
-	if (iIndex<0)
+	if (iIndex < 0)
 	{
+		SetErrorText("Index you input is irrlegal,check it please !");
+
 		return JsonDocument();
 	}
 
@@ -582,4 +658,10 @@ JsonDocument JsonDocument::operator[](Index iIndex)
 	JsonDoc.SetJsonObject(m_JsonObject[iIndex]);
 
 	return JsonDoc;
+}
+
+// Get error message
+String JsonDocument::GetErrorMsg()
+{
+	return GetErrorText();
 }

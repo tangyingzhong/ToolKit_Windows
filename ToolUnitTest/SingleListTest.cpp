@@ -43,7 +43,7 @@ namespace SingleList_UnitTest
 
 				if (!dList.Get(index, data))
 				{
-					Assert::Fail(_T("No element"));
+					Assert::Fail(String(_T("No element")).ToUnicodeData().c_str());
 				}
 
 				String strIndex = String("复活节") + index.ToString();
@@ -72,12 +72,12 @@ namespace SingleList_UnitTest
 
 			if (!dList.Remove(3))
 			{
-				Assert::Fail(_T("No element"));
+				Assert::Fail(String(_T("No element")).ToUnicodeData().c_str());
 			}
 
 			if (dList.Size() != 4)
 			{
-				Assert::Fail(_T("Size is not 4"));
+				Assert::Fail(String(_T("Size != 4")).ToUnicodeData().c_str());
 			}
 
 			for (Int index = 0; index < 4; ++index)
@@ -86,7 +86,7 @@ namespace SingleList_UnitTest
 
 				if (!dList.Get(index, data))
 				{
-					Assert::Fail(_T("No element"));
+					Assert::Fail(String(_T("No element")).ToUnicodeData().c_str());
 				}
 
 				if (index == 3)
@@ -136,7 +136,7 @@ namespace SingleList_UnitTest
 
 				if (!dList2.Get(index, data))
 				{
-					Assert::Fail(_T("No element"));
+					Assert::Fail(String(_T("No element")).ToUnicodeData().c_str());
 				}
 
 				String strIndex = String("复活节") + index.ToString();
