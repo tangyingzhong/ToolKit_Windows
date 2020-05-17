@@ -57,6 +57,22 @@ namespace System
 				GetCurTask()->SetIsExitPool(bExitThreadPool);
 			}
 
+			// Get the TransferOk
+			inline bool GetTransferOk()
+			{
+				std::lock_guard<std::mutex> Locker(m_TransferLock);
+
+				return m_bTransferOk;
+			}
+
+			// Set the TransferOk
+			inline void SetTransferOk(bool bTransferOk)
+			{
+				std::lock_guard<std::mutex> Locker(m_TransferLock);
+
+				m_bTransferOk = bTransferOk;
+			}
+
 		private:
 			// Run the thread
 			void Run();
@@ -119,6 +135,12 @@ namespace System
 		
 			// Current thread
 			std::thread m_CurThread;
+
+			// Lock for the thread pool exit
+			std::mutex m_TransferLock;
+
+			// Is transfer task ok
+			bool m_bTransferOk;
 
 			// Disposed status
 			bool m_bDisposed;

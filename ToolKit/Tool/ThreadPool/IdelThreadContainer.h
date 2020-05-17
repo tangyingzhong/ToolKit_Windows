@@ -48,6 +48,9 @@ namespace System
 			// Get top thread
 			MyThread* GetTopThread();
 
+			// Is all threads ready
+			bool IsAllThreadsReady();
+
 		private:
 			// Init the container
 			void Init();

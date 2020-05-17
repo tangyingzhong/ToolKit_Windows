@@ -33,7 +33,7 @@ namespace System
 				m_pUserFunc(NULL),
 				m_pUserData(NULL),
 				m_pExitPoolLock(NULL),
-				m_bIsExitPool(false)				
+				m_bIsExitPool(false)
 			{
 				SetExitPoolLock(new std::mutex());
 			}

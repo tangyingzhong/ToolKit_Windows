@@ -92,6 +92,9 @@ namespace System
 			// Wait for busy threads' exit
 			bool IsAllBusyThreadsExited();
 
+			// Is all idel threads ready
+			bool IsAllIdelThreadsReady();
+
 			// Force to exit all busy threads
 			void ForceExitAllBusyThreads();
 
@@ -200,20 +203,20 @@ namespace System
 				m_iMonitorThreadId = iMonitorThreadId;
 			}
 
-			// Get the TransferOk
-			inline bool GetTransferOk()
+			// Get the CurWorkNum
+			inline int GetCurWorkNum()
 			{
-				std::lock_guard<std::mutex> Locker(m_TransferLock);
+				std::lock_guard<std::mutex> Locker(m_CurWorkLock);
 
-				return m_bTransferOk;
+				return m_iCurWorkNum;
 			}
 
-			// Set the TransferOk
-			inline void SetTransferOk(bool bTransferOk)
+			// Set the CurWorkNum
+			inline void SetCurWorkNum(int iCurWorkNum)
 			{
-				std::lock_guard<std::mutex> Locker(m_TransferLock);
+				std::lock_guard<std::mutex> Locker(m_CurWorkLock);
 
-				m_bTransferOk = bTransferOk;
+				m_iCurWorkNum = iCurWorkNum;
 			}
 
 		private:
@@ -256,12 +259,12 @@ namespace System
 			// Force to stop
 			bool m_bForceStop;
 
-			// Transfer lock
-			std::mutex m_TransferLock;
+			// Lock for the task container
+			std::mutex m_CurWorkLock;
 
-			// Is transfer ok
-			bool m_bTransferOk;
-			
+			// Current working thread number
+			int m_iCurWorkNum;
+		
 			// Error message
 			std::string m_strErrorText;
 

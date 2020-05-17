@@ -14,7 +14,7 @@ ThreadPool::ThreadPool(int threadNum) :
 	m_pIdelContainer(NULL),
 	m_bStopPool(false),
 	m_bForceStop(false),
-	m_bTransferOk(false),
+	m_iCurWorkNum(0),
 	m_strErrorText(""),
 	m_bDisposed(false)
 {
@@ -81,6 +81,43 @@ unsigned long long ThreadPool::GetThreadId()
 	return threadId;
 }
 
+// Is all idel threads ready
+bool ThreadPool::IsAllIdelThreadsReady()
+{
+	std::lock_guard<std::mutex> Locker(m_WorkLock);
+
+	if (GetIdelTable() == NULL)
+	{
+		SetErrorText("Idel container is empty !");
+
+		return false;
+	}
+
+	if (GetIdelTable()->IsEmpty())
+	{
+		SetErrorText("Idel container has no any thread !");
+
+		return false;
+	}
+
+	// Check current working thread number
+	if (GetCurWorkNum() != 0)
+	{
+		std::cout << "There are some still working threads !" << std::endl;
+
+		return false;
+	}
+
+	if (!GetIdelTable()->IsAllThreadsReady())
+	{
+		std::cout << "Wait for some thread's transferring ok !" << std::endl;
+
+		return false;
+	}
+
+	return true;
+}
+
 // Wait for busy threads' exit
 bool ThreadPool::IsAllBusyThreadsExited()
 {
@@ -89,13 +126,6 @@ bool ThreadPool::IsAllBusyThreadsExited()
 	if (!m_WorkContainer.IsEmpty())
 	{
 		std::cout << "Wait for work container empty" << std::endl;
-
-		return false;
-	}
-
-	if (!GetTransferOk())
-	{
-		std::cout << "Wait for thread's transferring ok !" << std::endl;
 
 		return false;
 	}
@@ -127,6 +157,12 @@ void ThreadPool::Run()
 
 			// Wait for all busy threads' exit
 			if (!IsAllBusyThreadsExited())
+			{
+				continue;
+			}
+
+			// Wait for all ldel threads ready
+			if (!IsAllIdelThreadsReady())
 			{
 				continue;
 			}
@@ -185,10 +221,14 @@ bool ThreadPool::StartTaskThread(MyThread* pThread,TaskEntry* pTask)
 
 	pThread->SetTask(pTask);
 
+	pThread->SetTransferOk(false);
+
 	if (!pTask->GetIsDetached())
 	{
 		// Add the thread to work container
 		AddToWorkContainer(pThread);
+
+		SetCurWorkNum(GetCurWorkNum() + 1);
 
 		std::cout << "Add the idel thread to work container" << std::endl;
 
@@ -343,7 +383,10 @@ bool ThreadPool::Transfer(MyThread* pThread)
 
 	std::cout << "Final idel container size :" << GetIdelTable()->GetSize() << std::endl;
 
-	SetTransferOk(true);
+	pThread->SetTransferOk(true);
+
+	// Total working thread number's update
+	SetCurWorkNum(GetCurWorkNum() - 1);
 
 	return true;
 }

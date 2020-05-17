@@ -75,3 +75,21 @@ MyThread* IdelThreadContainer::GetTopThread()
 
 	return pThread;
 }
+
+// Is all threads ready
+bool IdelThreadContainer::IsAllThreadsReady()
+{
+	for (std::vector<MyThread*>::iterator Iter = m_IdelTable.begin();
+		Iter != m_IdelTable.end();
+		++Iter)
+	{
+		MyThread* pThread = *Iter;
+
+		if (!pThread->GetTransferOk())
+		{
+			return false;
+		}
+	}
+
+	return true;
+}

@@ -9,6 +9,7 @@ using namespace System::Thread;
 MyThread::MyThread(IThreadPool* pThreadPool) :
 	m_iThreadId(0),
 	m_pThreadPool(pThreadPool),
+	m_bTransferOk(true),
 	m_bDisposed(false)
 {
 
