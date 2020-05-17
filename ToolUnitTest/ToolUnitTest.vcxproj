@@ -185,6 +185,7 @@
     </ClCompile>
     <ClCompile Include="IntTest.cpp" />
     <ClCompile Include="StringTest.cpp" />
+    <ClCompile Include="ThreadPoolTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

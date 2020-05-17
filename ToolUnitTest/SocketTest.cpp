@@ -15,6 +15,8 @@ namespace Socket_UnitTest
 			String strIPAddr;
 
 			Assert::IsTrue(Sock.GetLoaclIP(strIPAddr));
+
+			Assert::IsTrue(strIPAddr == "192.168.1.2");
 		}
 
 		// Client

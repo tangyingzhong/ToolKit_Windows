@@ -14,18 +14,18 @@ namespace Player_UnitTest
 			AudioPlayer Player;
 
 			std::thread t = std::thread([=,&Player]{
-				Player.Play(_T("D:\\aa.wav"));
+				Player.Play("D:\\林俊杰.-.[因你而在](2013)[WAV].wav");
 				});
 
-			Sleep(10000);
+			Sleep(50000);
 
 			Player.Pause();
 
-			Sleep(5000);
+			Sleep(10000);
 
 			Player.Continue();
 
-			Sleep(15000);
+			Sleep(50000);
 
 			Player.Stop();
 

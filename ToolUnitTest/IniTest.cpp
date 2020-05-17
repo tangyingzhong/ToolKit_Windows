@@ -10,20 +10,50 @@ namespace Ini_UnitTest
 	public:
 		TEST_METHOD(Test_GetKeyValue)
 		{
-			Ini IniReader("D:\\initest.ini");
+			Ini IniReader("D:\\Test.ini");
 
-			Int iValue;
+			Double dValue;
 
-			Assert::IsTrue(IniReader.GetKeyValue("APP", "yu", iValue));
+			Assert::IsTrue(IniReader.GetKeyValue("线程", "最大线程数", dValue));
+
+			Int iTaskCount;
+
+			Assert::IsTrue(IniReader.GetKeyValue("线程", "Task", iTaskCount));
+
+			Assert::IsTrue(iTaskCount == 12);
+
+			Bool bEnable;
+
+			Assert::IsTrue(IniReader.GetKeyValue("线程", "是否启动线程", bEnable));
+
+			Assert::IsTrue(bEnable == false);
+
+			String strValue;
+
+			Assert::IsTrue(IniReader.GetKeyValue("线程", "拷问自己", strValue));
+
+			Assert::IsTrue(strValue ==  "你是什么");
 		}
 
 		TEST_METHOD(Test_SetKeyValue)
 		{
-			Ini IniReader("D:\\initest1.ini");
+			Ini IniReader("D:\\Test.ini");
 
 			Double dValue = 9.67;
 
-			Assert::IsTrue(IniReader.SetKeyValue("TU", "jk", dValue));
+			Assert::IsTrue(IniReader.SetKeyValue("线程", "最大线程数", dValue));
+
+			Int iTaskCount = 12;
+
+			Assert::IsTrue(IniReader.SetKeyValue("线程", "Task", iTaskCount));
+
+			Bool bEnable = false;
+
+			Assert::IsTrue(IniReader.SetKeyValue("线程", "是否启动线程", bEnable));
+
+			String strValue = "你是什么";
+
+			Assert::IsTrue(IniReader.SetKeyValue("线程", "拷问自己", strValue));
 		}
 	};
 }

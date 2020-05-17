@@ -21,6 +21,7 @@ namespace System
 		class TaskEntry
 		{
 		public:
+			// Please remember to call GetIsExitPool() to know when we need to exit in your callback function
 			typedef void(*TaskCallbackFunc)(TaskEntry* pTask);
 
 		public:

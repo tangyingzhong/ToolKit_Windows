@@ -12,7 +12,7 @@ namespace Json_UnitTest
 		{
 			String strErrorMsg;
 
-			JsonDocument JsonDoc1 = JsonDocument::FromJsonFile(_T("D:\\System.json"), strErrorMsg);
+			JsonDocument JsonDoc1 = JsonDocument::FromJsonFile(_T("D:\\System2.json"), strErrorMsg);
 
 			Boolean bRet1 = JsonDoc1.IsNull();
 
@@ -23,7 +23,7 @@ namespace Json_UnitTest
 		{
 			String strErrorMsg;
 
-			JsonDocument JsonDoc = JsonDocument::FromJsonFile(_T("D:\\System.json"), strErrorMsg);
+			JsonDocument JsonDoc = JsonDocument::FromJsonFile(_T("D:\\System1.json"), strErrorMsg);
 
 			JsonDocument::KeyTable Table;
 			if (!JsonDoc.GetKeys(Table))
@@ -43,6 +43,8 @@ namespace Json_UnitTest
 			JsonDocument JsonObject = JsonDoc.GetKeyValue(_T("App"));
 
 			String strData = JsonObject.GetKeyValue(_T("设备ID")).ToString();
+
+			Assert::IsTrue(JsonDoc.Flush("D:\\System51.json"));
 		}
 
 		TEST_METHOD(Test_FromJson)
@@ -86,7 +88,7 @@ namespace Json_UnitTest
 		{
 			JsonDocument JsonObject;
 
-			JsonObject.SetKeyValue(_T("设备ID"), _T("1234586"));
+			JsonObject.SetKeyValue(_T("设备ID"), _T("我是大佬"));
 
 			JsonObject.SetKeyValue(_T("Banana"), _T("香蕉"));
 

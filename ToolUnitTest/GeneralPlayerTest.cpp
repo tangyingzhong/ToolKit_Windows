@@ -81,7 +81,7 @@ namespace GeneralPlayer_UnitTest
 		{
 			GeneralPlayer Player;
 
-			Player.Load("D:\\aa.wav");
+			Player.Load("D:\\林俊杰.-.[因你而在](2013)[WAV].wav");
 
 			Player.SetVolume(1000);
 
@@ -89,15 +89,15 @@ namespace GeneralPlayer_UnitTest
 				Player.Play();
 				});
 
-			Sleep(10000);
+			Sleep(60000);
 
 			Player.Pause();
 
-			Sleep(5000);
+			Sleep(10000);
 
 			Player.Resume();
 
-			Sleep(15000);
+			Sleep(60000);
 
 			Player.Stop();
 
