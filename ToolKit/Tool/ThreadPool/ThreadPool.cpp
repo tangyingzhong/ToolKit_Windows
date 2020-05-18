@@ -173,22 +173,11 @@ void ThreadPool::Run()
 			break;
 		}
 
-		// Get a task
-		TaskEntry* pCurTask = GetOneTask();
-		if (pCurTask == NULL || pCurTask->IsEmpty())
-		{
-			std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
-			continue;
-		}
-
-		std::cout << "Get a task to run: " << std::to_string(pCurTask->GetTaskId()) << std::endl;
-
 		// Get an idel thread 
 		MyThread* pThread = GetAnIdelThread();
 		if (pThread == NULL)
 		{
-			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+			std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
 			continue;
 		}
@@ -197,10 +186,21 @@ void ThreadPool::Run()
 
 		std::cout << "Idel container size :" << GetIdelTable()->GetSize() << std::endl;
 
+		// Get a task
+		TaskEntry* pCurTask = GetOneTask();
+		if (pCurTask == NULL || pCurTask->IsEmpty())
+		{
+			std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
+			continue;
+		}
+
+		std::cout << "Get a task to run: " << std::to_string(pCurTask->GetTaskId()) << std::endl;
+
 		// Start thread
 		if (!StartTaskThread(pThread, pCurTask))
 		{
-			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+			std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
 			continue;
 		}
@@ -214,7 +214,7 @@ bool ThreadPool::StartTaskThread(MyThread* pThread,TaskEntry* pTask)
 {
 	if (pThread == NULL)
 	{
-		SetErrorText("Thread is invalid !");
+		SetErrorText("Failed to start the thread because it is null !");
 
 		return false;
 	}
@@ -266,6 +266,8 @@ TaskEntry* ThreadPool::GetOneTask()
 {
 	if (m_TaskContainer.IsEmpty())
 	{
+		SetErrorText("Failed to get a task from task container because it is empty !");
+
 		return NULL;
 	}
 
@@ -279,11 +281,25 @@ TaskEntry* ThreadPool::GetOneTask()
 // Add Task to pool
 bool ThreadPool::AddTask(TaskEntry* pTask)
 {
+	if (pTask==NULL)
+	{
+		SetErrorText("Failed to add task because it is null !");
+
+		return false;
+	}
+
 	std::lock_guard<std::mutex> Locker(m_TaskLock);
 
-	if (m_TaskContainer.AddTask(pTask) == 1)
+	int iRet = m_TaskContainer.AddTask(pTask);
+	if (iRet==1)
 	{
-		SetErrorText("Task container is full now !");
+		SetErrorText("Failed to add task because task is full !");
+
+		return false;
+	}
+	else if (iRet == 2)
+	{
+		SetErrorText("Failed to add task because task container is full !");
 
 		return false;
 	}
@@ -296,11 +312,15 @@ MyThread* ThreadPool::GetAnIdelThread()
 {
 	if (GetIdelTable() == NULL)
 	{
+		SetErrorText("Idel table is null !");
+
 		return NULL;
 	}
 
 	if (GetIdelTable()->IsEmpty())
 	{
+		SetErrorText("Idel table is empty !");
+
 		return NULL;
 	}
 
@@ -314,6 +334,8 @@ bool ThreadPool::AddToWorkContainer(MyThread* pThread)
 {
 	if (pThread == NULL)
 	{
+		SetErrorText("Failed to add to busy container,because of thread is null !");
+
 		return false;
 	}
 
@@ -329,6 +351,8 @@ bool ThreadPool::RemoveFromWorkContainer(MyThread* pThread)
 {
 	if (pThread == NULL)
 	{
+		SetErrorText("Failed to remove the thread because of thread is null !");
+
 		return false;
 	}
 
@@ -344,6 +368,8 @@ bool ThreadPool::AddToIdelContainer(MyThread* pThread)
 {
 	if (pThread == NULL)
 	{
+		SetErrorText("Failed to add thread to idel container because of thread is null !");
+
 		return false;
 	}
 
@@ -362,8 +388,6 @@ bool ThreadPool::Transfer(MyThread* pThread)
 	// Remove from the work list
 	if (!RemoveFromWorkContainer(pThread))
 	{
-		SetErrorText("Failed to remove the thread from working container!");
-
 		return false;
 	}
 
@@ -374,8 +398,6 @@ bool ThreadPool::Transfer(MyThread* pThread)
 	// Add to the idel table
 	if (!AddToIdelContainer(pThread))
 	{
-		SetErrorText("Failed to add the thread to idel container!");
-
 		return false;
 	}
 

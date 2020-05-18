@@ -20,9 +20,14 @@ TaskContainer::~TaskContainer()
 // Add task
 int TaskContainer::AddTask(TaskEntry* pTask)
 {
-	if (m_TaskQueue.size() > MAX_TASK_QUEUE)
+	if (pTask==NULL)
 	{
 		return 1;
+	}
+
+	if (m_TaskQueue.size() > MAX_TASK_QUEUE)
+	{
+		return 2;
 	}
 
 	m_TaskQueue.push(pTask);

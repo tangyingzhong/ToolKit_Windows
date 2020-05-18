@@ -69,6 +69,11 @@ void IdelThreadContainer::AddThread(MyThread* pThread)
 // Get top thread
 MyThread* IdelThreadContainer::GetTopThread()
 {
+	if (m_IdelTable.empty())
+	{
+		return NULL;
+	}
+
 	MyThread* pThread = m_IdelTable.back();
 
 	m_IdelTable.pop_back();
